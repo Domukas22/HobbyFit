@@ -1,0 +1,413 @@
+:root {
+  --color_Main: #407ff2;
+  --color_Main_Hover: #3068cf;
+  --color_Text: rgba(0, 0, 0, 0.85);
+  --color_bigText: rgba(0, 0, 0, 0.75);
+  --color_hover: #f5f5f5;
+  --color_activeLink: rgba(64, 127, 242, 0.1);
+  --color_grey: #747474;
+  --color_bg: #f9fbff;
+  --color_red: #ff4f4f;
+
+  --shadow_normal: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --border_bottom: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+section.hero {
+  padding: 60px 70px 0;
+  height: 100vh;
+  min-height: 600px;
+  max-height: 1000px;
+}
+.container.hero {
+  padding-top: 11%;
+}
+
+.heading_homeHero {
+  color: var(--color_Main)
+}
+.title_homeHero {
+  margin-bottom: 30px;
+}
+.btnWrap_hero {
+  display: flex;
+}
+.btnWrap_hero > .btn:nth-child(1) {
+  margin-right: 8px;
+}
+.img_Hero {
+  max-width: 100%;
+  width: 46vw;
+  object-fit: contain;
+  position: absolute;
+  top: 10%;
+  right: -8%;
+}
+.img_heroFade {
+  height: 40px;
+  width: 100%;
+  background-image: linear-gradient(to top, var(--color_bg),#fff0 80%);
+
+  position: absolute;
+  bottom: 0;
+  z-index: 2;
+}
+.img_heroWave {
+  position: absolute;
+  width: 150%;
+  top: 32%;
+}
+
+.wrap_categories {
+  background-color: #fff;
+  padding-top: 150px;
+}
+section.homeCategory {
+  padding: 0 70px;
+  align-items: flex-start;
+  cursor: pointer;
+  background-color: #fff;
+  height: 50vw;
+  max-height: 1200px;
+  margin-bottom: 150px;
+  cursor: pointer;
+}
+.container.homeCategory {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: flex-start;
+  max-width: 1150px;
+}
+.container.homeCategory.reversed {
+  justify-content: flex-end;
+}
+.img_categoryWave {
+  position: absolute;
+  top: 200px;
+  z-index: 1;
+  width: 110%;
+  max-width: 3000px
+}
+
+.textWrap_homeCategory {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 84px;
+
+  width: 48%;
+  max-width: 900px;
+  height: 100%;
+  text-align: center;
+
+}
+.textWrap_homeCategory.reversed {
+  width: 53%;
+}
+.textWrap_homeCategory > h1 {
+  margin-bottom: 25px;
+}
+
+.imgWrap_homeCategory {
+  position: absolute;
+  z-index: 2;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  max-width: 1000px;
+  margin-left: 2vw;
+  overflow: hidden;
+  width: 35vw; /* default value*/
+}
+.imgWrap_homeCategory.rackets {
+  width: 38vw;
+  height: 36vw;
+  max-height: 840px;
+  top: 0;
+  left: 0;
+}
+.imgWrap_homeCategory.balls {
+  top: 90px;
+  right: 130px;
+}
+.imgWrap_homeCategory.clothing {
+  width: 50vw;
+  top: 65;
+  left: 0;
+  align-items: flex-end;
+}
+.imgWrap_homeCategory.equipment {
+  width: 40vw;
+  right: 156px;
+  top: 103px;
+}
+
+.img_homeCategory {
+  width: 46%;
+  object-fit: contain;
+}
+.img_homeCategory.racket_two {
+  margin-top: 90px;
+}
+.img_homeCategory.ball_one {
+  margin-top: 65px;
+}
+.img_homeCategory.shirt {
+  margin-bottom: 68px;
+}
+.img_homeCategory.shoe {
+  width: 50%;
+}
+.img_homeCategory.bag {
+  width: 60%;
+  margin-top: 85px;
+}
+.img_homeCategory.wristband {
+  width: 30%;
+}
+
+.btn.red {
+  background-color: #ff4949;
+}
+.btn.orange {
+  background-color: #ff6a16;
+}
+.racket_fade {
+  width: 100%;
+  height: 50px;
+  position: absolute;
+  bottom: 0;
+  background-image: linear-gradient(to top, #fff, rgba(255, 255, 255, 0));
+}
+
+@media only screen and (min-width: 1440px) {
+  .img_Hero {
+    top: 6vh;
+  }
+  section.hero {
+    height: 860px;
+    min-height: auto;
+    max-height: auto;
+    padding: 60px 140px 0 !important;
+  }
+  .container.homeCategory {
+    max-width: 1600px;
+  }
+
+}
+@media only screen and (min-width: 1921px) {
+  .container.hero {
+    padding-top: 200px;
+  }
+  .img_Hero {
+    max-width: 1000px;
+    top: 0;
+
+  }
+  .img_heroWave {
+    max-width: 3000px;
+  }
+  section.hero {
+    padding: 60px 240px 0 !important;
+  }
+  .container.homeCategory {
+    max-width: 1920px;
+  }
+
+  .textWrap_homeCategory {
+    padding-top: 160px;
+  }
+}
+/* Default == 991 to 1440 */
+@media only screen and (max-width: 990px) {
+  section.hero {
+    height: 860px;
+    min-height: auto;
+    max-height: auto;
+    padding: 70px 4vw;
+  }
+  .container.hero {
+    flex-direction: column;
+    padding-top: 70px;
+  }
+  .img_Hero {
+    align-self: flex-end;
+    width: 560px;
+    position: relative;
+    top: auto;
+    right: 0;
+    bottom: -50px;
+  }
+  .img_heroWave {
+    width: 200%;
+    top: 410px;
+  }
+
+  section.homeCategory {
+    height: auto;
+    padding: 0 4vw;
+    margin-bottom: 320px;
+  }
+  .container.homeCategory {
+    flex-direction: column;
+    align-items: center;
+    max-width: 1600px;
+  }
+  .img_categoryWave {
+    width: 200%;
+    top: 250px;
+  }
+  .img_categoryWave.rackets {
+    top: 320px;
+  }
+  .img_categoryWave.clothing {
+    top: 200px;
+  }
+  .img_categoryWave.equipment {
+    top: 140px;
+  }
+
+  .textWrap_homeCategory {
+    padding: 0 4vw;
+    text-align: left;
+    align-items: flex-start;
+    align-self: flex-start;
+    width: auto;
+  }
+  .textWrap_homeCategory.reversed {
+    align-self: flex-end;
+    text-align: center;
+    width: auto;
+  }
+  .textWrap_homeCategory.reversed > .btn {
+    align-self: center;
+  }
+  .textWrap_homeCategory.reversed.rackets {
+    align-self: center;
+    margin-bottom: 90px;
+  }
+  .textWrap_homeCategory.balls {
+    margin-bottom: 30px;
+  }
+
+  .imgWrap_homeCategory {
+    position: relative;
+    width: 80%;
+  }
+  .imgWrap_homeCategory.rackets {
+    top: 0;
+    right: 0;
+    width: 80%;
+    height: 68vw;
+  }
+  .imgWrap_homeCategory.balls {
+    top: 0;
+    right: 0;
+  }
+  .imgWrap_homeCategory.clothing {
+    top: 0;
+    right: 0;
+    width: 80%;
+  }
+  .imgWrap_homeCategory.equipment {
+    top: 0;
+    right: 0;
+    width: 80%;
+  }
+
+
+}
+@media only screen and (max-width: 770px) {
+  section.hero {
+    height: 700px;
+  }
+
+  section.homeCategory {
+    margin-bottom: 215px;
+  }
+  .container.hero {
+    padding-top: 40px;
+  }
+  .img_Hero {
+    width: 470px;
+  }
+  .img_heroWave {
+    width: 1600px;
+    top: 55%;
+  }
+  .img_categoryWave.clothing {
+    top: 245px;
+  }
+
+  .container.homeCategory {
+    max-width: 1920px;
+  }
+
+  .img_homeCategory.racket_two {
+    margin-top: 50px;
+  }
+
+  .imgWrap_homeCategory.rackets {
+    height: 68vw;
+  }
+
+  .textWrap_homeCategory {
+    padding: 0;
+  }
+  .textWrap_homeCategory.reversed.clothing {
+    margin-bottom: 30px
+  }
+
+}
+@media only screen and (max-width: 500px) {
+  section.hero {
+    height: 90vh;
+  }
+
+  .btn.hero {
+    width: 100%;
+    padding: 12px 0;
+  }
+  .img_Hero {
+    width: 100vw;
+  }
+  .img_heroWave {
+    width: 2000px;
+    top: 64vw;
+  }
+  .img_categoryWave {
+    width: 250%;
+  }
+  .img_categoryWave.rackets {
+    top: 260px;
+  }
+  .img_categoryWave.equipment {
+    top: 180px;
+  }
+
+  .textWrap_homeCategory.reversed.rackets {
+    margin-bottom: 40px;
+  }
+
+  .imgWrap_homeCategory {
+    width: 100%;
+    margin-top: 30px;
+  }
+  .imgWrap_homeCategory.rackets {
+    width: 100%;
+    height: 85vw;
+  }
+  .imgWrap_homeCategory.clothing {
+    width: 100%;
+  }
+  .imgWrap_homeCategory.equipment {
+    width: 100%;
+  }
+
+  .img_homeCategory.shirt {
+    margin-bottom: 30px;
+  }
+
+}

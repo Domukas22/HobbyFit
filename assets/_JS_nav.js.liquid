@@ -1,0 +1,63 @@
+
+
+//menu toggle
+const btn_menu = document.querySelector('.navLink.menu')
+
+window.addEventListener('resize', () => {
+    if (isDesktop()) {
+        btn_menu.classList.remove('open')
+        toggle_menu(false)
+    }
+})
+btn_menu.addEventListener('click', (e) => {
+    e.currentTarget.classList.toggle('open')
+    e.currentTarget.classList.contains('open') ? toggle_menu(true) : toggle_menu(false)
+})
+
+function toggle_menu(value) {
+    animate_btnContent(value);
+    animate_menuDropdown(value);
+}
+function animate_btnContent(value) {
+    const X_of_menuBtn = document.querySelector('.X_wrap.menu')
+    const text_of_menuBtn = document.querySelector('.tWrap_btnMenu')
+
+    if (value) {
+        X_of_menuBtn.classList.add('show')
+        text_of_menuBtn.classList.remove('show')
+    } else {
+        X_of_menuBtn.classList.remove('show')
+        text_of_menuBtn.classList.add('show') 
+    }
+        
+}
+function animate_menuDropdown(value) {
+    const dropdown_menu = document.querySelector('.cWrap_menuDropdown')
+    const cWrap_Nav = document.querySelector('.cWrap_Nav')
+
+    if (value) {
+        dropdown_menu.style.display = "block"
+        cWrap_Nav.classList.add('shadow')
+        setTimeout(() => {dropdown_menu.classList.add('show')}, 10);
+    } else {
+        dropdown_menu.classList.remove('show')
+        cWrap_Nav.classList.remove('shadow')
+        setTimeout(() => {dropdown_menu.style.display = "none"}, 151);
+    }
+}
+
+function isDesktop() {return window.innerWidth > 990 ? true : false}
+//--------------------------------------------------------------------------
+// toggle btn_more
+const btn_more = document.querySelector('.navLink.btn_more')
+const dropdown_more = document.querySelector('.wrap_dropdown_more')
+
+btn_more.addEventListener('mouseover', () => {
+    dropdown_more.style.display = 'block'
+    setTimeout(() => {dropdown_more.style.opacity = "100%"}, 10);
+})
+btn_more.addEventListener('mouseleave', () => {
+    dropdown_more.style.opacity = "0%"
+    setTimeout(() => {dropdown_more.style.display = 'none'}, 150);
+})
+

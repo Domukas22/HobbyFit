@@ -1,0 +1,173 @@
+<section class="filterSection_TOP">
+  <div class="subWrap_filterSection_TOP">
+    <h2 class="title_filterSection">Badmintono
+      <span id="pageTitle">Prekės</span>
+    </h2>
+  </div>
+</section>
+<section class="filterSection_FILTERS">
+  <div class="filterBox_D" data-no_scrollbar>
+    <div class="filter all active" data-filter="all">
+      <div class="click_overlay"></div>
+      <p>Visos Prekės</p>
+    </div>
+    <div class="filter" data-filter="sale">
+      <div class="click_overlay"></div>
+      <img
+        class="icon_filter"
+        src="{{ 'icon_filter_sale.png' | asset_url }}"
+        alt="">
+      <p>Nuolaida</p>
+    </div>
+    <div class="filter" data-filter="racket">
+      <div class="click_overlay"></div>
+      <img
+        class="icon_filter"
+        src="{{ 'icon_filter_racket.png' | asset_url }}"
+        alt="">
+      <p>Raketės</p>
+    </div>
+    <div class="filter" data-filter="ball">
+      <div class="click_overlay"></div>
+      <img
+        class="icon_filter"
+        src="{{ 'icon_filter_ball.png' | asset_url }}"
+        alt="">
+      <p>Plunksniukai</p>
+    </div>
+    <div class="filter" data-filter="clothing">
+      <div class="click_overlay"></div>
+      <img
+        class="icon_filter"
+        src="{{ 'icon_filter_clothing.png' | asset_url }}"
+        alt="">
+      <p>Apranga</p>
+    </div>
+    <div class="filter" data-filter="equipment">
+      <div class="click_overlay"></div>
+      <img
+        class="icon_filter"
+        src="{{ 'icon_filter_equipment.png' | asset_url }}"
+        alt="">
+      <p>Priedai</p>
+    </div>
+  </div>
+  <div class="btn_openFilters" data-toggle="filters">
+    <img
+      class="icon_filter hide"
+      id="icon_currentFilter"
+      src="{{ 'icon_filter_racket.png' | asset_url }}"
+      alt="">
+    <p class="text_currentFilter">Visos prekės</p>
+    <img
+      class="icon_arrowDropdown"
+      src="{{ 'icon_arrow.svg' | asset_url }}"
+      alt="">
+  </div>
+</section>
+<div class="section_itemCount">
+  <div class="container_itemCount">
+    <p>
+      Rezultatai:
+      <span class="filter_count">{{ collections['all'].products.size }}</span>
+    </p>
+  </div>
+</div>
+<section class="section_product">
+  <div class="product_grid">
+    {% assign allProducts = collections['all'].products %}
+    {% for product in allProducts | sample: allProducts.size %}
+      <div
+        class="product"
+        data-filter_word="{{ product.metafields.custom.filter_word}}"
+        data-sale="{{ product.metafields.custom.sale}}">
+        <div class="product_TOP">
+          <img
+            class="img_product_filterPage"
+            src="{{ product.featured_image | img_url: '600x600' }}"
+            alt="{{ product.featured_image.alt | escape }}">
+          <img
+            class="img_WAVE_filterPage"
+            src="{{ 'img_WAVE_filterPage.svg' | asset_url }}"
+            alt="Colorful wave"
+            data-color_bg="{{ product.metafields.custom.color_bg}}">
+          <p class="textIcon_sale" data-isSale="{{ product.metafields.custom.sale}}">
+            {% assign a = product.compare_at_price_max | divided_by: 1.0 %}
+            {% assign b = product.price | divided_by: 1.0 %}
+            {% assign discount = ((a | minus: b) | divided_by: a) | times: 100 %}
+            -{{ discount | round: 0 }}%
+          </p>
+          <p class="text_ballCount">{{ product.metafields.custom.extra_text }}</p>
+        </div>
+        <div class="product_BOTTOM">
+          <h4 class="title_product_filterPage">{{ product.metafields.custom.name_short }}</h4>
+          <div class="priceWrap_filterPage">
+            <p class="price_product_filterPage" data-isSale="{{ product.metafields.custom.sale}}">{{ product.price | money }}</p>
+            <p class="price_product_filterPage compare">{{ product.compare_at_price | money }}</p>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+<div class="filterBox_M">
+  <div class="textWrap_filters_M">
+    <h4>Badmintono Filtrai</h4>
+    <div class="btn_X" data-toggle="filters">
+      <div class="line_X"></div>
+      <div class="line_X second"></div>
+    </div>
+  </div>
+  <div class="filter all active" data-filter="all">
+    <div class="click_overlay"></div>
+    <p>Visos Prekės</p>
+    <p class="category_item_count" data-category_count="all">2</p>
+  </div>
+  <div class="filter" data-filter="sale">
+    <div class="click_overlay"></div>
+    <img
+      class="icon_filter"
+      src="{{ 'icon_filter_sale.png' | asset_url }}"
+      alt="">
+    <p>Nuolaida</p>
+    <p class="category_item_count" data-category_count="sale">2</p>
+  </div>
+  <div class="filter" data-filter="racket">
+    <div class="click_overlay"></div>
+    <img
+      class="icon_filter"
+      src="{{ 'icon_filter_racket.png' | asset_url }}"
+      alt="">
+    <p>Raketės</p>
+    <p class="category_item_count" data-category_count="racket">2</p>
+  </div>
+  <div class="filter" data-filter="ball">
+    <div class="click_overlay"></div>
+    <img
+      class="icon_filter"
+      src="{{ 'icon_filter_ball.png' | asset_url }}"
+      alt="">
+    <p>Plunksniukai</p>
+    <p class="category_item_count" data-category_count="ball">2</p>
+  </div>
+  <div class="filter" data-filter="clothing">
+    <div class="click_overlay"></div>
+    <img
+      class="icon_filter"
+      src="{{ 'icon_filter_clothing.png' | asset_url }}"
+      alt="">
+    <p>Apranga</p>
+    <p class="category_item_count" data-category_count="clothing">2</p>
+  </div>
+  <div class="filter" data-filter="equipment">
+    <div class="click_overlay"></div>
+    <img
+      class="icon_filter"
+      src="{{ 'icon_filter_equipment.png' | asset_url }}"
+      alt="">
+    <p>Priedai</p>
+    <p class="category_item_count" data-category_count="equipment">2</p>
+  </div>
+</div>
+
+{{ '_JS_filterPage.js' | asset_url | script_tag }}

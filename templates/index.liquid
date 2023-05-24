@@ -1,0 +1,127 @@
+<section class="hero">
+  <div class="container hero">
+    <div class="textWrap_heroHome">
+      <h5 class="heading_homeHero">Badmintono prekių parduotuvė</h5>
+      <h1 class="title_homeHero">Paprasti pasirinkimai,<br>kokybiški rezultatai</h1>
+      <div class="btnWrap_hero">
+        <div class="btn hero">Inventorius</div>
+        <div class="btn inverted hero">Naujausios Prekės</div>
+      </div>
+    </div>
+    <img
+      class="img_Hero"
+      src="{{ 'img_hero.png' | asset_url }}"
+      alt="">
+  </div>
+  <div class="img_heroFade"></div>
+  <img
+    class="img_heroWave"
+    src="{{ 'img_waveHero.svg' | asset_url }}"
+    alt="">
+</section>
+<div class="wrap_categories">
+  <section class="homeCategory" data-link_filterpage="racket">
+    <div class="container homeCategory reversed">
+      <div class="textWrap_homeCategory reversed rackets">
+        <h1 class="title_homeCategory">Susirask TAU<br>tinkamą rakėtę</h1>
+        <div class="btn red" data-link_filterpage="racket">Visos rakėtes</div>
+      </div>
+      <div class="imgWrap_homeCategory rackets">
+        <img
+          class="img_homeCategory"
+          src="{{ 'img_home_racketPink.png' | asset_url }}"
+          alt="">
+        <img
+          class="img_homeCategory racket_two"
+          src="{{ 'img_home_racketRed.png' | asset_url }}"
+          alt="">
+        <div class="racket_fade"></div>
+      </div>
+    </div>
+    <img
+      class="img_categoryWave rackets"
+      src="{{ 'img_homeWave_rackets.svg' | asset_url }}"
+      alt="">
+  </section>
+  <section class="homeCategory" data-link_filterpage="ball">
+    <div class="container homeCategory">
+      <div class="textWrap_homeCategory balls">
+        <h1 class="title_homeCategory">Pigus ir kokybiški<br>plunksniukai</h1>
+        <div class="btn" data-link_filterpage="ball">Pamatyti visus</div>
+      </div>
+      <div class="imgWrap_homeCategory balls">
+        <img
+          class="img_homeCategory ball_one"
+          src="{{ 'img_home_ballBlue.png' | asset_url }}"
+          alt="">
+        <img
+          class="img_homeCategory"
+          src="{{ 'img_home_ballGreen.png' | asset_url }}"
+          alt="">
+        <div class="fade_homeCategory"></div>
+      </div>
+    </div>
+    <img
+      class="img_categoryWave balls"
+      src="{{ 'img_homeWave_balls.svg' | asset_url }}"
+      alt="">
+  </section>
+  <section class="homeCategory" data-link_filterpage="clothing">
+    <div class="container homeCategory reversed">
+      <div class="textWrap_homeCategory reversed clothing">
+        <h1 class="title_homeCategory">Reikalinga ir<br>patvari apranga</h1>
+        <div class="btn orange" data-link_filterpage="clothing">Pamatyti Aprangą</div>
+      </div>
+      <div class="imgWrap_homeCategory clothing">
+        <img
+          class="img_homeCategory shirt"
+          src="{{ 'img_home_shirt.png' | asset_url }}"
+          alt="">
+        <img
+          class="img_homeCategory shoe"
+          src="{{ 'img_home_shoe.png' | asset_url }}"
+          alt="">
+        <div class="fade_homeCategory"></div>
+      </div>
+    </div>
+    <img
+      class="img_categoryWave clothing"
+      src="{{ 'img_homeWave_clothes.svg' | asset_url }}"
+      alt="">
+  </section>
+  <section class="homeCategory" data-link_filterpage="equipment">
+    <div class="container homeCategory">
+      <div class="textWrap_homeCategory">
+        <h1 class="title_homeCategory">Įvairiausi priedai</h1>
+        <div class="btn red" data-link_filterpage="equipment">Pamatyti visus</div>
+      </div>
+      <div class="imgWrap_homeCategory equipment">
+        <img
+          class="img_homeCategory bag"
+          src="{{ 'img_home_bag.png' | asset_url }}"
+          alt="">
+        <img
+          class="img_homeCategory wristband"
+          src="{{ 'img_home_wristband.png' | asset_url }}"
+          alt="">
+        <div class="fade_homeCategory"></div>
+      </div>
+    </div>
+    <img
+      class="img_categoryWave equipment"
+      src="{{ 'img_homeWave_equipment.svg' | asset_url }}"
+      alt="">
+  </section>
+</div>
+
+<script>
+  const nav = document.querySelector('nav')
+  window.addEventListener('DOMContentLoaded', () => {
+    nav.classList.add('no_shadow')
+  })
+  window.addEventListener('scroll', () => {
+    window.scrollY > 60
+      ? nav.classList.remove('no_shadow')
+      : nav.classList.add('no_shadow')
+  })
+</script>

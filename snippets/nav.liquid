@@ -7,7 +7,10 @@
         <h3 class="text_Logo">{{ shop.name }}</h3>
       </a>
       <div class="wrap_navLinks_D">
-        <a class="navLink" href=" {{ shop.url }}">
+        <a
+          class="navLink"
+          href=" {{ shop.url }}"
+          data-hover_color>
           <img
             class="icon_Nav"
             src="{{ 'icon_house.png' | asset_url }}"
@@ -16,7 +19,10 @@
           <div class="click_overlay"></div>
         </a>
         <div class="wrap_navLink_Dropdown">
-          <a class="navLink" href="{{ page_Badminton.url }}">
+          <a
+            class="navLink"
+            href="{{ page_Badminton.url }}"
+            data-hover_color>
             <img
               class="icon_Nav"
               src="{{ 'icon_ball.png' | asset_url }}"
@@ -33,7 +39,7 @@
       </div>
     </div>
     <div class="wrap_navRight">
-      <div class="navLink btn_more">
+      <div class="navLink btn_more" data-hover_color>
         <div class="btnWrap_more">
           <p>Daugiau</p>
           <img
@@ -45,35 +51,50 @@
         <div class="wrap_dropdown_more">
           <!-- needed for the distance -->
           <div class="cWrap_dropdown_more">
-            <a href="" class="link_dropdownMore">
+            <a
+              href=""
+              class="link_dropdownMore"
+              data-hover_color>
               <img
                 class="icon_Nav"
                 src="{{ 'icon_phone.png' | asset_url }}"
                 alt="">
               <p>8692 1204 01</p>
             </a>
-            <a href="" class="link_dropdownMore">
+            <a
+              href=""
+              class="link_dropdownMore"
+              data-hover_color>
               <img
                 class="icon_Nav"
                 src="{{ 'icon_email.png' | asset_url }}"
                 alt="">
               <p>musupastas@gmail.com</p>
             </a>
-            <a href="" class="link_dropdownMore">
+            <a
+              href=""
+              class="link_dropdownMore"
+              data-hover_color>
               <img
                 class="icon_Nav"
                 src="{{ 'icon_terms.png' | asset_url }}"
                 alt="">
               <p>Pirkimo sąlygos</p>
             </a>
-            <a href="" class="link_dropdownMore">
+            <a
+              href=""
+              class="link_dropdownMore"
+              data-hover_color>
               <img
                 class="icon_Nav"
                 src="{{ 'icon_cookie.png' | asset_url }}"
                 alt="">
               <p>Sausainių ir privatumo politika</p>
             </a>
-            <a href="" class="link_dropdownMore">
+            <a
+              href=""
+              class="link_dropdownMore"
+              data-hover_color>
               <img
                 class="icon_Nav"
                 src="{{ 'icon_person.png' | asset_url }}"
@@ -92,12 +113,12 @@
             alt="">
         </div>
         <div class="X_wrap menu">
-          <div class="live_btnClose" data-bgcolor="grey"></div>
-          <div class="live_btnClose reverse" data-bgcolor="grey"></div>
+          <div class="line_X" data-bgcolor="grey"></div>
+          <div class="line_X reverse" data-bgcolor="grey"></div>
         </div>
         <div class="click_overlay"></div>
       </div>
-      <div class="navLink bag">
+      <div class="navLink bag" data-hover_color>
         <img
           class="icon_Nav bag"
           src="{{ 'icon_bag.png' | asset_url }}"

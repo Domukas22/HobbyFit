@@ -11,7 +11,10 @@
       <div class="click_overlay"></div>
       <p>Visos Prekės</p>
     </div>
-    <div class="filter" data-filter="sale">
+    <div
+      class="filter"
+      data-filter="sale"
+      data-hover_color>
       <div class="click_overlay"></div>
       <img
         class="icon_filter"
@@ -19,7 +22,10 @@
         alt="">
       <p>Nuolaida</p>
     </div>
-    <div class="filter" data-filter="racket">
+    <div
+      class="filter"
+      data-filter="racket"
+      data-hover_color>
       <div class="click_overlay"></div>
       <img
         class="icon_filter"
@@ -27,7 +33,10 @@
         alt="">
       <p>Raketės</p>
     </div>
-    <div class="filter" data-filter="ball">
+    <div
+      class="filter"
+      data-filter="ball"
+      data-hover_color>
       <div class="click_overlay"></div>
       <img
         class="icon_filter"
@@ -35,7 +44,10 @@
         alt="">
       <p>Plunksniukai</p>
     </div>
-    <div class="filter" data-filter="clothing">
+    <div
+      class="filter"
+      data-filter="clothing"
+      data-hover_color>
       <div class="click_overlay"></div>
       <img
         class="icon_filter"
@@ -43,7 +55,10 @@
         alt="">
       <p>Apranga</p>
     </div>
-    <div class="filter" data-filter="equipment">
+    <div
+      class="filter"
+      data-filter="equipment"
+      data-hover_color>
       <div class="click_overlay"></div>
       <img
         class="icon_filter"
@@ -76,8 +91,9 @@
 <section class="section_product">
   <div class="product_grid">
     {% assign allProducts = collections['all'].products %}
-    {% for product in allProducts | sample: allProducts.size %}
-      <div
+    {% for product in allProducts %}
+      <a
+        href="{{ product.url }}"
         class="product"
         data-filter_word="{{ product.metafields.custom.filter_word}}"
         data-sale="{{ product.metafields.custom.sale}}">
@@ -106,7 +122,7 @@
             <p class="price_product_filterPage compare">{{ product.compare_at_price | money }}</p>
           </div>
         </div>
-      </div>
+      </a>
     {% endfor %}
   </div>
 </section>

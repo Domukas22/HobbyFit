@@ -1,10 +1,13 @@
 :root {
   --color_Main: #407ff2;
   --color_Main_Hover: #3068cf;
+  --color_hover: #f5f5f5;
+  --color_hover_lightBlue: #ebf2fd;
+
   --color_Text: rgba(0, 0, 0, 0.85);
   --color_bigText: rgba(0, 0, 0, 0.75);
-  --color_hover: #f5f5f5;
   --color_activeLink: rgba(64, 127, 242, 0.1);
+
   --color_grey: #747474;
   --color_bg: #f9fbff;
   --color_red: #ff4f4f;
@@ -80,9 +83,6 @@ nav.no_shadow {
   background-color: #fff;
   cursor: pointer;
 }
-.navLink:hover {
-  background-color: var(--color_hover);
-}
 .navLink.current {
   background-color: var(--color_activeLink);
 }
@@ -140,9 +140,6 @@ nav.no_shadow {
   height: 56px;
   border-bottom: var(--border_bottom);
 }
-.link_dropdownMore:hover {
-  background-color: var(--color_hover);
-}
 
 /* btn cart */
 .navLink.bag {
@@ -175,31 +172,16 @@ nav.no_shadow {
   top: 0;
   opacity: 100%;
 }
-.X_wrap {
-  width: 30px;
+.X_wrap.menu {
   position: absolute;
   opacity: 0;
   top: 0;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
-.X_wrap.show {
+.X_wrap.menu.show {
   opacity: 100%;
   top: 19px;
 }
-.live_btnClose {
-  width: 30px;
-  height: 2px;
-  position: absolute;
 
-  transform: rotate(45deg);
-  border-radius: 100px;
-}
-.live_btnClose.reverse {
-  transform: rotate(-45deg);
-}
 
 /* dropdown menu */
 .cWrap_menuDropdown {

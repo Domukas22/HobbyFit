@@ -1,1 +1,75 @@
-<img src="{{ product.images[0] | img_url: '600x600' }}" alt="">
+
+<p class="invisible" id="color_bg">{{ product.metafields.custom.color_bg }}</p>
+<p class="invisible" id="color_raw">{{ product.metafields.custom.color_raw}}</p>
+
+<section class="section_TOP_productPage">
+  <div class="wrap_sliderTitle" data-effect="zoom">
+    <div class="container_productPage">
+      <h4 class="title_Product">{{ product.metafields.custom.name_short }}</h4>
+      <div class="btn_cart"></div>
+      <div class="priceWrap_productPage" style="display: flex;">
+        <p
+          class="price_product_filterPage"
+          data-isSale="{{ product.metafields.custom.sale}}"
+          style="margin-right: 6px">{{ product.price | money }}</p>
+        <p class="price_product_filterPage compare">{{ product.compare_at_price | money }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="swiper">
+    <img src="{{ 'img_WAVE_long.svg' | asset_url }}" alt="" class="img_WAVE_long" data-swiper-parallax="-23%" style="background-color: {{ product.metafields.custom.color_bg }}">
+    <div
+      class="swiper-wrapper"
+      data-effect="zoom"
+      data-zoom_active="false"
+      data-magnify="1"
+      data-reset>
+      {% for image in product.images %}
+        <div class="swiper-slide" data-reset>
+          <img class="imgSwiper" 
+                  src="{{ image | img_url: 'master' }}" 
+                  alt="{{ image.alt }}" 
+                  draggable="false" />
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+  <div class="sliderControls" data-effect="zoom">
+    <div class="container_productPage">
+      <div class="swiper-pagination" data-effect="zoom">
+        <div class="swiper-pagination-bullet swiper-pagination-bullet-active"></div>
+        <div class="swiper-pagination-bullet"></div>
+        <div class="swiper-pagination-bullet"></div>
+        <div class="swiper-pagination-bullet"></div>
+      </div>
+      <div class="slider_btns" data-effect="zoom">
+        <div class="swiperBtn swiper-btn-prev" data-hover_color>
+          <div class="line_arrow"></div>
+          <div class="line_arrow reverse"></div>
+        </div>
+        <div class="swiperBtn reverse swiper-btn-next" data-hover_color>
+          <div class="line_arrow"></div>
+          <div class="line_arrow reverse"></div>
+        </div>
+        <div class="btn_Zoom" data-zoom="2" data-hover_color></div>
+      </div>
+      <div class="controls_Magnify" data-effect="zoom">
+        <div class="btn_magnify active" data-zoom="2" data-btn_magnify>2x</div>
+        <div class="btn_magnify" data-zoom="3" data-btn_magnify>3x</div>
+        <div class="X_wrap zoom" data-zoom="1" data-hover_color>
+          <div class="line_X"></div>
+          <div class="line_X reverse"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+</section>
+
+<scetion class="product_desc">
+  <div class="container_productPage">
+  </div>
+</scetion>
+
+
+{{ '_JS_slider_productPage.js' | asset_url | script_tag }}

@@ -1,0 +1,193 @@
+
+
+const color_bg = document.getElementById('color_bg').textContent
+const color_raw = document.getElementById('color_raw').textContent
+const btns_Magnify = document.querySelectorAll('div[data-zoom]')
+const slides = document.querySelectorAll('.swiper-slide');
+const slider = new Swiper(".swiper", {
+    parallax: true,
+    effect: isDesktop() ? 'coverflow' : '',
+    centeredSlides: isDesktop() ? true : false,
+    slidesPerView: isDesktop() ? 'auto' : 1,
+    grabCursor: true,
+    loop: false,
+    shadow: false,
+    noSwipingClass: 'slider-no-swiping', 
+    coverflowEffect: {
+        rotate: 0,
+        stretch: 0,
+        depth: 250,
+        modifier: 10,
+        slideShadows: false,
+        scale: 1,
+    },
+    pagination: { el: ".swiper-pagination", clickable: true },
+    navigation: { nextEl: ".swiper-btn-next", prevEl: ".swiper-btn-prev"},
+});
+slider.on('transitionEnd',function(){reset_Transitions()});
+slider.on('slideChange',function(){set_Colors()});
+
+
+window.addEventListener('DOMContentLoaded', () => {reset_Transitions(); setTimeout(() => {set_Colors()}, 20);})
+
+btns_Magnify.forEach(x => x.addEventListener('click', (e) => {
+    const magnify = e.currentTarget.dataset.zoom
+    toggle_zoom(Number(magnify))
+}))
+slides.forEach(slide => {   // desktop zoom move
+    let isDragging = false;
+    let startX, startY, scrollLeft, scrollTop;  
+    slide.addEventListener('mousedown', e => {
+        const swiperWrapper = document.querySelector('.swiper-wrapper')
+        if (swiperWrapper.dataset.magnify == '1') return;
+        isDragging = true;
+        startX = e.pageX - slide.offsetLeft;
+        startY = e.pageY - slide.offsetTop;
+        scrollLeft = slide.scrollLeft;
+        scrollTop = slide.scrollTop;
+    });
+    slide.addEventListener('mouseleave', () => {isDragging = false});
+    slide.addEventListener('mouseup', () => {isDragging = false});
+    slide.addEventListener('mousemove', e => {
+        if (!isDragging) return;
+        e.preventDefault();
+        const x = e.pageX - slide.offsetLeft;
+        const y = e.pageY - slide.offsetTop;
+        const walkX = (x - startX) * 3;
+        const walkY = (y - startY) * 5;
+        slide.scrollLeft = scrollLeft - walkX;
+        slide.scrollTop = scrollTop - walkY;
+    });
+});
+
+
+function toggle_zoom(magnify) {
+    
+    const swiperWrapper = document.querySelector('.swiper-wrapper')
+    swiperWrapper.dataset.magnify = magnify
+    const wrap_Controls = document.querySelector('.controls_magnify')
+
+    if (magnify == 1) { // return to normal
+        wrap_Controls.classList.remove('zoom') // remove controls earlier
+        grow_Image(1);
+        setTimeout(() => {handle_elements(false)}, 400)
+        setTimeout(() => {toggle_activeZoomBtn(magnify), set_Colors()}, 600);
+
+    } else {
+        handle_elements(true)
+        grow_Image(magnify)
+        toggle_activeZoomBtn(magnify)
+        set_Colors()
+    }
+
+}
+function handle_elements(value) {
+    const divs = document.querySelectorAll('[data-effect="zoom"]');
+    const product_Wave = document.querySelector('.img_WAVE_long')
+    const activeSlide = document.querySelector('.swiper-slide-active')
+    if (value) {
+        product_Wave.style.opacity = '0%'
+        divs.forEach(x => x.classList.add('zoom'));
+        activeSlide.style.overflow = "scroll"
+    } else {
+        product_Wave.style.opacity = '100%'
+        divs.forEach(x => x.classList.remove('zoom'));
+        activeSlide.style.overflow = "visible"    
+    }
+    const slides = document.querySelectorAll('.swiper-slide')
+    console.log(slides)
+    slides.forEach(slide => {
+        if (value) {
+            slide.classList.add('slider-no-swiping')
+            if (!slide.classList.contains('swiper-slide-active')) {slide.firstElementChild.style.opacity = '0%'}
+        }
+        else {
+            slide.classList.remove('slider-no-swiping');
+            slide.firstElementChild.style.opacity = '100%'
+        }
+
+    })
+    console.log(slides)
+}
+function grow_Image(magnify) {
+    const img = document.querySelector('.swiper-slide-active').firstElementChild
+    const { naturalWidth: w, naturalHeight: h } = img;
+    if (magnify == 1) {
+        img.parentElement.scrollTo({top:0, left:0, behavior:'smooth'});
+    img.style.height = "100%"
+    img.style.width = "100%"  
+    } else {
+        if (isDesktop()) {
+        let targetHeight = window.innerHeight * (magnify - 0.5);
+        if (targetHeight > 1600){targetHeight = 1600 * (magnify - 0.5);}
+        const w_Value = w / h * targetHeight;
+        img.style.width = w_Value + "px"
+        img.style.height = targetHeight + "px";
+
+        } else {
+        const targetWidth = window.innerWidth * magnify;
+        const h_Value = h / w * targetWidth;
+        img.style.width = targetWidth + "px";
+        img.style.height = h_Value + "px"
+        } 
+    }
+}
+function set_Colors() {
+    const bullets = document.querySelectorAll('.swiper-pagination-bullet');
+    const magnify = document.querySelectorAll('[data-btn_magnify]');
+    [bullets,magnify].forEach(x => x.forEach(y => y.style.backgroundColor = color_bg))
+
+    const activeBullet = document.querySelector('.swiper-pagination-bullet-active');
+    const magnifyActive = document.querySelector('[data-btn_magnify].active');
+    [activeBullet, magnifyActive].forEach(x => x.style.backgroundColor = color_raw)
+}
+function reset_Transitions() {
+    document.querySelectorAll('[data-reset]').forEach(x => {x.style.transitionDuration = "400ms"})
+    document.querySelector('.img_WAVE_long').style.transition = "400ms"
+}
+function toggle_activeZoomBtn(magnify) {
+    const btns = document.querySelectorAll('[data-btn_magnify]')
+    btns.forEach(x => {
+        if (magnify == 1 && x.dataset.zoom == 2){x.classList.add('active')}
+        else if (x.dataset.zoom == magnify) {x.classList.add('active')}
+        else {x.classList.remove('active')}
+        
+})}
+
+
+function zoom_mouseClick(wrapper) {
+    let startX;
+    let startY;
+    let isMouseDown = false;
+    let locked = false
+
+    wrapper.addEventListener("mousedown", function(event) {
+        startX = event.clientX;
+        startY = event.clientY;
+        isMouseDown = true;
+    });
+
+    wrapper.addEventListener("mouseup", function(event) {
+        if (isMouseDown) {
+        const distanceX = Math.abs(event.clientX - startX);
+        const distanceY = Math.abs(event.clientY - startY);
+        if ((distanceX < 0.4 || distanceY < 0.4 ) && wrapper.dataset.magnify !== '1' && !locked) {
+            locked = true
+            setTimeout(() => {toggle_zoom(1)}, 10);
+            setTimeout(() => {locked = false}, 410);
+        }
+        isMouseDown = false;
+        }
+    });
+
+    slides.forEach(slide => slide.addEventListener('click', (e) => {
+        if (e.currentTarget.parentElement.dataset.magnify == '1' && !locked) {
+            locked = true
+            toggle_zoom(2)
+            setTimeout(() => {locked = false}, 410);
+        }
+    }))
+} zoom_mouseClick(document.querySelector('.swiper-wrapper'))
+
+
+ function isDesktop() {return window.innerWidth > 991 ? true : false}

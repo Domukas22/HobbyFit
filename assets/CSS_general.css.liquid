@@ -1,12 +1,16 @@
 :root {
   --color_Main: #407ff2;
   --color_Main_Hover: #3068cf;
+  --color_hover: #f5f5f5;
+  --color_hover_lightBlue: #ebf2fd;
+
   --color_Text: rgba(0, 0, 0, 0.85);
   --color_bigText: rgba(0, 0, 0, 0.75);
-  --color_hover: #f5f5f5;
   --color_activeLink: rgba(64, 127, 242, 0.1);
+
   --color_grey: #747474;
   --color_bg: #f9fbff;
+  --color_red: #ff4f4f;
 
   --shadow_normal: 0 1px 3px rgba(0, 0, 0, 0.1);
   --border_bottom: 1px solid rgba(0, 0, 0, 0.04);
@@ -90,6 +94,32 @@ a {
 [data-no_scrollbar]::-webkit-scrollbar {
   display: none
 }
+[data-hover_color]:hover {
+  background-color: var(--color_hover);
+}
+
+.X_wrap {
+  width: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.line_X {
+  width: 30px;
+  height: 2px;
+  position: absolute;
+
+  transform: rotate(45deg);
+  border-radius: 100px;
+}
+.line_X.reverse {
+  transform: rotate(-45deg);
+}
+
+.invisible {
+  display: none;
+}
+
 section {
   display: flex;
   align-items: center;
@@ -129,9 +159,6 @@ section {
   color: var(--color_Main);
   background-color: #fff;
   border: 1px solid var(--color_Main);
-}
-.btn.inverted:hover {
-  background-color: var(--color_hover);
 }
 .icon_arrowDropdown {
   margin: 2px 0 0 7px;

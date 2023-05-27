@@ -94,7 +94,7 @@ a {
 [data-no_scrollbar]::-webkit-scrollbar {
   display: none
 }
-[data-hover_color]:hover {
+[data-hover_grey]:hover {
   background-color: var(--color_hover);
 }
 
@@ -165,6 +165,20 @@ section {
   height: 7px;
   object-fit: contain;
   opacity: 45%;
+}
+
+.img_wave {
+  height: 104%;
+  max-width: none;
+  min-width: 104%;
+
+  object-fit: cover;
+  background-color: rgb(198, 198, 198);
+
+  position: absolute;
+  top: -4px;
+  left: -8px;
+  z-index: 1;
 }
 
 

@@ -6,24 +6,13 @@ const btns_Magnify = document.querySelectorAll('div[data-zoom]')
 const slides = document.querySelectorAll('.swiper-slide');
 const slider = new Swiper(".swiper", {
     parallax: true,
-    effect: isDesktop() ? 'coverflow' : '',
-    centeredSlides: isDesktop() ? true : false,
-    slidesPerView: isDesktop() ? 'auto' : 1,
     grabCursor: true,
-    loop: false,
-    shadow: false,
     noSwipingClass: 'slider-no-swiping', 
-    coverflowEffect: {
-        rotate: 0,
-        stretch: 0,
-        depth: 250,
-        modifier: 10,
-        slideShadows: false,
-        scale: 1,
-    },
     pagination: { el: ".swiper-pagination", clickable: true },
     navigation: { nextEl: ".swiper-btn-next", prevEl: ".swiper-btn-prev"},
 });
+
+
 slider.on('transitionEnd',function(){reset_Transitions()});
 slider.on('slideChange',function(){set_Colors()});
 
@@ -95,7 +84,7 @@ function handle_elements(value) {
         activeSlide.style.overflow = "visible"    
     }
     const slides = document.querySelectorAll('.swiper-slide')
-    console.log(slides)
+
     slides.forEach(slide => {
         if (value) {
             slide.classList.add('slider-no-swiping')
@@ -107,7 +96,7 @@ function handle_elements(value) {
         }
 
     })
-    console.log(slides)
+
 }
 function grow_Image(magnify) {
     const img = document.querySelector('.swiper-slide-active').firstElementChild

@@ -79,11 +79,23 @@ body {
   background-color: var(--color_bg);
 }
 
+input[type="text"] {
+  border: none;
+  outline: none;
+  background-color: transparent;
+}
+input[type="text"]:focus {
+  box-shadow: none;
+}
 
 
+fieldset {
+  border: none;
+}
 a {
   text-decoration: none;
 }
+
 
 [data-textcolor="grey"] {
   color: var(--color_grey);
@@ -139,7 +151,6 @@ section {
   width: 100%;
   height: 100%;
   max-width: 1150px;
-  max-width: 1920px;
 }
 .btn {
   display: flex;
@@ -182,11 +193,16 @@ section {
 }
 
 
-@media only screen and (min-width: 1921px) {}
+@media only screen and (min-width: 1921px) {
+  .container {
+    max-width: 1650px
+  }
+}
 @media only screen and (min-width: 1440px) {
   section {
     padding: 70px 140px;
   }
+
 }
 /* Default == 991 to 1440 */
 @media only screen and (max-width: 990px) {

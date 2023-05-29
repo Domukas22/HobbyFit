@@ -3,35 +3,15 @@
 <!-- set default colors -->
 {% assign color_bg = product.metafields.custom.color_bg %}
 {% assign color_raw = product.metafields.custom.color_raw %}
-
 <!-- change colors, if product has variants -->
-{% assign optionName = 'Color' %}
-{% assign optionExists = false %}
 
-{% for option in product.options %}
-  {% if option == optionName %}
-    {% assign optionExists = true %}
-    {% break %}
-  {% endif %}
-{% endfor %}
 
-{% if optionExists %}
-  {% assign colorOption = product.options_with_values | where: 'name', optionName | first %}
-  {% assign firstValue = colorOption.values | first %}
-  {% assign color_raw = firstValue | split: ' ' | slice: 1 %}
-  {% assign color_bg = firstValue | split: ' ' | last %}
-  <p>option exists</p>
-{% else %}
-  <p>option DOESNT exists</p>
-{% endif %}
-
-<p>Bg: {{ color_bg }}</p>
-<p>Raw: {{ color_raw }}</p>
 
 <!-- only needed for slider functionality => replace in the future -->
-<p class="invisible" id="color_bg">{{ color_bg }}</p>
+  <p class="invisible" id="color_bg"> {{ color_bg }}</p>
 <p class="invisible" id="color_raw">{{ color_raw }}</p>
 <!----------------------------------------------------------------------------------->
+
 
 
 <section class="section_productPage">
@@ -39,7 +19,7 @@
     <div class="sticky_left">
       <div class="sticky_div">
         <div class="wrap_sliderTitle" data-effect="zoom">
-          <div class="container_productPage">
+          <div class="container_productPage mini">
             <h4 class="title_Product">{{ product.metafields.custom.name_short }}</h4>
             <div class="priceWrap_productPage">
               <p
@@ -66,19 +46,21 @@
             data-magnify="1"
             data-reset>
             {% for image in product.images %}
-              <div class="swiper-slide" data-reset>
-                <img
-                  src="{{ image | img_url: '600x600' }}"
-                  alt=" {{ image.alt }}"
-                  class="imgSwiper"
-                  draggable="false">
-              </div>
+              {% if image.alt contains color_raw %}
+                <div class="swiper-slide" data-reset>
+                  <img
+                    src="{{ image | img_url: '600x600' }}"
+                    alt=" {{ image.alt }}"
+                    class="imgSwiper"
+                    draggable="false">
+                </div>
+              {% endif %}
             {% endfor %}
 
           </div>
         </div>
         <div class="sliderControls" data-effect="zoom">
-          <div class="container_productPage" style="flex-wrap: nowrap;">
+          <div class="container_productPage mini" style="flex-wrap: nowrap;">
             <div class="swiper-pagination" data-effect="zoom">
               <div class="swiper-pagination-bullet swiper-pagination-bullet-active"></div>
               <div class="swiper-pagination-bullet"></div>
@@ -118,162 +100,245 @@
             </div>
           </div>
         </div>
+
       </div>
     </div>
 
     <div class="normal_right">
-      {% form 'product', product %}
-        <input
-          id="product_id"
-          type="hidden"
-          name="id"
-          value="{{ product.selected_or_first_available_variant.id }}">
+      <div class="padding_subwrap">
+        {% form 'product', product, class: 'form_productPage' %}
+          <input
+            id="product_id"
+            type="hidden"
+            name="id"
+            value="{{ product.selected_or_first_available_variant.id }}">
 
-        {% if product.selected_or_first_available_variant.available %}
-          {% if product.variants.size > 1 %}
-            <div class="product_option">
-              {% for option in product.options_with_values %}
-                {% if option.name == 'Size' %}
-                  <label for="Size">Pasirinkite dydi:</label>
-                {% elsif option.name == 'Color' %}
-                  <label for="Color">Pasirinkite spalva:</label>
-                {% endif %}
-
-                <fieldset class="input_box">
-                  {% for value in option.values %}
-                    <div class="parent_optionRadio">
-                      <input
-                        {% if option.selected_value == value %}checked{% endif %}
-                        type="radio"
-                        name="{{ option.name }}"
-                        value="{{ value }}"
-                        id="{{ option.name | handleize }}={{ value | handleize }}"
-                        class="optionRadio">
-
-                      {% if option.name == 'Color' %}
-                        <div class="circle_option" data-circle_color="{{ value }}"></div>
-                        <label for="{{ option.name | handleize }}={{ value | handleize }}" style="display: none;">
-                          {{ value }}
-                        </label>
-                      {% else %}
-                        <label for="{{ option.name | handleize }}={{ value | handleize }}">
-                          {{ value }}
-                        </label>
-                      {% endif %}
-                    </div>
-                  {% endfor %}
-                </fieldset>
-              {% endfor %}
-            </div>
-          {% endif %}
-
-          <label for="Qantity" style="color: #0000009b;">Pasirinkite dydi:</label>
-          <fieldset class="input_box">
-            <div class="quantity_front">
-              <div class="wrap_qntOptions">
-                <div class="qnt_option active" data-value="1">1</div>
-                <div class="qnt_option" data-value="2">2</div>
-                <div class="qnt_option" data-value="3">3</div>
-                <div class="qnt_option" data-value="4">4</div>
-                <div class="qnt_option" data-value="5">5</div>
-              </div>
-              <div class="btn_giveQuantity">Ivesti kieki</div>
-            </div>
-            <div class="quantity_back">
-              <input
-                type="text"
-                name="Quantity"
-                class="qntInput"
-                placeholder="Iveskite kieki..."
-                value="1">
-              <div class="btn_nearQtn cancel">Atsaukti</div>
-              <div class="btn_nearQtn submit">Vykdyti</div>
-            </div>
-          </fieldset>
-
-        {% endif %}
-
-        <div class="btnWrap_mainDesc">
           {% if product.selected_or_first_available_variant.available %}
-            <div
-              class="btn_mainDesc bag"
-              style="border: 1px solid {{ color_bg }}; font-weight: 400;"
-              data-recolor_raw_border>
-              <p style="color:{{ color_raw }}" data-recolor_raw_text>Į krepšelį</p>
-              <img
-                src="{{ 'icon_bag.png' | asset_url }}"
-                alt=""
-                class="bagIcon_btnCart">
-            </div>
-            <div
-              class="btn_mainDesc buy"
-              style="background-color: {{ color_raw }}; color: white;"
-              data-recolor_raw>
-              Užsisakyti<span class="price_insideBtn">$11.11</span>
-            </div>
-          {% else %}
-            <div class="sign_outOfstock">Deja nebeturime šios prekės</div>
-          {% endif %}
-        </div>
+            {% if product.variants.size > 1 %}
+              <div class="product_option">
+                {% for option in product.options_with_values %}
+                  {% if option.name == 'Size' %}
+                    <label for="Size">Pasirinkite dydi:</label>
+                  {% elsif option.name == 'Color' %}
+                    <label for="Color">Pasirinkite spalva:</label>
+                  {% endif %}
 
-      {% endform %}
-      <div class="textWrap_productDesc">
-        <p class="bullets"></p>
-        <p class="description"></p>
+                  <fieldset class="input_box">
+                    {% for value in option.values %}
+                      <div class="parent_optionRadio">
+                        <input
+                          {% if option.selected_value == value %}checked{% endif %}
+                          type="radio"
+                          name="{{ option.name }}"
+                          value="{{ value }}"
+                          id="{{ option.name | handleize }}={{ value | handleize }}"
+                          class="optionRadio">
+
+                        {% if option.name == 'Color' %}
+                          <div class="circle_option" data-circle_color="{{ value }}"></div>
+                          <label for="{{ option.name | handleize }}={{ value | handleize }}" style="display: none;">
+                            {{ value }}
+                          </label>
+                        {% else %}
+                          <label for="{{ option.name | handleize }}={{ value | handleize }}">
+                            {{ value }}
+                          </label>
+                        {% endif %}
+                      </div>
+                    {% endfor %}
+                  </fieldset>
+                {% endfor %}
+              </div>
+            {% endif %}
+            <label for="Qantity" style="color: #0000009b;">Pasirinkite kieki:</label>
+            <fieldset class="input_box qnt">
+              <div class="quantity_front">
+                <div class="wrap_qntOptions desktop">
+                  <div
+                    class="qnt_option"
+                    data-value="1"
+                    data-recolor_bg
+                    data-recolor_text_raw>1</div>
+                  <div class="qnt_option d" data-value="2">2</div>
+                  <div class="qnt_option d" data-value="3">3</div>
+                  <div class="qnt_option d" data-value="4">4</div>
+                  <div class="qnt_option d" data-value="5">5</div>
+                </div>
+                <div class="wrap_qntOptions mobile">
+                  <div
+                    class="qnt_option m"
+                    data-value="1"
+                    data-recolor_bg
+                    data-recolor_text_raw>1</div>
+                  <div class="qnt_option m" data-value="2">2</div>
+                  <div class="qnt_option m" data-value="3">3</div>
+                </div>
+                <div class="btn_giveQuantity" data-recolor_text_raw>Ivesti kieki</div>
+              </div>
+              <div class="quantity_back">
+                <input
+                  type="number"
+                  name="Quantity"
+                  class="qntInput"
+                  placeholder="Iveskite kieki..."
+                  value="1"
+                  onkeydown="checkKeyPress(event, this);">
+                <div class="btn_nearQtn cancel" data-recolor_text_raw>Atsaukti</div>
+                <div class="btn_nearQtn submit" data-recolor_raw>Vykdyti</div>
+              </div>
+            </fieldset>
+          {% endif %}
+
+          <div class="btnWrap_mainDesc">
+            {% if product.selected_or_first_available_variant.available %}
+              <div
+                class="btn_mainDesc bag"
+                style="border: 1px solid {{ color_bg }}; font-weight: 400;"
+                data-recolor_border_raw>
+                <p style="color:{{ color_raw }}" data-recolor_text_raw>Į krepšelį</p>
+                <svg
+                  class="theSVG"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 337.94 421.48">
+                  <g id="Ebene_2" data-name="Ebene 2">
+                    <g id="Ebene_1-2" data-name="Ebene 1"><path d="M337.69,385.58,301.08,86.79a10,10,0,0,0-9.88-8.74H46.73a10,10,0,0,0-9.88,8.74L.24,385.58A32,32,0,0,0,32,421.48H305.92A32,32,0,0,0,337.69,385.58ZM268.84,141.66c-.16,3.29-.48,6.53-.94,9.72-7.1,48.82-48.69,86.29-98.93,86.29S77.14,200.2,70,151.38c-.46-3.19-.78-6.43-.94-9.72v0a24.81,24.81,0,0,1,24.68-22.26q1.06,0,2.1.09A3.05,3.05,0,0,1,98.67,123a76.8,76.8,0,0,0,5.08,43.86C115,192.6,139.94,210.5,169,210.5s54-17.9,65.22-43.62a75.89,75.89,0,0,0,6.27-30.35,77,77,0,0,0-1.18-13.42,3.14,3.14,0,0,1,2.86-3.67c.66,0,1.34-.08,2-.08a24.81,24.81,0,0,1,24.68,22.26Z" /><path d="M250.13,64H225.46a2.64,2.64,0,0,1-2.33-1.43c-11.27-21.74-31.31-36.2-54.16-36.2s-42.89,14.46-54.16,36.2A2.62,2.62,0,0,1,112.48,64H87.8a1.46,1.46,0,0,1-1.38-2C100.28,25.52,132,0,169,0s68.68,25.52,82.54,62A1.46,1.46,0,0,1,250.13,64Z" /></g>
+                  </g>
+                </svg>
+              </div>
+              <div
+                class="btn_mainDesc buy"
+                style="background-color: {{ color_raw }}; color: white;"
+                data-recolor_raw>
+                Užsisakyti<span class="price_insideBtn">{{ product.selected_or_first_available_variant.price | money }}</span>
+              </div>
+            {% else %}
+              <div class="sign_outOfstock">Deja nebeturime šios prekės</div>
+            {% endif %}
+          </div>
+
+        {% endform %}
+
+        <div class="separator"></div>
+        <div class="wrap_productDescription">
+          {{ product.metafields.custom.bullets | metafield_tag }}
+          <p class="productDescription">
+            {{ product.description }}</p>
+        </div>
+        <div class="separator"></div>
+        <div class="wrap_otherInfo">
+          <div class="otherInfo">
+            <img
+              src="{{ 'icon_shipping.png' | asset_url }}"
+              alt=""
+              class="icon_otherInfo">
+            <p>Nemokamas siuntimas nuo 70 Euru</p>
+          </div>
+          <div class="otherInfo">
+            <img
+              src="{{ 'icon_return.png' | asset_url }}"
+              alt=""
+              class="icon_otherInfo">
+            <p>30 Dienu grazinimas</p>
+          </div>
+          <div class="otherInfo">
+            <img
+              src="{{ 'icon_phone.png' | asset_url }}"
+              alt=""
+              class="icon_otherInfo">
+            <p>Nuolatos palaikomas kontaktas</p>
+          </div>
+        </div>
+        <div class="wrap_payments">
+          <img
+            src="{{ 'icon_payment_visa.svg' | asset_url }}"
+            alt=""
+            class="icon_payment">
+          <img
+            src="{{ 'icon_payment_paypal.svg' | asset_url }}"
+            alt=""
+            class="icon_payment">
+          <img
+            src="{{ 'icon_payment_citadele.svg' | asset_url }}"
+            alt=""
+            class="icon_payment">
+          <img
+            src="{{ 'icon_payment_mastercard.svg' | asset_url }}"
+            alt=""
+            class="icon_payment">
+          <img
+            src="{{ 'icon_payment_klarna.svg' | asset_url }}"
+            alt=""
+            class="icon_payment">
+          <img
+            src="{{ 'icon_payment_applepay.svg' | asset_url }}"
+            alt=""
+            class="icon_payment">
+          <img
+            src="{{ 'icon_payment_amazon.svg' | asset_url }}"
+            alt=""
+            class="icon_payment">
+          <img
+            src="{{ 'icon_payment_googlepay.svg' | asset_url }}"
+            alt=""
+            class="icon_payment">
+        </div>
       </div>
     </div>
   </div>
 </section>
-
 <script>
 
 
+
+  let product = {{ product | json}}
+  function find_matchedVariant() {
+    let selected_radios = []
+    document.querySelectorAll('input[type="radio"].optionRadio:checked').forEach(x => selected_radios.push(x.value))
+    const matchedVariant = product.variants.find(variant => {
+      for (let option of selected_radios) {
+        if (!variant.options.includes(option)) {
+          return false;
+        }
+      }
+      return true;
+    });
+    return matchedVariant
+  }
   window.addEventListener('DOMContentLoaded', () => {
     {% if product.options contains 'Color' %}
-      console.log('color');
       const checked = document.querySelector('.optionRadio[name="Color"]:checked').value.split(" ");
       recolor(checked[1], checked[2]);
       set_circleColors();
-    {% else %}recolor(color_raw, color_bg){% endif %}
+    {% else %}
+      recolor(color_raw, color_bg){% endif %};
+    set_eventListeners()
+    change_images()
   })
 
-  let product = {{ product | json}}
   const radios = document.querySelectorAll('input[type="radio"].optionRadio')
   radios.forEach(radio => {
     radio.addEventListener('change', (e) => {
-
-      {% if product.options contains 'Color' %}
-        const checked_color = document.querySelector('.optionRadio[name="Color"]:checked').value.split(" ")
-        recolor(checked_color[1], checked_color[2])
-
-      {% else %}recolor(color_raw, color_bg){% endif %}
-
-
-// find product that matches radio inputs
-      let selected_radios = []
-      document.querySelectorAll('input[type="radio"].optionRadio:checked').forEach(x => selected_radios.push(x.value))
-      const matchedVariant = product.variants.find(variant => {
-        for (let option of selected_radios) {
-          if (!variant.options.includes(option)) {
-            return false;
-          }
-        }
-        return true;
-      });
-
-// execute fucntions
-      edit_hiddenInput(matchedVariant)
-      changeUrl(matchedVariant)
-      edit_texts(matchedVariant)
+      recolor_default()
+      edit_hiddenInput(find_matchedVariant())
+      changeUrl(find_matchedVariant(), define_color_raw())
+      edit_texts(find_matchedVariant())
+      handle_btnPrice(find_matchedVariant())
+      change_images()
     })
   })
 
+  function recolor_default() {
+    {% if product.options contains 'Color' %}
+      const checked_color = document.querySelector('.optionRadio[name="Color"]:checked').value.split(" ");
+      recolor(checked_color[1], checked_color[2]);
+    {% else %};
+      recolor(color_raw, color_bg);{% endif %};
+  }
   function recolor(raw, bg) {
-
     const elements_raw = document.querySelectorAll('[data-recolor_raw]');
     const elements_bg = document.querySelectorAll('[data-recolor_bg]');
-    const text_raw = document.querySelectorAll('[data-recolor_raw_text]');
-    const border_raw = document.querySelectorAll('[data-recolor_raw_border]');
+    const text_raw = document.querySelectorAll('[data-recolor_text_raw]');
+    const border_raw = document.querySelectorAll('[data-recolor_border_raw]');
     text_raw.forEach(el => el.style.color = raw);
     elements_raw.forEach(el => el.style.backgroundColor = raw);
     elements_bg.forEach(el => el.style.backgroundColor = bg);
@@ -295,11 +360,13 @@
 
 
     });
+    changeSVGColor(raw)
 
   }
-  function changeUrl(matchedVariant) {
+  function changeUrl(matchedVariant, currentColor) {
     const url = new URLParse(window.location.href, true)
     url.query.variant = matchedVariant.id
+    url.query.color = currentColor
     window.history.replaceState(null, null, url.toString())
   }
   function edit_hiddenInput(matchedVariant) {
@@ -315,34 +382,73 @@
       x.style.backgroundColor = color_raw;
     })
   }
+  function define_color_raw() {
+    {% if product.options contains 'Color' %}
+      const checked = document.querySelector('.optionRadio[name="Color"]:checked').value.split(" ");
+      let raw = checked[1]
+      let bg = checked[2]
+    {% else %}
+      let raw = color_raw
+      let bg = color_bg
+    {% endif %};
 
-  const qnt_btns = document.querySelectorAll('.qnt_option')
+    return raw
+  }
+
   const btn_giveQuantity = document.querySelector('.btn_giveQuantity')
   const btn_cancelQuantity = document.querySelector('.btn_nearQtn.cancel')
+  const btn_submitQuantity = document.querySelector('.btn_nearQtn.submit')
   const qntInput = document.querySelector('.qntInput')
+  let locked = false
 
+  function set_eventListeners() {
+    const qnt_btns = document.querySelectorAll('.qnt_option')
+    qnt_btns.forEach(x => x.addEventListener('click', (e) => {
+      hanlde_qntAttributes(e.currentTarget.dataset.value)
+      recolor_default()
+      qntInput.value = e.currentTarget.textContent
+      handle_btnPrice(find_matchedVariant())
+      change_images()
+    }))
+  }
   btn_cancelQuantity.addEventListener('click', toggle_qntInput);
   btn_giveQuantity.addEventListener('click', () => {
-
     setTimeout(() => {
-      qntInput.select()
+      qntInput.focus();
+      qntInput.select();
     }, 151);
-    console.log(qntInput)
     toggle_qntInput()
-
   });
-  qnt_btns.forEach(x => x.addEventListener('click', (e) => {
-    qnt_btns.forEach(y => y.classList.toggle('active', y == x))
-    qntInput.value = e.currentTarget.textContent
-  }))
+
+  btn_submitQuantity.addEventListener('click', () => {
+    toggle_qntInput()
+    console.log()
+    hanlde_qntAttributes(qntInput.value)
+    recolor_default()
+    set_eventListeners()
+    handle_btnPrice(find_matchedVariant())
+  });
+  function checkKeyPress(event, inputElement) {
+    if (event.key === "Enter" || event.keyCode === 13) {
+      event.preventDefault();
+      inputElement.blur();
+      toggle_qntInput()
+      hanlde_qntAttributes(qntInput.value)
+      recolor_default()
+      set_eventListeners()
+      handle_btnPrice(find_matchedVariant())
+    }
+  }
 
   function toggle_qntInput() {
-    const parent = document.querySelector('.input_box')
+    const parent = document.querySelector('.input_box.qnt')
     const qnt_front = document.querySelector('.quantity_front')
     const qnt_back = document.querySelector('.quantity_back')
-    parent.classList.toggle('show_back')
+    parent.classList.toggle('show_input')
 
-    if (! parent.classList.contains('show_back')) {
+    if (parent.classList.contains('show_input') && ! locked) {
+
+      locked = true
       qnt_front.style.opacity = "0%"
       qnt_back.style.display = 'flex'
       setTimeout(() => {
@@ -350,9 +456,13 @@
       }, 70)
       setTimeout(() => {
         qnt_front.style.display = 'none'
+        locked = false
       }, 151)
-    } else {
 
+
+    } else if (! locked) {
+
+      locked = true
       qnt_back.style.opacity = "0%"
       qnt_front.style.display = 'flex'
       setTimeout(() => {
@@ -360,9 +470,120 @@
       }, 70)
       setTimeout(() => {
         qnt_back.style.display = 'none'
+        locked = false
       }, 151)
+
     }
 
+  }
+  function hanlde_qntAttributes(value) {
+    const qnt_btns = document.querySelectorAll('.qnt_option')
+    qnt_btns.forEach(y => {
+      y.classList.remove('active');
+      y.removeAttribute('data-recolor_bg');
+      y.removeAttribute('data-recolor_text_raw');
+      y.removeAttribute('style');
+    })
+
+    if (value == '1' || value == '2') {
+      const options_to_select = document.querySelectorAll(`.qnt_option[data-value="${value}"]`)
+      options_to_select.forEach(x => {
+        x.classList.add('active');
+        x.setAttribute('data-recolor_bg', '');
+        x.setAttribute('data-recolor_text_raw', '');
+      })
+    } else if (value == "3" || value == '4') {
+      const targetOption_D = document.querySelector(`.qnt_option.d[data-value="${value}"]`);
+      const targetOption_M = document.querySelector('.wrap_qntOptions.mobile').lastElementChild;
+      [targetOption_D, targetOption_M].forEach(x => {
+        x.classList.add('active');
+        x.setAttribute('data-recolor_bg', '');
+        x.setAttribute('data-recolor_text_raw', '');
+      })
+      targetOption_M.dataset.value = value;
+      targetOption_M.textContent = value;
+
+    } else {
+      const targetOption_D = document.querySelector('.wrap_qntOptions.desktop').lastElementChild;
+      const targetOption_M = document.querySelector('.wrap_qntOptions.mobile').lastElementChild;
+
+      [targetOption_D, targetOption_M].forEach(x => {
+        x.classList.add('active');
+        x.setAttribute('data-recolor_bg', '');
+        x.setAttribute('data-recolor_text_raw', '');
+        x.dataset.value = value;
+        x.textContent = value;
+      })
+    }
+
+
+  }
+  function handle_btnPrice(variant) {
+    const actualPrice = variant.price;
+    const finalPrice = formatMoney((actualPrice * Number(qntInput.value)), "{{ shop.money_format }}");
+    document.querySelector('.price_insideBtn').textContent = finalPrice
+  }
+  function changeSVGColor(color) {
+    const svgElement = document.querySelector('.theSVG');
+    const paths = svgElement.querySelectorAll('path');
+    paths.forEach((path) => {
+      path.style.fill = color;
+    });
+  }
+
+  function change_images() {
+    const colorHex_js = new URLSearchParams(window.location.search).get('color');
+    const stickyDiv = document.querySelector('.sticky_div')
+    const swiper_old = stickyDiv.querySelector('.swiper')
+
+    if (colorHex_js) {
+      const images_raw = []
+
+// -
+      {% for image in product.images %}
+        let {{ 'A' | append: forloop.index }} = document.createElement('img');
+        {{ 'A' | append: forloop.index }}.setAttribute('src', '{{ image | img_url: 'master' | prepend: 'https:'}}');
+        {{ 'A' | append: forloop.index }}.setAttribute('alt', '{{ image.alt }}')
+        images_raw.push({{ 'A' | append: forloop.index }})
+
+// -
+      {% endfor %}
+      const finalImages = images_raw.filter(img => {
+        return img.getAttribute('alt').includes(colorHex_js)
+      })
+
+      const swiper_new = document.createElement('div');
+      const swiper_wrapper = document.createElement('div');
+
+      swiper_new.classList.add('swiper');
+      swiper_wrapper.classList.add('swiper-wrapper');
+
+
+      finalImages.forEach(img => {
+        const swiper_slide = document.createElement('div');
+        swiper_slide.classList.add('swiper-slide');
+        img.classList.add('imgSwiper');
+        img.setAttribute('draggable', 'false');
+
+        swiper_slide.append(img);
+        swiper_wrapper.append(swiper_slide);
+      })
+
+      const wave = document.createElement('img');
+      wave.classList.add('img_WAVE_long');
+      wave.setAttribute('src', "{{ 'img_WAVE_filterPage.svg' | asset_url }}");
+      wave.setAttribute('style', `background-color: ${colorHex_js}`);
+      wave.setAttribute('data-swiper-parallax', "-15%");
+      wave.setAttribute('data-recolor_bg', ``);
+
+      swiper_new.append(wave);
+      swiper_new.append(swiper_wrapper);
+      stickyDiv.removeChild(swiper_old)
+      stickyDiv.append(swiper_new)
+
+    } else {
+      console.log('Load default color');
+    }
   }
 </script>
 

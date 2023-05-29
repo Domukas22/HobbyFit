@@ -12,7 +12,6 @@ const slider = new Swiper(".swiper", {
     navigation: { nextEl: ".swiper-btn-next", prevEl: ".swiper-btn-prev"},
 });
 
-
 slider.on('transitionEnd',function(){reset_Transitions()});
 slider.on('slideChange',function(){set_Colors()});
 

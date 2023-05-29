@@ -4,7 +4,7 @@
   --color_hover: #f5f5f5;
   --color_hover_lightBlue: #ebf2fd;
 
-  --color_Text: rgba(0, 0, 0, 0.85);
+  --color_Text: rgba(0, 0, 0, 0.80);
   --color_bigText: rgba(0, 0, 0, 0.75);
   --color_activeLink: rgba(64, 127, 242, 0.1);
 
@@ -16,33 +16,47 @@
   --border_bottom: 1px solid rgba(0, 0, 0, 0.04);
 }
 
-.section_productPage {
+
+ .section_productPage {
   background-color: var(--color_bg);
+  overflow: visible;
   padding-top: 120px;
 }
+.container_productPage {
+  height: auto;
+  width: 100%;
+
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  flex-wrap: wrap;
+  overflow: visible;
+}
 .sticky_left {
-  height: 100%;
-  width: 55%;
+  width: 59%;
+  position: relative;
 }
 .sticky_div {
-  z-index: 1;
-  height: calc(100vh - 220px);
   width: 100%;
-  max-height: 900px;
-  min-height: 500px;
-  padding: 0;
+  max-height: 700px;
+  height: calc(100vh - 180px);
+  background-color: #f0f09a;
 
-  position: relative;
+  position: sticky;
+  top: calc((100vh - (100vh - 180px) + 60px) / 2);
+  z-index: 1;
+
   display: flex;
   flex-direction: column;
 
   transition: all 0.4s;
   background-color: #fff;
-  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
 
   border-radius: 12px;
   overflow: hidden;
 }
+
 .wrap_sliderTitle {
   z-index: 10;
   width: 100%;
@@ -57,15 +71,6 @@
 .wrap_sliderTitle.zoom {
   opacity: 0;
   top: -90px;
-}
-.container_productPage {
-  height: auto;
-  width: 100%;
-
-  display: flex;
-  justify-content: space-between;
-  position: relative;
-  flex-wrap: wrap;
 }
 .priceWrap_productPage {
   display: flex;
@@ -304,11 +309,14 @@
 /* //////////////////////////// */
 
 .normal_right {
-  width: 43%;
+  width: 38%;
+  height: fit-content;
+}
+.padding_subwrap > * {
+  width: 100%;
   background-color: #fff;
   box-shadow: var(--shadow_normal);
   border-radius: 12px;
-  height: fit-content;
   padding: 16px;
 }
 
@@ -323,6 +331,9 @@
   color: var(--color_red);
 }
 
+.form_productPage {
+  margin-bottom: 0px;
+}
 .form_mainDesc {
   width: 100%;
 }
@@ -336,9 +347,6 @@
   margin: 8px 0 24px 0;
   overflow: hidden;
   position: relative;
-}
-.input_box:last-child {
-  margin-bottom: 42px;
 }
 .parent_optionRadio {
   flex-grow: 1;
@@ -375,6 +383,10 @@ input[name="Color"] + label {
   background-color: grey;
 }
 
+.input_box.qnt {
+  margin-bottom: 42px;
+}
+
 .quantity_front,
 .quantity_back {
   position: absolute;
@@ -392,6 +404,10 @@ input[name="Color"] + label {
 }
 
 .quantity_front {
+  display: flex;
+  opacity: 100%;
+}
+.quantity_back {
   display: none;
   opacity: 0%;
 }
@@ -400,6 +416,9 @@ input[name="Color"] + label {
   display: flex;
   flex: 1;
   height: 100%;
+}
+.wrap_qntOptions.mobile {
+  display: none;
 }
 .qnt_option {
   flex: 1;
@@ -410,9 +429,6 @@ input[name="Color"] + label {
   justify-content: center;
   
   cursor: pointer;
-}
-.qnt_option.active {
-  background-color: grey;
 }
 .qnt_option:hover {
   background-color: var(--color_hover);
@@ -425,31 +441,38 @@ input[name="Color"] + label {
   padding: 0 18px;
   border-left: var(--border_bottom);
   cursor: pointer;
+  font
 }
 .btn_giveQuantity:hover {
   background-color: var(--color_hover);
 }
 
-.quantity_back {
-  
-}
+
 
 .qntInput {
   height: 100%;
+  width: 100%;
   flex: 1;
   padding-left: 16px;
   font-size: 17px;
 }
+.qntInput:hover {
+  background-color: var(--color_bg);
+}
 .btn_nearQtn {
   height: 80%;
-  padding: 0 12px;
+  padding: 0 16px;
   border-radius: 8px;
 
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--color_hover);
   cursor: pointer;
+}
+.btn_nearQtn.submit {
+  color: white;
+  font-weight: 600;
+  margin: 0 5px;
 }
 
 
@@ -473,12 +496,20 @@ input[name="Color"] + label {
 .btn_mainDesc.bag {
   justify-content: center;
 }
+
+
+.theSVG {
+  width: 18px;
+  margin-left: auto;
+}
 .bagIcon_btnCart {
   width: 24px;
   object-fit: contain;
   margin-left: auto;
   display: none;
 }
+
+
 .price_insideBtn {
   margin-left: auto;
   color: white;
@@ -495,6 +526,50 @@ input[name="Color"] + label {
   justify-content: center;
 }
 
+.separator {
+  width: 100%;
+  height: 1px;
+  padding: 0;
+  margin: 24px 0;
+  border-radius: 100px;
+  background-color: rgba(0, 0, 0, 0.08);
+  box-shadow: none;
+}
+
+.productDescription {
+  margin-top: 20px;
+}
+
+.wrap_otherInfo {
+  padding: 4px 16px;
+}
+.otherInfo {
+  padding: 12px 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+.icon_otherInfo {
+  margin-right: 14px;
+  height: 24px;
+  min-height: 24px;
+  object-fit: contain;
+}
+
+.wrap_payments{
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: 1fr 1fr;
+  height: fit-content;
+  margin-top: 16px;
+}
+.icon_payment {
+  width: 95%;
+  height: auto;
+}
+
+
+
 @media only screen and (min-width: 1440px) {}
 @media only screen and (min-width: 1921px) {
   .container_productPage {
@@ -503,6 +578,19 @@ input[name="Color"] + label {
 }
 /* Default == 991 to 1440 */
 @media only screen and (max-width: 990px) {
+  .section_productPage {
+    padding: 60px 0 0;
+  }
+  .sticky_div {
+    border-radius: 0px;
+  }
+  .sticky_left {
+    width: 100%;
+  }
+  .normal_right {
+    width: 100%;
+    padding: 4vw;
+  }
   .section_TOP_productPage {
     height: 50vh;
     max-height: 640px;
@@ -516,13 +604,13 @@ input[name="Color"] + label {
     padding-left: 16px;
     padding-right: 16px;
   }
-  .btnWrap_mainDesc {
-    grid-template-columns: 1fr;
+  .container_productPage {
+    flex-direction: column;
   }
-  .btn_mainDesc.bag {
-    order: 2;
-    justify-content: flex-start;
+  .container_productPage.mini {
+    flex-direction: row;
   }
+  
   
 }
 @media only screen and (max-width: 770px) {
@@ -543,6 +631,13 @@ input[name="Color"] + label {
   .container_productPage.desc {
     grid-template-columns: 1fr;
   }
+  .btnWrap_mainDesc {
+    grid-template-columns: 1fr;
+  }
+  .btn_mainDesc.bag {
+    order: 2;
+    justify-content: flex-start;
+  }
 }
 @media only screen and (max-width: 500px) {
   .swiper-pagination {
@@ -554,5 +649,11 @@ input[name="Color"] + label {
   }
   .wrap_mainDesc {
     height: 80vh;
+  }
+  .wrap_qntOptions {
+    display: none;
+  }
+  .wrap_qntOptions.mobile {
+    display: flex;
   }
 }

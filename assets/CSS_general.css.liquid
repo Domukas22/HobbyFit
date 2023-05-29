@@ -4,7 +4,7 @@
   --color_hover: #f5f5f5;
   --color_hover_lightBlue: #ebf2fd;
 
-  --color_Text: rgba(0, 0, 0, 0.85);
+  --color_Text: rgba(0, 0, 0, 0.80);
   --color_bigText: rgba(0, 0, 0, 0.75);
   --color_activeLink: rgba(64, 127, 242, 0.1);
 
@@ -45,7 +45,7 @@ h1 {
 
 p {
   font-size: var(--type-base);
-  line-height: calc(var(--type-base) * var(--line_height));
+  line-height: calc(var(--type-base) * 1.4);
 }
 h5 {
   font-size: var(--type-h5);
@@ -79,13 +79,18 @@ body {
   background-color: var(--color_bg);
 }
 
-input[type="text"] {
+input[type="number"] {
   border: none;
   outline: none;
   background-color: transparent;
 }
-input[type="text"]:focus {
+input[type="number"]:focus {
   box-shadow: none;
+}
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 
@@ -140,7 +145,6 @@ section {
 
   padding: 70px;
   width: 100%;
-  overflow: hidden;
   background-color: #fff;
 }
 .container {
@@ -177,7 +181,6 @@ section {
   object-fit: contain;
   opacity: 45%;
 }
-
 .img_wave {
   height: 104%;
   max-width: none;
@@ -190,6 +193,13 @@ section {
   top: -4px;
   left: -8px;
   z-index: 1;
+}
+.metafield-rich_text_field > p {
+  line-height: 1.8;
+  display: flex;
+}
+.metafield-rich_text_field > p > strong:first-child {
+  width: 160px;
 }
 
 

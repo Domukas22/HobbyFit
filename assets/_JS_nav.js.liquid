@@ -50,14 +50,30 @@ function isDesktop() {return window.innerWidth > 990 ? true : false}
 //--------------------------------------------------------------------------
 // toggle btn_more
 const btn_more = document.querySelector('.navLink.btn_more')
-const dropdown_more = document.querySelector('.wrap_dropdown_more')
+const dropdown_more = document.querySelector('.nav_Dropdown.more')
+
+const btn_badminton = document.querySelector('.navLink_dropdown.badminton')
+const dropdown_badminton = document.querySelector('.nav_Dropdown.badminton')
 
 btn_more.addEventListener('mouseover', () => {
-    dropdown_more.style.display = 'block'
-    setTimeout(() => {dropdown_more.style.opacity = "100%"}, 10);
+    toggle_dropdown(dropdown_more, true)
 })
 btn_more.addEventListener('mouseleave', () => {
-    dropdown_more.style.opacity = "0%"
-    setTimeout(() => {dropdown_more.style.display = 'none'}, 150);
+    toggle_dropdown(dropdown_more, false)
+})
+btn_badminton.addEventListener('mouseover', () => {
+    toggle_dropdown(dropdown_badminton, true)
+})
+btn_badminton.addEventListener('mouseleave', () => {
+    toggle_dropdown(dropdown_badminton, false)
 })
 
+function toggle_dropdown(target, value) {
+    if (value) {
+        target.style.display = 'block'
+        setTimeout(() => {target.style.opacity = "100%"}, 10);
+    } else {
+        target.style.opacity = "0%"
+        setTimeout(() => {target.style.display = 'none'}, 150);
+    }
+}

@@ -1,22 +1,8 @@
+const btns_colorOptions = document.querySelectorAll('input[name="Color"]')
+btns_colorOptions.forEach(x => x.addEventListener('click', () => {toggle_zoom(1)}))
 
-
-const color_bg = document.getElementById('color_bg').textContent
-const color_raw = document.getElementById('color_raw').textContent
 const btns_Magnify = document.querySelectorAll('div[data-zoom]')
 const slides = document.querySelectorAll('.swiper-slide');
-const slider = new Swiper(".swiper", {
-    parallax: true,
-    grabCursor: true,
-    noSwipingClass: 'slider-no-swiping', 
-    pagination: { el: ".swiper-pagination", clickable: true },
-    navigation: { nextEl: ".swiper-btn-next", prevEl: ".swiper-btn-prev"},
-});
-
-slider.on('transitionEnd',function(){reset_Transitions()});
-slider.on('slideChange',function(){set_Colors()});
-
-
-window.addEventListener('DOMContentLoaded', () => {reset_Transitions(); setTimeout(() => {set_Colors()}, 20);})
 
 btns_Magnify.forEach(x => x.addEventListener('click', (e) => {
     const magnify = e.currentTarget.dataset.zoom
@@ -47,7 +33,6 @@ slides.forEach(slide => {   // desktop zoom move
         slide.scrollTop = scrollTop - walkY;
     });
 });
-
 
 function toggle_zoom(magnify) {
     
@@ -106,8 +91,7 @@ function grow_Image(magnify) {
     img.style.width = "100%"  
     } else {
         if (isDesktop()) {
-        let targetHeight = window.innerHeight * (magnify - 0.5);
-        if (targetHeight > 1600){targetHeight = 1600 * (magnify - 0.5);}
+        let targetHeight = window.innerHeight * (magnify - 0.8);
         const w_Value = w / h * targetHeight;
         img.style.width = w_Value + "px"
         img.style.height = targetHeight + "px";
@@ -120,19 +104,6 @@ function grow_Image(magnify) {
         } 
     }
 }
-function set_Colors() {
-    const bullets = document.querySelectorAll('.swiper-pagination-bullet');
-    const magnify = document.querySelectorAll('[data-btn_magnify]');
-    [bullets,magnify].forEach(x => x.forEach(y => y.style.backgroundColor = color_bg))
-
-    const activeBullet = document.querySelector('.swiper-pagination-bullet-active');
-    const magnifyActive = document.querySelector('[data-btn_magnify].active');
-    [activeBullet, magnifyActive].forEach(x => x.style.backgroundColor = color_raw)
-}
-function reset_Transitions() {
-    document.querySelectorAll('[data-reset]').forEach(x => {x.style.transitionDuration = "400ms"})
-    document.querySelector('.img_WAVE_long').style.transition = "400ms"
-}
 function toggle_activeZoomBtn(magnify) {
     const btns = document.querySelectorAll('[data-btn_magnify]')
     btns.forEach(x => {
@@ -141,7 +112,6 @@ function toggle_activeZoomBtn(magnify) {
         else {x.classList.remove('active')}
         
 })}
-
 
 function zoom_mouseClick(wrapper) {
     let startX;
@@ -168,7 +138,7 @@ function zoom_mouseClick(wrapper) {
         }
     });
 
-    slides.forEach(slide => slide.addEventListener('click', (e) => {
+    slides.forEach(slide => slide.addEventListener('dblclick', (e) => {
         if (e.currentTarget.parentElement.dataset.magnify == '1' && !locked) {
             locked = true
             toggle_zoom(2)

@@ -1,4 +1,4 @@
-{% assign page_Badminton = collections['badmintono-prekes'] %}
+{% assign page_Badminton = collections['badmintono-prekes'].url %}
 
 <nav>
   <div class="cWrap_Nav">
@@ -16,12 +16,12 @@
             src="{{ 'icon_house.png' | asset_url }}"
             alt="">
           <p>Home</p>
-          <div class="click_overlay"></div>
+
         </a>
-        <div class="wrap_navLink_Dropdown">
+        <div class="navLink_dropdown badminton">
           <a
             class="navLink"
-            href="{{ page_Badminton.url }}"
+            href="{{ page_Badminton }}"
             data-hover_grey>
             <img
               class="icon_Nav"
@@ -32,9 +32,74 @@
               class="icon_arrowDropdown"
               src="{{ 'icon_arrow.svg' | asset_url }}"
               alt="">
-            <div class="click_overlay"></div>
           </a>
-          <div class="navLink_Dropdown"></div>
+          <div class="nav_Dropdown badminton">
+            <!-- needed for the distance -->
+            <div class="content_navDropdown">
+              <div
+                href=""
+                class="link_dropdown badminton"
+                data-hover_grey
+                data-link_filterpage="all">
+                <p>Visos prekes</p>
+              </div>
+              <div
+                href=""
+                class="link_dropdown badminton"
+                data-hover_grey
+                data-link_filterpage="sale">
+                <img
+                  class="icon_Nav"
+                  src="{{ 'icon_filter_sale.png' | asset_url }}"
+                  alt="">
+                <p>Nuodaila</p>
+              </div>
+              <div
+                href=""
+                class="link_dropdown badminton"
+                data-hover_grey
+                data-link_filterpage="racket">
+                <img
+                  class="icon_Nav"
+                  src="{{ 'icon_filter_racket.png' | asset_url }}"
+                  alt="">
+                <p>Raketes</p>
+              </div>
+              <div
+                href=""
+                class="link_dropdown badminton"
+                data-hover_grey
+                data-link_filterpage="ball">
+                <img
+                  class="icon_Nav"
+                  src="{{ 'icon_filter_ball.png' | asset_url }}"
+                  alt="">
+                <p>Plunksniukai</p>
+              </div>
+              <div
+                href=""
+                class="link_dropdown badminton"
+                data-hover_grey
+                data-link_filterpage="clothing">
+                <img
+                  class="icon_Nav"
+                  src="{{ 'icon_filter_clothing.png' | asset_url }}"
+                  alt="">
+                <p>Apranga</p>
+              </div>
+              <div
+                href=""
+                class="link_dropdown badminton"
+                data-hover_grey
+                data-link_filterpage="equipment">
+                <img
+                  class="icon_Nav"
+                  src="{{ 'icon_filter_equipment.png' | asset_url }}"
+                  alt="">
+                <p>Priedai</p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -46,14 +111,14 @@
             class="icon_arrowDropdown"
             src="{{ 'icon_arrow.svg' | asset_url }}"
             alt="">
-          <div class="click_overlay"></div>
+
         </div>
-        <div class="wrap_dropdown_more">
+        <div class="nav_Dropdown more">
           <!-- needed for the distance -->
-          <div class="cWrap_dropdown_more">
+          <div class="content_navDropdown">
             <a
               href=""
-              class="link_dropdownMore"
+              class="link_dropdown"
               data-hover_grey>
               <img
                 class="icon_Nav"
@@ -63,7 +128,7 @@
             </a>
             <a
               href=""
-              class="link_dropdownMore"
+              class="link_dropdown"
               data-hover_grey>
               <img
                 class="icon_Nav"
@@ -73,7 +138,7 @@
             </a>
             <a
               href=""
-              class="link_dropdownMore"
+              class="link_dropdown"
               data-hover_grey>
               <img
                 class="icon_Nav"
@@ -83,7 +148,7 @@
             </a>
             <a
               href=""
-              class="link_dropdownMore"
+              class="link_dropdown"
               data-hover_grey>
               <img
                 class="icon_Nav"
@@ -93,7 +158,7 @@
             </a>
             <a
               href=""
-              class="link_dropdownMore"
+              class="link_dropdown"
               data-hover_grey>
               <img
                 class="icon_Nav"
@@ -116,7 +181,7 @@
           <div class="line_X" data-bgcolor="grey"></div>
           <div class="line_X reverse" data-bgcolor="grey"></div>
         </div>
-        <div class="click_overlay"></div>
+
       </div>
       <div class="navLink bag" data-hover_grey>
         <img
@@ -135,15 +200,15 @@
           src="{{ 'icon_house.png' | asset_url }}"
           alt="">
         <p>Pradžia</p>
-        <div class="click_overlay"></div>
+
       </a>
-      <a class="navLink dropdown" href="{{ page_Badminton.url }}">
+      <a class="navLink dropdown" href="{{ page_Badminton }}">
         <img
           class="icon_Nav"
           src="{{ 'icon_ball.png' | asset_url }}"
           alt="">
         <p>Badmintonas</p>
-        <div class="click_overlay"></div>
+
       </a>
     </div>
     <div class="menuDropwdown_CONTENT">
@@ -158,7 +223,7 @@
         <p class="text_categoryLink">
           Rakėtes
         </p>
-        <div class="click_overlay"></div>
+
       </div>
       <div
         href=""
@@ -169,7 +234,7 @@
           src="{{ 'img_filterBalls.png' | asset_url }}"
           alt="">
         <p class="text_categoryLink">Plunksniukai</p>
-        <div class="click_overlay"></div>
+
       </div>
       <div
         href=""
@@ -180,7 +245,7 @@
           src="{{ 'img_filterClothing.png' | asset_url }}"
           alt="">
         <p class="text_categoryLink">Apranga</p>
-        <div class="click_overlay"></div>
+
       </div>
       <div
         href=""
@@ -191,39 +256,39 @@
           src="{{ 'img_filterEquipment.png' | asset_url }}"
           alt="">
         <p class="text_categoryLink">Priedai</p>
-        <div class="click_overlay"></div>
+
       </div>
     </div>
     <div class="menuDropwdown_LINKS">
-      <a href="" class="link_dropdownMore menu">
+      <a href="" class="link_dropdown menu">
         <img
           class="icon_Nav"
           src="{{ 'icon_phone.png' | asset_url }}"
           alt="">
         <p>8692 1204 01</p>
       </a>
-      <a href="" class="link_dropdownMore menu">
+      <a href="" class="link_dropdown menu">
         <img
           class="icon_Nav"
           src="{{ 'icon_email.png' | asset_url }}"
           alt="">
         <p>musupastas@gmail.com</p>
       </a>
-      <a href="" class="link_dropdownMore menu">
+      <a href="" class="link_dropdown menu">
         <img
           class="icon_Nav"
           src="{{ 'icon_terms.png' | asset_url }}"
           alt="">
         <p>Pirkimo sąlygos</p>
       </a>
-      <a href="" class="link_dropdownMore menu">
+      <a href="" class="link_dropdown menu">
         <img
           class="icon_Nav"
           src="{{ 'icon_cookie.png' | asset_url }}"
           alt="">
         <p>Sausainių ir privatumo politika</p>
       </a>
-      <a href="" class="link_dropdownMore menu">
+      <a href="" class="link_dropdown menu">
         <img
           class="icon_Nav"
           src="{{ 'icon_person.png' | asset_url }}"

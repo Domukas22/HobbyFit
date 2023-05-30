@@ -1,6 +1,6 @@
-<section class="filterSection_TOP">
-  <div class="subWrap_filterSection_TOP">
-    <h2 class="title_filterSection">Badmintono
+<section class="section_pageTitle">
+  <div class="subWrap_pageTitle">
+    <h2 class="pageTitle">Badmintono
       <span id="pageTitle">Prekės</span>
     </h2>
   </div>
@@ -103,7 +103,7 @@
             src="{{ product.featured_image | img_url: '600x600' }}"
             alt="{{ product.featured_image.alt | escape }}">
           <img
-            class="img_wave"
+            class="img_wave filterpage"
             src="{{ 'img_WAVE_filterPage.svg' | asset_url }}"
             alt="Colorful wave"
             data-color_bg="{{ product.metafields.custom.color_bg}}">
@@ -113,7 +113,20 @@
             {% assign discount = ((a | minus: b) | divided_by: a) | times: 100 %}
             -{{ discount | round: 0 }}%
           </p>
-          <p class="text_ballCount">{{ product.metafields.custom.extra_text }}</p>
+          {% if product.options contains 'Color' %}
+            <div class="wrap_collorBubbles">
+              {% for option in product.options_with_values %}
+                {% if option.name == 'Color' %}
+                  {% for value in option.values %}
+                    {% assign words = value | split: ' ' %}
+                    {% assign lastWord = words | last %}
+                    <div class="colorBubble" style="background-color: {{ lastWord }};"></div>
+                  {% endfor %}
+                {% endif %}
+              {% endfor %}
+            </div>
+          {% endif %}
+
         </div>
         <div class="product_BOTTOM">
           <h4 class="title_product_filterPage">{{ product.metafields.custom.name_short }}</h4>

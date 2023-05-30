@@ -3,16 +3,6 @@
 <!-- set default colors -->
 {% assign color_bg = product.metafields.custom.color_bg %}
 {% assign color_raw = product.metafields.custom.color_raw %}
-<!-- change colors, if product has variants -->
-
-
-
-<!-- only needed for slider functionality => replace in the future -->
-  <p class="invisible" id="color_bg"> {{ color_bg }}</p>
-<p class="invisible" id="color_raw">{{ color_raw }}</p>
-<!----------------------------------------------------------------------------------->
-
-
 
 <section class="section_productPage">
   <div class="container container_productPage">
@@ -20,13 +10,13 @@
       <div class="sticky_div">
         <div class="wrap_sliderTitle" data-effect="zoom">
           <div class="container_productPage mini">
-            <h4 class="title_Product">{{ product.metafields.custom.name_short }}</h4>
+            <h4 class="title_Product">{{ product.metafields.custom.name_short }} {{ product.metafields.custom.extra_text }}</h4>
             <div class="priceWrap_productPage">
               <p
                 class="price_product_filterPage"
                 data-isSale="{{ product.metafields.custom.sale}}"
-                style="margin-right: 6px">{{ product.selected_or_first_available_variant.price | money }}</p>
-              <p class="price_product_filterPage compare">{{ product.selected_or_first_available_variant.compare_at_price | money }}</p>
+                style="margin-right: 6px; font-size: 18px; font-weight: 600;">{{ product.selected_or_first_available_variant.price | money }}</p>
+              <p class="price_product_filterPage compare" style="font-size: 18px; font-weight: 600;">{{ product.selected_or_first_available_variant.compare_at_price | money }}</p>
             </div>
             <p class="p_stockLeft">Liko dar {{ product.selected_or_first_available_variant.inventory_quantity }}</p>
           </div>
@@ -37,7 +27,6 @@
             alt=""
             class="img_WAVE_long"
             style="background-color: {{ product.metafields.custom.color_bg }}"
-            data-swiper-parallax="-15%"
             data-recolor_bg>
           <div
             class="swiper-wrapper"
@@ -46,7 +35,7 @@
             data-magnify="1"
             data-reset>
             {% for image in product.images %}
-              {% if image.alt contains color_raw %}
+              {% if image.alt contains color_bg %}
                 <div class="swiper-slide" data-reset>
                   <img
                     src="{{ image | img_url: '600x600' }}"
@@ -286,10 +275,10 @@
     </div>
   </div>
 </section>
+
 <script>
 
-
-
+  let swiper
   let product = {{ product | json}}
   function find_matchedVariant() {
     let selected_radios = []
@@ -307,12 +296,19 @@
   window.addEventListener('DOMContentLoaded', () => {
     {% if product.options contains 'Color' %}
       const checked = document.querySelector('.optionRadio[name="Color"]:checked').value.split(" ");
-      recolor(checked[1], checked[2]);
+      recolor(checked[2], checked[1]);
       set_circleColors();
     {% else %}
-      recolor(color_raw, color_bg){% endif %};
-    set_eventListeners()
+      recolor('{{ color_raw }}', '{{ color_bg }}');{% endif %};
+
+// -
+    set_eventListeners();
     change_images()
+    createSwiper();
+    reset_Transitions();
+    setTimeout(() => {
+      set_Colors()
+    }, 20)
   })
 
   const radios = document.querySelectorAll('input[type="radio"].optionRadio')
@@ -320,19 +316,34 @@
     radio.addEventListener('change', (e) => {
       recolor_default()
       edit_hiddenInput(find_matchedVariant())
-      changeUrl(find_matchedVariant(), define_color_raw())
+      changeUrl(find_matchedVariant(), get_colors()[0], get_colors()[1])
       edit_texts(find_matchedVariant())
       handle_btnPrice(find_matchedVariant())
-      change_images()
     })
   })
+
+  const color_radios = document.querySelectorAll('input[name="Color"]')
+  color_radios.forEach(x => x.addEventListener('change', () => {
+    document.querySelector('.swiper').style.opacity = "0%"
+    document.querySelector('.sliderControls').style.opacity = "0%"
+    document.querySelector('.wrap_sliderTitle').style.opacity = "0%"
+
+    setTimeout(() => {
+      change_images()
+      replaceSwiper()
+      set_Colors()
+      document.querySelector('.sliderControls').style.opacity = "100%"
+      document.querySelector('.wrap_sliderTitle').style.opacity = "100%"
+    }, 201)
+
+  }))
 
   function recolor_default() {
     {% if product.options contains 'Color' %}
       const checked_color = document.querySelector('.optionRadio[name="Color"]:checked').value.split(" ");
-      recolor(checked_color[1], checked_color[2]);
+      recolor(checked_color[2], checked_color[1]);
     {% else %};
-      recolor(color_raw, color_bg);{% endif %};
+      recolor('{{ color_raw }}', '{{ color_bg }}');{% endif %};
   }
   function recolor(raw, bg) {
     const elements_raw = document.querySelectorAll('[data-recolor_raw]');
@@ -363,10 +374,11 @@
     changeSVGColor(raw)
 
   }
-  function changeUrl(matchedVariant, currentColor) {
+  function changeUrl(matchedVariant, color_bg, color_raw) {
     const url = new URLParse(window.location.href, true)
     url.query.variant = matchedVariant.id
-    url.query.color = currentColor
+    url.query.color_bg = color_bg
+    url.query.color_raw = color_raw
     window.history.replaceState(null, null, url.toString())
   }
   function edit_hiddenInput(matchedVariant) {
@@ -374,25 +386,29 @@
   }
   function edit_texts(matchedVariant) {
     document.querySelector('.price_product_filterPage').textContent = formatMoney(matchedVariant.price, "{{ shop.money_format }}")
+    const qntLeft = document.querySelector('.p_stockLeft');
+    {% assign variant = matchedVariant.id.variants | where: 'id', variantId | first %}
+    console.log(matchedVariant)
   }
   function set_circleColors() {
     const circle_option = document.querySelectorAll('.circle_option')
     circle_option.forEach(x => {
-      const color_raw = x.dataset.circle_color.split(" ")[1];
+      const color_raw = x.dataset.circle_color.split(" ")[2];
       x.style.backgroundColor = color_raw;
     })
   }
-  function define_color_raw() {
+  function get_colors() {
     {% if product.options contains 'Color' %}
       const checked = document.querySelector('.optionRadio[name="Color"]:checked').value.split(" ");
-      let raw = checked[1]
-      let bg = checked[2]
+      let bg = checked[1]
+      let raw = checked[2]
     {% else %}
-      let raw = color_raw
-      let bg = color_bg
-    {% endif %};
+      let bg = '{{ color_bg }}'
+      let raw = '{{ color_raw }}'
 
-    return raw
+// -
+    {% endif %};
+    return [bg, raw]
   }
 
   const btn_giveQuantity = document.querySelector('.btn_giveQuantity')
@@ -406,9 +422,9 @@
     qnt_btns.forEach(x => x.addEventListener('click', (e) => {
       hanlde_qntAttributes(e.currentTarget.dataset.value)
       recolor_default()
-      qntInput.value = e.currentTarget.textContent
+      qntInput.value = e.currentTarget.textContent;
+      qntInput.setAttribute("value", e.currentTarget.textContent);
       handle_btnPrice(find_matchedVariant())
-      change_images()
     }))
   }
   btn_cancelQuantity.addEventListener('click', toggle_qntInput);
@@ -422,7 +438,6 @@
 
   btn_submitQuantity.addEventListener('click', () => {
     toggle_qntInput()
-    console.log()
     hanlde_qntAttributes(qntInput.value)
     recolor_default()
     set_eventListeners()
@@ -530,13 +545,60 @@
       path.style.fill = color;
     });
   }
+  function createSwiper() {
+    swiper = new Swiper(".swiper", {
+      parallax: true,
+      grabCursor: true,
+      noSwipingClass: 'slider-no-swiping',
+      pagination: {
+        el: ".swiper-pagination",
+        clickable: true
+      },
+      navigation: {
+        nextEl: ".swiper-btn-next",
+        prevEl: ".swiper-btn-prev"
+      }
+    });
+    swiper.on('transitionEnd', function() {
+      reset_Transitions()
+    });
+    swiper.on('slideChange', function() {
+      set_Colors()
+    });
+    set_parallax()
+
+  }
+  function replaceSwiper() {
+    swiper.destroy()
+    swiper = new Swiper(".swiper", {
+      parallax: true,
+      grabCursor: true,
+      noSwipingClass: 'slider-no-swiping',
+      pagination: {
+        el: ".swiper-pagination",
+        clickable: true
+      },
+      navigation: {
+        nextEl: ".swiper-btn-next",
+        prevEl: ".swiper-btn-prev"
+      }
+    });
+    swiper.on('transitionEnd', function() {
+      reset_Transitions()
+    });
+    swiper.on('slideChange', function() {
+      set_Colors()
+    });
+    set_parallax()
+  }
 
   function change_images() {
-    const colorHex_js = new URLSearchParams(window.location.search).get('color');
+    const colorHex_bg = new URLSearchParams(window.location.search).get('color_bg');
     const stickyDiv = document.querySelector('.sticky_div')
     const swiper_old = stickyDiv.querySelector('.swiper')
 
-    if (colorHex_js) {
+
+    if (colorHex_bg) {
       const images_raw = []
 
 // -
@@ -549,15 +611,20 @@
 // -
       {% endfor %}
       const finalImages = images_raw.filter(img => {
-        return img.getAttribute('alt').includes(colorHex_js)
+        return img.getAttribute('alt').includes(colorHex_bg)
       })
 
       const swiper_new = document.createElement('div');
-      const swiper_wrapper = document.createElement('div');
-
       swiper_new.classList.add('swiper');
-      swiper_wrapper.classList.add('swiper-wrapper');
+      swiper_new.setAttribute('style', "opacity: 0%");
 
+
+      const swiper_wrapper = document.createElement('div');
+      swiper_wrapper.classList.add('swiper-wrapper');
+      swiper_wrapper.setAttribute('data-effect', "zoom");
+      swiper_wrapper.setAttribute('data-zoom_active', "false");
+      swiper_wrapper.setAttribute('data-reset', "");
+      swiper_wrapper.setAttribute('data-magnify', "1");
 
       finalImages.forEach(img => {
         const swiper_slide = document.createElement('div');
@@ -572,22 +639,70 @@
       const wave = document.createElement('img');
       wave.classList.add('img_WAVE_long');
       wave.setAttribute('src', "{{ 'img_WAVE_filterPage.svg' | asset_url }}");
-      wave.setAttribute('style', `background-color: ${colorHex_js}`);
-      wave.setAttribute('data-swiper-parallax', "-15%");
+      wave.setAttribute('style', `background-color: ${colorHex_bg}`);
+      wave.setAttribute('data-swiper-parallax', "-13%");
       wave.setAttribute('data-recolor_bg', ``);
+
+
+      const sliderControls = document.querySelector('.sliderControls')
+      stickyDiv.removeChild(sliderControls);
+      stickyDiv.append(sliderControls);
 
       swiper_new.append(wave);
       swiper_new.append(swiper_wrapper);
       stickyDiv.removeChild(swiper_old)
       stickyDiv.append(swiper_new)
 
+      setTimeout(() => {
+        swiper_new.removeAttribute('style')
+      }, 30)
+
+
+
     } else {
       console.log('Load default color');
     }
   }
+
+  function set_Colors() {
+    const bullets = document.querySelectorAll('.swiper-pagination-bullet');
+    const magnify = document.querySelectorAll('[data-btn_magnify]');
+    [bullets, magnify].forEach(x => x.forEach(y => y.style.backgroundColor = get_colors()[0]))
+
+    const activeBullet = document.querySelector('.swiper-pagination-bullet-active');
+    const magnifyActive = document.querySelector('[data-btn_magnify].active');
+    [activeBullet, magnifyActive].forEach(x => x.style.backgroundColor = get_colors()[1])
+  }
+  function reset_Transitions() {
+    document.querySelectorAll('[data-reset]').forEach(x => {
+      x.style.transitionDuration = "400ms"
+    });
+    document.querySelector('.img_WAVE_long').style.transition = "400ms";
+  }
+
+  window.addEventListener('resize', () => {
+    set_parallax()
+  })
+  function set_parallax() {
+    if (isDesktop()) {
+      document.querySelector('.img_WAVE_long').setAttribute('data-swiper-parallax', '-20%')
+    } else {
+      document.querySelector('.img_WAVE_long').setAttribute('data-swiper-parallax', '-13%')
+    }
+  }
+  function isDesktop() {
+    return window.innerWidth > 991
+      ? true
+      : false
+  }
+
+  const btn_addToCart = document.querySelector('.btn_mainDesc.bag')
+  btn_addToCart.addEventListener('click', () => {
+    document.querySelector('.form_productPage').submit()
+  })
 </script>
 
 
 
 {{ '_JS_productPage.js' | asset_url | script_tag }}
-{{ '_JS_slider_productPage.js' | asset_url | script_tag }}
+{{ '_JS_productZoom.js' | asset_url | script_tag }}

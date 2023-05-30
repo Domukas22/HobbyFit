@@ -51,7 +51,7 @@ function count_category_items() {
     })
 }
 
-const waves = document.querySelectorAll('.img_WAVE_filterPage')
+const waves = document.querySelectorAll('.img_wave.filterpage')
 function moveWaves() {
     waves.forEach(wave => {
         let scrollY = window.scrollY;
@@ -85,8 +85,7 @@ function filter_items(word) {
         if (word == 'all' || product.dataset.filter_word == word){product.style.display = 'flex'; count++}
         else if (word == 'sale' && product.dataset.sale == "true") {product.style.display = 'flex'; count++}
         else {product.style.display = 'none'}
-    })  
-    console.log()
+    })
     document.querySelector('.filter_count').textContent = count      
 }
 function toggle_activeFilter(filterTag) {    //separate funtion because of filtering on load with URL

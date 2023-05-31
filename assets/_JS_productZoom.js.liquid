@@ -1,39 +1,48 @@
+
+window.addEventListener('DOMContentLoaded', () => {setTimeout(() => {set_desktop_grab()}, 300)})
+
 const btns_colorOptions = document.querySelectorAll('input[name="Color"]')
-btns_colorOptions.forEach(x => x.addEventListener('click', () => {toggle_zoom(1)}))
+btns_colorOptions.forEach(x => x.addEventListener('click', () => {
+    toggle_zoom(1)
+    set_desktop_grab()
+    setTimeout(() => {set_desktop_grab()}, 300)
+}))
 
 const btns_Magnify = document.querySelectorAll('div[data-zoom]')
-const slides = document.querySelectorAll('.swiper-slide');
-
 btns_Magnify.forEach(x => x.addEventListener('click', (e) => {
     const magnify = e.currentTarget.dataset.zoom
     toggle_zoom(Number(magnify))
 }))
-slides.forEach(slide => {   // desktop zoom move
-    let isDragging = false;
-    let startX, startY, scrollLeft, scrollTop;  
-    slide.addEventListener('mousedown', e => {
-        const swiperWrapper = document.querySelector('.swiper-wrapper')
-        if (swiperWrapper.dataset.magnify == '1') return;
-        isDragging = true;
-        startX = e.pageX - slide.offsetLeft;
-        startY = e.pageY - slide.offsetTop;
-        scrollLeft = slide.scrollLeft;
-        scrollTop = slide.scrollTop;
-    });
-    slide.addEventListener('mouseleave', () => {isDragging = false});
-    slide.addEventListener('mouseup', () => {isDragging = false});
-    slide.addEventListener('mousemove', e => {
-        if (!isDragging) return;
-        e.preventDefault();
-        const x = e.pageX - slide.offsetLeft;
-        const y = e.pageY - slide.offsetTop;
-        const walkX = (x - startX) * 3;
-        const walkY = (y - startY) * 5;
-        slide.scrollLeft = scrollLeft - walkX;
-        slide.scrollTop = scrollTop - walkY;
-    });
-});
 
+function set_desktop_grab() {
+    let slides_new = document.querySelectorAll('.swiper-slide');
+    slides_new.forEach(slide => {   // desktop zoom move
+        let isDragging = false;
+        let startX, startY, scrollLeft, scrollTop;  
+        slide.addEventListener('mousedown', e => {
+            const swiperWrapper = document.querySelector('.swiper-wrapper')
+            if (swiperWrapper.dataset.magnify == '1') return;
+            isDragging = true;
+            startX = e.pageX - slide.offsetLeft;
+            startY = e.pageY - slide.offsetTop;
+            scrollLeft = slide.scrollLeft;
+            scrollTop = slide.scrollTop;
+            console.log('down')
+        });
+        slide.addEventListener('mouseleave', () => {isDragging = false});
+        slide.addEventListener('mouseup', () => {isDragging = false});
+        slide.addEventListener('mousemove', e => {
+            if (!isDragging) return;
+            e.preventDefault();
+            const x = e.pageX - slide.offsetLeft;
+            const y = e.pageY - slide.offsetTop;
+            const walkX = (x - startX) * 3;
+            const walkY = (y - startY) * 5;
+            slide.scrollLeft = scrollLeft - walkX;
+            slide.scrollTop = scrollTop - walkY;
+        });
+    });
+}
 function toggle_zoom(magnify) {
     
     const swiperWrapper = document.querySelector('.swiper-wrapper')
@@ -68,7 +77,6 @@ function handle_elements(value) {
         activeSlide.style.overflow = "visible"    
     }
     const slides = document.querySelectorAll('.swiper-slide')
-
     slides.forEach(slide => {
         if (value) {
             slide.classList.add('slider-no-swiping')
@@ -138,6 +146,7 @@ function zoom_mouseClick(wrapper) {
         }
     });
 
+    const slides = document.querySelectorAll('.swiper-slide')
     slides.forEach(slide => slide.addEventListener('dblclick', (e) => {
         if (e.currentTarget.parentElement.dataset.magnify == '1' && !locked) {
             locked = true

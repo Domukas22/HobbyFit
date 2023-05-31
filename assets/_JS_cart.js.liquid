@@ -1,0 +1,57 @@
+
+const btn_checkout_BOTH = document.querySelectorAll('.btn.btn_checkout')
+const btn_invisibleCheckout = document.querySelector('button[name="checkout"]')
+btn_checkout_BOTH.forEach(x => x.addEventListener('click', () => {btn_invisibleCheckout.click()}))
+
+const qnt_buttons = document.querySelectorAll('.btn_qnt')
+qnt_buttons.forEach(x => x.addEventListener('click', (e) => {
+    const target = e.currentTarget
+    const value = (target.dataset.update == 'plus' ? true : false)
+    const input = target.parentElement.querySelector('input[type="number"]')
+    handle_qntInput(input, value)
+}));
+function handle_qntInput(target, value) {
+    if (value) {
+        target.value++
+    } else {
+        if (target.value == 1) {
+            target.parentElement.nextElementSibling.click()
+        } 
+        target.value--
+    }
+    document.querySelector('button[name="update"]').click()
+}
+
+function edit_shippingLine() {
+    const text_targetPrice = document.querySelector('.text_priceTarget.target')
+    const line_shipping = document.querySelector('.line_shipping.grow')
+    const length_default = line_shipping.parentElement.getBoundingClientRect().width
+    const money_threshold = 70
+    const money_current = parseInt(document.querySelector('[data-price_current]').dataset.price_current)
+    const money_diffrence = money_threshold - money_current
+
+    if (money_diffrence <= 0) {
+        line_shipping.style.width = '100%'
+        text_targetPrice.classList.add('active')
+    } else {
+        const percentageLeft = (money_diffrence / money_threshold) * 100;
+        const newWidth = length_default * (1 - (percentageLeft / 100));
+        line_shipping.style.width = `${newWidth}px`;
+        text_targetPrice.classList.remove('active')
+    }
+}
+edit_shippingLine()
+
+document.querySelectorAll('.link_cartItem').forEach(x => x.addEventListener('click', (e) => {
+    y = e.currentTarget
+    open_itemPage(y.dataset.variant_id, y.dataset.bg, y.dataset.raw, y.dataset.link)
+}))
+
+function open_itemPage(id, color_bg, color_raw, shopLink) {
+    const url = new URLParse(shopLink, true)
+    url.query.variant = id
+    url.query.color_bg = color_bg
+    url.query.color_raw = color_raw
+    window.history.replaceState(null, null, url.toString())
+    window.location.href = url.toString();
+}

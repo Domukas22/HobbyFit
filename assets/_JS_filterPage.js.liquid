@@ -19,12 +19,8 @@ window.addEventListener('scroll', () => {
 })
 function check_for_reload() {
     if (performance.navigation.type === performance.navigation.TYPE_RELOAD) {
-        // Check if the URL contains the 'filter' parameter
-        if (window.location.search.includes('filter=')) {
-          var urlWithoutParams = window.location.origin + window.location.pathname;
-          history.replaceState({}, document.title, urlWithoutParams);
-          scroll_top()
-        }
+        empty_the_url()
+        scroll_top()
       }
 }
 function filter_on_load() {
@@ -50,8 +46,14 @@ function count_category_items() {
         : x.textContent = document.querySelectorAll(`.product[data-filter_word="${x.dataset.category_count}"`).length
     })
 }
+function empty_the_url() {
+    if (window.location.search.includes('filter=')) {
+        var urlWithoutParams = window.location.origin + window.location.pathname;
+        history.replaceState({}, document.title, urlWithoutParams);
+      }
+}
 
-const waves = document.querySelectorAll('.img_wave.filterpage')
+const waves = document.querySelectorAll('.img_wave')
 function moveWaves() {
     waves.forEach(wave => {
         let scrollY = window.scrollY;
@@ -86,7 +88,8 @@ function filter_items(word) {
         else if (word == 'sale' && product.dataset.sale == "true") {product.style.display = 'flex'; count++}
         else {product.style.display = 'none'}
     })
-    document.querySelector('.filter_count').textContent = count      
+    document.querySelector('.filter_count').textContent = count  
+    empty_the_url()    
 }
 function toggle_activeFilter(filterTag) {    //separate funtion because of filtering on load with URL
     let word_activeBtn

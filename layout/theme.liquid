@@ -15,15 +15,19 @@
     {{ 'CSS_filterPage.css' | asset_url | stylesheet_tag }}
     {{ 'CSS_productPage.css' | asset_url | stylesheet_tag }}
     {{ 'CSS_cartPage.css' | asset_url | stylesheet_tag }}
+    {{ 'CSS_inline_slider.css' | asset_url | stylesheet_tag }}
 
 
   </head>
   <body>
+    <script src="https://cdn.jsdelivr.net/npm/url-parse@1.5.10/dist/url-parse.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
     {% render 'nav' %}
     {{ content_for_layout }}
     {{ '_JS_nav.js' | asset_url | script_tag }}
     {{ '_JS_prepareItems.js' | asset_url | script_tag }}
+    {{ '_JS_inline_slider.js' | asset_url | script_tag }}
+    {{ '_JS_home.js' | asset_url | script_tag }}
 
 
   </body>

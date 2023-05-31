@@ -1,10 +1,10 @@
-<section class="hero">
+<section class="hero" style="overflow: hidden;">
   <div class="container hero">
     <div class="textWrap_heroHome">
       <h5 class="heading_homeHero">Badmintono prekių parduotuvė</h5>
       <h1 class="title_homeHero">Paprasti pasirinkimai,<br>kokybiški rezultatai</h1>
       <div class="btnWrap_hero">
-        <div class="btn hero">Inventorius</div>
+        <a class="btn hero" href="{{ collections['badmintono-prekes'].url }}">Inventorius</a>
         <div class="btn inverted hero" data-hover_grey>Naujausios Prekės</div>
       </div>
     </div>
@@ -19,7 +19,85 @@
     src="{{ 'img_waveHero.svg' | asset_url }}"
     alt="">
 </section>
-<div class="wrap_categories">
+<div class="home_fade"></div>
+<section class="section_inline_slider">
+  <div class="container container_inlineSlider">
+    <h2 class="title_inlineSlider">Geri pasiulymai</h2>
+    <div class="controls_inlineSlider">
+      <div
+        class="btn_inlineSlider arrow left"
+        data-direction="left"
+        data-slider="hero1">
+        <div class="line_arrow"></div>
+        <div class="line_arrow reverse"></div>
+      </div>
+      <div
+        class="btn_inlineSlider arrow right"
+        data-direction="right"
+        style="transform: rotate(180deg);"
+        data-slider="hero1">
+        <div class="line_arrow"></div>
+        <div class="line_arrow reverse"></div>
+      </div>
+      <a class="btn_inlineSlider see_all" href="{{ collections['badmintono-prekes'].url }}">Pamatyti viska</a>
+    </div>
+    <div class="inline_swiper_wrapper">
+      <div class="grid_products_inline" data-slider="hero1">
+        {% assign allProducts = collections['all'].products %}
+        {% for product in allProducts %}
+          <div class="product_parent_inline">
+            <a
+              href="{{ product.url }}"
+              class="product product_inline"
+              data-filter_word="{{ product.metafields.custom.filter_word}}"
+              data-sale="{{ product.metafields.custom.sale}}">
+              <div class="product_TOP">
+                <img
+                  class="img_product_filterPage"
+                  src="{{ product.featured_image | img_url: '600x600' }}"
+                  alt="{{ product.featured_image.alt | escape }}">
+                <img
+                  class="img_wave"
+                  src="{{ 'img_WAVE_filterPage.svg' | asset_url }}"
+                  alt="Colorful wave"
+                  data-color_bg="{{ product.metafields.custom.color_bg}}">
+                <p class="textIcon_sale" data-isSale="{{ product.metafields.custom.sale}}">
+                  {% assign a = product.compare_at_price_max | divided_by: 1.0 %}
+                  {% assign b = product.price | divided_by: 1.0 %}
+                  {% assign discount = ((a | minus: b) | divided_by: a) | times: 100 %}
+                  -{{ discount | round: 0 }}%
+                </p>
+                {% if product.options contains 'Color' %}
+                  <div class="wrap_collorBubbles">
+                    {% for option in product.options_with_values %}
+                      {% if option.name == 'Color' %}
+                        {% for value in option.values %}
+                          {% assign words = value | split: ' ' %}
+                          {% assign lastWord = words | last %}
+                          <div class="colorBubble" style="background-color: {{ lastWord }};"></div>
+                        {% endfor %}
+                      {% endif %}
+                    {% endfor %}
+                  </div>
+                {% endif %}
+
+              </div>
+              <div class="product_BOTTOM">
+                <h4 class="title_product_filterPage">{{ product.metafields.custom.name_short }}</h4>
+                <div class="priceWrap_filterPage">
+                  <p class="price_product_filterPage" data-isSale="{{ product.metafields.custom.sale}}">{{ product.price | money }}</p>
+                  <p class="price_product_filterPage compare">{{ product.compare_at_price | money }}</p>
+                </div>
+              </div>
+            </a>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+<div class="home_fade up"></div>
+<div class="wrap_categories" style="overflow: hidden;">
   <section class="homeCategory" data-link_filterpage="racket">
     <div class="container homeCategory reversed">
       <div class="textWrap_homeCategory reversed rackets">
@@ -115,13 +193,25 @@
 </div>
 
 <script>
-  const nav = document.querySelector('nav')
-  window.addEventListener('DOMContentLoaded', () => {
-    nav.classList.add('no_shadow')
-  })
-  window.addEventListener('scroll', () => {
-    window.scrollY > 60
-      ? nav.classList.remove('no_shadow')
-      : nav.classList.add('no_shadow')
-  })
+  const nav = document.querySelector('nav');
+  window
+    .addEventListener('DOMContentLoaded', () => {
+      nav.classList.add('no_shadow');
+    })
+    window
+    .addEventListener('scroll', () => {
+      window.scrollY > 60
+        ? nav.classList.remove('no_shadow')
+        : nav.classList.add('no_shadow');
+    })
+
+    document
+    .querySelector('.btn.inverted.hero')
+    .addEventListener('click', () => {
+      const slider_top = document.querySelector('.section_inline_slider').getBoundingClientRect().top;
+      window.scrollTo({
+        top: slider_top - 100,
+        behavior: 'smooth'
+      });
+    })
 </script>

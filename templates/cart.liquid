@@ -1,29 +1,44 @@
-<section class="section_pageTitle">
+<section class="section_pageTitle cart">
   <div class="subWrap_pageTitle">
-    <h2 class="pageTitle">Pirkiniu krepselis</h2>
+    <h2 class="pageTitle cart">Pirkiniu krepselis</h2>
   </div>
 </section>
 
 <section class="section_cartPage">
-  <div class="container container_cartItems">
+  {% form 'cart', cart, class: 'container container_cartItems' %}
     <div class="grid_cartItems">
       {% if cart.item_count > 0 %}
         {% for item in cart.items %}
           <div class="cart_item">
-            <div class="imgWrap_cartItem"></div>
+            <div class="imgWrap_cartItem">
+              <img
+                {% if item.product.options contains 'Color' %}
+                src="{{ item.variant.featured_image | img_url: 'medium' }}"
+                {% else %}
+                src="{{ item.product.featured_image | img_url: 'medium' }}"
+                {% endif %}
+                alt="{{ item.product.featured_image.alt }}"
+                class="img_cartItem">
+              <img
+                class="img_wave"
+                src="{{ 'img_WAVE_filterPage.svg' | asset_url }}"
+                alt="Colorful wave"
+                data-color_bg="{{ item.image.alt | split: " " | slice: -2, 1 | first }}">
+            </div>
             <div class="textWrap_cartItem">
-              <p class="title_cartItem">{{ item.product.metafields.custom.name_short }}</p>
-
-              <div class="wrap_cart_item_feature">
-                <p class="feature_name">Kiekis:</p>
-                <p class="feature_value" style="color: {{ item.image.alt | split: " " | last}}">{{ item.quantity }}</p>
-              </div>
+              <p class="title_cartItem">{{ item.product.metafields.custom.name_short }} {{ item.product.metafields.custom.extra_text }}</p>
 
               {%- unless item.product.has_only_default_variant -%}
                 {% if item.options_with_values %}
-                  {%- for option in item.options_with_values -%}
+                  {%- for option in item.options_with_values reversed -%}
                     <div class="wrap_cart_item_feature">
-                      <p class="feature_name">{{ option.name }}:</p>
+                      <p class="feature_name">
+                        {% if option.name == "Color" %}
+                          Spalva:
+                        {% elsif option.name == "Size" %}
+                          Dydis:
+                        {% endif %}
+                      </p>
                       <p class="feature_value" style="color: {{ item.image.alt | split: " " | last}}">{{ option.value | split: " " | first }}</p>
                     </div>
                   {%- endfor -%}
@@ -34,57 +49,215 @@
                 <p class="feature_name">Vienetas:</p>
                 <p class="feature_value" style="color: {{ item.image.alt | split: " " | last}}">{{ item.price | money }}</p>
               </div>
-              <div class="wrap_cart_item_feature">
+              <div class="wrap_cart_item_feature final_price">
                 <p class="feature_name">Suma:</p>
                 <p class="feature_value" style="color: {{ item.image.alt | split: " " | last}}">{{ item.price | times: item.quantity | money }}</p>
               </div>
+              <div class="actionBox_cartItem">
+                <div class="wrap_inputQnt">
+                  <div class="btn_qnt minus" data-update="minus">
+                    <div class="qnt_line"></div>
+                  </div>
+                  <input
+                    type="number"
+                    name="updates[]"
+                    value="{{ item.quantity }}">
+                  <div class="btn_qnt plus" data-update="plus">
+                    <div class="qnt_line"></div>
+                    <div class="qnt_line vertical"></div>
+                  </div>
+                </div>
+                <a class="btn_deleteItem" href="{{ item.url_to_remove }}">
+                  <img src="{{ 'icon_delete_red.svg' | asset_url }}" alt="">
+                </a>
+
+              </div>
 
             </div>
+
+            <div
+              class="link_cartItem"
+              data-variant_id="{{ item.variant.id }}"
+              data-bg="{{ item.image.alt | split: " " | slice: -2, 1 | first }}"
+              data-raw="{{ item.image.alt | split: " " | last}}"
+              data-link="{{ shop.url }}{{ item.product.url }}"></div>
           </div>
         {% endfor %}
       {% endif %}
-      <div class="empty_cart_slot"></div>
-      <div class="empty_cart_slot"></div>
-      <div class="empty_cart_slot"></div>
+
+      {% if cart.item_count > 0 %}
+        {% assign variantSet = "" | split: "," %}
+
+        {% if cart.items.size < 4 %}
+          {% assign remainingSlots = 4 | minus: cart.items.size %}
+          {% for i in (1..remainingSlots) %}
+            <a class="empty_cart_slot" href="{{ collections['badmintono-prekes'].url }}">
+              <div class="wrap_plus">
+                <div class="line_plus"></div>
+                <div class="line_plus second"></div>
+              </div>
+              Ideti kita preke
+            </a>
+
+          {% endfor %}
+        {% else %}
+          <a class="empty_cart_slot" href="{{ collections['badmintono-prekes'].url }}">
+            <div class="wrap_plus">
+              <div class="line_plus"></div>
+              <div class="line_plus second"></div>
+            </div>
+            Ideti kita preke
+          </a>
+        {% endif %}
+      {% endif %}
+
     </div>
     <div class="stickyWrap_checkout">
       <div class="subWrap_stickyBox">
         <div class="box_proceedCheckout">
           <div class="titleWrap_checkoutBox">
-            <h4 class="title_Summary">Galutine suma:</h4>
+            <h4 class="title_Summary">Pirkiniu krepselis:</h4>
             <h4 class="text_finalPrice">{{ cart.total_price | money }}</h4>
           </div>
           <div class="wrap_boxSummary">
-            <p class="productTitle_summary">Yonex Bimbo 99
-              <span class="pCost_summaryBox">€59.99</span>
-            </p>
-            <div class="btn btn_checkout">Uzsisakyti (<span class="text_cartCount">1
-              </span>&nbsp preke)</div>
+            {% if cart.item_count > 0 %}
+
+              {% for item in cart.items %}
+                {% for i in (1..item.quantity) %}
+                  <p class="productTitle_summary">
+                    {{ item.product.metafields.custom.name_short }}
+                    {{ item.product.metafields.custom.extra_text }}
+
+                    {%- unless item.product.has_only_default_variant -%}
+                      {% if item.options_with_values %}
+                        {%- for option in item.options_with_values reversed -%}
+                          / {{ option.value | split: " " | first }}
+                        {%- endfor -%}
+                      {% endif %}
+                    {%- endunless -%}
+
+                    <span class="pCost_summaryBox">{{ item.price | money }}</span>
+                  </p>
+                {% endfor %}
+              {% endfor %}
+            {% endif %}
+            <div class="btn btn_checkout">Uzsisakyti ({{ cart.item_count }} prekės)</div>
           </div>
 
         </div>
-        <div class="box_leftToDiscount">
-          <p>Jums truksta tiktai
-            <span class="text_leftForFreeShipping">€5.65</span>
-            iki nemokamo siuntimo
-          </p>
+        <div class="box_leftToDiscount" data-price_current="{{ cart.total_price | money | remove: '€' }}">
+          {% assign difference = 7000 | minus: cart.total_price %}
+          {% if difference < 0 %}
+            <p>Jums bus priskaiciuotas nemokas siuntimas</p>
+          {% else %}
+            <p>Jums truksta
+              <span class="text_leftForFreeShipping">{{ difference | money }}</span>
+              iki nemokamo siuntimo
+            </p>
+          {% endif %}
           <div class="lineWrap_freeShipping">
             <div class="line_shipping default"></div>
             <div class="line_shipping grow"></div>
           </div>
           <div class="wrap_priceTargets">
-            <p class="text_priceTarget current">€43</p>
+            <p class="text_priceTarget current">{{ cart.total_price | money }}</p>
             <p class="text_priceTarget target">€70</p>
           </div>
         </div>
       </div>
+    </div>
 
 
+    <button
+      class="btn_cartForm"
+      type="submit"
+      name="update"
+      style="display: none;"></button>
+    <button
+      class="btn_cartForm"
+      type="submit"
+      name="checkout"
+      style="display: none;"></button>
+
+  {% endform %}
+</section>
+
+<section class="section_inline_slider">
+  <div class="container container_inlineSlider">
+    <h2 class="title_inlineSlider">Panasios prekes</h2>
+    <div class="controls_inlineSlider">
+      <div
+        class="btn_inlineSlider arrow left"
+        data-direction="left"
+        data-slider="hero1">
+        <div class="line_arrow"></div>
+        <div class="line_arrow reverse"></div>
+      </div>
+      <div
+        class="btn_inlineSlider arrow right"
+        data-direction="right"
+        style="transform: rotate(180deg);"
+        data-slider="hero1">
+        <div class="line_arrow"></div>
+        <div class="line_arrow reverse"></div>
+      </div>
+      <a class="btn_inlineSlider see_all" href="{{ collections['badmintono-prekes'].url }}">Pamatyti visas</a>
+    </div>
+    <div class="inline_swiper_wrapper">
+      <div class="grid_products_inline" data-slider="hero1">
+        {% assign allProducts = collections['all'].products %}
+        {% for product in allProducts %}
+          <div class="product_parent_inline">
+            <a
+              href="{{ product.url }}"
+              class="product product_inline"
+              data-filter_word="{{ product.metafields.custom.filter_word}}"
+              data-sale="{{ product.metafields.custom.sale}}">
+              <div class="product_TOP">
+                <img
+                  class="img_product_filterPage"
+                  src="{{ product.featured_image | img_url: '600x600' }}"
+                  alt="{{ product.featured_image.alt | escape }}">
+                <img
+                  class="img_wave"
+                  src="{{ 'img_WAVE_filterPage.svg' | asset_url }}"
+                  alt="Colorful wave"
+                  data-color_bg="{{ product.metafields.custom.color_bg}}">
+                <p class="textIcon_sale" data-isSale="{{ product.metafields.custom.sale}}">
+                  {% assign a = product.compare_at_price_max | divided_by: 1.0 %}
+                  {% assign b = product.price | divided_by: 1.0 %}
+                  {% assign discount = ((a | minus: b) | divided_by: a) | times: 100 %}
+                  -{{ discount | round: 0 }}%
+                </p>
+                {% if product.options contains 'Color' %}
+                  <div class="wrap_collorBubbles">
+                    {% for option in product.options_with_values %}
+                      {% if option.name == 'Color' %}
+                        {% for value in option.values %}
+                          {% assign words = value | split: ' ' %}
+                          {% assign lastWord = words | last %}
+                          <div class="colorBubble" style="background-color: {{ lastWord }};"></div>
+                        {% endfor %}
+                      {% endif %}
+                    {% endfor %}
+                  </div>
+                {% endif %}
+
+              </div>
+              <div class="product_BOTTOM">
+                <h4 class="title_product_filterPage">{{ product.metafields.custom.name_short }}</h4>
+                <div class="priceWrap_filterPage">
+                  <p class="price_product_filterPage" data-isSale="{{ product.metafields.custom.sale}}">{{ product.price | money }}</p>
+                  <p class="price_product_filterPage compare">{{ product.compare_at_price | money }}</p>
+                </div>
+              </div>
+            </a>
+          </div>
+        {% endfor %}
+      </div>
     </div>
   </div>
 </section>
-
-
 
 <script>
 
@@ -97,3 +270,5 @@
     console.log(altValue);
   </script>
 {% endfor %}
+
+{{ '_JS_cart.js' | asset_url | script_tag }}

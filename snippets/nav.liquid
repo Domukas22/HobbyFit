@@ -183,13 +183,19 @@
         </div>
 
       </div>
-      <div class="navLink bag" data-hover_grey>
+      <a
+        class="navLink bag"
+        data-hover_grey
+        data-cart_count="{{ cart.item_count }}"
+        href="{{ shop.url }}/cart">
         <img
           class="icon_Nav bag"
           src="{{ 'icon_bag.png' | asset_url }}"
-          alt="">
-        <p class="quantity_cart_nav" data-textcolor="grey">3</p>
-      </div>
+          alt=""
+          draggable="false">
+        <p class="quantity_cart_nav" data-textcolor="grey">{{ cart.item_count }}</p>
+        <div class="click_overlay"></div>
+      </a>
     </div>
   </div>
   <div class="cWrap_menuDropdown">

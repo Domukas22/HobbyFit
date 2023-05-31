@@ -1,0 +1,81 @@
+
+
+const sliders_All = document.querySelectorAll(`.grid_products_inline`)
+const slider_btns = document.querySelectorAll('.btn_inlineSlider.arrow')
+
+sliders_All.forEach(x => x.addEventListener('scroll', (e) => {editCurrent(e.currentTarget)}))
+slider_btns.forEach(x => x.addEventListener('click', (e) => {
+    const btn = e.currentTarget
+    if (!isDesktop()) {
+        const direction = btn.dataset.direction;
+        const targetSlider = document.querySelector(`.grid_products_inline[data-slider=${btn.dataset.slider}`)
+        scroll_chosenSibling(direction, targetSlider)
+    }
+}))
+
+let slider = false
+window.addEventListener('DOMContentLoaded', () => {
+    if (isDesktop()) {
+        createSlider()
+    }
+})
+
+window.addEventListener('resize', () => {
+
+    if (!slider && isDesktop()) {
+        createSlider();
+      } else if (slider && !isDesktop()) {
+        slider.destroy();
+        slider = false;
+      }
+   
+})
+
+function createSlider() {
+    slider = new Swiper(".inline_swiper_wrapper", {
+        wrapperClass: 'grid_products_inline',
+        slideClass: 'product_parent_inline',
+        slidesPerView: 'auto',
+        grabCursor: true,
+        navigation: { nextEl: ".btn_inlineSlider.right", prevEl: ".btn_inlineSlider.left"},
+       });
+}
+
+function scroll_chosenSibling(direction, slider) {
+    
+    let currentChild = slider.querySelector('div[data-current="true"]')
+    if (!currentChild) {slider.firstElementChild.dataset.current = "true";
+    currentChild = slider.querySelector('div[data-current="true"]')}
+
+ let sibling;
+ (direction == 'right') ? sibling = currentChild.nextElementSibling : sibling = currentChild.previousElementSibling
+
+ if (sibling) {
+  const siblingRect = sibling.getBoundingClientRect();
+  const siblingCenter = siblingRect.left + siblingRect.width / 2;
+  const sliderScrollLeft = slider.scrollLeft;
+  const newScrollLeft = siblingCenter - window.innerWidth / 2 + sliderScrollLeft;
+  slider.scrollTo({left: newScrollLeft,behavior: 'smooth'});
+  currentChild.dataset.current = 'false'
+  sibling.dataset.current = 'true'
+ }
+}
+function editCurrent(slider) {
+ const children = slider.children;
+ let closestChildIdx = 0;
+ let closestChildDistance = Infinity;
+
+ for (let i = 0; i < children.length; i++) {
+  const child = children[i];
+  const childRect = child.getBoundingClientRect();
+  const childCenter = childRect.left + childRect.width / 2;
+  const distanceToCenter = Math.abs(childCenter - window.innerWidth / 2);
+  if (distanceToCenter < closestChildDistance) {
+  closestChildIdx = i;
+  closestChildDistance = distanceToCenter;
+  }
+ }
+Array.from(children).forEach(x => x.dataset.current = 'false')
+Array.from(children)[closestChildIdx].dataset.current = 'true'      
+}
+function isDesktop() {return window.innerWidth > 991 ? true : false}

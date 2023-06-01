@@ -1,16 +1,18 @@
-{% assign page_Badminton = collections['badmintono-prekes'].url %}
-
 <nav>
   <div class="cWrap_Nav">
     <div class="wrap_navLeft">
-      <a href="{{ shop.url }}" class="wrap_Logo">
+      <a
+        href="{{ shop.url }}"
+        class="wrap_Logo"
+        data-scale>
         <h3 class="text_Logo">{{ shop.name }}</h3>
       </a>
       <div class="wrap_navLinks_D">
         <a
           class="navLink"
           href=" {{ shop.url }}"
-          data-hover_grey>
+          data-hover_grey
+          data-scale>
           <img
             class="icon_Nav"
             src="{{ 'icon_house.png' | asset_url }}"
@@ -21,7 +23,7 @@
         <div class="navLink_dropdown badminton">
           <a
             class="navLink"
-            href="{{ page_Badminton }}"
+            href="{{ collections['badmintono-prekes'].url }}"
             data-hover_grey>
             <img
               class="icon_Nav"
@@ -169,7 +171,7 @@
           </div>
         </div>
       </div>
-      <div class="navLink menu">
+      <div class="navLink menu" data-scale>
         <div class="tWrap_btnMenu show">
           <p>Menu</p>
           <img
@@ -187,7 +189,8 @@
         class="navLink bag"
         data-hover_grey
         data-cart_count="{{ cart.item_count }}"
-        href="{{ shop.url }}/cart">
+        href="{{ shop.url }}/cart"
+        data-scale>
         <img
           class="icon_Nav bag"
           src="{{ 'icon_bag.png' | asset_url }}"
@@ -200,7 +203,10 @@
   </div>
   <div class="cWrap_menuDropdown">
     <div class="menuDropwdown_TOP">
-      <a class="navLink dropdown" href="{{ shop.url }}">
+      <a
+        class="navLink dropdown"
+        href="{{ shop.url }}"
+        data-scale>
         <img
           class="icon_Nav"
           src="{{ 'icon_house.png' | asset_url }}"
@@ -208,7 +214,10 @@
         <p>Pradžia</p>
 
       </a>
-      <a class="navLink dropdown" href="{{ page_Badminton }}">
+      <a
+        class="navLink dropdown"
+        href="{{ collections['badmintono-prekes'].url }}"
+        data-scale>
         <img
           class="icon_Nav"
           src="{{ 'icon_ball.png' | asset_url }}"
@@ -221,7 +230,8 @@
       <div
         href=""
         class="categoryLink"
-        data-link_filterpage="racket">
+        data-link_filterpage="racket"
+        data-scale>
         <img
           class="img_categoryLink"
           src="{{ 'img_filterRackets.png' | asset_url }}"
@@ -234,7 +244,8 @@
       <div
         href=""
         class="categoryLink"
-        data-link_filterpage="ball">
+        data-link_filterpage="ball"
+        data-scale>
         <img
           class="img_categoryLink"
           src="{{ 'img_filterBalls.png' | asset_url }}"
@@ -245,7 +256,8 @@
       <div
         href=""
         class="categoryLink"
-        data-link_filterpage="clothing">
+        data-link_filterpage="clothing"
+        data-scale>
         <img
           class="img_categoryLink"
           src="{{ 'img_filterClothing.png' | asset_url }}"
@@ -256,7 +268,8 @@
       <div
         href=""
         class="categoryLink"
-        data-link_filterpage="equipment">
+        data-link_filterpage="equipment"
+        data-scale>
         <img
           class="img_categoryLink"
           src="{{ 'img_filterEquipment.png' | asset_url }}"
@@ -266,7 +279,10 @@
       </div>
     </div>
     <div class="menuDropwdown_LINKS">
-      <a href="" class="link_dropdown menu">
+      <a
+        href=""
+        class="link_dropdown menu"
+        data-scale>
         <img
           class="icon_Nav"
           src="{{ 'icon_phone.png' | asset_url }}"

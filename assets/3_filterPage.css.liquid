@@ -7,6 +7,8 @@
   --color_Text: rgba(0, 0, 0, 0.80);
   --color_bigText: rgba(0, 0, 0, 0.75);
   --color_activeLink: rgba(64, 127, 242, 0.1);
+  --color_black_06: rgba(0, 0, 0, 0.600);
+  --color_text_green: rgb(23 116 0 / 80%);
 
   --color_grey: #747474;
   --color_bg: #f9fbff;
@@ -84,7 +86,7 @@
 
   padding-left: 16px;
   padding-right: 24px;
-  transition: all 0.2s;
+  transition: 300ms;
 
   display: flex;
   position: relative;
@@ -369,6 +371,9 @@
   .product {
     height: 49vw;
   }
+  .product:hover > .product_TOP {
+    padding: 5vw 40px 45px;
+  }
   .product_TOP {
     padding: 7vw 40px 45px;
   }
@@ -408,6 +413,9 @@
   }
   .product {
     height: 76vw;
+  }
+  .product:hover > .product_TOP {
+    padding: 8vw 4vw 6vw;
   }
   .product_TOP {
     padding: 12vw 5vw 6vw;

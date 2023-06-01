@@ -16,7 +16,9 @@
                 style="margin-right: 6px; font-size: 18px; font-weight: 600;">{{ product.selected_or_first_available_variant.price | money }}</p>
               <p class="price_product_filterPage compare" style="font-size: 18px; font-weight: 600;">{{ product.selected_or_first_available_variant.compare_at_price | money }}</p>
             </div>
-            <p class="p_stockLeft">Liko dar {{ product.selected_or_first_available_variant.inventory_quantity }}</p>
+            <p class="p_stockLeft {% if product.selected_or_first_available_variant.inventory_quantity <= 2 %}red{% endif %}" data-text_green>Liko dar
+              <span data-qnt_edit data-text_green>{{ product.selected_or_first_available_variant.inventory_quantity }}</span>
+            </p>
           </div>
         </div>
         <div class="swiper">
@@ -55,32 +57,42 @@
               <div class="swiper-pagination-bullet"></div>
             </div>
             <div class="slider_btns" data-effect="zoom">
-              <div class="swiperBtn swiper-btn-prev" data-hover_grey>
+              <div
+                class="swiperBtn swiper-btn-prev"
+                data-hover_grey
+                data-scale>
                 <div class="line_arrow"></div>
                 <div class="line_arrow reverse"></div>
               </div>
-              <div class="swiperBtn reverse swiper-btn-next" data-hover_grey>
+              <div
+                class="swiperBtn reverse swiper-btn-next"
+                data-hover_grey
+                data-scale>
                 <div class="line_arrow"></div>
                 <div class="line_arrow reverse"></div>
               </div>
               <div
                 class="btn_Zoom"
                 data-zoom="2"
-                data-hover_grey></div>
+                data-hover_grey
+                data-scale></div>
             </div>
             <div class="controls_Magnify" data-effect="zoom">
               <div
                 class="btn_magnify active"
                 data-zoom="2"
-                data-btn_magnify>2x</div>
+                data-btn_magnify
+                data-scale>2x</div>
               <div
                 class="btn_magnify"
                 data-zoom="3"
-                data-btn_magnify>3x</div>
+                data-btn_magnify
+                data-scale>3x</div>
               <div
                 class="X_wrap zoom"
                 data-zoom="1"
-                data-hover_grey>
+                data-hover_grey
+                data-scale>
                 <div class="line_X"></div>
                 <div class="line_X reverse"></div>
               </div>
@@ -105,14 +117,14 @@
               <div class="product_option">
                 {% for option in product.options_with_values %}
                   {% if option.name == 'Size' %}
-                    <label for="Size">Pasirinkite dydi:</label>
+                    <label for="Size" data-color_06>Pasirinkite dydį:</label>
                   {% elsif option.name == 'Color' %}
-                    <label for="Color">Pasirinkite spalva:</label>
+                    <label for="Color" data-color_06>Pasirinkite spalvą:</label>
                   {% endif %}
 
                   <fieldset class="input_box">
                     {% for value in option.values %}
-                      <div class="parent_optionRadio">
+                      <div class="parent_optionRadio" data-scale>
                         <input
                           {% if option.selected_value == value %}checked{% endif %}
                           type="radio"
@@ -137,7 +149,17 @@
                 {% endfor %}
               </div>
             {% endif %}
-            <label for="Qantity" style="color: #0000009b;">Pasirinkite kieki:</label>
+            <label
+              for="qantity"
+              style="display: flex;"
+              data-color_06>Pasirinkite kiekį:
+              <span
+                class=""
+                style="margin-left: auto"
+                data-color_06
+                id="qnt_in_box">Liko dar:&nbsp<span data-qnt_edit data-color_06>{{ product.selected_or_first_available_variant.inventory_quantity }}</span>
+              </span>
+            </label>
             <fieldset class="input_box qnt">
               <div class="quantity_front">
                 <div class="wrap_qntOptions desktop">
@@ -145,33 +167,63 @@
                     class="qnt_option"
                     data-value="1"
                     data-recolor_bg
-                    data-recolor_text_raw>1</div>
-                  <div class="qnt_option d" data-value="2">2</div>
-                  <div class="qnt_option d" data-value="3">3</div>
-                  <div class="qnt_option d" data-value="4">4</div>
-                  <div class="qnt_option d" data-value="5">5</div>
+                    data-recolor_text_raw
+                    data-scale>1</div>
+                  <div
+                    class="qnt_option d"
+                    data-value="2"
+                    data-scale>2</div>
+                  <div
+                    class="qnt_option d"
+                    data-value="3"
+                    data-scale>3</div>
+                  <div
+                    class="qnt_option d"
+                    data-value="4"
+                    data-scale>4</div>
+                  <div
+                    class="qnt_option d"
+                    data-value="5"
+                    data-scale>5</div>
                 </div>
                 <div class="wrap_qntOptions mobile">
                   <div
                     class="qnt_option m"
                     data-value="1"
                     data-recolor_bg
-                    data-recolor_text_raw>1</div>
-                  <div class="qnt_option m" data-value="2">2</div>
-                  <div class="qnt_option m" data-value="3">3</div>
+                    data-recolor_text_raw
+                    data-scale>1</div>
+                  <div
+                    class="qnt_option m"
+                    data-value="2"
+                    data-scale>2</div>
+                  <div
+                    class="qnt_option m"
+                    data-value="3"
+                    data-scale>3</div>
                 </div>
-                <div class="btn_giveQuantity" data-recolor_text_raw>Ivesti kieki</div>
+                <div
+                  class="btn_giveQuantity"
+                  data-recolor_text_raw
+                  data-scale>Ivesti kieki</div>
               </div>
               <div class="quantity_back">
                 <input
                   type="number"
-                  name="Quantity"
+                  name="quantity"
                   class="qntInput"
                   placeholder="Iveskite kieki..."
                   value="1"
-                  onkeydown="checkKeyPress(event, this);">
-                <div class="btn_nearQtn cancel" data-recolor_text_raw>Atsaukti</div>
-                <div class="btn_nearQtn submit" data-recolor_raw>Vykdyti</div>
+                  onkeydown="checkKeyPress(event, this);"
+                  data-qnt_left="{{ product.selected_or_first_available_variant.inventory_quantity }}">
+                <div
+                  class="btn_nearQtn cancel"
+                  data-recolor_text_raw
+                  data-scale>Atsaukti</div>
+                <div
+                  class="btn_nearQtn submit"
+                  data-recolor_raw
+                  data-scale>Vykdyti</div>
               </div>
             </fieldset>
           {% endif %}
@@ -181,7 +233,8 @@
               <div
                 class="btn_mainDesc bag"
                 style="border: 1px solid {{ color_bg }}; font-weight: 400;"
-                data-recolor_border_raw>
+                data-recolor_border_raw
+                data-scale>
                 <p style="color:{{ color_raw }}" data-recolor_text_raw>Į krepšelį</p>
                 <svg
                   class="theSVG"
@@ -195,7 +248,8 @@
               <div
                 class="btn_mainDesc buy"
                 style="background-color: {{ color_raw }}; color: white;"
-                data-recolor_raw>
+                data-recolor_raw
+                data-scale>
                 Užsisakyti<span class="price_insideBtn">{{ product.selected_or_first_available_variant.price | money }}</span>
               </div>
             {% else %}
@@ -282,19 +336,23 @@
       <div
         class="btn_inlineSlider arrow left"
         data-direction="left"
-        data-slider="hero1">
+        data-slider="hero1"
+        data-scale>
         <div class="line_arrow"></div>
         <div class="line_arrow reverse"></div>
       </div>
       <div
         class="btn_inlineSlider arrow right"
         data-direction="right"
-        style="transform: rotate(180deg);"
-        data-slider="hero1">
+        data-slider="hero1"
+        data-scale>
         <div class="line_arrow"></div>
         <div class="line_arrow reverse"></div>
       </div>
-      <a class="btn_inlineSlider see_all" href="{{ collections['badmintono-prekes'].url }}">Pamatyti viska</a>
+      <a
+        class="btn_inlineSlider see_all"
+        href="{{ collections['badmintono-prekes'].url }}"
+        data-scale>Pamatyti viska</a>
     </div>
     <div class="inline_swiper_wrapper">
       <div class="grid_products_inline" data-slider="hero1">
@@ -344,6 +402,7 @@
                   <p class="price_product_filterPage compare">{{ product.compare_at_price | money }}</p>
                 </div>
               </div>
+              <div class="click_overlay"></div>
             </a>
           </div>
         {% endfor %}
@@ -396,6 +455,9 @@
       changeUrl(find_matchedVariant(), get_colors()[0], get_colors()[1])
       edit_texts(find_matchedVariant())
       handle_btnPrice(find_matchedVariant())
+      edit_qnt(find_matchedVariant().id)
+      bubble_jump(document.getElementById('qnt_in_box'))
+      bubble_jump(document.querySelector('.p_stockLeft'))
     })
   })
 
@@ -403,14 +465,12 @@
   color_radios.forEach(x => x.addEventListener('change', () => {
     document.querySelector('.swiper').style.opacity = "0%"
     document.querySelector('.sliderControls').style.opacity = "0%"
-    document.querySelector('.wrap_sliderTitle').style.opacity = "0%"
 
     setTimeout(() => {
       change_images()
       replaceSwiper()
       set_Colors()
       document.querySelector('.sliderControls').style.opacity = "100%"
-      document.querySelector('.wrap_sliderTitle').style.opacity = "100%"
     }, 201)
 
   }))
@@ -463,10 +523,34 @@
   }
   function edit_texts(matchedVariant) {
     document.querySelector('.price_product_filterPage').textContent = formatMoney(matchedVariant.price, "{{ shop.money_format }}")
-    const qntLeft = document.querySelector('.p_stockLeft');
-    {% assign variant = matchedVariant.id.variants | where: 'id', variantId | first %}
-    console.log(matchedVariant)
   }
+  function edit_qnt(id) {
+
+    let qnt_list = [];
+    let result
+    const texts_qnt = document.querySelectorAll('[data-qnt_edit]');
+    const qnt_input = document.querySelector('.qntInput')
+
+// -
+    {% for variant in product.variants %};
+      qnt_list.push([{{ variant.id }}, {{ variant.inventory_quantity }}]);{% endfor %};
+    qnt_list.forEach(x => {
+      if (x.includes(id)) {
+        result = x[1]
+      }
+    })
+    texts_qnt.forEach(x => x.textContent = result);
+    qnt_input.dataset.qnt_left = result;
+
+    const p_stockLeft = document.querySelector('.p_stockLeft')
+    if (result <= 2) {
+      p_stockLeft.classList.add('red')
+    } else {
+      p_stockLeft.classList.remove('red')
+    }
+
+  }
+
   function set_circleColors() {
     const circle_option = document.querySelectorAll('.circle_option')
     circle_option.forEach(x => {
@@ -502,6 +586,10 @@
       qntInput.value = e.currentTarget.textContent;
       qntInput.setAttribute("value", e.currentTarget.textContent);
       handle_btnPrice(find_matchedVariant())
+
+      const btnText_price = document.querySelector('.price_insideBtn')
+      bubble_jump(btnText_price)
+
     }))
   }
   btn_cancelQuantity.addEventListener('click', toggle_qntInput);
@@ -668,10 +756,15 @@
     });
     set_parallax()
   }
+  function bubble_jump(target) {
+    target.classList.add('scale')
+    setTimeout(() => {
+      target.classList.remove('scale')
+    }, 300)
+  }
 
   function change_images() {
     const colorHex_bg = new URLSearchParams(window.location.search).get('color_bg');
-    console.log(colorHex_bg)
     const stickyDiv = document.querySelector('.sticky_div')
     const swiper_old = stickyDiv.querySelector('.swiper')
 
@@ -782,14 +875,24 @@
   const btn_checkout = document.querySelector('.btn_mainDesc.buy');
   btn_checkout.addEventListener('click', () => {
 
-    document.querySelector('.form_productPage').submit();
-    console.log('{{ shop.url }}' + '/checkout')
+    const form = document.querySelector('.form_productPage');
+    const input = document.createElement('input');
+    input.value = "/checkout";
+    input.type = "hidden";
+    input.name = "return_to";
 
-    window.location.href = '{{ shop.url }}' + '/checkout';
+    form.appendChild(input);
+    form.submit();
+
   })
+
+
+
+  function edit_variant_qnt(id) {}
 </script>
 
 
 
-{{ '_JS_productPage.js' | asset_url | script_tag }}
-{{ '_JS_productZoom.js' | asset_url | script_tag }}
+{{ '4_productPage.js' | asset_url | script_tag }}
+{{ '4_1_productZoom.js' | asset_url | script_tag }}
+{{ '6_inline_slider.js' | asset_url | script_tag }}

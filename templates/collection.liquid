@@ -7,14 +7,18 @@
 </section>
 <section class="filterSection_FILTERS">
   <div class="filterBox_D" data-no_scrollbar>
-    <div class="filter all active" data-filter="all">
+    <div
+      class="filter all active"
+      data-filter="all"
+      data-scale>
       <div class="click_overlay"></div>
       <p>Visos Prekės</p>
     </div>
     <div
       class="filter"
       data-filter="sale"
-      data-hover_grey>
+      data-hover_grey
+      data-scale>
       <div class="click_overlay"></div>
       <img
         class="icon_filter"
@@ -25,7 +29,8 @@
     <div
       class="filter"
       data-filter="racket"
-      data-hover_grey>
+      data-hover_grey
+      data-scale>
       <div class="click_overlay"></div>
       <img
         class="icon_filter"
@@ -36,7 +41,8 @@
     <div
       class="filter"
       data-filter="ball"
-      data-hover_grey>
+      data-hover_grey
+      data-scale>
       <div class="click_overlay"></div>
       <img
         class="icon_filter"
@@ -47,7 +53,8 @@
     <div
       class="filter"
       data-filter="clothing"
-      data-hover_grey>
+      data-hover_grey
+      data-scale>
       <div class="click_overlay"></div>
       <img
         class="icon_filter"
@@ -58,7 +65,8 @@
     <div
       class="filter"
       data-filter="equipment"
-      data-hover_grey>
+      data-hover_grey
+      data-scale>
       <div class="click_overlay"></div>
       <img
         class="icon_filter"
@@ -67,7 +75,10 @@
       <p>Priedai</p>
     </div>
   </div>
-  <div class="btn_openFilters" data-toggle="filters">
+  <div
+    class="btn_openFilters"
+    data-toggle="filters"
+    data-scale>
     <img
       class="icon_filter hide"
       id="icon_currentFilter"
@@ -135,6 +146,7 @@
             <p class="price_product_filterPage compare">{{ product.compare_at_price | money }}</p>
           </div>
         </div>
+        <div class="click_overlay"></div>
       </a>
     {% endfor %}
   </div>
@@ -147,12 +159,18 @@
       <div class="line_X second"></div>
     </div>
   </div>
-  <div class="filter all active" data-filter="all">
+  <div
+    class="filter all active"
+    data-filter="all"
+    data-scale>
     <div class="click_overlay"></div>
     <p>Visos Prekės</p>
     <p class="category_item_count" data-category_count="all">2</p>
   </div>
-  <div class="filter" data-filter="sale">
+  <div
+    class="filter"
+    data-filter="sale"
+    data-scale>
     <div class="click_overlay"></div>
     <img
       class="icon_filter"
@@ -161,7 +179,10 @@
     <p>Nuolaida</p>
     <p class="category_item_count" data-category_count="sale">2</p>
   </div>
-  <div class="filter" data-filter="racket">
+  <div
+    class="filter"
+    data-filter="racket"
+    data-scale>
     <div class="click_overlay"></div>
     <img
       class="icon_filter"
@@ -170,7 +191,10 @@
     <p>Raketės</p>
     <p class="category_item_count" data-category_count="racket">2</p>
   </div>
-  <div class="filter" data-filter="ball">
+  <div
+    class="filter"
+    data-filter="ball"
+    data-scale>
     <div class="click_overlay"></div>
     <img
       class="icon_filter"
@@ -179,7 +203,10 @@
     <p>Plunksniukai</p>
     <p class="category_item_count" data-category_count="ball">2</p>
   </div>
-  <div class="filter" data-filter="clothing">
+  <div
+    class="filter"
+    data-filter="clothing"
+    data-scale>
     <div class="click_overlay"></div>
     <img
       class="icon_filter"
@@ -188,7 +215,10 @@
     <p>Apranga</p>
     <p class="category_item_count" data-category_count="clothing">2</p>
   </div>
-  <div class="filter" data-filter="equipment">
+  <div
+    class="filter"
+    data-filter="equipment"
+    data-scale>
     <div class="click_overlay"></div>
     <img
       class="icon_filter"
@@ -199,4 +229,4 @@
   </div>
 </div>
 
-{{ '_JS_filterPage.js' | asset_url | script_tag }}
+{{ '3_filterPage.js' | asset_url | script_tag }}

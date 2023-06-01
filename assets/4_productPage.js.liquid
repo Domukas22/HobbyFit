@@ -45,3 +45,29 @@ const formatMoney = function(cents, format) {
     return formatString.replace(placeholderRegex, value);
 };
 
+const main_slider_btns = document.querySelectorAll('.swiperBtn')
+main_slider_btns.style
+
+main_slider_btns.forEach(function(el) {
+  
+  const is_right = (el.classList.contains('swiper-btn-next'))
+  
+  el.addEventListener('mousedown', function() {
+    is_right ? el.style.left = "4px" : el.style.left = "-4px"
+  });
+  el.addEventListener('mouseup', function() {
+    el.style.left = "0px"
+    el.style.left = "0px"
+  });
+  el.addEventListener('mouseleave', function() {
+    el.style.left = "0px"
+    el.style.left = "0px"
+  });
+  el.addEventListener('touchstart', function() {
+    is_right ? el.style.left = "4px" : el.style.left = "-4px"
+  });
+  el.addEventListener('touchend', function() {
+    el.style.left = "0px"
+    el.style.left = "0px"
+  });
+});

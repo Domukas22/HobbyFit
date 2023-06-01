@@ -1,11 +1,32 @@
 <section class="section_pageTitle cart">
-  <div class="subWrap_pageTitle">
-    <h2 class="pageTitle cart">Pirkiniu krepselis</h2>
+  <div class="subWrap_pageTitle cart">
+    <h2 class="pageTitle cart">Pirkinių krepšelis</h2>
   </div>
 </section>
 
 <section class="section_cartPage">
   {% form 'cart', cart, class: 'container container_cartItems' %}
+    {% if cart.item_count > 0 %}
+      <div class="box_leftToDiscount mobile" data-price_current="{{ cart.total_price | money | remove: '€' }}">
+        {% assign difference = 7000 | minus: cart.total_price %}
+        {% if difference < 0 %}
+          <p style="color: var(--color_Main);">Jums bus priskaiciuotas nemokas siuntimas</p>
+        {% else %}
+          <p>Jums trūksta
+            <span class="text_leftForFreeShipping">{{ difference | money }}</span>
+            iki nemokamo siuntimo
+          </p>
+        {% endif %}
+        <div class="lineWrap_freeShipping">
+          <div class="line_shipping default"></div>
+          <div class="line_shipping grow"></div>
+        </div>
+        <div class="wrap_priceTargets">
+          <p class="text_priceTarget current">{{ cart.total_price | money }}</p>
+          <p class="text_priceTarget target">€70</p>
+        </div>
+      </div>
+    {% endif %}
     <div class="grid_cartItems">
       {% if cart.item_count > 0 %}
         {% for item in cart.items %}
@@ -13,9 +34,9 @@
             <div class="imgWrap_cartItem">
               <img
                 {% if item.product.options contains 'Color' %}
-                src="{{ item.variant.featured_image | img_url: 'medium' }}"
+                src="{{ item.variant.featured_image | img_url: '500x500' }}"
                 {% else %}
-                src="{{ item.product.featured_image | img_url: 'medium' }}"
+                src="{{ item.product.featured_image | img_url: '500x500' }}"
                 {% endif %}
                 alt="{{ item.product.featured_image.alt }}"
                 class="img_cartItem">
@@ -55,19 +76,38 @@
               </div>
               <div class="actionBox_cartItem">
                 <div class="wrap_inputQnt">
-                  <div class="btn_qnt minus" data-update="minus">
-                    <div class="qnt_line"></div>
+                  <div
+                    class="btn_qnt minus {% if item.quantity == 1 %}red_hover{% endif %}"
+                    data-update="minus"
+                    data-scale>
+                    {% if item.quantity == 1 %}
+                      <img
+                        src="{{ 'icon_delete_red.svg' | asset_url }}"
+                        alt=""
+                        class="icon_trash_minus">
+                    {% else %}
+                      <div class="qnt_line"></div>
+                    {% endif %}
+
                   </div>
+
                   <input
                     type="number"
                     name="updates[]"
-                    value="{{ item.quantity }}">
-                  <div class="btn_qnt plus" data-update="plus">
+                    value="{{ item.quantity }}"
+                    data-scale>
+                  <div
+                    class="btn_qnt plus"
+                    data-update="plus"
+                    data-scale>
                     <div class="qnt_line"></div>
                     <div class="qnt_line vertical"></div>
                   </div>
                 </div>
-                <a class="btn_deleteItem" href="{{ item.url_to_remove }}">
+                <a
+                  class="btn_deleteItem"
+                  href="{{ item.url_to_remove }}"
+                  data-scale>
                   <img src="{{ 'icon_delete_red.svg' | asset_url }}" alt="">
                 </a>
 
@@ -85,43 +125,47 @@
         {% endfor %}
       {% endif %}
 
-      {% if cart.item_count > 0 %}
-        {% assign variantSet = "" | split: "," %}
 
-        {% if cart.items.size < 4 %}
-          {% assign remainingSlots = 4 | minus: cart.items.size %}
-          {% for i in (1..remainingSlots) %}
-            <a class="empty_cart_slot" href="{{ collections['badmintono-prekes'].url }}">
-              <div class="wrap_plus">
-                <div class="line_plus"></div>
-                <div class="line_plus second"></div>
-              </div>
-              Ideti kita preke
-            </a>
-
-          {% endfor %}
-        {% else %}
-          <a class="empty_cart_slot" href="{{ collections['badmintono-prekes'].url }}">
-            <div class="wrap_plus">
-              <div class="line_plus"></div>
-              <div class="line_plus second"></div>
-            </div>
-            Ideti kita preke
-          </a>
-        {% endif %}
+      {% if cart.item_count == 0 %}
+        <a
+          class="empty_cart_slot empty"
+          href="{{ collections['badmintono-prekes'].url }}"
+          data-scale>
+          <div class="wrap_plus">
+            <div class="line_plus"></div>
+            <div class="line_plus second"></div>
+          </div>
+          Idėti naują prekę
+        </a>
+      {% else %}
+        <a
+          class="empty_cart_slot"
+          href="{{ collections['badmintono-prekes'].url }}"
+          data-scale>
+          <div class="wrap_plus">
+            <div class="line_plus"></div>
+            <div class="line_plus second"></div>
+          </div>
+          Idėti naują prekę
+        </a>
       {% endif %}
 
+
     </div>
-    <div class="stickyWrap_checkout">
+    <div
+      class="stickyWrap_checkout"
+      {% if cart.item_count == 0 %}
+      style="margin-bottom: 16px;"
+      {% endif %}>
+
       <div class="subWrap_stickyBox">
         <div class="box_proceedCheckout">
-          <div class="titleWrap_checkoutBox">
-            <h4 class="title_Summary">Pirkiniu krepselis:</h4>
-            <h4 class="text_finalPrice">{{ cart.total_price | money }}</h4>
-          </div>
-          <div class="wrap_boxSummary">
-            {% if cart.item_count > 0 %}
-
+          {% if cart.item_count > 0 %}
+            <div class="titleWrap_checkoutBox">
+              <h4 class="title_Summary">Pirkinių krepšelis</h4>
+              <h4 class="text_finalPrice">{{ cart.total_price | money }}</h4>
+            </div>
+            <div class="wrap_boxSummary">
               {% for item in cart.items %}
                 {% for i in (1..item.quantity) %}
                   <p class="productTitle_summary">
@@ -140,30 +184,39 @@
                   </p>
                 {% endfor %}
               {% endfor %}
+              <div class="btn btn_checkout" data-scale>Pateikti užsakymą</div>
+            </div>
+          </div>
+          <div class="box_leftToDiscount" data-price_current="{{ cart.total_price | money | remove: '€' }}">
+            {% assign difference = 7000 | minus: cart.total_price %}
+            {% if difference < 0 %}
+              <p style="color: var(--color_Main);">Jums bus priskaiciuotas nemokas siuntimas</p>
+            {% else %}
+              <p>Jums trūksta
+                <span class="text_leftForFreeShipping">{{ difference | money }}</span>
+                iki nemokamo siuntimo
+              </p>
             {% endif %}
-            <div class="btn btn_checkout">Uzsisakyti ({{ cart.item_count }} prekės)</div>
+            <div class="lineWrap_freeShipping">
+              <div class="line_shipping default"></div>
+              <div class="line_shipping grow"></div>
+            </div>
+            <div class="wrap_priceTargets">
+              <p class="text_priceTarget current">{{ cart.total_price | money }}</p>
+              <p class="text_priceTarget target">€70</p>
+            </div>
+          </div>
+        {% else %}
+          <div class="empty_cart_sign">
+            <img
+              class="icon_empty_cart"
+              src="{{ "icon_bag.svg" | asset_url }}"
+              alt="Empty shopping cart">
+            <p>Jūsų krepšelis yra tuščias</p>
           </div>
 
-        </div>
-        <div class="box_leftToDiscount" data-price_current="{{ cart.total_price | money | remove: '€' }}">
-          {% assign difference = 7000 | minus: cart.total_price %}
-          {% if difference < 0 %}
-            <p>Jums bus priskaiciuotas nemokas siuntimas</p>
-          {% else %}
-            <p>Jums truksta
-              <span class="text_leftForFreeShipping">{{ difference | money }}</span>
-              iki nemokamo siuntimo
-            </p>
-          {% endif %}
-          <div class="lineWrap_freeShipping">
-            <div class="line_shipping default"></div>
-            <div class="line_shipping grow"></div>
-          </div>
-          <div class="wrap_priceTargets">
-            <p class="text_priceTarget current">{{ cart.total_price | money }}</p>
-            <p class="text_priceTarget target">€70</p>
-          </div>
-        </div>
+        {% endif %}
+
       </div>
     </div>
 
@@ -184,24 +237,34 @@
 
 <section class="section_inline_slider">
   <div class="container container_inlineSlider">
-    <h2 class="title_inlineSlider">Panasios prekes</h2>
+    <h3 class="title_inlineSlider">
+      {% if cart.item_count == 0 %}
+        Mūsų pasiūlymai
+      {% else %}
+        Panašios prekės
+      {% endif %}
+    </h3>
     <div class="controls_inlineSlider">
       <div
         class="btn_inlineSlider arrow left"
         data-direction="left"
-        data-slider="hero1">
+        data-slider="hero1"
+        data-scale>
         <div class="line_arrow"></div>
         <div class="line_arrow reverse"></div>
       </div>
       <div
         class="btn_inlineSlider arrow right"
         data-direction="right"
-        style="transform: rotate(180deg);"
-        data-slider="hero1">
+        data-slider="hero1"
+        data-scale>
         <div class="line_arrow"></div>
         <div class="line_arrow reverse"></div>
       </div>
-      <a class="btn_inlineSlider see_all" href="{{ collections['badmintono-prekes'].url }}">Pamatyti visas</a>
+      <a
+        class="btn_inlineSlider see_all"
+        href="{{ collections['badmintono-prekes'].url }}"
+        data-scale>Pamatyti visas</a>
     </div>
     <div class="inline_swiper_wrapper">
       <div class="grid_products_inline" data-slider="hero1">
@@ -251,6 +314,7 @@
                   <p class="price_product_filterPage compare">{{ product.compare_at_price | money }}</p>
                 </div>
               </div>
+              <div class="click_overlay"></div>
             </a>
           </div>
         {% endfor %}
@@ -259,16 +323,7 @@
   </div>
 </section>
 
-<script>
 
-  console.log({{ cart | json }})
-</script>
 
-{% for item in cart.items %}
-  <script>
-    var altValue = "{{ item.image.alt | split: " " | last}}";
-    console.log(altValue);
-  </script>
-{% endfor %}
-
-{{ '_JS_cart.js' | asset_url | script_tag }}
+{{ '5_cart.js' | asset_url | script_tag }}
+{{ '6_inline_slider.js' | asset_url | script_tag }}

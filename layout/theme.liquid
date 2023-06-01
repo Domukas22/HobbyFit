@@ -9,13 +9,14 @@
       href="https://fonts.gstatic.com"
       crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
-    {{ 'CSS_general.css' | asset_url | stylesheet_tag }}
-    {{ 'CSS_nav.css' | asset_url | stylesheet_tag }}
-    {{ 'CSS_home.css' | asset_url | stylesheet_tag }}
-    {{ 'CSS_filterPage.css' | asset_url | stylesheet_tag }}
-    {{ 'CSS_productPage.css' | asset_url | stylesheet_tag }}
-    {{ 'CSS_cartPage.css' | asset_url | stylesheet_tag }}
-    {{ 'CSS_inline_slider.css' | asset_url | stylesheet_tag }}
+    {{ '0_general.css' | asset_url | stylesheet_tag }}
+    {{ '1_nav.css' | asset_url | stylesheet_tag }}
+    {{ '2_home.css' | asset_url | stylesheet_tag }}
+    {{ '3_filterPage.css' | asset_url | stylesheet_tag }}
+    {{ '4_productPage.css' | asset_url | stylesheet_tag }}
+    {{ '5_cart.css' | asset_url | stylesheet_tag }}
+    {{ '6_inline_slider.css' | asset_url | stylesheet_tag }}
+    {{ '7_footer.css' | asset_url | stylesheet_tag }}
 
 
   </head>
@@ -24,10 +25,10 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
     {% render 'nav' %}
     {{ content_for_layout }}
-    {{ '_JS_nav.js' | asset_url | script_tag }}
-    {{ '_JS_prepareItems.js' | asset_url | script_tag }}
-    {{ '_JS_inline_slider.js' | asset_url | script_tag }}
-    {{ '_JS_home.js' | asset_url | script_tag }}
+    {% render 'footer' %}
+    {{ '0_general.js' | asset_url | script_tag }}
+    {{ '1_nav.js' | asset_url | script_tag }}
+    {{ '2_home.js' | asset_url | script_tag }}
 
 
   </body>

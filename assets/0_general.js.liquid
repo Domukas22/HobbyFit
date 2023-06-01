@@ -1,0 +1,53 @@
+
+
+
+
+window.addEventListener('DOMContentLoaded', () => {
+    const items_color_bg = document.querySelectorAll('[data-color_bg]')
+    const items_sale = document.querySelectorAll('[data-isSale="true"]')
+    const btn_cart = document.querySelector('[data-cart_count]')
+    const waves = document.querySelectorAll('.img_wave')
+
+    items_color_bg.forEach(x => x.style.backgroundColor = x.dataset.color_bg)
+    items_sale.forEach(x => x.classList.add('sale'))
+    btn_cart.dataset.cart_count > 0 ? btn_cart.classList.add('not_empty') : btn_cart.classList.remove('not_empty')
+    setTimeout(() => {waves.forEach(x => x.style.opacity = '100%')}, 100)
+    
+})
+
+const scale_btns = document.querySelectorAll('[data-scale]');
+const url_Badminton = window.location.origin + "/collections/badmintono-prekes";
+const links = document.querySelectorAll('[data-link_filterpage]')
+
+links.forEach(x => x.addEventListener('click', e => {
+  set_URL(e.currentTarget.dataset.link_filterpage);
+}));
+function set_URL(word) {
+  const urlTag = new URLSearchParams();
+  urlTag.set('filter', encodeURIComponent(word));
+  window.location.href = url_Badminton + "?" + urlTag.toString();
+  
+}
+
+scale_btns.forEach(function(el) {
+  el.addEventListener('mousedown', function() {
+    el.style.transform = 'scale(0.85)';
+  });
+  el.addEventListener('mouseup', function() {
+    el.style.transform = 'scale(1)';
+  });
+  el.addEventListener('mouseleave', function() {
+    el.style.transform = 'scale(1)';
+  });
+  el.addEventListener('touchstart', function() {
+    el.style.transform = 'scale(0.95)';
+  });
+  el.addEventListener('touchend', function() {
+    el.style.transform = 'scale(1)';
+  });
+});
+
+function isDesktop() {
+  return window.innerWidth > 991 ? true : false;
+}
+

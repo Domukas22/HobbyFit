@@ -4,8 +4,14 @@
       <h5 class="heading_homeHero">Badmintono prekių parduotuvė</h5>
       <h1 class="title_homeHero">Paprasti pasirinkimai,<br>kokybiški rezultatai</h1>
       <div class="btnWrap_hero">
-        <a class="btn hero" href="{{ collections['badmintono-prekes'].url }}">Inventorius</a>
-        <div class="btn inverted hero" data-hover_grey>Naujausios Prekės</div>
+        <a
+          class="btn hero"
+          href="{{ collections['badmintono-prekes'].url }}"
+          data-scale>Inventorius</a>
+        <div
+          class="btn inverted hero"
+          data-hover_grey
+          data-scale>Naujausios Prekės</div>
       </div>
     </div>
     <img
@@ -27,19 +33,23 @@
       <div
         class="btn_inlineSlider arrow left"
         data-direction="left"
-        data-slider="hero1">
+        data-slider="hero1"
+        data-scale>
         <div class="line_arrow"></div>
         <div class="line_arrow reverse"></div>
       </div>
       <div
         class="btn_inlineSlider arrow right"
         data-direction="right"
-        style="transform: rotate(180deg);"
-        data-slider="hero1">
+        data-slider="hero1"
+        data-scale>
         <div class="line_arrow"></div>
         <div class="line_arrow reverse"></div>
       </div>
-      <a class="btn_inlineSlider see_all" href="{{ collections['badmintono-prekes'].url }}">Pamatyti viska</a>
+      <a
+        class="btn_inlineSlider see_all"
+        href="{{ collections['badmintono-prekes'].url }}"
+        data-scale>Pamatyti viska</a>
     </div>
     <div class="inline_swiper_wrapper">
       <div class="grid_products_inline" data-slider="hero1">
@@ -89,6 +99,7 @@
                   <p class="price_product_filterPage compare">{{ product.compare_at_price | money }}</p>
                 </div>
               </div>
+              <div class="click_overlay"></div>
             </a>
           </div>
         {% endfor %}
@@ -102,17 +113,22 @@
     <div class="container homeCategory reversed">
       <div class="textWrap_homeCategory reversed rackets">
         <h1 class="title_homeCategory">Susirask TAU<br>tinkamą rakėtę</h1>
-        <div class="btn red" data-link_filterpage="racket">Visos rakėtes</div>
+        <div
+          class="btn red"
+          data-link_filterpage="racket"
+          data-scale>Visos rakėtes</div>
       </div>
       <div class="imgWrap_homeCategory rackets">
         <img
           class="img_homeCategory"
           src="{{ 'img_home_racketPink.png' | asset_url }}"
-          alt="">
+          alt=""
+          data-scale>
         <img
           class="img_homeCategory racket_two"
           src="{{ 'img_home_racketRed.png' | asset_url }}"
-          alt="">
+          alt=""
+          data-scale>
         <div class="racket_fade"></div>
       </div>
     </div>
@@ -125,17 +141,22 @@
     <div class="container homeCategory">
       <div class="textWrap_homeCategory balls">
         <h1 class="title_homeCategory">Pigus ir kokybiški<br>plunksniukai</h1>
-        <div class="btn" data-link_filterpage="ball">Pamatyti visus</div>
+        <div
+          class="btn"
+          data-link_filterpage="ball"
+          data-scale>Pamatyti visus</div>
       </div>
       <div class="imgWrap_homeCategory balls">
         <img
           class="img_homeCategory ball_one"
           src="{{ 'img_home_ballBlue.png' | asset_url }}"
-          alt="">
+          alt=""
+          data-scale>
         <img
           class="img_homeCategory"
           src="{{ 'img_home_ballGreen.png' | asset_url }}"
-          alt="">
+          alt=""
+          data-scale>
         <div class="fade_homeCategory"></div>
       </div>
     </div>
@@ -148,17 +169,22 @@
     <div class="container homeCategory reversed">
       <div class="textWrap_homeCategory reversed clothing">
         <h1 class="title_homeCategory">Reikalinga ir<br>patvari apranga</h1>
-        <div class="btn orange" data-link_filterpage="clothing">Pamatyti Aprangą</div>
+        <div
+          class="btn orange"
+          data-link_filterpage="clothing"
+          data-scale>Pamatyti Aprangą</div>
       </div>
       <div class="imgWrap_homeCategory clothing">
         <img
           class="img_homeCategory shirt"
           src="{{ 'img_home_shirt.png' | asset_url }}"
-          alt="">
+          alt=""
+          data-scale>
         <img
           class="img_homeCategory shoe"
           src="{{ 'img_home_shoe.png' | asset_url }}"
-          alt="">
+          alt=""
+          data-scale>
         <div class="fade_homeCategory"></div>
       </div>
     </div>
@@ -171,17 +197,22 @@
     <div class="container homeCategory">
       <div class="textWrap_homeCategory">
         <h1 class="title_homeCategory">Įvairiausi priedai</h1>
-        <div class="btn red" data-link_filterpage="equipment">Pamatyti visus</div>
+        <div
+          class="btn red"
+          data-link_filterpage="equipment"
+          data-scale>Pamatyti visus</div>
       </div>
       <div class="imgWrap_homeCategory equipment">
         <img
           class="img_homeCategory bag"
           src="{{ 'img_home_bag.png' | asset_url }}"
-          alt="">
+          alt=""
+          data-scale>
         <img
           class="img_homeCategory wristband"
           src="{{ 'img_home_wristband.png' | asset_url }}"
-          alt="">
+          alt=""
+          data-scale>
         <div class="fade_homeCategory"></div>
       </div>
     </div>
@@ -215,3 +246,5 @@
       });
     })
 </script>
+
+{{ '6_inline_slider.js' | asset_url | script_tag }}

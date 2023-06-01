@@ -7,6 +7,8 @@
   --color_Text: rgba(0, 0, 0, 0.80);
   --color_bigText: rgba(0, 0, 0, 0.75);
   --color_activeLink: rgba(64, 127, 242, 0.1);
+  --color_black_06: rgba(0, 0, 0, 0.600);
+  --color_text_green: rgb(23 116 0 / 80%);
 
   --color_grey: #747474;
   --color_bg: #f9fbff;
@@ -93,6 +95,29 @@ input[type='number']::-webkit-outer-spin-button {
   margin: 0;
 }
 
+[data-color_06] {
+  color: var(--color_black_06)
+}
+[data-text_green] {
+  color: var(--color_text_green)
+}
+
+.scale {
+  animation: scale 300ms;
+}
+@keyframes scale {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+
 
 fieldset {
   border: none;
@@ -100,6 +125,10 @@ fieldset {
 a {
   text-decoration: none;
 }
+ul {
+  list-style: none;
+}
+
 
 
 [data-textcolor="grey"] {
@@ -194,7 +223,8 @@ section {
   min-width: 104%;
 
   object-fit: cover;
-  background-color: rgb(198, 198, 198);
+  background-color: #fff;
+  opacity: 0;
 
   position: absolute;
   top: -4px;
@@ -215,9 +245,8 @@ section {
   margin-right: 8px;
 }
 
-
 .section_pageTitle {
-  height: 220px;
+  height: 180px;
   padding: 60px 80px 30px;
   width: 100%;
 

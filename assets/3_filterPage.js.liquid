@@ -1,6 +1,7 @@
 
 
 window.addEventListener('resize', () => {
+    handle_shadow_2()
     if (/Mobi/i.test(navigator.userAgent)) {return}
     document.querySelector('.filterBox_M').classList.remove('open')
 })
@@ -9,18 +10,24 @@ window.addEventListener('DOMContentLoaded', () => {
     filter_on_load()
     randomize_products()
     count_category_items()
+    handle_shadow_2()
     document.querySelector('.product_grid').style.opacity = "100%"
-    document.querySelector('nav').classList.add('no_shadow')
 })
 window.addEventListener('scroll', () => {
     moveWaves()
-    const nav = document.querySelector('nav')
-    window.scrollY > 60 ? nav.classList.remove('no_shadow') : nav.classList.add('no_shadow')
+    handle_shadow_2()
 })
+function handle_shadow_2() {
+    const nav = document.querySelector('nav')
+    window.scrollY < 60 ? nav.classList.add('no_shadow') : nav.classList.remove('no_shadow')
+}
+
+
+
 function check_for_reload() {
     if (performance.navigation.type === performance.navigation.TYPE_RELOAD) {
         empty_the_url()
-        scroll_top()
+        window.scrollTo({top: 0, behavior: "smooth", duration: 2000})
       }
 }
 function filter_on_load() {
@@ -52,6 +59,11 @@ function empty_the_url() {
         history.replaceState({}, document.title, urlWithoutParams);
       }
 }
+function changeUrl_2(filterWord) {
+    const url = new URLParse(window.location.href, true)
+    url.query.filter = filterWord
+    window.history.replaceState(null, null, url.toString())
+  }
 
 const waves = document.querySelectorAll('.img_wave')
 function moveWaves() {
@@ -72,11 +84,12 @@ const filterToggles = document.querySelectorAll('div[data-toggle="filters"]') //
 filterToggles.forEach(x => x.addEventListener('click', toggle_filterBox))
 filters_ALL.forEach(x => x.addEventListener('click', (e) => {
     const filterWord = e.currentTarget.dataset.filter
-    filter_items(filterWord)
     toggle_activeFilter(filterWord)
+    filter_items(filterWord)
     handle_filterText(filterWord)
+    changeUrl_2(filterWord)
     scroll_top()
-    if(current_Display() == "mobile"){toggle_filterBox()}
+    if(current_Display() == "mobile"){setTimeout(() => {toggle_filterBox()}, 150)}
 })	
 )
 
@@ -89,7 +102,7 @@ function filter_items(word) {
         else {product.style.display = 'none'}
     })
     document.querySelector('.filter_count').textContent = count  
-    empty_the_url()    
+    //empty_the_url()    
 }
 function toggle_activeFilter(filterTag) {    //separate funtion because of filtering on load with URL
     let word_activeBtn
@@ -125,7 +138,7 @@ function toggle_filterBox() {
     }
 }
 function scroll_top() {
-    if (isDesktop() || current_Display() == "tablet") {window.scrollTo({top: 160, behavior: "smooth", duration: 2000})}
+    if (isDesktop() || current_Display() == "tablet") {window.scrollTo({top: 120, behavior: "smooth", duration: 2000})}
     else {setTimeout(() => {window.scrollTo({top: 0, behavior: "smooth", duration: 2000})}, 150)}
 }
 
@@ -137,7 +150,18 @@ function current_Display() {
             'mobile';
 }
 
-
+// Check if the user is navigating back
+function checkBackNavigation() {
+    if (performance && performance.navigation) {
+      if (performance.navigation.type === 2) {
+        // The user is navigating back to a previous page
+        console.log("User clicked back button.");
+      }
+    }
+  }
+  
+  // Add an event listener to the window object
+  window.addEventListener("popstate", checkBackNavigation);
 
 
 

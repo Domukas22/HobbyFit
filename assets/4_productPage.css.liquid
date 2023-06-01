@@ -7,6 +7,8 @@
   --color_Text: rgba(0, 0, 0, 0.80);
   --color_bigText: rgba(0, 0, 0, 0.75);
   --color_activeLink: rgba(64, 127, 242, 0.1);
+  --color_black_06: rgba(0, 0, 0, 0.600);
+  --color_text_green: rgb(23 116 0 / 80%);
 
   --color_grey: #747474;
   --color_bg: #f9fbff;
@@ -39,6 +41,7 @@
 .sticky_div {
   width: 100%;
   max-height: 700px;
+  min-height: 470px;
   height: calc(100vh - 180px);
   background-color: #f0f09a;
 
@@ -75,6 +78,8 @@
 .priceWrap_productPage {
   display: flex;
   margin-left: auto;
+  flex-basis: 40%;
+  justify-content: flex-end;
 }
 
 .btn_cart {
@@ -228,13 +233,15 @@
   z-index: 1;
   width: 55px;
   height: 55px;
+  left: 0;
+  right: 0;
 
   border-radius: 100px;
   transition: all 80ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
   cursor: pointer;
 }
 .swiperBtn.reverse {
-  transform: rotate(180deg);
+  rotate: 180deg;
 }
 
 .line_arrow {
@@ -331,14 +338,17 @@
   padding: 16px;
 }
 
+.title_Product {
+  flex-basis: 60%
+}
 .p_stockLeft {
-  color: rgba(23, 116, 0, 0.8);
   font-weight: 500;
-  min-width: 100%;
-  width: 100%;
   margin-top: 3px;
 }
 .p_stockLeft.red {
+  color: var(--color_red);
+}
+.p_stockLeft.red > span {
   color: var(--color_red);
 }
 
@@ -370,9 +380,7 @@
 .parent_optionRadio:hover {
   background-color: var(--color_hover);
 }
-.product_option > label {
-  color: rgba(0, 0, 0, 0.609);
-}
+
 .optionRadio {
   width: 100%;
   height: 100%;
@@ -489,7 +497,7 @@ input[name="Color"] + label {
 
 .btnWrap_mainDesc {
   display: grid;
-  grid-template-columns: 0.8fr 1fr;
+  grid-template-columns: 0.6fr 1fr;
   column-gap: 8px;
   row-gap: 8px;
 }
@@ -499,7 +507,7 @@ input[name="Color"] + label {
   border-radius: 8px;
   display: flex;
   align-items: center;
-  padding: 16px;
+  padding: 20px;
   font-weight: 600;
   cursor: pointer;
 
@@ -510,8 +518,9 @@ input[name="Color"] + label {
 
 
 .theSVG {
-  width: 18px;
-  margin-left: auto;
+  width: 17px;
+  margin: 0 0 2px auto;
+  display: none
 }
 .bagIcon_btnCart {
   width: 24px;
@@ -621,6 +630,15 @@ input[name="Color"] + label {
   .container_productPage.mini {
     flex-direction: row;
   }
+  .btnWrap_mainDesc {
+    grid-template-columns: 1fr 1fr;
+  }
+  .theSVG {
+    display: block
+  }
+  .swiperBtn:hover {
+    background-color: #fff;
+  }
 
 
 }
@@ -642,22 +660,18 @@ input[name="Color"] + label {
   .container_productPage.desc {
     grid-template-columns: 1fr;
   }
-  .btnWrap_mainDesc {
-    grid-template-columns: 1fr;
-  }
   .btn_mainDesc.bag {
-    order: 2;
     justify-content: flex-start;
   }
   .sticky_div {
     height: 500px;
   }
+
 }
 @media only screen and (max-width: 500px) {
   .swiper-pagination {
     max-width: 40vw;
   }
-
   .bagIcon_btnCart {
     display: block;
   }
@@ -669,5 +683,11 @@ input[name="Color"] + label {
   }
   .wrap_qntOptions.mobile {
     display: flex;
+  }
+  .btnWrap_mainDesc {
+    grid-template-columns: 1fr;
+  }
+  .btn_mainDesc.bag {
+    order: 2
   }
 }

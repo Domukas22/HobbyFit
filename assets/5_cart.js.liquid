@@ -1,0 +1,96 @@
+
+
+window.addEventListener('DOMContentLoaded', () => {handle_shadow();edit_shippingLine();})
+window.addEventListener('scroll', () => {handle_shadow()})
+window.addEventListener('resize', () => {handle_shadow(); edit_shippingLine()})
+function handle_shadow() {
+    const nav = document.querySelector('nav')
+    if (isDesktop() && window.scrollY < 60) {
+        nav.classList.add('no_shadow')
+    } else if (isDesktop() && window.scrollY > 60) {
+        nav.classList.remove('no_shadow')
+    } else if (!isDesktop()) {
+        nav.classList.remove('no_shadow')
+    }
+}
+
+const btn_checkout_BOTH = document.querySelectorAll('.btn.btn_checkout')
+const btn_invisibleCheckout = document.querySelector('button[name="checkout"]')
+const links_to_item = document.querySelectorAll('.link_cartItem')
+const qnt_buttons = document.querySelectorAll('.btn_qnt')
+const empt_cart_slots = document.querySelectorAll('.empty_cart_slot')
+
+btn_checkout_BOTH.forEach(x => x.addEventListener('click', () => {btn_invisibleCheckout.click()}))
+qnt_buttons.forEach(x => x.addEventListener('click', (e) => {
+    const target = e.currentTarget
+    const value = (target.dataset.update == 'plus' ? true : false)
+    const input = target.parentElement.querySelector('input[type="number"]')
+    handle_qntInput(input, value)
+}));
+links_to_item.forEach(x => x.addEventListener('click', (e) => {
+    y = e.currentTarget
+    open_page_item(y.dataset.variant_id, y.dataset.bg, y.dataset.raw, y.dataset.link)
+}))
+empt_cart_slots.forEach(x => {
+    x.addEventListener('mouseover', (e) => {
+        e.currentTarget.classList.add('change')
+    })
+    x.addEventListener('mouseleave', (e) => {
+        e.currentTarget.classList.remove('change')
+    })
+    x.addEventListener('touchstart', (e) => {
+        if(isDesktop()) {return}
+        e.currentTarget.classList.add('change')
+    })
+    x.addEventListener('touchend', (e) => {
+        if(isDesktop()) {return}
+        e.currentTarget.classList.remove('change')
+    })
+})
+
+function handle_qntInput(target, value) {
+    if (value) {
+        target.value++
+    } else {
+        if (target.value == 1) {
+            target.parentElement.nextElementSibling.click()
+        } 
+        target.value--
+    }
+    document.querySelector('button[name="update"]').click()
+}
+function edit_shippingLine() {
+    const text_targetPrice = document.querySelector('.text_priceTarget.target')
+    const lines_shipping_ALL = document.querySelectorAll('.line_shipping.grow')
+
+
+    
+    const money_threshold = 70
+    const money_current = parseInt(document.querySelector('[data-price_current]').dataset.price_current)
+    const money_diffrence = money_threshold - money_current
+
+    if (money_diffrence <= 0) {
+        lines_shipping_ALL.forEach(x => x.style.width = '100%')
+        text_targetPrice.classList.add('active')
+    } else {
+        lines_shipping_ALL.forEach(x => {
+            const length_default = x.parentElement.getBoundingClientRect().width
+            const percentageLeft = (money_diffrence / money_threshold) * 100;
+            const newWidth = length_default * (1 - (percentageLeft / 100));
+            x.style.width = `${newWidth}px`;
+            text_targetPrice.classList.remove('active')
+        })
+        
+    }
+}
+function open_page_item(id, color_bg, color_raw, shopLink) {
+    const url = new URLParse(shopLink, true)
+    url.query.variant = id
+    url.query.color_bg = color_bg
+    url.query.color_raw = color_raw
+    window.history.replaceState(null, null, url.toString())
+    window.location.href = url.toString();
+}
+function isDesktop() {return window.innerWidth > 991 ? true : false};
+
+

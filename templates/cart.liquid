@@ -323,7 +323,15 @@
   </div>
 </section>
 
-
+<script>
+  function is_bag_emtpy_2() {
+    {% if cart.item_count == 0 %}
+      return true
+    {% else %}
+      return false
+    {% endif %}
+  }
+</script>
 
 {{ '5_cart.js' | asset_url | script_tag }}
 {{ '6_inline_slider.js' | asset_url | script_tag }}

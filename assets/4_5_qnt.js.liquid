@@ -1,0 +1,127 @@
+
+
+const btn_giveQuantity = document.querySelector('.btn_giveQuantity')
+const btn_cancelQuantity = document.querySelector('.btn_nearQtn.cancel')
+const btn_submitQuantity = document.querySelector('.btn_nearQtn.submit')
+const qntInput = document.querySelector('.qntInput')
+let locked = false
+
+function set_qnt_eventListeners() {
+    const qnt_btns = document.querySelectorAll('.qnt_option')
+    qnt_btns.forEach(x => x.addEventListener('click', (e) => {
+        hanlde_qntAttributes(e.currentTarget.dataset.value)
+        recolor_default()
+        qntInput.value = e.currentTarget.textContent;
+        qntInput.setAttribute("value", e.currentTarget.textContent);
+        edit_sum_price(find_matchedVariant(), format)
+
+        if (is_bag_emtpy()) {
+        const btnText_price = document.querySelector('.price_insideBtn')
+        bubble_jump(btnText_price)
+        }
+    }))
+}
+btn_cancelQuantity.addEventListener('click', toggle_qntInput);
+btn_giveQuantity.addEventListener('click', () => {
+    setTimeout(() => {
+        qntInput.focus();
+        qntInput.select();
+    }, 151);
+    toggle_qntInput()
+});
+
+btn_submitQuantity.addEventListener('click', () => {
+    toggle_qntInput()
+    hanlde_qntAttributes(qntInput.value)
+    recolor_default()
+    set_qnt_eventListeners()
+    edit_sum_price(find_matchedVariant())
+});
+function checkKeyPress(event, inputElement) {
+    if (event.key === "Enter" || event.keyCode === 13) {
+        event.preventDefault();
+        inputElement.blur();
+        toggle_qntInput()
+        hanlde_qntAttributes(qntInput.value)
+        recolor_default()
+        set_qnt_eventListeners()
+        edit_sum_price(find_matchedVariant())
+    }
+}
+
+function toggle_qntInput() {
+    const parent = document.querySelector('.input_box.qnt')
+    const qnt_front = document.querySelector('.quantity_front')
+    const qnt_back = document.querySelector('.quantity_back')
+    parent.classList.toggle('show_input')
+
+    if (parent.classList.contains('show_input') && ! locked) {
+
+        locked = true
+        qnt_front.style.opacity = "0%"
+        qnt_back.style.display = 'flex'
+        setTimeout(() => {
+        qnt_back.style.opacity = "100%"
+        }, 70)
+        setTimeout(() => {
+        qnt_front.style.display = 'none'
+        locked = false
+        }, 151)
+
+
+    } else if (! locked) {
+
+        locked = true
+        qnt_back.style.opacity = "0%"
+        qnt_front.style.display = 'flex'
+        setTimeout(() => {
+        qnt_front.style.opacity = "100%"
+        }, 70)
+        setTimeout(() => {
+        qnt_back.style.display = 'none'
+        locked = false
+        }, 151)
+
+    }
+
+}
+function hanlde_qntAttributes(value) {
+    const qnt_btns = document.querySelectorAll('.qnt_option')
+    qnt_btns.forEach(y => {
+        y.classList.remove('active');
+        y.removeAttribute('data-recolor_bg');
+        y.removeAttribute('data-recolor_text_raw');
+        y.removeAttribute('style');
+    })
+
+    if (value == '1' || value == '2') {
+        const options_to_select = document.querySelectorAll(`.qnt_option[data-value="${value}"]`)
+        options_to_select.forEach(x => {
+        x.classList.add('active');
+        x.setAttribute('data-recolor_bg', '');
+        x.setAttribute('data-recolor_text_raw', '');
+        })
+    } else if (value == "3" || value == '4') {
+        const targetOption_D = document.querySelector(`.qnt_option.d[data-value="${value}"]`);
+        const targetOption_M = document.querySelector('.wrap_qntOptions.mobile').lastElementChild;
+        [targetOption_D, targetOption_M].forEach(x => {
+        x.classList.add('active');
+        x.setAttribute('data-recolor_bg', '');
+        x.setAttribute('data-recolor_text_raw', '');
+        })
+        targetOption_M.dataset.value = value;
+        targetOption_M.textContent = value;
+
+    } else {
+        const targetOption_D = document.querySelector('.wrap_qntOptions.desktop').lastElementChild;
+        const targetOption_M = document.querySelector('.wrap_qntOptions.mobile').lastElementChild;
+
+        [targetOption_D, targetOption_M].forEach(x => {
+        x.classList.add('active');
+        x.setAttribute('data-recolor_bg', '');
+        x.setAttribute('data-recolor_text_raw', '');
+        x.dataset.value = value;
+        x.textContent = value;
+        })
+    }
+}

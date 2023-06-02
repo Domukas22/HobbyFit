@@ -53,13 +53,13 @@ function toggle_zoom(magnify) {
         wrap_Controls.classList.remove('zoom') // remove controls earlier
         grow_Image(1);
         setTimeout(() => {handle_elements(false)}, 400)
-        setTimeout(() => {toggle_activeZoomBtn(magnify), set_Colors()}, 600);
+        setTimeout(() => {toggle_activeZoomBtn(magnify), set_bullet_colors()}, 600);
 
     } else {
         handle_elements(true)
         grow_Image(magnify)
         toggle_activeZoomBtn(magnify)
-        set_Colors()
+        set_bullet_colors()
     }
 
 }

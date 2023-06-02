@@ -1,16 +1,13 @@
 
 
-
 const formatMoney = function(cents, format) {
     if (typeof cents == 'string') { cents = cents.replace('.',''); }
     var value = '';
     var placeholderRegex = /\{\{\s*(\w+)\s*\}\}/;
     var formatString = (format || this.money_format);
-  
     function defaultOption(opt, def) {
        return (typeof opt == 'undefined' ? def : opt);
     }
-  
     function formatWithDelimiters(number, precision, thousands, decimal) {
       precision = defaultOption(precision, 2);
       thousands = defaultOption(thousands, ',');
@@ -26,7 +23,6 @@ const formatMoney = function(cents, format) {
   
       return dollars + cents;
     }
-  
     switch(formatString.match(placeholderRegex)[1]) {
       case 'amount':
         value = formatWithDelimiters(cents, 2);
@@ -41,33 +37,19 @@ const formatMoney = function(cents, format) {
         value = formatWithDelimiters(cents, 0, '.', ',');
         break;
     }
-  
     return formatString.replace(placeholderRegex, value);
 };
 
-const main_slider_btns = document.querySelectorAll('.swiperBtn')
-main_slider_btns.style
+function edit_variant_price(matchedVariant, format) {
+  document.querySelector('.price_product_filterPage').textContent = formatMoney(matchedVariant.price, format)
+}
 
-main_slider_btns.forEach(function(el) {
-  
-  const is_right = (el.classList.contains('swiper-btn-next'))
-  
-  el.addEventListener('mousedown', function() {
-    is_right ? el.style.left = "4px" : el.style.left = "-4px"
-  });
-  el.addEventListener('mouseup', function() {
-    el.style.left = "0px"
-    el.style.left = "0px"
-  });
-  el.addEventListener('mouseleave', function() {
-    el.style.left = "0px"
-    el.style.left = "0px"
-  });
-  el.addEventListener('touchstart', function() {
-    is_right ? el.style.left = "4px" : el.style.left = "-4px"
-  });
-  el.addEventListener('touchend', function() {
-    el.style.left = "0px"
-    el.style.left = "0px"
-  });
-});
+function edit_sum_price(variant, format) {
+  if (is_bag_emtpy()) {
+  const actualPrice = variant.price;
+  const finalPrice = formatMoney((actualPrice * Number(qntInput.value)), format);
+  document.querySelector('.price_insideBtn').textContent = finalPrice
+}
+}
+
+

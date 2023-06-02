@@ -60,11 +60,10 @@ function handle_qntInput(target, value) {
     document.querySelector('button[name="update"]').click()
 }
 function edit_shippingLine() {
+    if (!is_bag_emtpy_2()) {
     const text_targetPrice = document.querySelector('.text_priceTarget.target')
     const lines_shipping_ALL = document.querySelectorAll('.line_shipping.grow')
 
-
-    
     const money_threshold = 70
     const money_current = parseInt(document.querySelector('[data-price_current]').dataset.price_current)
     const money_diffrence = money_threshold - money_current
@@ -82,6 +81,7 @@ function edit_shippingLine() {
         })
         
     }
+}
 }
 function open_page_item(id, color_bg, color_raw, shopLink) {
     const url = new URLParse(shopLink, true)

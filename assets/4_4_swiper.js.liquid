@@ -1,0 +1,171 @@
+
+
+
+function insert_swiper(images_raw) {
+    const colorHex_bg = new URLSearchParams(window.location.search).get('color_bg');
+    const stickyDiv = document.querySelector('.sticky_div')
+    const swiper_old = stickyDiv.querySelector('.swiper')
+    
+    if (colorHex_bg) {
+
+    const chosenImages = images_raw.filter(img => {
+        return img.getAttribute('alt').includes(colorHex_bg)
+        })
+     
+      const swiper_new = document.createElement('div');
+      swiper_new.classList.add('swiper');
+      swiper_new.setAttribute('style', "opacity: 0%");
+
+
+      const swiper_wrapper = document.createElement('div');
+      swiper_wrapper.classList.add('swiper-wrapper');
+      swiper_wrapper.setAttribute('data-effect', "zoom");
+      swiper_wrapper.setAttribute('data-zoom_active', "false");
+      swiper_wrapper.setAttribute('data-reset', "");
+      swiper_wrapper.setAttribute('data-magnify', "1");
+
+      chosenImages.forEach(img => {
+        
+        const swiper_slide = document.createElement('div');
+        swiper_slide.classList.add('swiper-slide');
+        img.classList.add('imgSwiper');
+        img.setAttribute('draggable', 'false');
+
+        swiper_slide.append(img);
+        swiper_wrapper.append(swiper_slide);
+        
+      })
+
+
+      
+      const wave = document.createElement('img');
+      wave.classList.add('img_WAVE_long');
+      wave.setAttribute('src', "{{ 'img_WAVE_filterPage.svg' | asset_url }}");
+      wave.setAttribute('style', `background-color: ${colorHex_bg}`);
+      wave.setAttribute('data-swiper-parallax', "-13%");
+      wave.setAttribute('data-recolor_bg', ``);
+
+
+      const sliderControls = document.querySelector('.sliderControls')
+      stickyDiv.removeChild(sliderControls);
+      stickyDiv.append(sliderControls);
+
+      
+      swiper_new.append(wave);
+      swiper_new.append(swiper_wrapper);
+      stickyDiv.removeChild(swiper_old)
+      stickyDiv.append(swiper_new)
+
+      setTimeout(() => {
+        swiper_new.removeAttribute('style')
+      }, 30)
+
+
+
+    } else {
+      console.log('Load default color');
+    }
+}
+function initiate_swiper() {
+    swiper = new Swiper(".swiper", {
+      parallax: true,
+      grabCursor: true,
+      noSwipingClass: 'slider-no-swiping',
+      pagination: {
+        el: ".swiper-pagination",
+        clickable: true
+      },
+      navigation: {
+        nextEl: ".swiper-btn-next",
+        prevEl: ".swiper-btn-prev"
+      }
+    });
+    swiper.on('transitionEnd', function() {
+      reset_Transitions()
+    });
+    swiper.on('slideChange', function() {
+      set_bullet_colors()
+    });
+    set_parallax()
+
+}
+function replaceSwiper() {
+    swiper.destroy()
+    swiper = new Swiper(".swiper", {
+        parallax: true,
+        grabCursor: true,
+        noSwipingClass: 'slider-no-swiping',
+        pagination: {
+        el: ".swiper-pagination",
+        clickable: true
+        },
+        navigation: {
+        nextEl: ".swiper-btn-next",
+        prevEl: ".swiper-btn-prev"
+        }
+    });
+    swiper.on('transitionEnd', function() {
+        reset_Transitions()
+    });
+    swiper.on('slideChange', function() {
+        set_bullet_colors()
+    });
+    set_parallax()
+}
+function set_bullet_colors() {
+    const bullets = document.querySelectorAll('.swiper-pagination-bullet');
+    const magnify = document.querySelectorAll('[data-btn_magnify]');
+    [bullets, magnify].forEach(x => x.forEach(y => y.style.backgroundColor = get_colors()[0]))
+
+    const activeBullet = document.querySelector('.swiper-pagination-bullet-active');
+    const magnifyActive = document.querySelector('[data-btn_magnify].active');
+    [activeBullet, magnifyActive].forEach(x => x.style.backgroundColor = get_colors()[1])
+  }
+  function reset_Transitions() {
+    document.querySelectorAll('[data-reset]').forEach(x => {
+      x.style.transitionDuration = "400ms"
+    });
+    document.querySelector('.img_WAVE_long').style.transition = "400ms";
+  }
+
+  window.addEventListener('resize', () => {
+    set_parallax()
+})
+function set_parallax() {
+    if (isDesktop()) {
+      document.querySelector('.img_WAVE_long').setAttribute('data-swiper-parallax', '-20%')
+    } else {
+      document.querySelector('.img_WAVE_long').setAttribute('data-swiper-parallax', '-13%')
+    }
+}
+function isDesktop() {
+    return window.innerWidth > 991
+        ? true
+        : false
+}
+
+
+const main_slider_btns = document.querySelectorAll('.swiperBtn')
+main_slider_btns.forEach(function(el) {
+  
+  const is_right = (el.classList.contains('swiper-btn-next'))
+  
+  el.addEventListener('mousedown', function() {
+    is_right ? el.style.left = "4px" : el.style.left = "-4px"
+  });
+  el.addEventListener('mouseup', function() {
+    el.style.left = "0px"
+    el.style.left = "0px"
+  });
+  el.addEventListener('mouseleave', function() {
+    el.style.left = "0px"
+    el.style.left = "0px"
+  });
+  el.addEventListener('touchstart', function() {
+    is_right ? el.style.left = "4px" : el.style.left = "-4px"
+  });
+  el.addEventListener('touchend', function() {
+    el.style.left = "0px"
+    el.style.left = "0px"
+  });
+});

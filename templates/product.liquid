@@ -124,7 +124,7 @@
 
                   <fieldset class="input_box">
                     {% for value in option.values %}
-                      <div class="parent_optionRadio" data-scale>
+                      <div class="parent_optionRadio">
                         <input
                           {% if option.selected_value == value %}checked{% endif %}
                           type="radio"
@@ -230,35 +230,67 @@
 
           <div class="btnWrap_mainDesc">
             {% if product.selected_or_first_available_variant.available %}
-              <div
-                class="btn_mainDesc bag"
-                style="border: 1px solid {{ color_bg }}; font-weight: 400;"
-                data-recolor_border_raw
-                data-scale>
-                <p style="color:{{ color_raw }}" data-recolor_text_raw>Į krepšelį</p>
-                <svg
-                  class="theSVG"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 337.94 421.48">
-                  <g id="Ebene_2" data-name="Ebene 2">
-                    <g id="Ebene_1-2" data-name="Ebene 1"><path d="M337.69,385.58,301.08,86.79a10,10,0,0,0-9.88-8.74H46.73a10,10,0,0,0-9.88,8.74L.24,385.58A32,32,0,0,0,32,421.48H305.92A32,32,0,0,0,337.69,385.58ZM268.84,141.66c-.16,3.29-.48,6.53-.94,9.72-7.1,48.82-48.69,86.29-98.93,86.29S77.14,200.2,70,151.38c-.46-3.19-.78-6.43-.94-9.72v0a24.81,24.81,0,0,1,24.68-22.26q1.06,0,2.1.09A3.05,3.05,0,0,1,98.67,123a76.8,76.8,0,0,0,5.08,43.86C115,192.6,139.94,210.5,169,210.5s54-17.9,65.22-43.62a75.89,75.89,0,0,0,6.27-30.35,77,77,0,0,0-1.18-13.42,3.14,3.14,0,0,1,2.86-3.67c.66,0,1.34-.08,2-.08a24.81,24.81,0,0,1,24.68,22.26Z" /><path d="M250.13,64H225.46a2.64,2.64,0,0,1-2.33-1.43c-11.27-21.74-31.31-36.2-54.16-36.2s-42.89,14.46-54.16,36.2A2.62,2.62,0,0,1,112.48,64H87.8a1.46,1.46,0,0,1-1.38-2C100.28,25.52,132,0,169,0s68.68,25.52,82.54,62A1.46,1.46,0,0,1,250.13,64Z" /></g>
-                  </g>
-                </svg>
-              </div>
-              <div
-                class="btn_mainDesc buy"
-                style="background-color: {{ color_raw }}; color: white;"
-                data-recolor_raw
-                data-scale>
-                Užsisakyti<span class="price_insideBtn">{{ product.selected_or_first_available_variant.price | money }}</span>
-              </div>
+              {% if cart.item_count > 0 %}
+                <div
+                  class="btn_mainDesc bag"
+                  style="font-weight: 400; grid-column: 1/3;"
+                  data-recolor_raw
+                  data-scale>
+                  <p style="color: white">Į krepšelį</p>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 337.94 421.48"
+                    style="width: 17px; margin: 0 0 2px auto;">
+                    <g id="Ebene_2" data-name="Ebene 2">
+                      <g id="Ebene_1-2" data-name="Ebene 1"><path style="fill: white" d="M337.69,385.58,301.08,86.79a10,10,0,0,0-9.88-8.74H46.73a10,10,0,0,0-9.88,8.74L.24,385.58A32,32,0,0,0,32,421.48H305.92A32,32,0,0,0,337.69,385.58ZM268.84,141.66c-.16,3.29-.48,6.53-.94,9.72-7.1,48.82-48.69,86.29-98.93,86.29S77.14,200.2,70,151.38c-.46-3.19-.78-6.43-.94-9.72v0a24.81,24.81,0,0,1,24.68-22.26q1.06,0,2.1.09A3.05,3.05,0,0,1,98.67,123a76.8,76.8,0,0,0,5.08,43.86C115,192.6,139.94,210.5,169,210.5s54-17.9,65.22-43.62a75.89,75.89,0,0,0,6.27-30.35,77,77,0,0,0-1.18-13.42,3.14,3.14,0,0,1,2.86-3.67c.66,0,1.34-.08,2-.08a24.81,24.81,0,0,1,24.68,22.26Z" /><path style="fill: white" d="M250.13,64H225.46a2.64,2.64,0,0,1-2.33-1.43c-11.27-21.74-31.31-36.2-54.16-36.2s-42.89,14.46-54.16,36.2A2.62,2.62,0,0,1,112.48,64H87.8a1.46,1.46,0,0,1-1.38-2C100.28,25.52,132,0,169,0s68.68,25.52,82.54,62A1.46,1.46,0,0,1,250.13,64Z" /></g>
+                    </g>
+                  </svg>
+                </div>
+              {% else %}
+                <div
+                  class="btn_mainDesc bag"
+                  style="border: 1px solid {{ color_bg }}; font-weight: 400;"
+                  data-recolor_border_raw
+                  data-scale>
+                  <p style="color:{{ color_raw }}" data-recolor_text_raw>Į krepšelį</p>
+                  <svg
+                    class="theSVG"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 337.94 421.48"
+                    id="bag_raw">
+                    <g id="Ebene_2" data-name="Ebene 2">
+                      <g id="Ebene_1-2" data-name="Ebene 1"><path d="M337.69,385.58,301.08,86.79a10,10,0,0,0-9.88-8.74H46.73a10,10,0,0,0-9.88,8.74L.24,385.58A32,32,0,0,0,32,421.48H305.92A32,32,0,0,0,337.69,385.58ZM268.84,141.66c-.16,3.29-.48,6.53-.94,9.72-7.1,48.82-48.69,86.29-98.93,86.29S77.14,200.2,70,151.38c-.46-3.19-.78-6.43-.94-9.72v0a24.81,24.81,0,0,1,24.68-22.26q1.06,0,2.1.09A3.05,3.05,0,0,1,98.67,123a76.8,76.8,0,0,0,5.08,43.86C115,192.6,139.94,210.5,169,210.5s54-17.9,65.22-43.62a75.89,75.89,0,0,0,6.27-30.35,77,77,0,0,0-1.18-13.42,3.14,3.14,0,0,1,2.86-3.67c.66,0,1.34-.08,2-.08a24.81,24.81,0,0,1,24.68,22.26Z" /><path d="M250.13,64H225.46a2.64,2.64,0,0,1-2.33-1.43c-11.27-21.74-31.31-36.2-54.16-36.2s-42.89,14.46-54.16,36.2A2.62,2.62,0,0,1,112.48,64H87.8a1.46,1.46,0,0,1-1.38-2C100.28,25.52,132,0,169,0s68.68,25.52,82.54,62A1.46,1.46,0,0,1,250.13,64Z" /></g>
+                    </g>
+                  </svg>
+                </div>
+                <div
+                  class="btn_mainDesc buy"
+                  style="background-color: {{ color_raw }}; color: white;"
+                  data-recolor_raw
+                  data-scale>
+                  Užsisakyti<span class="price_insideBtn">{{ product.selected_or_first_available_variant.price | money }}</span>
+                </div>
+              {% endif %}
             {% else %}
               <div class="sign_outOfstock">Deja nebeturime šios prekės</div>
             {% endif %}
           </div>
 
         {% endform %}
-
+        <a
+          class="sign_alreadyBag"
+          style="margin-top: 16px; display: none"
+          href="{{ shop.ulr }}/cart">
+          <p style="margin-bottom: 10px;">
+            Ši prekė jau yra Jūsų krepšelyje</p>
+          <div
+            class="btn_mainDesc"
+            style="border: 1px solid {{ color_bg }}; font-weight: 400;"
+            data-recolor_border_raw
+            data-scale>
+            <p style="color:{{ color_raw }}" data-recolor_text_raw>Peržiūrėti krepšelį</p>
+          </div>
+        </a>
         <div class="separator"></div>
         <div class="wrap_productDescription">
           {{ product.metafields.custom.bullets | metafield_tag }}
@@ -411,11 +443,29 @@
   </div>
 </section>
 
-
 <script>
-
   let swiper
   let product = {{ product | json}}
+  let format = "{{ shop.money_format }}"
+  function is_bag_emtpy() {
+    {% if cart.item_count == 0 %}
+      return true
+    {% else %}
+      return false
+    {% endif %}
+  }
+</script>
+{{ '4_0_formatMoney.js' | asset_url | script_tag }}
+<!-- formatMoney / edit_variant_price / edit_sum_price -->
+{{ '4_3_setFunctions.js' | asset_url | script_tag }}
+<!-- set_circleColors / changeUrl / edit_hiddenInput / bubble_jump -->
+{{ '4_4_swiper.js' | asset_url | script_tag }}
+<!-- insert_swiper / initiate_swiper / replaceSwiper /  set_bullet_colors / set_parallax -->
+{{ '4_5_qnt.js' | asset_url | script_tag }}
+<!-- set_qnt_eventListeners / checkKeyPress / toggle_qntInput / hanlde_qntAttributes-->
+
+
+<script>
   function find_matchedVariant() {
     let selected_radios = []
     document.querySelectorAll('input[type="radio"].optionRadio:checked').forEach(x => selected_radios.push(x.value))
@@ -428,6 +478,7 @@
       return true;
     });
     return matchedVariant
+
   }
   window.addEventListener('DOMContentLoaded', () => {
     {% if product.options contains 'Color' %}
@@ -438,12 +489,13 @@
       recolor('{{ color_raw }}', '{{ color_bg }}');{% endif %};
 
 // -
-    set_eventListeners();
-    change_images()
-    createSwiper();
+    set_qnt_eventListeners();
+    insert_swiper(get_images())
+    initiate_swiper();
     reset_Transitions();
+    is_already_inCart(get_cart_ids(), find_matchedVariant().id)
     setTimeout(() => {
-      set_Colors()
+      set_bullet_colors()
     }, 20)
   })
 
@@ -453,28 +505,71 @@
       recolor_default()
       edit_hiddenInput(find_matchedVariant())
       changeUrl(find_matchedVariant(), get_colors()[0], get_colors()[1])
-      edit_texts(find_matchedVariant())
-      handle_btnPrice(find_matchedVariant())
-      edit_qnt(find_matchedVariant().id)
+      edit_variant_price(find_matchedVariant(), format)
+      edit_sum_price(find_matchedVariant(), format)
+      update_variant_qnt(get_qnt(find_matchedVariant().id))
+      is_already_inCart(get_cart_ids(), find_matchedVariant().id)
       bubble_jump(document.getElementById('qnt_in_box'))
       bubble_jump(document.querySelector('.p_stockLeft'))
+
+      if (radio.getAttribute("name") == "Color") {
+        document.querySelector('.swiper').style.opacity = "0%"
+        document.querySelector('.sliderControls').style.opacity = "0%"
+
+        setTimeout(() => {
+          insert_swiper(get_images())
+          replaceSwiper()
+          set_bullet_colors()
+          document.querySelector('.sliderControls').style.opacity = "100%"
+        }, 201)
+      }
     })
   })
 
-  const color_radios = document.querySelectorAll('input[name="Color"]')
-  color_radios.forEach(x => x.addEventListener('change', () => {
-    document.querySelector('.swiper').style.opacity = "0%"
-    document.querySelector('.sliderControls').style.opacity = "0%"
+// ------------------------------------------------------------------------------------------------------------
+  function get_qnt(variant_id) {
 
-    setTimeout(() => {
-      change_images()
-      replaceSwiper()
-      set_Colors()
-      document.querySelector('.sliderControls').style.opacity = "100%"
-    }, 201)
+    let qnt_list = [];
+    let result
 
-  }))
+// -
+    {% for variant in product.variants %};
+      qnt_list.push([{{ variant.id }}, {{ variant.inventory_quantity }}]);{% endfor %};
+    qnt_list.forEach(list_item => {
+      if (list_item.includes(variant_id)) {
+        result = list_item[1]
+      }
+    })
+    return result
+  }
+  function update_variant_qnt(qnt) {
+    const texts_qnt = document.querySelectorAll('[data-qnt_edit]');
+    const qnt_input = document.querySelector('.qntInput')
+    texts_qnt.forEach(x => x.textContent = qnt);
+    qnt_input.dataset.qnt_left = qnt;
 
+    const p_stockLeft = document.querySelector('.p_stockLeft')
+    if (qnt <= 2) {
+      p_stockLeft.classList.add('red')
+    } else {
+      p_stockLeft.classList.remove('red')
+    }
+  }
+
+// ------------------------------------------------------------------------------------------------------------
+  function get_colors() {
+    {% if product.options contains 'Color' %}
+      const checked = document.querySelector('.optionRadio[name="Color"]:checked').value.split(" ");
+      let bg = checked[1]
+      let raw = checked[2]
+    {% else %}
+      let bg = '{{ color_bg }}'
+      let raw = '{{ color_raw }}'
+
+// -
+    {% endif %};
+    return [bg, raw]
+  }
   function recolor_default() {
     {% if product.options contains 'Color' %}
       const checked_color = document.querySelector('.optionRadio[name="Color"]:checked').value.split(" ");
@@ -507,392 +602,60 @@
       }
 
 
-    });
-    changeSVGColor(raw)
-
-  }
-  function changeUrl(matchedVariant, color_bg, color_raw) {
-    const url = new URLParse(window.location.href, true)
-    url.query.variant = matchedVariant.id
-    url.query.color_bg = color_bg
-    url.query.color_raw = color_raw
-    window.history.replaceState(null, null, url.toString())
-  }
-  function edit_hiddenInput(matchedVariant) {
-    document.getElementById('product_id').value = matchedVariant.id
-  }
-  function edit_texts(matchedVariant) {
-    document.querySelector('.price_product_filterPage').textContent = formatMoney(matchedVariant.price, "{{ shop.money_format }}")
-  }
-  function edit_qnt(id) {
-
-    let qnt_list = [];
-    let result
-    const texts_qnt = document.querySelectorAll('[data-qnt_edit]');
-    const qnt_input = document.querySelector('.qntInput')
-
-// -
-    {% for variant in product.variants %};
-      qnt_list.push([{{ variant.id }}, {{ variant.inventory_quantity }}]);{% endfor %};
-    qnt_list.forEach(x => {
-      if (x.includes(id)) {
-        result = x[1]
-      }
     })
-    texts_qnt.forEach(x => x.textContent = result);
-    qnt_input.dataset.qnt_left = result;
+    recolor_bag_raw(raw)
 
-    const p_stockLeft = document.querySelector('.p_stockLeft')
-    if (result <= 2) {
-      p_stockLeft.classList.add('red')
-    } else {
-      p_stockLeft.classList.remove('red')
-    }
+
 
   }
-
-  function set_circleColors() {
-    const circle_option = document.querySelectorAll('.circle_option')
-    circle_option.forEach(x => {
-      const color_raw = x.dataset.circle_color.split(" ")[2];
-      x.style.backgroundColor = color_raw;
-    })
+  function recolor_bag_raw(color) {
+    {% if cart.item_count == 0 %}
+      const svgElement = document.getElementById('bag_raw');
+      const paths = svgElement.querySelectorAll('path');
+      paths.forEach((path) => {
+        path.style.fill = color;
+      });{% endif %}
   }
-  function get_colors() {
-    {% if product.options contains 'Color' %}
-      const checked = document.querySelector('.optionRadio[name="Color"]:checked').value.split(" ");
-      let bg = checked[1]
-      let raw = checked[2]
-    {% else %}
-      let bg = '{{ color_bg }}'
-      let raw = '{{ color_raw }}'
+
+  function get_cart_ids() {
+    let list = [];{% for item in cart.items %}list.push({{ item.variant_id }})
 
 // -
-    {% endif %};
-    return [bg, raw]
+    {% endfor %}
+    return list
   }
 
-  const btn_giveQuantity = document.querySelector('.btn_giveQuantity')
-  const btn_cancelQuantity = document.querySelector('.btn_nearQtn.cancel')
-  const btn_submitQuantity = document.querySelector('.btn_nearQtn.submit')
-  const qntInput = document.querySelector('.qntInput')
-  let locked = false
 
-  function set_eventListeners() {
-    const qnt_btns = document.querySelectorAll('.qnt_option')
-    qnt_btns.forEach(x => x.addEventListener('click', (e) => {
-      hanlde_qntAttributes(e.currentTarget.dataset.value)
-      recolor_default()
-      qntInput.value = e.currentTarget.textContent;
-      qntInput.setAttribute("value", e.currentTarget.textContent);
-      handle_btnPrice(find_matchedVariant())
+// ------------------------------------------------------------------------------------------------------------
+  function get_images() {
+    const images_raw = [];{% for image in product.images %}let {{ 'A' | append: forloop.index }} = document.createElement('img');
+      {{ 'A' | append: forloop.index }}.setAttribute('src', '{{ image | img_url: 'master' | prepend: 'https:'}}');
+      {{ 'A' | append: forloop.index }}.setAttribute('alt', '{{ image.alt }}')
+      images_raw.push({{ 'A' | append: forloop.index }});{% endfor %};
 
-      const btnText_price = document.querySelector('.price_insideBtn')
-      bubble_jump(btnText_price)
-
-    }))
-  }
-  btn_cancelQuantity.addEventListener('click', toggle_qntInput);
-  btn_giveQuantity.addEventListener('click', () => {
-    setTimeout(() => {
-      qntInput.focus();
-      qntInput.select();
-    }, 151);
-    toggle_qntInput()
-  });
-
-  btn_submitQuantity.addEventListener('click', () => {
-    toggle_qntInput()
-    hanlde_qntAttributes(qntInput.value)
-    recolor_default()
-    set_eventListeners()
-    handle_btnPrice(find_matchedVariant())
-  });
-  function checkKeyPress(event, inputElement) {
-    if (event.key === "Enter" || event.keyCode === 13) {
-      event.preventDefault();
-      inputElement.blur();
-      toggle_qntInput()
-      hanlde_qntAttributes(qntInput.value)
-      recolor_default()
-      set_eventListeners()
-      handle_btnPrice(find_matchedVariant())
-    }
+    return images_raw
   }
 
-  function toggle_qntInput() {
-    const parent = document.querySelector('.input_box.qnt')
-    const qnt_front = document.querySelector('.quantity_front')
-    const qnt_back = document.querySelector('.quantity_back')
-    parent.classList.toggle('show_input')
+// ------------------------------------------------------------------------------------------------------------
 
-    if (parent.classList.contains('show_input') && ! locked) {
-
-      locked = true
-      qnt_front.style.opacity = "0%"
-      qnt_back.style.display = 'flex'
-      setTimeout(() => {
-        qnt_back.style.opacity = "100%"
-      }, 70)
-      setTimeout(() => {
-        qnt_front.style.display = 'none'
-        locked = false
-      }, 151)
+  var colorOptionButtons = document.querySelectorAll('input[name="Color"]');
 
 
-    } else if (! locked) {
 
-      locked = true
-      qnt_back.style.opacity = "0%"
-      qnt_front.style.display = 'flex'
-      setTimeout(() => {
-        qnt_front.style.opacity = "100%"
-      }, 70)
-      setTimeout(() => {
-        qnt_back.style.display = 'none'
-        locked = false
-      }, 151)
+  colorOptionButtons.forEach(x => x.addEventListener('change', (e) => {}))
 
-    }
-
-  }
-  function hanlde_qntAttributes(value) {
-    const qnt_btns = document.querySelectorAll('.qnt_option')
-    qnt_btns.forEach(y => {
-      y.classList.remove('active');
-      y.removeAttribute('data-recolor_bg');
-      y.removeAttribute('data-recolor_text_raw');
-      y.removeAttribute('style');
-    })
-
-    if (value == '1' || value == '2') {
-      const options_to_select = document.querySelectorAll(`.qnt_option[data-value="${value}"]`)
-      options_to_select.forEach(x => {
-        x.classList.add('active');
-        x.setAttribute('data-recolor_bg', '');
-        x.setAttribute('data-recolor_text_raw', '');
-      })
-    } else if (value == "3" || value == '4') {
-      const targetOption_D = document.querySelector(`.qnt_option.d[data-value="${value}"]`);
-      const targetOption_M = document.querySelector('.wrap_qntOptions.mobile').lastElementChild;
-      [targetOption_D, targetOption_M].forEach(x => {
-        x.classList.add('active');
-        x.setAttribute('data-recolor_bg', '');
-        x.setAttribute('data-recolor_text_raw', '');
-      })
-      targetOption_M.dataset.value = value;
-      targetOption_M.textContent = value;
-
-    } else {
-      const targetOption_D = document.querySelector('.wrap_qntOptions.desktop').lastElementChild;
-      const targetOption_M = document.querySelector('.wrap_qntOptions.mobile').lastElementChild;
-
-      [targetOption_D, targetOption_M].forEach(x => {
-        x.classList.add('active');
-        x.setAttribute('data-recolor_bg', '');
-        x.setAttribute('data-recolor_text_raw', '');
-        x.dataset.value = value;
-        x.textContent = value;
-      })
-    }
-
-
-  }
-  function handle_btnPrice(variant) {
-    const actualPrice = variant.price;
-    const finalPrice = formatMoney((actualPrice * Number(qntInput.value)), "{{ shop.money_format }}");
-    document.querySelector('.price_insideBtn').textContent = finalPrice
-  }
-  function changeSVGColor(color) {
-    const svgElement = document.querySelector('.theSVG');
-    const paths = svgElement.querySelectorAll('path');
-    paths.forEach((path) => {
-      path.style.fill = color;
-    });
-  }
-  function createSwiper() {
-    swiper = new Swiper(".swiper", {
-      parallax: true,
-      grabCursor: true,
-      noSwipingClass: 'slider-no-swiping',
-      pagination: {
-        el: ".swiper-pagination",
-        clickable: true
-      },
-      navigation: {
-        nextEl: ".swiper-btn-next",
-        prevEl: ".swiper-btn-prev"
-      }
-    });
-    swiper.on('transitionEnd', function() {
-      reset_Transitions()
-    });
-    swiper.on('slideChange', function() {
-      set_Colors()
-    });
-    set_parallax()
-
-  }
-  function replaceSwiper() {
-    swiper.destroy()
-    swiper = new Swiper(".swiper", {
-      parallax: true,
-      grabCursor: true,
-      noSwipingClass: 'slider-no-swiping',
-      pagination: {
-        el: ".swiper-pagination",
-        clickable: true
-      },
-      navigation: {
-        nextEl: ".swiper-btn-next",
-        prevEl: ".swiper-btn-prev"
-      }
-    });
-    swiper.on('transitionEnd', function() {
-      reset_Transitions()
-    });
-    swiper.on('slideChange', function() {
-      set_Colors()
-    });
-    set_parallax()
-  }
-  function bubble_jump(target) {
-    target.classList.add('scale')
-    setTimeout(() => {
-      target.classList.remove('scale')
-    }, 300)
+  function getOtherOptionValues() {
+    return document.querySelectorAll('.optionRadio:not([name="Color"])');
   }
 
-  function change_images() {
-    const colorHex_bg = new URLSearchParams(window.location.search).get('color_bg');
-    const stickyDiv = document.querySelector('.sticky_div')
-    const swiper_old = stickyDiv.querySelector('.swiper')
+  function checkOptionCombination(optionCombination, selectedColor, otherOptionValues) {
 
-
-    if (colorHex_bg) {
-      const images_raw = []
-
-// -
-      {% for image in product.images %}
-        let {{ 'A' | append: forloop.index }} = document.createElement('img');
-        {{ 'A' | append: forloop.index }}.setAttribute('src', '{{ image | img_url: 'master' | prepend: 'https:'}}');
-        {{ 'A' | append: forloop.index }}.setAttribute('alt', '{{ image.alt }}')
-        images_raw.push({{ 'A' | append: forloop.index }})
-
-// -
-      {% endfor %}
-      const finalImages = images_raw.filter(img => {
-        return img.getAttribute('alt').includes(colorHex_bg)
-      })
-
-      const swiper_new = document.createElement('div');
-      swiper_new.classList.add('swiper');
-      swiper_new.setAttribute('style', "opacity: 0%");
-
-
-      const swiper_wrapper = document.createElement('div');
-      swiper_wrapper.classList.add('swiper-wrapper');
-      swiper_wrapper.setAttribute('data-effect', "zoom");
-      swiper_wrapper.setAttribute('data-zoom_active', "false");
-      swiper_wrapper.setAttribute('data-reset', "");
-      swiper_wrapper.setAttribute('data-magnify', "1");
-
-      finalImages.forEach(img => {
-        const swiper_slide = document.createElement('div');
-        swiper_slide.classList.add('swiper-slide');
-        img.classList.add('imgSwiper');
-        img.setAttribute('draggable', 'false');
-
-        swiper_slide.append(img);
-        swiper_wrapper.append(swiper_slide);
-      })
-
-      const wave = document.createElement('img');
-      wave.classList.add('img_WAVE_long');
-      wave.setAttribute('src', "{{ 'img_WAVE_filterPage.svg' | asset_url }}");
-      wave.setAttribute('style', `background-color: ${colorHex_bg}`);
-      wave.setAttribute('data-swiper-parallax', "-13%");
-      wave.setAttribute('data-recolor_bg', ``);
-
-
-      const sliderControls = document.querySelector('.sliderControls')
-      stickyDiv.removeChild(sliderControls);
-      stickyDiv.append(sliderControls);
-
-      swiper_new.append(wave);
-      swiper_new.append(swiper_wrapper);
-      stickyDiv.removeChild(swiper_old)
-      stickyDiv.append(swiper_new)
-
-      setTimeout(() => {
-        swiper_new.removeAttribute('style')
-      }, 30)
-
-
-
-    } else {
-      console.log('Load default color');
-    }
+// Implement the logic to compare the option combination with the selected color and other option values
+// Return true if the combination exists, false otherwise
   }
-
-  function set_Colors() {
-    const bullets = document.querySelectorAll('.swiper-pagination-bullet');
-    const magnify = document.querySelectorAll('[data-btn_magnify]');
-    [bullets, magnify].forEach(x => x.forEach(y => y.style.backgroundColor = get_colors()[0]))
-
-    const activeBullet = document.querySelector('.swiper-pagination-bullet-active');
-    const magnifyActive = document.querySelector('[data-btn_magnify].active');
-    [activeBullet, magnifyActive].forEach(x => x.style.backgroundColor = get_colors()[1])
-  }
-  function reset_Transitions() {
-    document.querySelectorAll('[data-reset]').forEach(x => {
-      x.style.transitionDuration = "400ms"
-    });
-    document.querySelector('.img_WAVE_long').style.transition = "400ms";
-  }
-
-  window.addEventListener('resize', () => {
-    set_parallax()
-  })
-  function set_parallax() {
-    if (isDesktop()) {
-      document.querySelector('.img_WAVE_long').setAttribute('data-swiper-parallax', '-20%')
-    } else {
-      document.querySelector('.img_WAVE_long').setAttribute('data-swiper-parallax', '-13%')
-    }
-  }
-  function isDesktop() {
-    return window.innerWidth > 991
-      ? true
-      : false
-  }
-
-  const btn_addToCart = document.querySelector('.btn_mainDesc.bag')
-  btn_addToCart.addEventListener('click', () => {
-    document.querySelector('.form_productPage').submit()
-  })
-
-  const btn_checkout = document.querySelector('.btn_mainDesc.buy');
-  btn_checkout.addEventListener('click', () => {
-
-    const form = document.querySelector('.form_productPage');
-    const input = document.createElement('input');
-    input.value = "/checkout";
-    input.type = "hidden";
-    input.name = "return_to";
-
-    form.appendChild(input);
-    form.submit();
-
-  })
-
-
-
-  function edit_variant_qnt(id) {}
 </script>
 
 
 
-{{ '4_productPage.js' | asset_url | script_tag }}
 {{ '4_1_productZoom.js' | asset_url | script_tag }}
 {{ '6_inline_slider.js' | asset_url | script_tag }}

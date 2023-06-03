@@ -124,19 +124,30 @@
             {% assign discount = ((a | minus: b) | divided_by: a) | times: 100 %}
             -{{ discount | round: 0 }}%
           </p>
+
+          <!-- generate color bubbles -->
           {% if product.options contains 'Color' %}
             <div class="wrap_collorBubbles">
               {% for option in product.options_with_values %}
                 {% if option.name == 'Color' %}
                   {% for value in option.values %}
-                    {% assign words = value | split: ' ' %}
-                    {% assign lastWord = words | last %}
-                    <div class="colorBubble" style="background-color: {{ lastWord }};"></div>
+                    {% assign raw_inSearch = value | split: ' ' | last %}
+
+                    {% for variant in product.variants %}
+                      {% assign var_raw = variant.option1 | split: ' ' | last %}
+                      {% if var_raw == raw_inSearch and variant.available %}
+                        <div class="colorBubble" style="background-color: {{ raw_inSearch }}"></div>
+                        {% break %}
+                      {% endif %}
+                    {% endfor %}
+
                   {% endfor %}
                 {% endif %}
               {% endfor %}
             </div>
           {% endif %}
+
+          <!--------------------------------------------------------------------------------------------->
 
         </div>
         <div class="product_BOTTOM">

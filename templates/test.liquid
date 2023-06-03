@@ -1,0 +1,22 @@
+<!-- only print available colors -->
+{% for option in product.options_with_values %}
+  {% unless option.name == "Color" %}
+    {% for value in option.values %}
+
+      {% assign value_available = false %}
+      {% for variant in product.variants %}
+        {% if variant.available and variant.option1 == value %}
+
+          {% assign value_available = true %}
+          {% break %}
+        {% endif %}
+      {% endfor %}
+
+      {% if value_available %}
+        <p>{{ option.name }}: "{{ value }}"</p>
+
+      {% endif %}
+    {% endfor %}
+  {% endunless %}
+{% endfor %}
+<!-- --------------------- -->

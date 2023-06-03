@@ -45,6 +45,7 @@ function edit_variant_price(matchedVariant, format) {
 }
 
 function edit_sum_price(variant, format) {
+  const qntInput = document.querySelector('.qntInput')
   if (is_bag_emtpy()) {
   const actualPrice = variant.price;
   const finalPrice = formatMoney((actualPrice * Number(qntInput.value)), format);

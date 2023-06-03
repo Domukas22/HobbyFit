@@ -1,23 +1,22 @@
-{% assign optionName = 'Color' %}
-{% assign optionExists = false %}
-
-{% for option in product.options %}
-  {% if option == optionName %}
-    {% assign optionExists = true %}
-    {% break %}
-  {% endif %}
-{% endfor %}
-
-{% if optionExists %}
-  {% assign colorOption = product.options_with_values | where: 'name', optionName | first %}
-  {% assign firstValue = colorOption.values | first %}
-  {% assign color_raw = firstValue | split: ' ' | slice: 1 | first %}
-  {% assign color_bg = firstValue | split: ' ' | last %}
-  <p>option exists</p>
-{% else %}
-  <p>option DOESNT exists</p>
+{% if product.options contains 'Color' %}
+  <div class="wrap_collorBubbles">
+    {% for option in product.options_with_values %}
+      {% if option.name == 'Color' %}
+        {% for value in option.values %}
+          {% assign lastWord = value | split: ' ' | last %}
+          {% if product.variants | where: 'options', lastWord | where: 'available', true | size > 0 %}
+            <div class="colorBubble" style="background-color: {{ lastWord }}"></div>
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+    {% endfor %}
+  </div>
 {% endif %}
 
 
-<p>Bg: {{ color_bg }}</p>
-<p>Raw: {{ color_raw }}</p>
+{% assign test = product.variants[1].option1 %}
+<script>
+  {% if test contains "Melyna"%}
+  console.log('{{ test }}')
+  {% endif %}
+</script>

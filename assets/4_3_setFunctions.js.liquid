@@ -1,27 +1,25 @@
-const btns_addToCart = document.querySelectorAll('.btn_mainDesc.bag')
-btns_addToCart.forEach(x => x.addEventListener('click', () => {
-  document.querySelector('.form_productPage').submit()
-}))
 
 
-if (is_bag_emtpy()) {
-const btn_checkout = document.querySelector('.btn_mainDesc.buy');
+if (product_available) {
+  const btns_addToCart = document.querySelectorAll('.btn_mainDesc.bag')
+  btns_addToCart.forEach(x => x.addEventListener('click', () => {
+    document.querySelector('.form_productPage').submit()
+  }))
 
-btn_checkout.addEventListener('click', () => {
-    const form = document.querySelector('.form_productPage');
-    const input = document.createElement('input');
-    input.value = "/checkout";
-    input.type = "hidden";
-    input.name = "return_to";
+  if (is_bag_emtpy()) {
+  const btn_checkout = document.querySelector('.btn_mainDesc.buy');
+  btn_checkout.addEventListener('click', () => {
+      const form = document.querySelector('.form_productPage');
+      const input = document.createElement('input');
+      input.value = "/checkout";
+      input.type = "hidden";
+      input.name = "return_to";
 
-    form.appendChild(input);
-    form.submit();
-})
+      form.appendChild(input);
+      form.submit();
+  })
+  }
 }
-
-
-
-
 
 function set_circleColors() {
     const circle_option = document.querySelectorAll('.circle_option')
@@ -46,10 +44,17 @@ function bubble_jump(target) {
     target.classList.remove('scale')
   }, 300)
 }
-function is_already_inCart(cardIDS, current_id) {
-  const sign_alreadyBag = document.querySelector('.sign_alreadyBag')
-  cardIDS.some(x => x == current_id) ? sign_alreadyBag.style.display = "block" : sign_alreadyBag.style.display = "none"
+function show_alreadyBag(value, qtn) {
+
+  console.log("f_alreadyBag:" + value)
+  const sign_alreadyBag = document.querySelector('.sign_alreadyBag');
+  value
+    ? sign_alreadyBag.style.display = "block"
+    : sign_alreadyBag.style.display = "none";
+
+
 }
 
 
 
+/// figure out wha tto do when the ba gis empty

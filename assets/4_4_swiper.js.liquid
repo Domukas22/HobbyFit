@@ -115,11 +115,11 @@ function replaceSwiper() {
 function set_bullet_colors() {
     const bullets = document.querySelectorAll('.swiper-pagination-bullet');
     const magnify = document.querySelectorAll('[data-btn_magnify]');
-    [bullets, magnify].forEach(x => x.forEach(y => y.style.backgroundColor = get_colors()[0]))
+    [bullets, magnify].forEach(x => x.forEach(y => y.style.backgroundColor = get_colors().bg))
 
     const activeBullet = document.querySelector('.swiper-pagination-bullet-active');
     const magnifyActive = document.querySelector('[data-btn_magnify].active');
-    [activeBullet, magnifyActive].forEach(x => x.style.backgroundColor = get_colors()[1])
+    [activeBullet, magnifyActive].forEach(x => x.style.backgroundColor = get_colors().raw)
   }
   function reset_Transitions() {
     document.querySelectorAll('[data-reset]').forEach(x => {

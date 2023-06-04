@@ -20,7 +20,8 @@ function set_qnt_eventListeners() {
         const btnText_price = document.querySelector('.price_insideBtn')
         bubble_jump(btnText_price)
         }
-        qnt_police(check_cart(find_matchedVariant().id).value, check_cart(find_matchedVariant().id).qnt, get_qnt(find_matchedVariant().id))
+
+        qnt_police()
     }))
 }
 
@@ -137,24 +138,10 @@ function hanlde_qntAttributes(value) {
         })
     }
 }
-function qnt_police(is_in_cart, cart_qnt, general_qnt) {
-    const error_box = document.querySelector('.error_box')
-    const qnt_request = document.querySelector('.qntInput').value
-
-    let items_left = general_qnt
-
-    if (!is_in_cart && qnt_request > general_qnt) {
-        error_box.firstElementChild.textContent = `Liko ${general_qnt}, ir uzsisaket ${qnt_request}`
-        error_box.style.display = "block"
-
-    } else if (is_in_cart && qnt_request > general_qnt) {
-        error_box.firstElementChild.textContent = `Liko ${general_qnt}, krepselyje ${cart_qnt},ir uzsisaket ${qnt_request}`
-        error_box.style.display = "block"
-
-    } else if (cart_qnt > general_qnt) {
-        error_box.firstElementChild.textContent = `Pre daug krepselyje (${cart_qnt}). Turim tiktai ${general_qnt}`
-        error_box.style.display = "block"
-    }
 
 
-}
+
+function edit_errorBox(value) {}
+
+
+

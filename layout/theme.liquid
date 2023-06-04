@@ -23,12 +23,12 @@
   <body>
     <script src="https://cdn.jsdelivr.net/npm/url-parse@1.5.10/dist/url-parse.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+
     {% render 'nav' %}
     {{ content_for_layout }}
     {% render 'footer' %}
     {{ '0_general.js' | asset_url | script_tag }}
     {{ '1_nav.js' | asset_url | script_tag }}
-    {{ '2_home.js' | asset_url | script_tag }}
 
 
   </body>

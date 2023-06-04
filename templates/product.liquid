@@ -237,7 +237,7 @@
               </div>
               <div class="quantity_back">
                 <input
-                  type="number"
+                  type="text"
                   name="quantity"
                   class="qntInput"
                   placeholder="Iveskite kieki..."
@@ -254,76 +254,98 @@
                   data-scale>Vykdyti</div>
               </div>
             </fieldset>
-            <div class="btnWrap_mainDesc">
-              {% if cart.item_count > 0 %}
-                <!-- print only cart btn -->
-                <div
-                  class="btn_mainDesc bag"
-                  style="font-weight: 400; grid-column: 1/3;"
-                  data-recolor_raw
-                  data-scale>
-                  <p style="color: white">Į krepšelį</p>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 337.94 421.48"
-                    style="width: 17px; margin: 0 0 2px auto;">
-                    <g id="Ebene_2" data-name="Ebene 2">
-                      <g id="Ebene_1-2" data-name="Ebene 1"><path style="fill: white" d="M337.69,385.58,301.08,86.79a10,10,0,0,0-9.88-8.74H46.73a10,10,0,0,0-9.88,8.74L.24,385.58A32,32,0,0,0,32,421.48H305.92A32,32,0,0,0,337.69,385.58ZM268.84,141.66c-.16,3.29-.48,6.53-.94,9.72-7.1,48.82-48.69,86.29-98.93,86.29S77.14,200.2,70,151.38c-.46-3.19-.78-6.43-.94-9.72v0a24.81,24.81,0,0,1,24.68-22.26q1.06,0,2.1.09A3.05,3.05,0,0,1,98.67,123a76.8,76.8,0,0,0,5.08,43.86C115,192.6,139.94,210.5,169,210.5s54-17.9,65.22-43.62a75.89,75.89,0,0,0,6.27-30.35,77,77,0,0,0-1.18-13.42,3.14,3.14,0,0,1,2.86-3.67c.66,0,1.34-.08,2-.08a24.81,24.81,0,0,1,24.68,22.26Z" /><path style="fill: white" d="M250.13,64H225.46a2.64,2.64,0,0,1-2.33-1.43c-11.27-21.74-31.31-36.2-54.16-36.2s-42.89,14.46-54.16,36.2A2.62,2.62,0,0,1,112.48,64H87.8a1.46,1.46,0,0,1-1.38-2C100.28,25.52,132,0,169,0s68.68,25.52,82.54,62A1.46,1.46,0,0,1,250.13,64Z" /></g>
-                    </g>
-                  </svg>
-                </div>
-                <!---------------------------------------------------------------------------->
-              {% else %}
-                <!-- print both buttons -->
-                <div
-                  class="btn_mainDesc bag"
-                  style="border: 1px solid {{ color_bg }}; font-weight: 400;"
-                  data-recolor_border_raw
-                  data-scale>
-                  <p style="color:{{ color_raw }}" data-recolor_text_raw>Į krepšelį</p>
-                  <svg
-                    class="theSVG"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 337.94 421.48"
-                    id="bag_raw">
-                    <g id="Ebene_2" data-name="Ebene 2">
-                      <g id="Ebene_1-2" data-name="Ebene 1"><path style="fill: white" d="M337.69,385.58,301.08,86.79a10,10,0,0,0-9.88-8.74H46.73a10,10,0,0,0-9.88,8.74L.24,385.58A32,32,0,0,0,32,421.48H305.92A32,32,0,0,0,337.69,385.58ZM268.84,141.66c-.16,3.29-.48,6.53-.94,9.72-7.1,48.82-48.69,86.29-98.93,86.29S77.14,200.2,70,151.38c-.46-3.19-.78-6.43-.94-9.72v0a24.81,24.81,0,0,1,24.68-22.26q1.06,0,2.1.09A3.05,3.05,0,0,1,98.67,123a76.8,76.8,0,0,0,5.08,43.86C115,192.6,139.94,210.5,169,210.5s54-17.9,65.22-43.62a75.89,75.89,0,0,0,6.27-30.35,77,77,0,0,0-1.18-13.42,3.14,3.14,0,0,1,2.86-3.67c.66,0,1.34-.08,2-.08a24.81,24.81,0,0,1,24.68,22.26Z" /><path style="fill: white" d="M250.13,64H225.46a2.64,2.64,0,0,1-2.33-1.43c-11.27-21.74-31.31-36.2-54.16-36.2s-42.89,14.46-54.16,36.2A2.62,2.62,0,0,1,112.48,64H87.8a1.46,1.46,0,0,1-1.38-2C100.28,25.52,132,0,169,0s68.68,25.52,82.54,62A1.46,1.46,0,0,1,250.13,64Z" /></g>
-                    </g>
-                  </svg>
-                </div>
-                <div
-                  class="btn_mainDesc buy"
-                  style="background-color: {{ color_raw }}; color: white;"
-                  data-recolor_raw
-                  data-scale>
-                  Užsisakyti<span class="price_insideBtn">{{ product.selected_or_first_available_variant.price | money }}</span>
-                </div>
-                <!---------------------------------------------------------------------------->
-              {% endif %}
+            <div class="wrap_formBtns">
+
+              <div class="alertBox">
+                <p class="textAlert qnt_error">Sandeliuke liko tiktai
+                  <span data-span_color="red">
+                    <span class="text_qnt left"></span>vnt.</span>
+                </p>
+                <p class="textAlert cart_error">Sandeliuke liko tiktai
+                  <span data-span_color="red">
+                    <span class="text_qnt left"></span>vnt</span>, o Jūs krepšelyje jau turite
+                  <span class="text_qnt inCart"></span>
+                  vtn.
+                </p>
+                <p class="textAlert isCart">Ši prekė jau yra Jūsų krepšelyje (<span>
+                    <span class="text_qnt inCart"></span>vnt.</span>)</p>
+              </div>
+
+              <!-- form btns -->
+              <div
+                class="formBtn buy"
+                style="background-color: {{ color_raw }}; color: white;"
+                data-recolor_raw
+                data-scale>
+                Užsisakyti&nbsp
+                <span data-chosen_qnt>2</span>
+                <span class="price_insideBtn" data-price_calc>{{ product.selected_or_first_available_variant.price | money }}</span>
+              </div>
+              <div
+                class="formBtn addCart main"
+                style="font-weight: 400;"
+                data-recolor_raw
+                data-scale>
+                <p style="color: white">Pridėti dar
+                  <span data-chosen_qnt>
+                    2</span>
+                </p>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 337.94 421.48"
+                  style="width: 17px; margin: 0 0 2px auto;">
+                  <g id="Ebene_2" data-name="Ebene 2">
+                    <g id="Ebene_1-2" data-name="Ebene 1"><path style="fill: white" d="M337.69,385.58,301.08,86.79a10,10,0,0,0-9.88-8.74H46.73a10,10,0,0,0-9.88,8.74L.24,385.58A32,32,0,0,0,32,421.48H305.92A32,32,0,0,0,337.69,385.58ZM268.84,141.66c-.16,3.29-.48,6.53-.94,9.72-7.1,48.82-48.69,86.29-98.93,86.29S77.14,200.2,70,151.38c-.46-3.19-.78-6.43-.94-9.72v0a24.81,24.81,0,0,1,24.68-22.26q1.06,0,2.1.09A3.05,3.05,0,0,1,98.67,123a76.8,76.8,0,0,0,5.08,43.86C115,192.6,139.94,210.5,169,210.5s54-17.9,65.22-43.62a75.89,75.89,0,0,0,6.27-30.35,77,77,0,0,0-1.18-13.42,3.14,3.14,0,0,1,2.86-3.67c.66,0,1.34-.08,2-.08a24.81,24.81,0,0,1,24.68,22.26Z" /><path style="fill: white" d="M250.13,64H225.46a2.64,2.64,0,0,1-2.33-1.43c-11.27-21.74-31.31-36.2-54.16-36.2s-42.89,14.46-54.16,36.2A2.62,2.62,0,0,1,112.48,64H87.8a1.46,1.46,0,0,1-1.38-2C100.28,25.52,132,0,169,0s68.68,25.52,82.54,62A1.46,1.46,0,0,1,250.13,64Z" /></g>
+                  </g>
+                </svg>
+              </div>
+              <div
+                class="formBtn addCart second"
+                style="border: 1px solid {{ color_bg }}; font-weight: 400;"
+                data-recolor_border_raw
+                data-scale>
+                <p data-recolor_text_raw="">Pridėti
+                  <span data-chosen_qnt>2</span>
+                  į krepšelį</p>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 337.94 421.48"
+                  style="width: 17px; margin: 0 0 2px auto;">
+                  <g id="Ebene_2" data-name="Ebene 2">
+                    <g id="Ebene_1-2" data-name="Ebene 1"><path class="cartIcon_path" d="M337.69,385.58,301.08,86.79a10,10,0,0,0-9.88-8.74H46.73a10,10,0,0,0-9.88,8.74L.24,385.58A32,32,0,0,0,32,421.48H305.92A32,32,0,0,0,337.69,385.58ZM268.84,141.66c-.16,3.29-.48,6.53-.94,9.72-7.1,48.82-48.69,86.29-98.93,86.29S77.14,200.2,70,151.38c-.46-3.19-.78-6.43-.94-9.72v0a24.81,24.81,0,0,1,24.68-22.26q1.06,0,2.1.09A3.05,3.05,0,0,1,98.67,123a76.8,76.8,0,0,0,5.08,43.86C115,192.6,139.94,210.5,169,210.5s54-17.9,65.22-43.62a75.89,75.89,0,0,0,6.27-30.35,77,77,0,0,0-1.18-13.42,3.14,3.14,0,0,1,2.86-3.67c.66,0,1.34-.08,2-.08a24.81,24.81,0,0,1,24.68,22.26Z" /><path class="cartIcon_path" d="M250.13,64H225.46a2.64,2.64,0,0,1-2.33-1.43c-11.27-21.74-31.31-36.2-54.16-36.2s-42.89,14.46-54.16,36.2A2.62,2.62,0,0,1,112.48,64H87.8a1.46,1.46,0,0,1-1.38-2C100.28,25.52,132,0,169,0s68.68,25.52,82.54,62A1.46,1.46,0,0,1,250.13,64Z" /></g>
+                  </g>
+                </svg>
+              </div>
+              <a
+                class="formBtn viewCart"
+                style="border: 1px solid {{ color_bg }}; font-weight: 400;"
+                href="{{ shop.url }}/cart"
+                data-recolor_border_raw
+                data-scale>
+                <p style="color:{{ color_raw }}" data-recolor_text_raw>Peržiūrėti krepšelį</p>
+                <p style="margin-left: auto;" data-recolor_text_raw>{{ cart.item_count }} iš viso</p>
+              </a>
+              <div
+                class="formBtn changeQnt"
+                style="border: 1px solid {{ color_bg }}; font-weight: 400;"
+                data-recolor_border_raw
+                data-scale>
+                <p style="color:{{ color_raw }}" data-recolor_text_raw>Pasirinkti kitą kiekį</p>
+              </div>
+
+
+              <!---------------------------------------------------------------------------->
+
             </div>
-            <div class="error_box">
-              <p>Dėja neturime tiek prekių. Prašau pasirinkite mažesnį kiekį.
-              </p>
-            </div>
+
             <!----------------------------------------------------------------------------------->
           {% else %}
             <div class="sign_outOfstock">Deja nebeturime šios prekės</div>
           {% endif %}
         {% endform %}
-        <a
-          class="sign_alreadyBag"
-          style="margin-top: 16px; display: none"
-          href="{{ shop.ulr }}/cart">
-          <p style="margin-bottom: 10px;">
-            Ši prekė jau yra Jūsų krepšelyje</p>
-          <div
-            class="btn_mainDesc"
-            style="border: 1px solid {{ color_bg }}; font-weight: 400;"
-            data-recolor_border_raw
-            data-scale>
-            <p style="color:{{ color_raw }}" data-recolor_text_raw>Peržiūrėti krepšelį</p>
-          </div>
-        </a>
+
+
+
         <div class="separator"></div>
         <div class="wrap_productDescription">
           {{ product.metafields.custom.bullets | metafield_tag }}
@@ -478,9 +500,11 @@
 
 <script>
   let swiper
-  let product = {{ product | json}}
-  let format = "{{ shop.money_format }}"
-  let product_available = {{ product.available }}
+  let clear_to_add = true
+  const product = {{ product | json}}
+  const format = "{{ shop.money_format }}"
+  const product_available = {{ product.available }}
+
   function find_matchedVariant() {
     let selected_radios = []
     document.querySelectorAll('input[type="radio"].optionRadio:checked').forEach(x => selected_radios.push(x.value))
@@ -502,21 +526,22 @@
       return false
     {% endif %}
   }
-  function check_cart(id) {
- 
-    const item = {{ cart.items | json}}.filter(x => x.id == find_matchedVariant().id)
-    console.log(item[0])
-    const isInCart = (item.length > 0)
-    const cartQnt = item[0].quantity
-    return {value: isInCart, qnt: cartQnt};
+  function variant_inBag(target_id) {
+    let item = {{ cart.items | json }}.filter(x => x.id == target_id)[0]
+    return {
+      inCart: !! item
+        ? item
+        : false,
+      qnt: !! item
+        ? item.quantity
+        : 0
+    } // {inCart: {item/false}, qnt: 2}
   }
-
-
 </script>
 {{ '4_0_formatMoney.js' | asset_url | script_tag }}
 <!-- formatMoney / edit_variant_price / edit_sum_price -->
 {{ '4_3_setFunctions.js' | asset_url | script_tag }}
-<!-- set_circleColors / changeUrl / edit_hiddenInput / bubble_jump / show_alreadyBag-->
+<!-- set_circleColors / changeUrl / edit_hiddenInput / bubble_jump / -->
 {{ '4_4_swiper.js' | asset_url | script_tag }}
 <!-- insert_swiper / initiate_swiper / replaceSwiper /  set_bullet_colors / set_parallax -->
 {{ '4_5_qnt.js' | asset_url | script_tag }}
@@ -541,14 +566,15 @@
       insert_swiper(get_images())
       initiate_swiper();
       reset_Transitions();
-      show_alreadyBag(check_cart(find_matchedVariant().id))
       edit_size_options()
+      qnt_police()
       setTimeout(() => {
         set_bullet_colors()
       }, 20)
 
+
+
     } else { // -
-      console.log('yes')
       recolor('{{ color_raw }}', '{{ color_bg }}');
       insert_swiper(get_images())
       initiate_swiper();
@@ -566,12 +592,15 @@
         recolor_default()
         edit_hiddenInput(find_matchedVariant())
         changeUrl(find_matchedVariant(), get_colors().bg, get_colors().raw)
-        edit_variant_price(find_matchedVariant(), format)
         edit_sum_price(find_matchedVariant(), format)
         update_variant_qnt(get_qnt(find_matchedVariant().id))
-        show_alreadyBag(check_cart(find_matchedVariant().id).value)
         bubble_jump(document.getElementById('qnt_in_box'))
         bubble_jump(document.querySelector('.p_stockLeft'))
+
+
+        qnt_police()
+
+
 
         if (radio.getAttribute("name") == "Color") {
           document.querySelector('.swiper').style.opacity = "0%"
@@ -676,17 +705,15 @@
 
   }
   function recolor_bag_raw(color) {
-    {% if cart.item_count == 0 %}
-      const svgElement = document.getElementById('bag_raw');
-      const paths = svgElement.querySelectorAll('path');
-      paths.forEach((path) => {
-        path.style.fill = color;
-      });{% endif %}
+    const paths = document.querySelectorAll('.cartIcon_path')
+
+    paths.forEach(path => {
+      path.style.fill = color;
+    })
   }
 
-
-
 // ------------------------------------------------------------------------------------------------------------
+
   function get_images() {
     const images_raw = [];{% for image in product.images %}let {{ 'A' | append: forloop.index }} = document.createElement('img');
       {{ 'A' | append: forloop.index }}.setAttribute('src', '{{ image | img_url: 'master' | prepend: 'https:'}}');
@@ -695,6 +722,7 @@
 
     return images_raw
   }
+
 
 
 // ------------------------------------------------------------------------------------------------------------
@@ -739,7 +767,6 @@
       });
 
       if (checkedInput && ! checkedInput.checked) {
-        console.log('ues')
         checkedInput.checked = true;
         checkedInput.dispatchEvent(new Event('change'));
       }

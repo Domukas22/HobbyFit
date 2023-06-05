@@ -17,7 +17,7 @@
               <p class="price_product_filterPage compare" style="font-size: 18px; font-weight: 600;">{{ product.selected_or_first_available_variant.compare_at_price | money }}</p>
             </div>
             <p class="p_stockLeft {% if product.selected_or_first_available_variant.inventory_quantity <= 2 %}red{% endif %}" data-text_green>Liko dar
-              <span data-qnt_edit data-text_green>{{ product.selected_or_first_available_variant.inventory_quantity }}</span>
+              <span data-variant_qnt data-text_green>{{ product.selected_or_first_available_variant.inventory_quantity }}</span>
             </p>
           </div>
         </div>
@@ -145,10 +145,10 @@
                               value="{{ value }}"
                               id="{{ option.name | handleize }}={{ value | handleize }}"
                               class="optionRadio">
-                            <div class="circle_option" data-circle_color="{{ value }}"></div>
                             <label for="{{ option.name | handleize }}={{ value | handleize }}" style="display: none;">
                               {{ value }}
                             </label>
+                            <div class="circle_option" data-circle_color="{{ value }}"></div>
                           </div>
                         {% endif %}
                         <!-- --------------------- -->
@@ -185,74 +185,202 @@
                 class=""
                 style="margin-left: auto"
                 data-color_06
-                id="qnt_in_box">Liko dar:&nbsp<span data-qnt_edit data-color_06>{{ product.selected_or_first_available_variant.inventory_quantity }}</span>
+                id="qnt_in_box">Liko dar:&nbsp<span data-variant_qnt data-color_06>{{ product.selected_or_first_available_variant.inventory_quantity }}</span>
               </span>
             </label>
             <fieldset class="input_box qnt">
               <div class="quantity_front">
                 <div class="wrap_qntOptions desktop">
                   <div
-                    class="qnt_option"
+                    class="qntOption d active"
                     data-value="1"
                     data-recolor_bg
                     data-recolor_text_raw
-                    data-scale>1</div>
+                    data-scale>1
+                  </div>
                   <div
-                    class="qnt_option d"
+                    class="qntOption d"
                     data-value="2"
-                    data-scale>2</div>
+                    data-scale>2
+                  </div>
                   <div
-                    class="qnt_option d"
+                    class="qntOption d"
                     data-value="3"
-                    data-scale>3</div>
+                    data-scale>3
+                  </div>
                   <div
-                    class="qnt_option d"
+                    class="qntOption d"
                     data-value="4"
-                    data-scale>4</div>
+                    data-scale>4
+                  </div>
                   <div
-                    class="qnt_option d"
+                    class="qntOption d last"
                     data-value="5"
-                    data-scale>5</div>
+                    data-scale>5
+                  </div>
                 </div>
                 <div class="wrap_qntOptions mobile">
                   <div
-                    class="qnt_option m"
+                    class="qntOption m active"
                     data-value="1"
                     data-recolor_bg
                     data-recolor_text_raw
                     data-scale>1</div>
                   <div
-                    class="qnt_option m"
+                    class="qntOption m"
                     data-value="2"
                     data-scale>2</div>
                   <div
-                    class="qnt_option m"
+                    class="qntOption m last"
                     data-value="3"
                     data-scale>3</div>
                 </div>
                 <div
-                  class="btn_giveQuantity"
+                  class="btn_giveQuantity d disabled"
                   data-recolor_text_raw
-                  data-scale>Ivesti kieki</div>
+                  data-scale>Daugiau</div>
+                  <div
+                  class="btn_giveQuantity m disabled"
+                  data-recolor_text_raw
+                  data-scale>Daugiau</div>
               </div>
               <div class="quantity_back">
-                <input
-                  type="text"
-                  name="quantity"
-                  class="qntInput"
-                  placeholder="Iveskite kieki..."
-                  value="1"
-                  onkeydown="checkKeyPress(event, this);"
-                  data-qnt_left="{{ product.selected_or_first_available_variant.inventory_quantity }}">
-                <div
-                  class="btn_nearQtn cancel"
-                  data-recolor_text_raw
-                  data-scale>Atsaukti</div>
-                <div
-                  class="btn_nearQtn submit"
-                  data-recolor_raw
-                  data-scale>Vykdyti</div>
-              </div>
+                <div class="qnt_back_TOP">
+                  <input
+                    type="text"
+                    name="quantity"
+                    class="qntInput"
+                    placeholder="Iveskite kieki..."
+                    value="1"
+                    onkeydown="checkKeyPress(event, this);"
+                    data-qnt_left="{{ product.selected_or_first_available_variant.inventory_quantity }}">
+                  <div
+                    class="btn_nearQtn cancel"
+                    data-recolor_text_raw
+                    data-scale>Atsaukti</div>
+                  <div
+                    class="btn_nearQtn submit"
+                    data-recolor_raw
+                    data-scale>Vykdyti</div>
+                </div>
+                <div class="wrap_qntOptions_expanded d">
+                  <div
+                    class="qntOption d exp active"
+                    data-value="1"
+                    data-recolor_bg
+                    data-recolor_text_raw
+                    data-scale>1
+                  </div>
+                  <div
+                    class="qntOption d exp"
+                    data-value="2"
+                    data-scale>2
+                  </div>
+                  <div
+                    class="qntOption d exp"
+                    data-value="3"
+                    data-scale>3
+                  </div>
+                  <div
+                    class="qntOption d exp"
+                    data-value="4"
+                    data-scale>4
+                  </div>
+                  <div
+                    class="qntOption d exp"
+                    data-value="5"
+                    data-scale>5
+                  </div>
+                  <div
+                    class="qntOption d exp"
+                    data-value="6"
+                    data-scale>6
+                  </div>
+                  <div
+                    class="qntOption d exp"
+                    data-value="7"
+                    data-scale>7
+                  </div>
+                  <div
+                    class="qntOption d exp"
+                    data-value="8"
+                    data-scale>8
+                  </div>
+                  <div
+                    class="qntOption d exp"
+                    data-value="9"
+                    data-scale>9
+                  </div>
+                  <div
+                    class="qntOption d exp"
+                    data-value="10"
+                    data-scale>10
+                  </div>
+                  <div
+                    class="qntOption d exp"
+                    data-value="11"
+                    data-scale>11
+                  </div>
+                  <div
+                    class="qntOption d exp last"
+                    data-value="12"
+                    data-scale>12
+                  </div>
+                </div>
+                <div class="wrap_qntOptions_expanded m">
+                  <div
+                    class="qntOption m exp active"
+                    data-value="1"
+                    data-recolor_bg
+                    data-recolor_text_raw
+                    data-scale>1
+                  </div>
+                  <div
+                    class="qntOption m exp"
+                    data-value="2"
+                    data-scale>2
+                  </div>
+                  <div
+                    class="qntOption m exp"
+                    data-value="3"
+                    data-scale>3
+                  </div>
+                  <div
+                    class="qntOption m exp"
+                    data-value="4"
+                    data-scale>4
+                  </div>
+                  <div
+                    class="qntOption m exp"
+                    data-value="5"
+                    data-scale>5
+                  </div>
+                  <div
+                    class="qntOption m exp"
+                    data-value="6"
+                    data-scale>6
+                  </div>
+                  <div
+                    class="qntOption m exp"
+                    data-value="7"
+                    data-scale>7
+                  </div>
+                  <div
+                    class="qntOption m exp"
+                    data-value="8"
+                    data-scale>8
+                  </div>
+                  <div
+                    class="qntOption m exp"
+                    data-value="9"
+                    data-scale>9
+                  </div>
+                  <div
+                    class="qntOption m exp last"
+                    data-value="10"
+                    data-scale>10
+                  </div>
+                </div>
             </fieldset>
             <div class="wrap_formBtns">
 
@@ -537,6 +665,19 @@
         : 0
     } // {inCart: {item/false}, qnt: 2}
   }
+  function get_qnt(variant_id) {
+
+    let qnt_list = [];
+    let qnt_result;
+    {% for variant in product.variants %};
+      qnt_list.push([{{ variant.id }}, {{ variant.inventory_quantity }}]);{% endfor %};
+    qnt_list.forEach(list_item => {
+      if (list_item.includes(variant_id)) {
+        qnt_result = list_item[1]
+      }
+    })
+    return qnt_result
+  }
 </script>
 {{ '4_0_formatMoney.js' | asset_url | script_tag }}
 <!-- formatMoney / edit_variant_price / edit_sum_price -->
@@ -545,7 +686,7 @@
 {{ '4_4_swiper.js' | asset_url | script_tag }}
 <!-- insert_swiper / initiate_swiper / replaceSwiper /  set_bullet_colors / set_parallax -->
 {{ '4_5_qnt.js' | asset_url | script_tag }}
-<!-- set_qnt_eventListeners / checkKeyPress / toggle_qntInput / hanlde_qntAttributes-->
+<!-- set_qnt_eventListeners / checkKeyPress / hanlde_qntAttributes-->
 
 <script>
 
@@ -559,22 +700,24 @@
         recolor_bag_raw(checked[2])
       {% else %}
         recolor('{{ color_raw }}', '{{ color_bg }}');
-        recolor_bag_raw('{{ color_raw }}'){% endif %};
+        recolor_bag_raw('{{ color_raw }}')
+      {% endif %};
 
 // -
-      set_qnt_eventListeners();
+      const qnt_info = qnt_police(find_matchedVariant())
+      handle_from_btns(qnt_info.isCart, qnt_info.error)
+      
       insert_swiper(get_images())
       initiate_swiper();
       reset_Transitions();
       edit_size_options()
-      qnt_police()
       setTimeout(() => {
         set_bullet_colors()
       }, 20)
 
 
 
-    } else { // -
+    } else { // leave swiper on
       recolor('{{ color_raw }}', '{{ color_bg }}');
       insert_swiper(get_images())
       initiate_swiper();
@@ -587,25 +730,30 @@
 
   if (product_available) {
     const radios = document.querySelectorAll('input[type="radio"].optionRadio')
-    radios.forEach(radio => {
+    radios.forEach(radio => { // colors + sizes
       radio.addEventListener('change', (e) => {
+      
+        const qnt_info = qnt_police(find_matchedVariant())
+
+        edit_form_alerts(qnt_info.isCart, qnt_info.error)
+        handle_from_btns(qnt_info.isCart, qnt_info.error)
+        edit_text_qnts(qnt_info.qnt_left, qnt_info.qnt_cart, qnt_info.qnt_request)
+
+        handle_qnt_options(qnt_info.qnt_avail)
+        fix_qnt_choice(qnt_info.qnt_avail, qnt_info.isCart, qnt_info.error)
+        
+        
         recolor_default()
         edit_hiddenInput(find_matchedVariant())
         changeUrl(find_matchedVariant(), get_colors().bg, get_colors().raw)
-        edit_sum_price(find_matchedVariant(), format)
-        update_variant_qnt(get_qnt(find_matchedVariant().id))
         bubble_jump(document.getElementById('qnt_in_box'))
         bubble_jump(document.querySelector('.p_stockLeft'))
-
-
-        qnt_police()
-
 
 
         if (radio.getAttribute("name") == "Color") {
           document.querySelector('.swiper').style.opacity = "0%"
           document.querySelector('.sliderControls').style.opacity = "0%"
-          edit_size_options()
+          edit_size_options() // dont mess with this function
 
           setTimeout(() => {
             insert_swiper(get_images())
@@ -619,34 +767,8 @@
   }
 
 // ------------------------------------------------------------------------------------------------------------
-  function get_qnt(variant_id) {
+  
 
-    let qnt_list = [];
-    let result
-
-// -
-    {% for variant in product.variants %};
-      qnt_list.push([{{ variant.id }}, {{ variant.inventory_quantity }}]);{% endfor %};
-    qnt_list.forEach(list_item => {
-      if (list_item.includes(variant_id)) {
-        result = list_item[1]
-      }
-    })
-    return result
-  }
-  function update_variant_qnt(qnt) {
-    const texts_qnt = document.querySelectorAll('[data-qnt_edit]');
-    const qnt_input = document.querySelector('.qntInput')
-    texts_qnt.forEach(x => x.textContent = qnt);
-    qnt_input.dataset.qnt_left = qnt;
-
-    const p_stockLeft = document.querySelector('.p_stockLeft')
-    if (qnt <= 2) {
-      p_stockLeft.classList.add('red')
-    } else {
-      p_stockLeft.classList.remove('red')
-    }
-  }
 
 // ------------------------------------------------------------------------------------------------------------
   function get_colors() {
@@ -694,7 +816,7 @@
 
       } else {
         parent.removeAttribute('style');
-        parent.querySelector('label').style.color = 'rgba(0, 0, 0, .85)';
+        parent.querySelector('label').style.color = 'black';
 
       }
 

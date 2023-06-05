@@ -5,73 +5,88 @@
 
 let locked = false
 
-function set_qnt_eventListeners() {
-    const qntInput = document.querySelector('.qntInput')
-    const qnt_btns = document.querySelectorAll('.qnt_option')
-
-    qnt_btns.forEach(x => x.addEventListener('click', (e) => {
-         hanlde_qntAttributes(e.currentTarget.dataset.value)
-        recolor_default()
-        qntInput.value = e.currentTarget.textContent;
-        qntInput.setAttribute("value", e.currentTarget.textContent);
-        edit_sum_price(find_matchedVariant(), format)
-
-        if (is_bag_emtpy()) {
-        const btnText_price = document.querySelector('.price_insideBtn')
-        bubble_jump(btnText_price)
-        }
-
-        qnt_police()
-    }))
-}
 
 if (product_available) {
-    const btn_giveQuantity = document.querySelector('.btn_giveQuantity')
+    const btns_giveQuantity_BOTH = document.querySelectorAll('.btn_giveQuantity')
     const btn_cancelQuantity = document.querySelector('.btn_nearQtn.cancel')
     const btn_submitQuantity = document.querySelector('.btn_nearQtn.submit')
     const qntInput = document.querySelector('.qntInput')
     
-    btn_cancelQuantity.addEventListener('click', toggle_qntInput);
-    btn_giveQuantity.addEventListener('click', () => {
+    btn_cancelQuantity.addEventListener('click', () => {toggle_qntInput(false)});
+    btns_giveQuantity_BOTH.forEach(x => x.addEventListener('click', () => {
         setTimeout(() => {
             qntInput.focus();
             qntInput.select();
         }, 151);
-        toggle_qntInput()
-    });
+        toggle_qntInput(true)
+    }))
 
     btn_submitQuantity.addEventListener('click', () => {
-        toggle_qntInput()
-        hanlde_qntAttributes(qntInput.value)
+        toggle_qntInput(false)
+        qntInput.setAttribute("value", qntInput.value); // the data-value is just for me to see, but serves no purpose
+        hanlde_qntAttributes(parseInt(qntInput.value))
         recolor_default()
-        set_qnt_eventListeners()
         edit_sum_price(find_matchedVariant(), format)
     });
 
+    const qnt_btns = document.querySelectorAll('.qntOption')
+    qnt_btns.forEach(x => x.addEventListener('click', (e) => {
+
+        const qnt_info = qnt_police(find_matchedVariant())
+        const qnt_selected = e.currentTarget.dataset.value;
+        
+
+        if (qnt_selected > qnt_info.qnt_avail) {
+            console.log('return')
+            qnt_in_box.style.color = "red"
+            setTimeout(() => {
+                qnt_in_box.style.color = "black" 
+            }, 2000)
+            return
+        } else {
+
+        edit_form_alerts(qnt_info.isCart, qnt_info.error)
+        handle_from_btns(qnt_info.isCart, qnt_info.error)
+        edit_text_qnts(qnt_info.qnt_left, qnt_info.qnt_cart, qnt_selected)
+        
+        hanlde_qntAttributes(parseInt(qnt_selected))
+        edit_qntInput(qnt_selected)
+
+        recolor_default()
+        toggle_qntInput(false)
+        
+        }
+    }))
 }
+
+
+// when pressing "Go" in phone
 function checkKeyPress(event, inputElement) {
+    const qntInput = document.querySelector('.qntInput')
     if (event.key === "Enter" || event.keyCode === 13) {
         event.preventDefault();
         inputElement.blur();
-        toggle_qntInput()
-        hanlde_qntAttributes(qntInput.value)
+        toggle_qntInput(false)
+        hanlde_qntAttributes(parseInt(qntInput.value))
         recolor_default()
-        set_qnt_eventListeners()
-        edit_sum_price(find_matchedVariant())
+        edit_sum_price(find_matchedVariant(), format)
     }
 }
 
-function toggle_qntInput() {
+function toggle_qntInput(value) {
     const parent = document.querySelector('.input_box.qnt')
     const qnt_front = document.querySelector('.quantity_front')
     const qnt_back = document.querySelector('.quantity_back')
-    parent.classList.toggle('show_input')
+
+    value ? parent.classList.add('show_input') : parent.classList.remove('show_input')
+        
+
 
     if (parent.classList.contains('show_input') && ! locked) {
-
+        
         locked = true
         qnt_front.style.opacity = "0%"
-        qnt_back.style.display = 'flex'
+        qnt_back.style.display = 'block'
         setTimeout(() => {
         qnt_back.style.opacity = "100%"
         }, 70)
@@ -80,6 +95,7 @@ function toggle_qntInput() {
         locked = false
         }, 151)
 
+        parent.style.height = qnt_back.getBoundingClientRect().height + 'px'
 
     } else if (! locked) {
 
@@ -94,12 +110,23 @@ function toggle_qntInput() {
         locked = false
         }, 151)
 
+        parent.style.height = '54px'
     }
 
 }
 function hanlde_qntAttributes(value) {
 
-    const qnt_btns = document.querySelectorAll('.qnt_option')
+    let option_d
+    let option_d_exp
+    let option_m
+    let option_m_exp
+
+    const last_d = document.querySelector(`.qntOption.d.last`);
+    const last_m = document.querySelector(`.qntOption.m.last`);
+    const last_d_exp = document.querySelector(`.qntOption.d.exp.last`);
+    const last_m_exp = document.querySelector(`.qntOption.m.exp.last`);
+    
+    const qnt_btns = document.querySelectorAll('.qntOption')
     qnt_btns.forEach(y => {
         y.classList.remove('active');
         y.removeAttribute('data-recolor_bg');
@@ -107,41 +134,87 @@ function hanlde_qntAttributes(value) {
         y.removeAttribute('style');
     })
 
-    if (value == '1' || value == '2') {
-        const options_to_select = document.querySelectorAll(`.qnt_option[data-value="${value}"]`)
-        options_to_select.forEach(x => {
-        x.classList.add('active');
-        x.setAttribute('data-recolor_bg', '');
-        x.setAttribute('data-recolor_text_raw', '');
-        })
-    } else if (value == "3" || value == '4') {
-        const targetOption_D = document.querySelector(`.qnt_option.d[data-value="${value}"]`);
-        const targetOption_M = document.querySelector('.wrap_qntOptions.mobile').lastElementChild;
-        [targetOption_D, targetOption_M].forEach(x => {
-        x.classList.add('active');
-        x.setAttribute('data-recolor_bg', '');
-        x.setAttribute('data-recolor_text_raw', '');
-        })
-        targetOption_M.dataset.value = value;
-        targetOption_M.textContent = value;
+    if (value <= 2) {
+        option_d = document.querySelector(`.qntOption.d[data-value="${value}"]`);
+        option_m = document.querySelector(`.qntOption.m[data-value="${value}"]`);
+        option_d_exp = document.querySelector(`.qntOption.d.exp[data-value="${value}"]`);
+        option_m_exp = document.querySelector(`.qntOption.m.exp[data-value="${value}"]`);
+        reset_last(last_d, 5)
+        reset_last(last_m, 3)
+        reset_last(last_d_exp, 12)
+        reset_last(last_m_exp, 10)
 
-    } else {
-        const targetOption_D = document.querySelector('.wrap_qntOptions.desktop').lastElementChild;
-        const targetOption_M = document.querySelector('.wrap_qntOptions.mobile').lastElementChild;
 
-        [targetOption_D, targetOption_M].forEach(x => {
-        x.classList.add('active');
-        x.setAttribute('data-recolor_bg', '');
-        x.setAttribute('data-recolor_text_raw', '');
-        x.dataset.value = value;
-        x.textContent = value;
-        })
+    } else if (value <= 4) {
+        option_d = document.querySelector(`.qntOption.d[data-value="${value}"]`);
+        option_m = last_m
+        option_d_exp = document.querySelector(`.qntOption.d.exp[data-value="${value}"]`);
+        option_m_exp = document.querySelector(`.qntOption.m.exp[data-value="${value}"]`);
+        edit_values(option_m, value)
+        reset_last(last_d, 5)
+        reset_last(last_d_exp, 12)
+        reset_last(last_m_exp, 10)
+        
+
+    } else if (value >= 5 && value <= 9) {
+        option_d = last_d
+        option_m = last_m
+        option_d_exp = document.querySelector(`.qntOption.d.exp[data-value="${value}"]`);
+        option_m_exp = document.querySelector(`.qntOption.m.exp[data-value="${value}"]`);
+        edit_values(option_d, value)
+        edit_values(option_m, value)
+        reset_last(last_d_exp, 12)
+        reset_last(last_m_exp, 10)
+
+
+    } else if (value == 10 || value == 11){
+        option_d = last_d
+        option_m = last_m
+        option_d_exp = document.querySelector(`.qntOption.d.exp[data-value="${value}"]`);
+        option_m_exp = last_m_exp
+        edit_values(option_d, value)
+        edit_values(option_m, value)
+        edit_values(option_m_exp, value)
+        reset_last(last_d_exp, 12)
+
+    } else if (value >= 12) {
+
+        option_d = last_d
+        option_m = last_m
+        option_d_exp = last_d_exp
+        option_m_exp = last_m_exp
+        edit_values(option_d, value)
+        edit_values(option_m, value)
+        edit_values(option_d_exp, value)
+        edit_values(option_m_exp, value)
+
     }
+
+    handle_activeOption(option_d)
+    handle_activeOption(option_d_exp)
+    handle_activeOption(option_m)
+    handle_activeOption(option_m_exp)
+
 }
 
-
-
-function edit_errorBox(value) {}
+function handle_activeOption(option) {
+    option.classList.add('active');
+    option.setAttribute('data-recolor_bg', '');
+    option.setAttribute('data-recolor_text_raw', '');
+}
+function reset_last(target, value) {
+    target.dataset.value = value;
+    target.textContent = value;
+}
+function edit_values(target, value) {
+    target.dataset.value = value;
+    target.textContent = value;
+}
+function edit_qntInput(value) {
+    const qntInput = document.querySelector('.qntInput')
+    qntInput.value = value
+    qntInput.setAttribute("value", value);
+}
 
 
 

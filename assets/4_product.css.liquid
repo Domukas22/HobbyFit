@@ -406,11 +406,17 @@
   opacity: 100%;
   overflow: hidden;
   text-align: center;
+  color: black;
 }
 
 input[name="Color"] + label {
   display: none;
 }
+input[type="radio"]:checked + label {
+  font-weight: 600;
+}
+
+
 .circle_option {
   border-radius: 100px;
   width: 16px;
@@ -421,6 +427,7 @@ input[name="Color"] + label {
 
 .input_box.qnt {
   margin-bottom: 42px;
+  transition: 400;
 }
 
 .quantity_front,
@@ -429,7 +436,6 @@ input[name="Color"] + label {
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
   display: flex;
   opacity: 100%;
   align-items: center;
@@ -442,12 +448,31 @@ input[name="Color"] + label {
 .quantity_front {
   display: flex;
   opacity: 100%;
+  height: 100%;
 }
 .quantity_back {
   display: none;
   opacity: 0;
 }
-
+.qnt_back_TOP {
+  display: flex;
+  height: 54px;
+  align-items: center
+}
+.wrap_qntOptions_expanded {
+  display: grid;
+  padding: 12px;
+  column-gap: 4px;
+  row-gap: 4px;
+  border-top: 1px solid rgba(0, 0, 0, 0.03);
+}
+.wrap_qntOptions_expanded.d {
+  grid-template-columns: repeat(6, 1fr)
+}
+.wrap_qntOptions_expanded.m {
+  display: none;
+  grid-template-columns: repeat(5, 1fr)
+}
 .wrap_qntOptions {
   display: flex;
   flex: 1;
@@ -456,7 +481,7 @@ input[name="Color"] + label {
 .wrap_qntOptions.mobile {
   display: none;
 }
-.qnt_option {
+.qntOption {
   flex: 1;
   height: 100%;
 
@@ -464,20 +489,59 @@ input[name="Color"] + label {
   align-items: center;
   justify-content: center;
 
+  color: black;
   cursor: pointer;
 }
-.qnt_option:hover {
+.qntOption:hover {
   background-color: var(--color_hover);
 }
+.qntOption.active {
+  font-weight: 600;
+}
+.qntOption.disabled {
+  color: rgba(0, 0, 0, 0.1) !important;
+
+}
+.qntOption.d.exp.disabled,
+.qntOption.m.exp.disabled {
+  border: 1px solid rgba(0, 0, 0, 0) !important;
+}
+.qntOption.d.exp.active,
+.qntOption.m.exp.active {
+  border: 1px solid rgba(0, 0, 0, 0) !important;
+}
+.qntOption.disabled:hover {
+  background-color: rgba(0, 0, 0, 0) !important;
+  cursor: default;
+}
+
+
+.qntOption.d.exp,
+.qntOption.m.exp {
+  height: 50px;
+  width: 100%;
+  border-radius: 6px;
+  border: 1px solid rgba(0, 0, 0, 0.03);
+}
+
 .btn_giveQuantity {
   height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 18px;
+  width: 110px;
   border-left: var(--border_bottom);
   cursor: pointer;
-  font
+  overflow: hidden;
+  opacity: 100%;
+
+}
+.btn_giveQuantity.m {
+  display: none;
+}
+.btn_giveQuantity.disabled {
+  width: 0;
+  opacity: 0;
 }
 .btn_giveQuantity:hover {
   background-color: var(--color_hover);
@@ -707,5 +771,18 @@ input[name="Color"] + label {
 
   .alertBox {
     grid-column: 1 / 2;
+  }
+  .wrap_qntOptions_expanded.d {
+    display: none
+  }
+  .wrap_qntOptions_expanded.m {
+    display: grid;
+  }
+
+  .btn_giveQuantity.d {
+    display: none;
+  }
+  .btn_giveQuantity.m {
+    display: flex;
   }
 }

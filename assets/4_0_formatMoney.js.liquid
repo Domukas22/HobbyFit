@@ -44,6 +44,8 @@ function edit_variant_price(matchedVariant, format) {
   document.querySelector('.price_product_filterPage').textContent = formatMoney(matchedVariant.price, format)
 }
 
+
+// replaced by edit_text_qnts
 function edit_sum_price(variant, format) {
   const qntInput = document.querySelector('.qntInput')
   if (is_bag_emtpy()) {

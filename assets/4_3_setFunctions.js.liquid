@@ -6,16 +6,12 @@ if (product_available) {
   const formBtn_changeQnt = document.querySelector('.formBtn.changeQnt')
   const formBtn_viewCart = document.querySelector('.formBtn.viewCart')
 
-
   formBtn_addCarts.forEach(x => x.addEventListener('click', () => {
     document.querySelector('.form_productPage').submit()
   }))
-
-
   formBtn_changeQnt.addEventListener('click', () => {
     document.querySelector('.btn_giveQuantity').click()
   })
-  
   formBtn_buy.addEventListener('click', () => {
     const form = document.querySelector('.form_productPage');
     const input = document.createElement('input');
@@ -25,47 +21,19 @@ if (product_available) {
 
     form.appendChild(input);
     form.submit();
-})
-
-
-
-
+  })
+  handle_qnt_options(qnt_police(find_matchedVariant()).qnt_avail)
 }
 
-function set_circleColors() {
-    const circle_option = document.querySelectorAll('.circle_option')
-    circle_option.forEach(x => {
-      const color_raw = x.dataset.circle_color.split(" ")[2];
-      x.style.backgroundColor = color_raw;
-    })
-}
-function changeUrl(matchedVariant, color_bg, color_raw) {
-  const url = new URLParse(window.location.href, true)
-  url.query.variant = matchedVariant.id
-  url.query.color_bg = color_bg
-  url.query.color_raw = color_raw
-  window.history.replaceState(null, null, url.toString())
-}
-function edit_hiddenInput(matchedVariant) {
-  document.getElementById('product_id').value = matchedVariant.id
-}
-function bubble_jump(target) {
-  target.classList.add('scale')
-  setTimeout(() => {
-    target.classList.remove('scale')
-  }, 300)
-}
+function qnt_police(variant) {
 
-function qnt_police() {
-
-  const x = variant_inBag(find_matchedVariant().id)
+  const x = variant_inBag(variant.id)
   const is_in_cart = x.inCart
   const qnt_cart = x.qnt
-  const qnt_left = get_qnt(find_matchedVariant().id)
+  const qnt_left = get_qnt(variant.id)
   const qnt_request = parseInt(document.querySelector('.qntInput').value)
 
-  document.querySelectorAll('.text_qnt.left').forEach(x => x.textContent = qnt_left)
-  document.querySelectorAll('.text_qnt.inCart').forEach(x => x.textContent = qnt_cart)
+  
 
   let allow_add = false
   let error = 'none'
@@ -97,12 +65,9 @@ function qnt_police() {
     is_Cart: !!is_in_cart, 
     }
 
-    console.log(obj)
-
-    edit_form_alerts(!!is_in_cart, error)
-    display_cart_btns(obj)
-    edit_cart_btns()
+    return obj
 }
+
 function edit_form_alerts(isCart, error) {
 
   const textAlerts = document.querySelectorAll('.textAlert')
@@ -123,7 +88,7 @@ function edit_form_alerts(isCart, error) {
 
 
 }
-function display_cart_btns(obj) {
+function handle_from_btns(condition, error) {
   const formBtns = document.querySelectorAll('.formBtn')
 
   const formBtn_buy = document.querySelector('.formBtn.buy')
@@ -134,34 +99,95 @@ function display_cart_btns(obj) {
 
   formBtns.forEach(x => x.style.display = "none")
   
-  if (!obj.is_Cart && obj.error == "none") {
+  if (!condition && error == "none") {
     formBtn_buy.style.display = "flex"
     formBtn_addCart_second.style.display = "flex"
 
-  } else if (obj.is_Cart && obj.error == "none") {
+  } else if (condition && error == "none") {
     formBtn_addCart_main.style.display = "flex"
     formBtn_viewCart.style.display = "flex"
 
-  } else if (!obj.is_Cart && obj.error == "qnt") {
+  } else if (!condition&& error == "qnt") {
     formBtn_buy.style.display = "flex"
     formBtn_addCart_second.style.display = "flex"
     formBtn_changeQnt.style.display = "flex"
 
-  } else if (obj.is_Cart && obj.error == "cart") {
+  } else if (condition && error == "cart") {
     formBtn_addCart_main.style.display = "flex"
     formBtn_changeQnt.style.display = "flex"
     formBtn_viewCart.style.display = "flex"
   }
 }
-function edit_cart_btns() {
-  //price inside btn
-  const qnt = document.querySelector('.qntInput').value
+function handle_qnt_options(qnt_available) {
+  const qnt_btns = document.querySelectorAll('.qntOption')
+  const btn_giveQuantity_d = document.querySelector('.btn_giveQuantity.d')
+  const btn_giveQuantity_m = document.querySelector('.btn_giveQuantity.m')
+
+  qnt_btns.forEach(btn => {
+    if (btn.dataset.value > qnt_available) {
+        btn.classList.add('disabled')
+    } else {
+        btn.classList.remove('disabled')
+    }
+  })
+  
+  
+  qnt_available >= 4 ? btn_giveQuantity_m.classList.remove('disabled') : btn_giveQuantity_m.classList.add('disabled')
+  qnt_available >= 6 ? btn_giveQuantity_d.classList.remove('disabled') : btn_giveQuantity_d.classList.add('disabled') 
+}
+function edit_text_qnts(qnt_left, qnt_cart, qnt_request) {
+  document.querySelectorAll('.text_qnt.left').forEach(x => x.textContent = qnt_left)
+  document.querySelectorAll('.text_qnt.inCart').forEach(x => x.textContent = qnt_cart)
+  document.querySelectorAll('[data-chosen_qnt]').forEach(x => x.textContent = qnt_request)
+  document.querySelectorAll('[data-variant_qnt]').forEach(x => x.textContent = qnt_left);
+
   const price_inside_btn = document.querySelector('[data-price_calc]')
-  price_inside_btn.textContent = formatMoney(find_matchedVariant().price * qnt, format)
+  price_inside_btn.textContent = formatMoney(find_matchedVariant().price * qnt_request, format)
   bubble_jump(price_inside_btn)
 
-  const numbers_qnt_required = document.querySelectorAll('[data-chosen_qnt]')
-  numbers_qnt_required.forEach(x => x.textContent = qnt)
-
+  const p_stockLeft = document.querySelector('.p_stockLeft')
+    if (qnt_left <= 2) {
+      p_stockLeft.classList.add('red')
+    } else {
+      p_stockLeft.classList.remove('red')
+    }
+}
+function fix_qnt_choice(qnt_avail, isCart, error) {
+  // on color/size swap, this will briefly return 0
+  const qnt_selected = document.querySelector('.qntInput').value
+  const texts_chosen_qnt = document.querySelectorAll('[data-chosen_qnt]')
+  const price_inside_btn = document.querySelector('[data-price_calc]')
+  
+  if (qnt_selected > qnt_avail && qnt_avail) {
+    hanlde_qntAttributes(parseInt(qnt_avail))
+    edit_qntInput(qnt_avail)
+    texts_chosen_qnt.forEach(x => x.textContent = qnt_avail)
+    price_inside_btn.textContent = formatMoney(find_matchedVariant().price * qnt_avail, format)
+    edit_form_alerts(isCart, error)
+    handle_from_btns(isCart, error)
+  }
 }
 
+function edit_hiddenInput(matchedVariant) {
+  document.getElementById('product_id').value = matchedVariant.id
+}
+function set_circleColors() {
+    const circle_option = document.querySelectorAll('.circle_option')
+    circle_option.forEach(x => {
+      const color_raw = x.dataset.circle_color.split(" ")[2];
+      x.style.backgroundColor = color_raw;
+    })
+}
+function changeUrl(matchedVariant, color_bg, color_raw) {
+  const url = new URLParse(window.location.href, true)
+  url.query.variant = matchedVariant.id
+  url.query.color_bg = color_bg
+  url.query.color_raw = color_raw
+  window.history.replaceState(null, null, url.toString())
+}
+function bubble_jump(target) {
+  target.classList.add('scale')
+  setTimeout(() => {
+    target.classList.remove('scale')
+  }, 300)
+}

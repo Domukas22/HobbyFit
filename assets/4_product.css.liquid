@@ -449,6 +449,7 @@ input[type="radio"]:checked + label {
   display: flex;
   opacity: 100%;
   height: 100%;
+  position: relative;
 }
 .quantity_back {
   display: none;
@@ -457,7 +458,8 @@ input[type="radio"]:checked + label {
 .qnt_back_TOP {
   display: flex;
   height: 54px;
-  align-items: center
+  align-items: center;
+
 }
 .wrap_qntOptions_expanded {
   display: grid;
@@ -491,6 +493,7 @@ input[type="radio"]:checked + label {
 
   color: black;
   cursor: pointer;
+  overflow: hidden;
 }
 .qntOption:hover {
   background-color: var(--color_hover);
@@ -500,15 +503,19 @@ input[type="radio"]:checked + label {
 }
 .qntOption.disabled {
   color: rgba(0, 0, 0, 0.1) !important;
-
+  background-color: rgba(0, 0, 0, 0) !important;
+  flex: 0;
 }
 .qntOption.d.exp.disabled,
 .qntOption.m.exp.disabled {
   border: 1px solid rgba(0, 0, 0, 0) !important;
+  height: 0 !important;
+  width: 0 !important;
 }
 .qntOption.d.exp.active,
 .qntOption.m.exp.active {
   border: 1px solid rgba(0, 0, 0, 0) !important;
+  font-weight: 600 !important;
 }
 .qntOption.disabled:hover {
   background-color: rgba(0, 0, 0, 0) !important;
@@ -549,16 +556,16 @@ input[type="radio"]:checked + label {
 
 
 
-.qntInput {
+.qntInput {}
+
+.qntInput_decoy {
   height: 100%;
   width: 100%;
   flex: 1;
   padding-left: 16px;
   font-size: 17px;
 }
-.qntInput:hover {
-  background-color: var(--color_bg);
-}
+
 .btn_nearQtn {
   height: 80%;
   padding: 0 16px;
@@ -570,9 +577,28 @@ input[type="radio"]:checked + label {
   cursor: pointer;
 }
 .btn_nearQtn.submit {
+  width: 0;
+  margin: 0;
+  padding: 0;
   color: white;
   font-weight: 600;
+  overflow: hidden;
+  opacity: 0;
+}
+.btn_nearQtn.submit.show {
+  width: 85px;
   margin: 0 5px;
+  opacity: 100%;
+}
+.textAlert.cart_full {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: 2;
+  background-color: #fff;
+  display: none;
+  align-items: center;
+  justify-content: center;
 }
 
 
@@ -590,14 +616,12 @@ input[type="radio"]:checked + label {
   cursor: pointer;
 
 }
-
-.formBtn.error_solve {
-  background-color: var(--color_red);
+.formBtn > p {
+  flex-grow: 1;
 }
-
 .theSVG {
   width: 17px;
-  margin: 0 0 2px auto;
+  margin-bottom: 2px;
   display: none
 }
 .bagIcon_btnCart {

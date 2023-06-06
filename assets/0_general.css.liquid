@@ -80,6 +80,14 @@ body {
   background-color: var(--color_bg);
 }
 
+input[type="number"] {
+  border: none;
+  outline: none;
+  background-color: transparent;
+}
+input[type="number"]:focus {
+  box-shadow: none;
+}
 input[type="text"] {
   border: none;
   outline: none;
@@ -244,7 +252,6 @@ section {
   object-fit: contain;
   margin-right: 8px;
 }
-
 .section_pageTitle {
   height: 180px;
   padding: 60px 80px 30px;
@@ -256,6 +263,19 @@ section {
 
   box-shadow: var(--shadow_normal);
   background-color: #fff;
+}
+
+.animate__shakeX {
+  color: red;
+}
+.animate__shakeX > * {
+  color: red;
+}
+.red_highlight {
+  color: red;
+}
+.red_highlight > * {
+  color: red;
 }
 
 @media only screen and (min-width: 1921px) {

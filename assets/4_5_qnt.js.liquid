@@ -11,22 +11,39 @@ if (product_available) {
     const btn_cancelQuantity = document.querySelector('.btn_nearQtn.cancel')
     const btn_submitQuantity = document.querySelector('.btn_nearQtn.submit')
     const qntInput = document.querySelector('.qntInput')
+    const decoy = document.querySelector('.qntInput_decoy')
     
-    btn_cancelQuantity.addEventListener('click', () => {toggle_qntInput(false)});
-    btns_giveQuantity_BOTH.forEach(x => x.addEventListener('click', () => {
-        setTimeout(() => {
-            qntInput.focus();
-            qntInput.select();
-        }, 151);
-        toggle_qntInput(true)
-    }))
-
+    btn_cancelQuantity.addEventListener('click', () => {toggle_qntInput(false); toggle_btn_qntSubmit(false)});
+    btns_giveQuantity_BOTH.forEach(x => x.addEventListener('click', () => {toggle_qntInput(true)}))
     btn_submitQuantity.addEventListener('click', () => {
-        toggle_qntInput(false)
-        qntInput.setAttribute("value", qntInput.value); // the data-value is just for me to see, but serves no purpose
-        hanlde_qntAttributes(parseInt(qntInput.value))
-        recolor_default()
-        edit_sum_price(find_matchedVariant(), format)
+        const qnt_info = qnt_police(find_matchedVariant())
+
+        if (!parseInt(decoy.value) || parseInt(decoy.value) < 0) {
+
+            // Shouldnt happen, because we hide it on input if its 0
+            // This is a safety measure
+            decoy.select();
+            decoy.focus()
+            return
+
+        } else if (decoy.value > qnt_info.qnt_avail) {
+            animateCSS('#qnt_in_box', 'shakeX');
+            document.querySelectorAll('.textAlert').forEach(x => red_highlight(x))
+            decoy.select()
+            decoy.focus()
+
+        } else {
+
+            edit_form_alerts(qnt_info.isCart, qnt_info.error)
+            edit_text_qnts(qnt_info.qnt_left, qnt_info.qnt_cart, decoy.value)
+            hanlde_qntOptions(parseInt(decoy.value), parseInt(qnt_info.qnt_avail))
+            edit_qntInput(decoy.value)
+
+            recolor_default()
+            edit_sum_price(find_matchedVariant(), format)
+            toggle_qntInput(false)
+        }
+  
     });
 
     const qnt_btns = document.querySelectorAll('.qntOption')
@@ -35,21 +52,16 @@ if (product_available) {
         const qnt_info = qnt_police(find_matchedVariant())
         const qnt_selected = e.currentTarget.dataset.value;
         
-
         if (qnt_selected > qnt_info.qnt_avail) {
+            animateCSS('#qnt_in_box', 'shakeX');
+            document.querySelectorAll('.textAlert').forEach(x => red_highlight(x))
             console.log('return')
-            qnt_in_box.style.color = "red"
-            setTimeout(() => {
-                qnt_in_box.style.color = "black" 
-            }, 2000)
             return
         } else {
 
         edit_form_alerts(qnt_info.isCart, qnt_info.error)
-        handle_from_btns(qnt_info.isCart, qnt_info.error)
         edit_text_qnts(qnt_info.qnt_left, qnt_info.qnt_cart, qnt_selected)
-        
-        hanlde_qntAttributes(parseInt(qnt_selected))
+        hanlde_qntOptions(parseInt(qnt_selected), parseInt(qnt_info.qnt_avail))
         edit_qntInput(qnt_selected)
 
         recolor_default()
@@ -57,19 +69,44 @@ if (product_available) {
         
         }
     }))
+
+    decoy.addEventListener('input', (e) => {
+        const value = e.currentTarget.value
+        parseInt(decoy.value) && parseInt(decoy.value) > 0 ? toggle_btn_qntSubmit(true) : toggle_btn_qntSubmit(false)
+    })
 }
 
 
 // when pressing "Go" in phone
-function checkKeyPress(event, inputElement) {
+function checkKeyPress(event, decoy) {
+
     const qntInput = document.querySelector('.qntInput')
+    const qnt_info = qnt_police(find_matchedVariant())
+    
     if (event.key === "Enter" || event.keyCode === 13) {
-        event.preventDefault();
-        inputElement.blur();
-        toggle_qntInput(false)
-        hanlde_qntAttributes(parseInt(qntInput.value))
-        recolor_default()
-        edit_sum_price(find_matchedVariant(), format)
+
+        if (!parseInt(decoy.value) || parseInt(decoy.value) < 0) {
+            
+            decoy.select();
+            decoy.focus()
+    
+        } else if (decoy.value > qnt_info.qnt_avail) {
+            animateCSS('#qnt_in_box', 'shakeX');
+            document.querySelectorAll('.textAlert').forEach(x => red_highlight(x))
+            decoy.select()
+            decoy.focus()
+    
+        } else {
+            decoy.blur()
+            edit_form_alerts(qnt_info.isCart, qnt_info.error)
+            edit_text_qnts(qnt_info.qnt_left, qnt_info.qnt_cart, decoy.value)
+            edit_qntInput(decoy.value)
+            hanlde_qntOptions(parseInt(decoy.value), parseInt(qnt_info.qnt_avail))
+    
+            recolor_default()
+            edit_sum_price(find_matchedVariant(), format)
+            toggle_qntInput(false)
+        }
     }
 }
 
@@ -77,49 +114,51 @@ function toggle_qntInput(value) {
     const parent = document.querySelector('.input_box.qnt')
     const qnt_front = document.querySelector('.quantity_front')
     const qnt_back = document.querySelector('.quantity_back')
+    document.querySelector('.qntInput_decoy').value = ""
 
-    value ? parent.classList.add('show_input') : parent.classList.remove('show_input')
-        
-
-
-    if (parent.classList.contains('show_input') && ! locked) {
-        
+    
+    if (value && ! locked) {
         locked = true
+        parent.dataset.box = 'open'
         qnt_front.style.opacity = "0%"
         qnt_back.style.display = 'block'
-        setTimeout(() => {
-        qnt_back.style.opacity = "100%"
-        }, 70)
-        setTimeout(() => {
-        qnt_front.style.display = 'none'
-        locked = false
-        }, 151)
+
+        setTimeout(() => {qnt_back.style.opacity = "100%"}, 70)
+        setTimeout(() => {qnt_front.style.display = 'none'; locked = false}, 151)
+
+        const get_childrenHeight = parentElement =>[...parentElement.children].reduce((sum, child) => sum + child.getBoundingClientRect().height,0);
+        
 
         parent.style.height = qnt_back.getBoundingClientRect().height + 'px'
 
     } else if (! locked) {
 
         locked = true
+        parent.dataset.box = 'closed'
         qnt_back.style.opacity = "0%"
         qnt_front.style.display = 'flex'
-        setTimeout(() => {
-        qnt_front.style.opacity = "100%"
-        }, 70)
-        setTimeout(() => {
-        qnt_back.style.display = 'none'
-        locked = false
-        }, 151)
+
+        setTimeout(() => {qnt_front.style.opacity = "100%"}, 70)
+        setTimeout(() => {locked = false; qnt_back.style.display = 'none'}, 151)
+
+        const get_childrenHeight = parentElement =>[...parentElement.children].reduce((sum, child) => sum + child.getBoundingClientRect().height,0);
+        console.log(get_childrenHeight(qnt_back))
 
         parent.style.height = '54px'
     }
 
 }
-function hanlde_qntAttributes(value) {
+function hanlde_qntOptions(qnt_selected, qnt_avail) { 
 
-    let option_d
-    let option_d_exp
-    let option_m
-    let option_m_exp
+    // select all qnt options and deactivate them
+    // find options with selected value and activate them
+    // if item is unavailable, return
+
+    if (!qnt_avail) {return} else if (qnt_selected > qnt_avail) {qnt_selected = qnt_avail}
+
+    toggle_btn_giveQnt(qnt_avail)
+    let option_d, option_d_exp, option_m, option_m_exp
+
 
     const last_d = document.querySelector(`.qntOption.d.last`);
     const last_m = document.querySelector(`.qntOption.m.last`);
@@ -127,55 +166,71 @@ function hanlde_qntAttributes(value) {
     const last_m_exp = document.querySelector(`.qntOption.m.exp.last`);
     
     const qnt_btns = document.querySelectorAll('.qntOption')
-    qnt_btns.forEach(y => {
-        y.classList.remove('active');
-        y.removeAttribute('data-recolor_bg');
-        y.removeAttribute('data-recolor_text_raw');
-        y.removeAttribute('style');
+    qnt_btns.forEach(btn => {
+        btn.classList.remove('active');
+        btn.removeAttribute('data-recolor_bg');
+        btn.removeAttribute('data-recolor_text_raw');
+        btn.removeAttribute('style');
+
+        if (btn.dataset.value > qnt_avail) {
+            btn.classList.add('disabled')
+        } else {
+            btn.classList.remove('disabled')
+        }
     })
 
-    if (value <= 2) {
-        option_d = document.querySelector(`.qntOption.d[data-value="${value}"]`);
-        option_m = document.querySelector(`.qntOption.m[data-value="${value}"]`);
-        option_d_exp = document.querySelector(`.qntOption.d.exp[data-value="${value}"]`);
-        option_m_exp = document.querySelector(`.qntOption.m.exp[data-value="${value}"]`);
-        reset_last(last_d, 5)
-        reset_last(last_m, 3)
-        reset_last(last_d_exp, 12)
-        reset_last(last_m_exp, 10)
+    if (qnt_selected <= 2) {
+        option_d = document.querySelector(`.qntOption.d[data-value="${qnt_selected}"]`);
+        option_m = document.querySelector(`.qntOption.m[data-value="${qnt_selected}"]`);
+        option_d_exp = document.querySelector(`.qntOption.d.exp[data-value="${qnt_selected}"]`);
+        option_m_exp = document.querySelector(`.qntOption.m.exp[data-value="${qnt_selected}"]`);
+
+        set_newValue([
+            {target: last_d, new_value: 5}, 
+            {target: last_m, new_value: 3},
+            {target: last_d_exp, new_value: 12}, 
+            {target: last_m_exp, new_value: 10}
+        ])
 
 
-    } else if (value <= 4) {
-        option_d = document.querySelector(`.qntOption.d[data-value="${value}"]`);
+    } else if (qnt_selected <= 4) {
+        option_d = document.querySelector(`.qntOption.d[data-value="${qnt_selected}"]`);
         option_m = last_m
-        option_d_exp = document.querySelector(`.qntOption.d.exp[data-value="${value}"]`);
-        option_m_exp = document.querySelector(`.qntOption.m.exp[data-value="${value}"]`);
-        edit_values(option_m, value)
-        reset_last(last_d, 5)
-        reset_last(last_d_exp, 12)
-        reset_last(last_m_exp, 10)
+        option_d_exp = document.querySelector(`.qntOption.d.exp[data-value="${qnt_selected}"]`);
+        option_m_exp = document.querySelector(`.qntOption.m.exp[data-value="${qnt_selected}"]`);
+        set_newValue([
+            {target: option_m, new_value: qnt_selected},
+            {target: last_d, new_value: 5}, 
+            {target: last_d_exp, new_value: 12}, 
+            {target: last_m_exp, new_value: 10}
+        ])
         
 
-    } else if (value >= 5 && value <= 9) {
+    } else if (qnt_selected >= 5 && qnt_selected <= 9) {
         option_d = last_d
         option_m = last_m
-        option_d_exp = document.querySelector(`.qntOption.d.exp[data-value="${value}"]`);
-        option_m_exp = document.querySelector(`.qntOption.m.exp[data-value="${value}"]`);
-        edit_values(option_d, value)
-        edit_values(option_m, value)
-        reset_last(last_d_exp, 12)
-        reset_last(last_m_exp, 10)
+        option_d_exp = document.querySelector(`.qntOption.d.exp[data-value="${qnt_selected}"]`);
+        option_m_exp = document.querySelector(`.qntOption.m.exp[data-value="${qnt_selected}"]`);
+        set_newValue([
+            {target: option_d, new_value: qnt_selected},
+            {target: option_m, new_value: qnt_selected},
+            {target: last_d_exp, new_value: 12}, 
+            {target: last_m_exp, new_value: 10}
+        ])
 
 
-    } else if (value == 10 || value == 11){
+    } else if (qnt_selected == 10 || qnt_selected == 11){
         option_d = last_d
         option_m = last_m
-        option_d_exp = document.querySelector(`.qntOption.d.exp[data-value="${value}"]`);
+        option_d_exp = document.querySelector(`.qntOption.d.exp[data-value="${qnt_selected}"]`);
         option_m_exp = last_m_exp
-        edit_values(option_d, value)
-        edit_values(option_m, value)
-        edit_values(option_m_exp, value)
-        reset_last(last_d_exp, 12)
+
+        set_newValue([
+            {target: option_d, new_value: qnt_selected},
+            {target: option_m, new_value: qnt_selected},
+            {target: option_m_exp, new_value: qnt_selected},
+            {target: last_d_exp, new_value: 12}
+        ])
 
     } else if (value >= 12) {
 
@@ -183,38 +238,51 @@ function hanlde_qntAttributes(value) {
         option_m = last_m
         option_d_exp = last_d_exp
         option_m_exp = last_m_exp
-        edit_values(option_d, value)
-        edit_values(option_m, value)
-        edit_values(option_d_exp, value)
-        edit_values(option_m_exp, value)
+
+        set_newValue([
+            {target: option_d, new_value: qnt_selected},
+            {target: option_m, new_value: qnt_selected},
+            {target: option_d_exp, new_value: qnt_selected},
+            {target: option_m_exp, new_value: qnt_selected}
+        ])
 
     }
 
-    handle_activeOption(option_d)
-    handle_activeOption(option_d_exp)
-    handle_activeOption(option_m)
-    handle_activeOption(option_m_exp)
-
+    handle_activeOptions([option_d, option_d_exp, option_m, option_m_exp])
 }
 
-function handle_activeOption(option) {
-    option.classList.add('active');
-    option.setAttribute('data-recolor_bg', '');
-    option.setAttribute('data-recolor_text_raw', '');
+function handle_activeOptions(options) {
+    options.forEach(x => {
+        x.classList.add('active');
+        x.setAttribute('data-recolor_bg', '');
+        x.setAttribute('data-recolor_text_raw', '');
+    })
+    
 }
-function reset_last(target, value) {
-    target.dataset.value = value;
-    target.textContent = value;
+function set_newValue(objects) {
+    objects.forEach(obj => {
+        obj.target.dataset.value = obj.new_value;
+        obj.target.textContent = obj.new_value;
+    })
 }
-function edit_values(target, value) {
-    target.dataset.value = value;
-    target.textContent = value;
-}
+
 function edit_qntInput(value) {
     const qntInput = document.querySelector('.qntInput')
     qntInput.value = value
-    qntInput.setAttribute("value", value);
+    qntInput.setAttribute("value", value); // the data-value is just for me to see, but serves no purpose
 }
+function toggle_btn_qntSubmit(value) {
 
+    const btn = document.querySelector('.btn_nearQtn.submit')
+    value ? btn.classList.add('show') : btn.classList.remove('show')
+}
+function toggle_btn_giveQnt(qnt_available) {
+    const btn_giveQuantity_d = document.querySelector('.btn_giveQuantity.d')
+    const btn_giveQuantity_m = document.querySelector('.btn_giveQuantity.m')
+
+    qnt_available >= 4 ? btn_giveQuantity_m.classList.remove('disabled') : btn_giveQuantity_m.classList.add('disabled')
+    qnt_available >= 6 ? btn_giveQuantity_d.classList.remove('disabled') : btn_giveQuantity_d.classList.add('disabled') 
+
+}
 
 

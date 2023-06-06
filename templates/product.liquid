@@ -188,7 +188,7 @@
                 id="qnt_in_box">Liko dar:&nbsp<span data-variant_qnt data-color_06>{{ product.selected_or_first_available_variant.inventory_quantity }}</span>
               </span>
             </label>
-            <fieldset class="input_box qnt">
+            <fieldset class="input_box qnt" data-box="closed">
               <div class="quantity_front">
                 <div class="wrap_qntOptions desktop">
                   <div
@@ -239,25 +239,34 @@
                   class="btn_giveQuantity d disabled"
                   data-recolor_text_raw
                   data-scale>Daugiau</div>
-                  <div
-                  class="btn_giveQuantity m disabled"
-                  data-recolor_text_raw
+                <div
+                class="btn_giveQuantity m disabled"
+                data-recolor_text_raw
                   data-scale>Daugiau</div>
+                <div class="textAlert cart_full">
+                  Jūsų krepšelyje jau yra&nbsp;<span data-cart_qnt></span>&nbsp;vnt.
+                </div>
               </div>
               <div class="quantity_back">
                 <div class="qnt_back_TOP">
                   <input
-                    type="text"
-                    name="quantity"
-                    class="qntInput"
-                    placeholder="Iveskite kieki..."
-                    value="1"
+                  type="number"
+                  name="quantity"
+                  class="qntInput"
+                  value="1"
+                  data-qnt_left="{{ product.selected_or_first_available_variant.inventory_quantity }}"
+                  style="display: none">
+                  <input
+                    type="number"
+                    name="fake"
+                    class="qntInput_decoy"
+                    placeholder="Iveskite kiekį..."
                     onkeydown="checkKeyPress(event, this);"
-                    data-qnt_left="{{ product.selected_or_first_available_variant.inventory_quantity }}">
+                    style="font-size: 17px">
                   <div
                     class="btn_nearQtn cancel"
                     data-recolor_text_raw
-                    data-scale>Atsaukti</div>
+                    data-scale>Atšaukti</div>
                   <div
                     class="btn_nearQtn submit"
                     data-recolor_raw
@@ -387,18 +396,10 @@
               <div class="alertBox">
                 <p class="textAlert qnt_error">Sandeliuke liko tiktai
                   <span data-span_color="red">
-                    <span class="text_qnt left"></span>vnt.</span>
+                    <span variant_qnt></span>vnt.</span>
                 </p>
-                <p class="textAlert cart_error">Sandeliuke liko tiktai
-                  <span data-span_color="red">
-                    <span class="text_qnt left"></span>vnt</span>, o Jūs krepšelyje jau turite
-                  <span class="text_qnt inCart"></span>
-                  vtn.
-                </p>
-                <p class="textAlert isCart">Ši prekė jau yra Jūsų krepšelyje (<span>
-                    <span class="text_qnt inCart"></span>vnt.</span>)</p>
+                <p class="textAlert isCart">Ši prekė jau yra Jūsų krepšelyje&nbsp;(<span data-cart_qnt></span>&nbsp;vnt.)</p>
               </div>
-
               <!-- form btns -->
               <div
                 class="formBtn buy"
@@ -407,17 +408,29 @@
                 data-scale>
                 Užsisakyti&nbsp
                 <span data-chosen_qnt>2</span>
-                <span class="price_insideBtn" data-price_calc>{{ product.selected_or_first_available_variant.price | money }}</span>
+                <span class="price_insideBtn" data-price_sum_calc>{{ product.selected_or_first_available_variant.price | money }}</span>
               </div>
               <div
-                class="formBtn addCart main"
+                class="formBtn addCart main isCart"
                 style="font-weight: 400;"
                 data-recolor_raw
                 data-scale>
-                <p style="color: white">Pridėti dar
-                  <span data-chosen_qnt>
-                    2</span>
-                </p>
+                <p style="color: white">Pridėti dar&nbsp;<span data-chosen_qnt></span>&nbsp;</p>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 337.94 421.48"
+                  style="width: 17px; margin: 0 0 2px auto;">
+                  <g id="Ebene_2" data-name="Ebene 2">
+                    <g id="Ebene_1-2" data-name="Ebene 1"><path style="fill: white" d="M337.69,385.58,301.08,86.79a10,10,0,0,0-9.88-8.74H46.73a10,10,0,0,0-9.88,8.74L.24,385.58A32,32,0,0,0,32,421.48H305.92A32,32,0,0,0,337.69,385.58ZM268.84,141.66c-.16,3.29-.48,6.53-.94,9.72-7.1,48.82-48.69,86.29-98.93,86.29S77.14,200.2,70,151.38c-.46-3.19-.78-6.43-.94-9.72v0a24.81,24.81,0,0,1,24.68-22.26q1.06,0,2.1.09A3.05,3.05,0,0,1,98.67,123a76.8,76.8,0,0,0,5.08,43.86C115,192.6,139.94,210.5,169,210.5s54-17.9,65.22-43.62a75.89,75.89,0,0,0,6.27-30.35,77,77,0,0,0-1.18-13.42,3.14,3.14,0,0,1,2.86-3.67c.66,0,1.34-.08,2-.08a24.81,24.81,0,0,1,24.68,22.26Z" /><path style="fill: white" d="M250.13,64H225.46a2.64,2.64,0,0,1-2.33-1.43c-11.27-21.74-31.31-36.2-54.16-36.2s-42.89,14.46-54.16,36.2A2.62,2.62,0,0,1,112.48,64H87.8a1.46,1.46,0,0,1-1.38-2C100.28,25.52,132,0,169,0s68.68,25.52,82.54,62A1.46,1.46,0,0,1,250.13,64Z" /></g>
+                  </g>
+                </svg>
+              </div>
+              <div
+                class="formBtn addCart main noCart"
+                style="font-weight: 400;"
+                data-recolor_raw
+                data-scale>
+                <p style="color: white">Pridėti&nbsp;<span data-chosen_qnt></span>&nbsp;į krepšelį</p>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 337.94 421.48"
@@ -445,22 +458,21 @@
                 </svg>
               </div>
               <a
-                class="formBtn viewCart"
+                class="formBtn viewCart not_full"
                 style="border: 1px solid {{ color_bg }}; font-weight: 400;"
                 href="{{ shop.url }}/cart"
                 data-recolor_border_raw
                 data-scale>
                 <p style="color:{{ color_raw }}" data-recolor_text_raw>Peržiūrėti krepšelį</p>
-                <p style="margin-left: auto;" data-recolor_text_raw>{{ cart.item_count }} iš viso</p>
               </a>
-              <div
-                class="formBtn changeQnt"
-                style="border: 1px solid {{ color_bg }}; font-weight: 400;"
-                data-recolor_border_raw
+              <a
+                class="formBtn viewCart full"
+                style="background-color: {{ color_raw }}; color: white;"
+                href="{{ shop.url }}/cart"
+                data-recolor_raw
                 data-scale>
-                <p style="color:{{ color_raw }}" data-recolor_text_raw>Pasirinkti kitą kiekį</p>
-              </div>
-
+                <p style="color: white; text-align: center">Peržiūrėti krepšelį</p>
+              </a>
 
               <!---------------------------------------------------------------------------->
 
@@ -647,7 +659,7 @@
     return matchedVariant
 
   }
-  function is_bag_emtpy() {
+  function is_cart_empty() {
     {% if cart.item_count == 0 %}
       return true
     {% else %}
@@ -686,26 +698,19 @@
 {{ '4_4_swiper.js' | asset_url | script_tag }}
 <!-- insert_swiper / initiate_swiper / replaceSwiper /  set_bullet_colors / set_parallax -->
 {{ '4_5_qnt.js' | asset_url | script_tag }}
-<!-- set_qnt_eventListeners / checkKeyPress / hanlde_qntAttributes-->
+<!-- set_qnt_eventListeners / checkKeyPress /-->
 
 <script>
 
   window.addEventListener('DOMContentLoaded', () => {
 
     if (product_available) {
-      {% if product.options contains 'Color' %}
-        const checked = document.querySelector('.optionRadio[name="Color"]:checked').value.split(" ");
-        recolor(checked[2], checked[1]);
-        set_circleColors();
-        recolor_bag_raw(checked[2])
-      {% else %}
-        recolor('{{ color_raw }}', '{{ color_bg }}');
-        recolor_bag_raw('{{ color_raw }}')
-      {% endif %};
-
-// -
       const qnt_info = qnt_police(find_matchedVariant())
-      handle_from_btns(qnt_info.isCart, qnt_info.error)
+      handle_from_btns(qnt_info.isCart, qnt_info.error, qnt_info.qnt_avail)
+      edit_form_alerts(qnt_info.isCart, qnt_info.error)
+      hanlde_qntOptions(parseInt(qnt_info.qnt_request), parseInt(qnt_info.qnt_avail))
+      
+      edit_text_qnts(qnt_info.qnt_left, qnt_info.qnt_cart, qnt_info.qnt_request)
       
       insert_swiper(get_images())
       initiate_swiper();
@@ -715,7 +720,15 @@
         set_bullet_colors()
       }, 20)
 
-
+      {% if product.options contains 'Color' %}
+        const checked = document.querySelector('.optionRadio[name="Color"]:checked').value.split(" ");
+        recolor(checked[2], checked[1]);
+        set_circleColors();
+        recolor_bag_raw(checked[2])
+      {% else %}
+        recolor('{{ color_raw }}', '{{ color_bg }}');
+        recolor_bag_raw('{{ color_raw }}')
+      {% endif %};
 
     } else { // leave swiper on
       recolor('{{ color_raw }}', '{{ color_bg }}');
@@ -736,13 +749,14 @@
         const qnt_info = qnt_police(find_matchedVariant())
 
         edit_form_alerts(qnt_info.isCart, qnt_info.error)
-        handle_from_btns(qnt_info.isCart, qnt_info.error)
+        handle_from_btns(qnt_info.isCart, qnt_info.error, qnt_info.qnt_avail)
         edit_text_qnts(qnt_info.qnt_left, qnt_info.qnt_cart, qnt_info.qnt_request)
+       
+        hanlde_qntOptions(parseInt(qnt_info.qnt_request), parseInt(qnt_info.qnt_avail))
+        fix_qnt_choice(qnt_info.qnt_avail, qnt_info.isCart, qnt_info.error, qnt_info.qnt_request)
+        
+        
 
-        handle_qnt_options(qnt_info.qnt_avail)
-        fix_qnt_choice(qnt_info.qnt_avail, qnt_info.isCart, qnt_info.error)
-        
-        
         recolor_default()
         edit_hiddenInput(find_matchedVariant())
         changeUrl(find_matchedVariant(), get_colors().bg, get_colors().raw)

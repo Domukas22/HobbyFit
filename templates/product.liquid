@@ -125,6 +125,7 @@
 
                   <fieldset class="input_box">
                     {% for value in option.values %}
+
                       {% if option.name == 'Color' %}
                         <!-- only print available colors -->
                         {% assign value_available = false %}
@@ -154,19 +155,35 @@
                         <!-- --------------------- -->
 
                       {% else %}
-                        <!-- print normal, letter options -->
-                        <div class="option">
-                          <input
-                            {% if option.selected_value == value %}checked{% endif %}
-                            type="radio"
-                            name="{{ option.name }}"
-                            value="{{ value }}"
-                            id="{{ option.name | handleize }}={{ value | handleize }}"
-                            class="optionRadio">
-                          <label for="{{ option.name | handleize }}={{ value | handleize }}">
-                            {{ value }}
-                          </label>
-                        </div>
+                        <!-- print normal, letter options (only available ones) -->
+                        <!-- if one of the product options has this value, it means it does in fact exist, so print it-->
+                        {% assign value_size = value %}
+                        {% assign exists = false %}
+                        
+                        {% for variant in product.variants %}
+                          {% if variant.available and exists == false %}
+                            {% for value in variant.options %}
+                              {% if value == value_size %}
+                                {% assign exists = true %}
+                              {% endif %}
+                            {% endfor %}
+                          {% endif %}
+                        {% endfor %}
+     
+                        {% if exists == true %}
+                          <div class="option">
+                            <input
+                              {% if option.selected_value == value %}checked{% endif %}
+                              type="radio"
+                              name="{{ option.name }}"
+                              value="{{ value }}"
+                              id="{{ option.name | handleize }}={{ value | handleize }}"
+                              class="optionRadio">
+                            <label for="{{ option.name | handleize }}={{ value | handleize }}">
+                              {{ value }}
+                            </label>
+                          </div>
+                        {% endif %}
                         <!-- --------------------- -->
                       {% endif %}
 
@@ -755,20 +772,18 @@
         hanlde_qntOptions(parseInt(qnt_info.qnt_request), parseInt(qnt_info.qnt_avail))
         fix_qnt_choice(qnt_info.qnt_avail, qnt_info.isCart, qnt_info.error, qnt_info.qnt_request)
         
-        
-
         recolor_default()
         edit_hiddenInput(find_matchedVariant())
         changeUrl(find_matchedVariant(), get_colors().bg, get_colors().raw)
         bubble_jump(document.getElementById('qnt_in_box'))
         bubble_jump(document.querySelector('.p_stockLeft'))
 
+        
 
         if (radio.getAttribute("name") == "Color") {
           document.querySelector('.swiper').style.opacity = "0%"
           document.querySelector('.sliderControls').style.opacity = "0%"
           edit_size_options() // dont mess with this function
-
           setTimeout(() => {
             insert_swiper(get_images())
             replaceSwiper()
@@ -776,7 +791,13 @@
             document.querySelector('.sliderControls').style.opacity = "100%"
           }, 201)
         }
-      })
+
+        const qntBox_isOpen = (document.querySelector('.input_box.qnt').dataset.box == 'open')
+        if (qnt_info.error == 'cart_full') {toggle_qntInput(false);}
+        else if (qntBox_isOpen) {toggle_qntInput(true)}
+  
+
+        })  
     })
   }
 
@@ -836,9 +857,6 @@
 
 
     })
-
-
-
   }
   function recolor_bag_raw(color) {
     const paths = document.querySelectorAll('.cartIcon_path')
@@ -886,23 +904,33 @@
       {% endfor %}
 
       const variants_final = variants_raw.filter(x => x.variant_bg.includes(get_colors().bg))
+      
       const size_inputs = document.querySelectorAll('.optionRadio[name="Size"]')
       let checkedInput = null;
+      let test_c
 
       size_inputs.forEach(input => {
         const inputSize = input.value;
-
+        
         if (variants_final.some(variant => variant.size === inputSize)) {
           input.parentElement.classList.remove('hide');
+          
+          if (input.checked) {
+            test_c = input
+        }
+          
           if (! checkedInput) {
             checkedInput = input;
+            
           }
         } else {
           input.parentElement.classList.add('hide');
         }
       });
 
+
       if (checkedInput && ! checkedInput.checked) {
+        
         checkedInput.checked = true;
         checkedInput.dispatchEvent(new Event('change'));
       }

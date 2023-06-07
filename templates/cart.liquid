@@ -6,121 +6,157 @@
 
 <section class="section_cartPage">
   {% form 'cart', cart, class: 'container container_cartItems' %}
-    {% if cart.item_count > 0 %}
-      <div class="box_leftToDiscount mobile" data-price_current="{{ cart.total_price | money | remove: '€' }}">
-        {% assign difference = 7000 | minus: cart.total_price %}
-        {% if difference < 0 %}
-          <p style="color: var(--color_Main);">Jums bus priskaiciuotas nemokas siuntimas</p>
-        {% else %}
-          <p>Jums trūksta
-            <span class="text_leftForFreeShipping">{{ difference | money }}</span>
-            iki nemokamo siuntimo
-          </p>
-        {% endif %}
-        <div class="lineWrap_freeShipping">
-          <div class="line_shipping default"></div>
-          <div class="line_shipping grow"></div>
-        </div>
-        <div class="wrap_priceTargets">
-          <p class="text_priceTarget current">{{ cart.total_price | money }}</p>
-          <p class="text_priceTarget target">€70</p>
-        </div>
-      </div>
-    {% endif %}
+
     <div class="grid_cartItems">
       {% if cart.item_count > 0 %}
         {% for item in cart.items %}
+
           <div class="cart_item">
-            <div class="imgWrap_cartItem">
-              <img
-                {% if item.product.options contains 'Color' %}
-                src="{{ item.variant.featured_image | img_url: '500x500' }}"
-                {% else %}
-                src="{{ item.product.featured_image | img_url: '500x500' }}"
-                {% endif %}
-                alt="{{ item.product.featured_image.alt }}"
-                class="img_cartItem">
-              <img
-                class="img_wave"
-                src="{{ 'img_WAVE_filterPage.svg' | asset_url }}"
-                alt="Colorful wave"
-                data-color_bg="{{ item.image.alt | split: " " | slice: -2, 1 | first }}">
+            <div class="displayBox_cartItem">
+              <div class="displayBox_TOP">
+                <div class="titleWrap_cartItem">
+                  <h4 class="title_cartItem">{{ item.product.metafields.custom.name_short }}</h4>
+                  <p style="color: rgba(0,0,0, 0.65);" class="text_left_cart">Liko dar: {{ item.variant.inventory_quantity }}</p>
+                </div>
+                <img
+                  src="{{ (item.variant.featured_image | default: item.product.featured_image) | img_url: '500x500' }}"
+                  alt="{{ item.product.featured_image.alt }}"
+                  class="img_cartItem">
+                <img
+                  class="img_wave_cartItem"
+                  src="{{ 'img_WAVE_cartItem.svg' | asset_url }}"
+                  alt="Colorful wave"
+                  style="background-color: {{ item.image.alt | split: " " | slice: -2, 1 | first }}">
+
+              </div>
+              <div class="displayBox_BOTTOM" style="background-color: {{ item.image.alt | split: " " | slice: -2, 1 | first }}">
+                <p style="color: {{ item.image.alt | split: " " | last}}">Melyna</p>
+                <p style="color: {{ item.image.alt | split: " " | last}}">{{ item.quantity }} vnt</p>
+                <p style="color: {{ item.image.alt | split: " " | last}}">{{ item.final_line_price | money }}</p>
+                <script>
+                  console.log({{ item | json }})
+                </script>
+              </div>
+              <div
+                class="link_overlay"
+                data-variant_id="{{ item.variant.id }}"
+                data-bg="{{ item.image.alt | split: " " | slice: -2, 1 | first }}"
+                data-raw="{{ item.image.alt | split: " " | last}}"
+                data-link="{{ shop.url }}{{ item.product.url }}"></div>
+
             </div>
-            <div class="textWrap_cartItem">
-              <p class="title_cartItem">{{ item.product.metafields.custom.name_short }} {{ item.product.metafields.custom.extra_text }}</p>
+            <div class="actionBox_cartItem" data-variant_id="{{ item.variant.id }}">
 
-              {%- unless item.product.has_only_default_variant -%}
-                {% if item.options_with_values %}
-                  {%- for option in item.options_with_values reversed -%}
-                    <div class="wrap_cart_item_feature">
-                      <p class="feature_name">
-                        {% if option.name == "Color" %}
-                          Spalva:
-                        {% elsif option.name == "Size" %}
-                          Dydis:
-                        {% endif %}
-                      </p>
-                      <p class="feature_value" style="color: {{ item.image.alt | split: " " | last}}">{{ option.value | split: " " | first }}</p>
-                    </div>
-                  {%- endfor -%}
-                {% endif %}
-              {%- endunless -%}
-
-              <div class="wrap_cart_item_feature">
-                <p class="feature_name">Vienetas:</p>
-                <p class="feature_value" style="color: {{ item.image.alt | split: " " | last}}">{{ item.price | money }}</p>
-              </div>
-              <div class="wrap_cart_item_feature final_price">
-                <p class="feature_name">Suma:</p>
-                <p class="feature_value" style="color: {{ item.image.alt | split: " " | last}}">{{ item.price | times: item.quantity | money }}</p>
-              </div>
-              <div class="actionBox_cartItem">
-                <div class="wrap_inputQnt">
-                  <div
-                    class="btn_qnt minus {% if item.quantity == 1 %}red_hover{% endif %}"
-                    data-update="minus"
+              <div class="actionBox_FRONT" data-variant_id="{{ item.variant.id }}">
+                {% if item.quantity > 1 %}
+                  <a
+                    class="btn_deleteItem"
+                    href="{{ item.url_to_remove }}"
                     data-scale>
-                    {% if item.quantity == 1 %}
-                      <img
-                        src="{{ 'icon_delete_red.svg' | asset_url }}"
-                        alt=""
-                        class="icon_trash_minus">
-                    {% else %}
-                      <div class="qnt_line"></div>
-                    {% endif %}
-
-                  </div>
-
+                    <img src="{{ 'icon_delete_red.svg' | asset_url }}" alt="">
+                  </a>
+                {% endif %}
+                <input
+                  type="number"
+                  name="updates[]"
+                  value="{{ item.quantity }}"
+                  data-scale
+                  style="display: none"
+                  data-variant_id="{{ item.variant.id }}">
+                <div
+                  class="btn_qnt minus {% if item.quantity == 1 %}red_hover{% endif %}"
+                  data-update="minus"
+                  data-scale>
+                  {% if item.quantity == 1 %}
+                    <img
+                      src="{{ 'icon_delete_red.svg' | asset_url }}"
+                      alt=""
+                      class="icon_trash_minus">
+                  {% else %}
+                    <div class="qnt_line"></div>
+                  {% endif %}
+                </div>
+                <div
+                  class="btn_showAction"
+                  data-hover_grey
+                  data-variant_id="{{ item.variant.id }}"
+                  data-selected_qnt="{{ item.quantity }}">{{ item.quantity }}</div>
+                <div
+                  class="btn_qnt plus"
+                  data-update="plus"
+                  data-scale>
+                  <div class="qnt_line"></div>
+                  <div class="qnt_line vertical"></div>
+                </div>
+              </div>
+              <div
+                class="actionBox_BACK"
+                data-variant_id="{{ item.variant.id }}"
+                style="display: none">
+                <div class="qnt_decoy_TOP">
                   <input
                     type="number"
-                    name="updates[]"
-                    value="{{ item.quantity }}"
-                    data-scale>
+                    name="cart_decoy"
+                    placeholder="Įveskite kiekį..."
+                    data-qnt_left="{{ item.variant.inventory_quantity }}"
+                    data-variant_id="{{ item.variant.id }}">
                   <div
-                    class="btn_qnt plus"
-                    data-update="plus"
-                    data-scale>
-                    <div class="qnt_line"></div>
-                    <div class="qnt_line vertical"></div>
+                    class="btn_qntDecoy cancel"
+                    style="color: {{ item.image.alt | split: " " | last}}"
+                    data-variant_id="{{ item.variant.id }}">
+                    Atšaukti
+                  </div>
+                  <div
+                    class="btn_qntDecoy submit hide"
+                    style="background-color: {{ item.image.alt | split: " " | last}}; color: white"
+                    data-variant_id="{{ item.variant.id }}">
+                    Vykdyti
                   </div>
                 </div>
-                <a
-                  class="btn_deleteItem"
-                  href="{{ item.url_to_remove }}"
-                  data-scale>
-                  <img src="{{ 'icon_delete_red.svg' | asset_url }}" alt="">
-                </a>
+                <div class="qnt_decoy_BACK">
+                  <div class="wrap_qntOptions_expanded d">
+                    {% for i in (1..item.variant.inventory_quantity) %}
+                      {% if i > 12 %}
+                        {% break %}{% endif %}
+                      <div
+                        class="qntOption d exp
+                        {% if i == 12 %}last{% endif %}
+                        {% if i == item.quantity %}active{% endif %}
+                        {% if i == 12 and item.quantity > 12 %}active{% endif %}"
+                        data-value="{{ i }}"
+                        data-scale
+                        data-bg="{{ item.image.alt | split: " " | slice: -2, 1 | first }}"
+                        data-raw="{{ item.image.alt | split: " " | last}}"
+                        data-variant_id="{{ item.variant.id }}">
+                        {{ i }}
+                      </div>
+                    {% endfor %}
+                  </div>
+                  <div class="wrap_qntOptions_expanded m">
+                    {% for i in (1..item.variant.inventory_quantity) %}
+                      {% if i > 10 %}
+                        {% break %}{% endif %}
+                      <div
+                        class="qntOption m exp
+                        {% if i == 10 %}last{% endif %}
+                        {% if i == item.quantity %}active{% endif %}
+                        {% if i == 10 and item.quantity > 10 %}active{% endif %}"
+                        data-value="{{ i }}"
+                        data-scale
+                        {% if i == item.quantity or i == 10 and item.quantity > 10 %}
+                        data-recolor_text_raw
+                        data-recolor_bg
+                        {% endif %}>
+                        {{ i }}
+                      </div>
+                    {% endfor %}
+                  </div>
+                </div>
+
 
               </div>
-
             </div>
-
-            <div
-              class="link_cartItem"
-              data-variant_id="{{ item.variant.id }}"
-              data-bg="{{ item.image.alt | split: " " | slice: -2, 1 | first }}"
-              data-raw="{{ item.image.alt | split: " " | last}}"
-              data-link="{{ shop.url }}{{ item.product.url }}"></div>
+            <p class="text_inputError hide" data-variant_id="{{ item.variant.id }}">Inventoriuje liko tiktai {{ item.variant.inventory_quantity }} vnt</p>
           </div>
         {% endfor %}
       {% endif %}
@@ -152,6 +188,8 @@
 
 
     </div>
+
+    <p class="mainSeparator">Jūsų prekės</p>
     <div
       class="stickyWrap_checkout"
       {% if cart.item_count == 0 %}
@@ -162,50 +200,31 @@
         <div class="box_proceedCheckout">
           {% if cart.item_count > 0 %}
             <div class="titleWrap_checkoutBox">
-              <h4 class="title_Summary">Pirkinių krepšelis</h4>
+              <h4 class="title_Summary">Pirkinių krepšelis ({{ cart.item_count }}):</h4>
               <h4 class="text_finalPrice">{{ cart.total_price | money }}</h4>
             </div>
-            <div class="wrap_boxSummary">
-              {% for item in cart.items %}
-                {% for i in (1..item.quantity) %}
-                  <p class="productTitle_summary">
-                    {{ item.product.metafields.custom.name_short }}
-                    {{ item.product.metafields.custom.extra_text }}
-
-                    {%- unless item.product.has_only_default_variant -%}
-                      {% if item.options_with_values %}
-                        {%- for option in item.options_with_values reversed -%}
-                          / {{ option.value | split: " " | first }}
-                        {%- endfor -%}
-                      {% endif %}
-                    {%- endunless -%}
-
-                    <span class="pCost_summaryBox">{{ item.price | money }}</span>
-                  </p>
-                {% endfor %}
-              {% endfor %}
-              <div class="btn btn_checkout" data-scale>Pateikti užsakymą</div>
+            <div class="box_leftToDiscount" data-price_current="{{ cart.total_price | money | remove: '€' }}">
+              <div class="lineWrap_freeShipping">
+                <div class="line_shipping default"></div>
+                <div class="line_shipping grow"></div>
+              </div>
+              {% assign difference = 7000 | minus: cart.total_price %}
+              {% if difference < 0 %}
+                <p style="color: var(--color_Main); margin-top: 4px">Jums bus priskaičiuotas nemokamas siuntimas</p>
+              {% else %}
+                <p>Jums trūksta
+                  <span class="text_leftForFreeShipping">{{ difference | money }}</span>
+                  iki nemokamo siuntimo
+                </p>
+              {% endif %}
             </div>
+            <div class="btn btn_checkout" data-scale>Pateikti užsakymą</div>
+            <a
+              class="btn inverted checkout"
+              href="{{ collections['badmintono-prekes'].url }}"
+              data-scale>Toliau ieškoti prekių</a>
           </div>
-          <div class="box_leftToDiscount" data-price_current="{{ cart.total_price | money | remove: '€' }}">
-            {% assign difference = 7000 | minus: cart.total_price %}
-            {% if difference < 0 %}
-              <p style="color: var(--color_Main);">Jums bus priskaiciuotas nemokas siuntimas</p>
-            {% else %}
-              <p>Jums trūksta
-                <span class="text_leftForFreeShipping">{{ difference | money }}</span>
-                iki nemokamo siuntimo
-              </p>
-            {% endif %}
-            <div class="lineWrap_freeShipping">
-              <div class="line_shipping default"></div>
-              <div class="line_shipping grow"></div>
-            </div>
-            <div class="wrap_priceTargets">
-              <p class="text_priceTarget current">{{ cart.total_price | money }}</p>
-              <p class="text_priceTarget target">€70</p>
-            </div>
-          </div>
+
         {% else %}
           <div class="empty_cart_sign">
             <img
@@ -219,8 +238,6 @@
 
       </div>
     </div>
-
-
     <button
       class="btn_cartForm"
       type="submit"
@@ -323,7 +340,11 @@
   </div>
 </section>
 
-<script>
+<!-- <div class="alertBox_cart">
+<p class="textAlert_cart">Inventoriuje liko titkai
+<span data-qnt_left></span>
+vnt</p>
+</div> --><script>
   function is_cart_empty_2() {
     {% if cart.item_count == 0 %}
       return true

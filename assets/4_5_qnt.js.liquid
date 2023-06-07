@@ -114,6 +114,7 @@ function toggle_qntInput(value) {
     const parent = document.querySelector('.input_box.qnt')
     const qnt_front = document.querySelector('.quantity_front')
     const qnt_back = document.querySelector('.quantity_back')
+    const get_childrenHeight = parentElement =>[...parentElement.children].reduce((sum, child) => sum + child.getBoundingClientRect().height,0);
     document.querySelector('.qntInput_decoy').value = ""
 
     
@@ -124,12 +125,13 @@ function toggle_qntInput(value) {
         qnt_back.style.display = 'block'
 
         setTimeout(() => {qnt_back.style.opacity = "100%"}, 70)
-        setTimeout(() => {qnt_front.style.display = 'none'; locked = false}, 151)
-
-        const get_childrenHeight = parentElement =>[...parentElement.children].reduce((sum, child) => sum + child.getBoundingClientRect().height,0);
+        setTimeout(() => {
+            qnt_front.style.display = 'none';
+            parent.style.height = get_childrenHeight(qnt_back) + 'px'
+            locked = false
+        }, 151)
+  
         
-
-        parent.style.height = qnt_back.getBoundingClientRect().height + 'px'
 
     } else if (! locked) {
 
@@ -140,9 +142,6 @@ function toggle_qntInput(value) {
 
         setTimeout(() => {qnt_front.style.opacity = "100%"}, 70)
         setTimeout(() => {locked = false; qnt_back.style.display = 'none'}, 151)
-
-        const get_childrenHeight = parentElement =>[...parentElement.children].reduce((sum, child) => sum + child.getBoundingClientRect().height,0);
-        console.log(get_childrenHeight(qnt_back))
 
         parent.style.height = '54px'
     }
@@ -232,7 +231,7 @@ function hanlde_qntOptions(qnt_selected, qnt_avail) {
             {target: last_d_exp, new_value: 12}
         ])
 
-    } else if (value >= 12) {
+    } else if (qnt_selected >= 12) {
 
         option_d = last_d
         option_m = last_m

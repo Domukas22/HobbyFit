@@ -68,14 +68,10 @@ function qnt_police(variant) {
 function fix_qnt_choice(qnt_avail, isCart, error, qnt_request) {
 
   if (!qnt_avail){
-    toggle_qntInput(false); 
     edit_form_alerts(isCart, error)
     handle_from_btns(isCart, error)  
     return
   }
-
-  console.log('fire')
-  
 
   const qnt_selected = document.querySelector('.qntInput').value
   const texts_chosen_qnt = document.querySelectorAll('[data-chosen_qnt]')

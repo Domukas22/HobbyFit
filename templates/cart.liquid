@@ -1,8 +1,11 @@
+{% assign uniqueIDs = cart.items | map: 'id' | uniq %}
+
 <section class="section_pageTitle cart">
   <div class="subWrap_pageTitle cart">
     <h2 class="pageTitle cart">Pirkinių krepšelis</h2>
   </div>
 </section>
+
 
 <section class="section_cartPage">
   {% form 'cart', cart, class: 'container container_cartItems' %}
@@ -10,153 +13,143 @@
     <div class="grid_cartItems">
       {% if cart.item_count > 0 %}
         {% for item in cart.items %}
+          {% assign bg = item.image.alt | split: " " | slice: -2, 1 | first %}
+          {% assign raw = item.image.alt | split: " " | last %}
+          {% assign size_option = item.options_with_values | where: "name", "Size" | first %}
 
-          <div class="cart_item">
-            <div class="displayBox_cartItem">
-              <div class="displayBox_TOP">
-                <div class="titleWrap_cartItem">
-                  <h4 class="title_cartItem">{{ item.product.metafields.custom.name_short }}</h4>
-                  <p style="color: rgba(0,0,0, 0.65);" class="text_left_cart">Liko dar: {{ item.variant.inventory_quantity }}</p>
-                </div>
-                <img
-                  src="{{ (item.variant.featured_image | default: item.product.featured_image) | img_url: '500x500' }}"
-                  alt="{{ item.product.featured_image.alt }}"
-                  class="img_cartItem">
-                <img
-                  class="img_wave_cartItem"
-                  src="{{ 'img_WAVE_cartItem.svg' | asset_url }}"
-                  alt="Colorful wave"
-                  style="background-color: {{ item.image.alt | split: " " | slice: -2, 1 | first }}">
-
+          <div
+            class="cart_item"
+            data-variant_id="{{ item.variant.id }}"
+            data-qnt_left="{{ item.variant.inventory_quantity }}">
+            <div class="cart_item_TOP">
+              <div class="titleWrap_cartItem">
+                <h4 class="title_cartItem">{{ item.product.metafields.custom.name_short }}</h4>
+                <p style="color: rgba(0,0,0, 0.65);">{{ item.product.metafields.custom.what_item_short }} {{ item.product.metafields.custom.extra_text }}
+                  {% if size_option %}/ {{ size_option.value }}{% endif %}
+                </p>
+                <script></script>
               </div>
-              <div class="displayBox_BOTTOM" style="background-color: {{ item.image.alt | split: " " | slice: -2, 1 | first }}">
-                <p style="color: {{ item.image.alt | split: " " | last}}">Melyna</p>
-                <p style="color: {{ item.image.alt | split: " " | last}}">{{ item.quantity }} vnt</p>
-                <p style="color: {{ item.image.alt | split: " " | last}}">{{ item.final_line_price | money }}</p>
-                <script>
-                  console.log({{ item | json }})
-                </script>
-              </div>
+              <img
+                src="{{ (item.variant.featured_image | default: item.product.featured_image) | img_url: '500x500' }}"
+                alt="{{ item.product.featured_image.alt }}"
+                class="img_cartItem">
+              <img
+                class="img_wave_cartItem"
+                src="{{ 'img_WAVE_cartItem.svg' | asset_url }}"
+                alt="Colorful wave"
+                style="background-color: {{ bg }}">
               <div
                 class="link_overlay"
                 data-variant_id="{{ item.variant.id }}"
-                data-bg="{{ item.image.alt | split: " " | slice: -2, 1 | first }}"
-                data-raw="{{ item.image.alt | split: " " | last}}"
+                data-bg="{{ bg }}"
+                data-raw="{{ raw}}"
                 data-link="{{ shop.url }}{{ item.product.url }}"></div>
-
             </div>
-            <div class="actionBox_cartItem" data-variant_id="{{ item.variant.id }}">
-
-              <div class="actionBox_FRONT" data-variant_id="{{ item.variant.id }}">
-                {% if item.quantity > 1 %}
-                  <a
-                    class="btn_deleteItem"
-                    href="{{ item.url_to_remove }}"
-                    data-scale>
-                    <img src="{{ 'icon_delete_red.svg' | asset_url }}" alt="">
-                  </a>
-                {% endif %}
-                <input
-                  type="number"
-                  name="updates[]"
-                  value="{{ item.quantity }}"
-                  data-scale
-                  style="display: none"
-                  data-variant_id="{{ item.variant.id }}">
-                <div
-                  class="btn_qnt minus {% if item.quantity == 1 %}red_hover{% endif %}"
-                  data-update="minus"
-                  data-scale>
-                  {% if item.quantity == 1 %}
-                    <img
-                      src="{{ 'icon_delete_red.svg' | asset_url }}"
-                      alt=""
-                      class="icon_trash_minus">
-                  {% else %}
-                    <div class="qnt_line"></div>
-                  {% endif %}
-                </div>
-                <div
-                  class="btn_showAction"
-                  data-hover_grey
-                  data-variant_id="{{ item.variant.id }}"
-                  data-selected_qnt="{{ item.quantity }}">{{ item.quantity }}</div>
-                <div
-                  class="btn_qnt plus"
-                  data-update="plus"
-                  data-scale>
-                  <div class="qnt_line"></div>
-                  <div class="qnt_line vertical"></div>
-                </div>
-              </div>
-              <div
-                class="actionBox_BACK"
-                data-variant_id="{{ item.variant.id }}"
-                style="display: none">
-                <div class="qnt_decoy_TOP">
+            <div class="cart_item_BOTTOM" style="background-color: {{ bg }}">
+              <div class="actionBox_cartItem" data-variant_id="{{ item.variant.id }}">
+                <div class="actionBox_FRONT" data-variant_id="{{ item.variant.id }}">
                   <input
                     type="number"
-                    name="cart_decoy"
-                    placeholder="Įveskite kiekį..."
-                    data-qnt_left="{{ item.variant.inventory_quantity }}"
+                    name="updates[]"
+                    value="{{ item.quantity }}"
+                    data-scale
+                    style="display: none"
                     data-variant_id="{{ item.variant.id }}">
                   <div
-                    class="btn_qntDecoy cancel"
-                    style="color: {{ item.image.alt | split: " " | last}}"
-                    data-variant_id="{{ item.variant.id }}">
-                    Atšaukti
+                    class="btn_showAction"
+                    data-hover_grey
+                    data-variant_id="{{ item.variant.id }}"
+                    data-selected_qnt="{{ item.quantity }}">
+                    <p style="color: {{ raw }}; margin-right: 8px; font-size: 17px">Kiekis: {{ item.quantity }}</p>
+                    <p style="color: {{ raw }}; font-size: 17px">{{ item.final_line_price | money }}</p>
+                  </div>
+                  <a class="btn_deleteItem" href="{{ item.url_to_remove }}">
+                    <img src="{{ 'icon_delete_red.svg' | asset_url }}" alt="">
+                    <div class="click_overlay"></div>
+                  </a>
+                </div>
+                <div
+                  class="actionBox_BACK"
+                  data-variant_id="{{ item.variant.id }}"
+                  style="display: none">
+                  <div class="qnt_decoy_TOP">
+                    <input
+                      type="number"
+                      name="cart_decoy"
+                      placeholder="Įveskite kiekį..."
+                      data-variant_id="{{ item.variant.id }}">
+                    <div
+                      class="btn_qntDecoy cancel"
+                      style="color: {{ raw}}"
+                      data-variant_id="{{ item.variant.id }}">
+                      Atšaukti
+                    </div>
+                    <div
+                      class="btn_qntDecoy submit hide"
+                      style="background-color: {{ raw}}; color: white"
+                      data-variant_id="{{ item.variant.id }}">
+                      Vykdyti
+                    </div>
                   </div>
                   <div
-                    class="btn_qntDecoy submit hide"
-                    style="background-color: {{ item.image.alt | split: " " | last}}; color: white"
-                    data-variant_id="{{ item.variant.id }}">
-                    Vykdyti
+                    class="qnt_decoy_BACK">
+                    <div
+                      class="wrap_qntOptions_expanded d">
+                      {% for i in (1..item.variant.inventory_quantity) %}
+                        {% if i > 12 %}
+                          {% break %}{% endif %}
+                        <div
+                          class="qntOption d exp
+                          {% if i == 12 %}last{% endif %}
+                          {% if i == item.quantity %}active{% endif %}
+                          {% if i == 12 and item.quantity > 12 %}active{% endif %}"
+                          data-value="{{ i }}"
+                          data-scale
+                          data-bg="{{ bg }}"
+                          data-raw="{{ raw }}"
+                          data-variant_id="{{ item.variant.id }}">
+                          {% if i == 12 and item.quantity > 12 %}
+                            {{ item.quantity }}
+                          {% else %}
+                            {{ i }}
+                          {% endif %}
+                        </div>
+                      {% endfor %}
+                    </div>
+                    <div
+                      class="wrap_qntOptions_expanded m">
+                      {% for i in (1..item.variant.inventory_quantity) %}
+                        {% if i > 10 %}
+                          {% break %}{% endif %}
+                        <div
+                          class="qntOption m exp
+                          {% if i == 10 %}last{% endif %}
+                          {% if i == item.quantity %}active{% endif %}
+                          {% if i == 10 and item.quantity > 10 %}active{% endif %}"
+                          data-value="{{ i }}"
+                          data-scale
+                          data-bg="{{ bg }}"
+                          data-raw="{{ raw }}"
+                          data-variant_id="{{ item.variant.id }}">
+                          {% if i == 10 and item.quantity > 10 %}
+                            {{ item.quantity }}
+                          {% else %}
+                            {{ i }}
+                          {% endif %}
+                        </div>
+                      {% endfor %}
+                    </div>
                   </div>
-                </div>
-                <div class="qnt_decoy_BACK">
-                  <div class="wrap_qntOptions_expanded d">
-                    {% for i in (1..item.variant.inventory_quantity) %}
-                      {% if i > 12 %}
-                        {% break %}{% endif %}
-                      <div
-                        class="qntOption d exp
-                        {% if i == 12 %}last{% endif %}
-                        {% if i == item.quantity %}active{% endif %}
-                        {% if i == 12 and item.quantity > 12 %}active{% endif %}"
-                        data-value="{{ i }}"
-                        data-scale
-                        data-bg="{{ item.image.alt | split: " " | slice: -2, 1 | first }}"
-                        data-raw="{{ item.image.alt | split: " " | last}}"
-                        data-variant_id="{{ item.variant.id }}">
-                        {{ i }}
-                      </div>
-                    {% endfor %}
-                  </div>
-                  <div class="wrap_qntOptions_expanded m">
-                    {% for i in (1..item.variant.inventory_quantity) %}
-                      {% if i > 10 %}
-                        {% break %}{% endif %}
-                      <div
-                        class="qntOption m exp
-                        {% if i == 10 %}last{% endif %}
-                        {% if i == item.quantity %}active{% endif %}
-                        {% if i == 10 and item.quantity > 10 %}active{% endif %}"
-                        data-value="{{ i }}"
-                        data-scale
-                        {% if i == item.quantity or i == 10 and item.quantity > 10 %}
-                        data-recolor_text_raw
-                        data-recolor_bg
-                        {% endif %}>
-                        {{ i }}
-                      </div>
-                    {% endfor %}
-                  </div>
-                </div>
 
 
+                </div>
               </div>
+              <p
+                class="text_inputError hide"
+                data-variant_id="{{ item.variant.id }}">Inventoriuje liko tiktai {{ item.variant.inventory_quantity }} vnt</p>
             </div>
-            <p class="text_inputError hide" data-variant_id="{{ item.variant.id }}">Inventoriuje liko tiktai {{ item.variant.inventory_quantity }} vnt</p>
+
+
           </div>
         {% endfor %}
       {% endif %}
@@ -168,7 +161,8 @@
           href="{{ collections['badmintono-prekes'].url }}"
           data-scale>
           <div class="wrap_plus">
-            <div class="line_plus"></div>
+            <div
+              class="line_plus"></div>
             <div class="line_plus second"></div>
           </div>
           Idėti naują prekę
@@ -189,7 +183,6 @@
 
     </div>
 
-    <p class="mainSeparator">Jūsų prekės</p>
     <div
       class="stickyWrap_checkout"
       {% if cart.item_count == 0 %}
@@ -203,7 +196,10 @@
               <h4 class="title_Summary">Pirkinių krepšelis ({{ cart.item_count }}):</h4>
               <h4 class="text_finalPrice">{{ cart.total_price | money }}</h4>
             </div>
-            <div class="box_leftToDiscount" data-price_current="{{ cart.total_price | money | remove: '€' }}">
+            <div
+              class="box_leftToDiscount"
+              style="display: none"
+              data-price_current="{{ cart.total_price | money | remove: '€' }}">
               <div class="lineWrap_freeShipping">
                 <div class="line_shipping default"></div>
                 <div class="line_shipping grow"></div>
@@ -222,9 +218,164 @@
             <a
               class="btn inverted checkout"
               href="{{ collections['badmintono-prekes'].url }}"
-              data-scale>Toliau ieškoti prekių</a>
+              data-scale
+              style="display: none">Toliau ieškoti prekių</a>
           </div>
+          <p class="text_separator" style="display: none;">Jūsų prekės</p>
+          <div class="box_itemPreview">
+            {% if cart.item_count > 0 %}
+              {% for item in cart.items %}
+                {% assign bg = item.image.alt | split: " " | slice: -2, 1 | first %}
+                {% assign raw = item.image.alt | split: " " | last %}
+                {% assign size_option = item.options_with_values | where: "name", "Size" | first %}
 
+                <div
+                  class="itemPreview"
+                  data-variant_id="{{ item.variant.id }}"
+                  data-scale>
+                  <div class="imgWarp_itemPreview">
+                    <img
+                      src="{{ (item.variant.featured_image | default: item.product.featured_image) | img_url: '500x500' }}"
+                      alt="{{ item.product.featured_image.alt }}"
+                      class="img_cartPreview">
+                  </div>
+
+                  <div class="wrap_previewFeatures">
+                    <div
+                      class="miniFeature"
+                      style="background-color: {{ bg }}; color: {{ raw }}"
+                      data-hover_grey>
+                      {{ item.quantity }}
+                    </div>
+                    {% if size_option %}
+                      <div
+                        class="miniFeature"
+                        style="background-color: {{ bg }}; color: {{ raw }}"
+                        data-hover_grey>
+                        "{{ size_option.value }}"
+                      </div>
+                    {% endif %}
+                  </div>
+                </div>
+              {% endfor %}
+              {% if uniqueIDs.size == 1 %}
+                <a
+                  class="itemPreview empty"
+                  data-scale
+                  data-hover_grey
+                  href="{{ collections['badmintono-prekes'].url }}">
+                  <div class="wrap_plus">
+                    <div class="qnt_line"></div>
+                    <div class="qnt_line vertical"></div>
+                  </div>
+                </a>
+                <a
+                  class="itemPreview empty"
+                  data-scale
+                  data-hover_grey
+                  href="{{ collections['badmintono-prekes'].url }}">
+                  <div class="wrap_plus">
+                    <div class="qnt_line"></div>
+                    <div class="qnt_line vertical"></div>
+                  </div>
+                </a>
+                <a
+                  class="itemPreview empty no_mob"
+                  data-scale
+                  data-hover_grey
+                  href="{{ collections['badmintono-prekes'].url }}">
+                  <div class="wrap_plus">
+                    <div class="qnt_line"></div>
+                    <div class="qnt_line vertical"></div>
+                  </div>
+                </a>
+              {% elsif uniqueIDs.size == 2 %}
+                <a
+                  class="itemPreview empty"
+                  data-scale
+                  data-hover_grey
+                  href="{{ collections['badmintono-prekes'].url }}">
+                  <div class="wrap_plus">
+                    <div class="qnt_line"></div>
+                    <div class="qnt_line vertical"></div>
+                  </div>
+                </a>
+                <a
+                  class="itemPreview empty no_mob"
+                  data-scale
+                  data-hover_grey
+                  href="{{ collections['badmintono-prekes'].url }}">
+                  <div class="wrap_plus">
+                    <div class="qnt_line"></div>
+                    <div class="qnt_line vertical"></div>
+                  </div>
+                </a>
+              {% elsif uniqueIDs.size == 3 %}
+                <a
+                  class="itemPreview empty no_mob"
+                  data-scale
+                  data-hover_grey
+                  href="{{ collections['badmintono-prekes'].url }}">
+                  <div class="wrap_plus">
+                    <div class="qnt_line"></div>
+                    <div class="qnt_line vertical"></div>
+                  </div>
+                </a>
+              {% elsif uniqueIDs.size == 4 %}
+                <a
+                  class="itemPreview empty no_desc"
+                  data-scale
+                  data-hover_grey
+                  href="{{ collections['badmintono-prekes'].url }}">
+                  <div class="wrap_plus">
+                    <div class="qnt_line"></div>
+                    <div class="qnt_line vertical"></div>
+                  </div>
+                </a>
+                <a
+                  class="itemPreview empty no_desc"
+                  data-scale
+                  data-hover_grey
+                  href="{{ collections['badmintono-prekes'].url }}">
+                  <div class="wrap_plus">
+                    <div class="qnt_line"></div>
+                    <div class="qnt_line vertical"></div>
+                  </div>
+                </a>
+              {% elsif uniqueIDs.size == 5 %}
+                <a
+                  class="itemPreview empty"
+                  data-scale
+                  data-hover_grey
+                  href="{{ collections['badmintono-prekes'].url }}">
+                  <div class="wrap_plus">
+                    <div class="qnt_line"></div>
+                    <div class="qnt_line vertical"></div>
+                  </div>
+                </a>
+                <a
+                  class="itemPreview empty no_mob"
+                  data-scale
+                  data-hover_grey
+                  href="{{ collections['badmintono-prekes'].url }}">
+                  <div class="wrap_plus">
+                    <div class="qnt_line"></div>
+                    <div class="qnt_line vertical"></div>
+                  </div>
+                </a>
+                <a
+                  class="itemPreview empty no_mob"
+                  data-scale
+                  data-hover_grey
+                  href="{{ collections['badmintono-prekes'].url }}">
+                  <div class="wrap_plus">
+                    <div class="qnt_line"></div>
+                    <div class="qnt_line vertical"></div>
+                  </div>
+                </a>
+              {% endif %}
+            {% endif %}
+          </div>
         {% else %}
           <div class="empty_cart_sign">
             <img
@@ -233,7 +384,6 @@
               alt="Empty shopping cart">
             <p>Jūsų krepšelis yra tuščias</p>
           </div>
-
         {% endif %}
 
       </div>
@@ -340,11 +490,9 @@
   </div>
 </section>
 
-<!-- <div class="alertBox_cart">
-<p class="textAlert_cart">Inventoriuje liko titkai
-<span data-qnt_left></span>
-vnt</p>
-</div> --><script>
+
+
+<script>
   function is_cart_empty_2() {
     {% if cart.item_count == 0 %}
       return true

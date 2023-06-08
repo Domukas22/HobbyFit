@@ -161,7 +161,10 @@ ul {
   top: 0;
   left: 0;
 }
-
+.click_overlay:hover,
+.link_overlay:hover {
+  cursor: pointer;
+}
 
 .X_wrap {
   width: 30px;
@@ -267,6 +270,13 @@ section {
 
   box-shadow: var(--shadow_normal);
   background-color: #fff;
+}
+
+.separator {
+  height: 1px;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.1);
+  margin: 24px 0 32px;
 }
 
 .animate__shakeX {

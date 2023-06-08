@@ -120,11 +120,12 @@ function handle_from_btns(isCart, error, qnt_avail) {
   }
 
 }
-function edit_text_qnts(qnt_left, qnt_cart, qnt_request) {
+function edit_text_qnts(qnt_left, qnt_cart, qnt_request, qnt_avail) {
   document.querySelectorAll('[data-cart_qnt]').forEach(x => x.textContent = qnt_cart)
   document.querySelectorAll('[data-chosen_qnt]').forEach(x => x.textContent = qnt_request)
   document.querySelectorAll('[data-variant_qnt]').forEach(x => x.textContent = qnt_left);
-
+  document.querySelectorAll('[data-qnt_avail]').forEach(x => x.textContent = qnt_avail);
+  
   const sum = document.querySelector('[data-price_sum_calc]')
   sum.textContent = formatMoney(find_matchedVariant().price * qnt_request, format)
   bubble_jump(sum)

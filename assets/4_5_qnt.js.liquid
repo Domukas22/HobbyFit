@@ -35,7 +35,7 @@ if (product_available) {
         } else {
 
             edit_form_alerts(qnt_info.isCart, qnt_info.error)
-            edit_text_qnts(qnt_info.qnt_left, qnt_info.qnt_cart, decoy.value)
+            edit_text_qnts(qnt_info.qnt_left, qnt_info.qnt_cart, decoy.value, qnt_info.qnt_avail)
             hanlde_qntOptions(parseInt(decoy.value), parseInt(qnt_info.qnt_avail))
             edit_qntInput(decoy.value)
 
@@ -60,7 +60,7 @@ if (product_available) {
         } else {
 
         edit_form_alerts(qnt_info.isCart, qnt_info.error)
-        edit_text_qnts(qnt_info.qnt_left, qnt_info.qnt_cart, qnt_selected)
+        edit_text_qnts(qnt_info.qnt_left, qnt_info.qnt_cart, qnt_selected, qnt_info.qnt_avail)
         hanlde_qntOptions(parseInt(qnt_selected), parseInt(qnt_info.qnt_avail))
         edit_qntInput(qnt_selected)
 
@@ -71,8 +71,29 @@ if (product_available) {
     }))
 
     decoy.addEventListener('input', (e) => {
-        const value = e.currentTarget.value
-        parseInt(decoy.value) && parseInt(decoy.value) > 0 ? toggle_btn_qntSubmit(true) : toggle_btn_qntSubmit(false)
+        const qnt_info = qnt_police(find_matchedVariant())
+        const qnt_left = qnt_info.qnt_left
+        const qnt_avail = qnt_info.qnt_avail
+        const value = parseInt(e.currentTarget.value)
+
+        // handle button
+        if (value && value > 0 && value <= qnt_avail) {
+            toggle_btn_qntSubmit(true)
+        } else {
+            toggle_btn_qntSubmit(false)
+            decoy.focus()
+            decoy.select()
+        }
+
+        //handle red text
+        if (qnt_info.isCart && value > qnt_avail) {
+            // show text in cart + qnt error
+        } else if (!qnt_info.isCart && value > qnt_avail) {
+            // show qnt error
+        } else {
+            // hide all errors
+        }
+
     })
 }
 
@@ -99,7 +120,7 @@ function checkKeyPress(event, decoy) {
         } else {
             decoy.blur()
             edit_form_alerts(qnt_info.isCart, qnt_info.error)
-            edit_text_qnts(qnt_info.qnt_left, qnt_info.qnt_cart, decoy.value)
+            edit_text_qnts(qnt_info.qnt_left, qnt_info.qnt_cart, decoy.value, qnt_info.qnt_avail)
             edit_qntInput(decoy.value)
             hanlde_qntOptions(parseInt(decoy.value), parseInt(qnt_info.qnt_avail))
     

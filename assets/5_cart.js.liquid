@@ -22,19 +22,164 @@ function handle_shadow() {
 const btn_checkout= document.querySelector('.btn.btn_checkout')
 const btn_invisibleCheckout = document.querySelector('button[name="checkout"]')
 const links_to_item = document.querySelectorAll('.link_overlay')
-const empt_cart_slots = document.querySelectorAll('.empty_cart_slot')
+const empty_cart_slots = document.querySelectorAll('.empty_cart_slot')
+const empty_preview_slots = document.querySelectorAll('.itemPreview.empty')
 
 const btns_add_minus = document.querySelectorAll('.btn_qnt')
 const btns_showAction = document.querySelectorAll('.btn_showAction')
 
 const btn_submitDecoy = document.querySelectorAll('.btn_qntDecoy.submit')
-const btn_closeDecoy= document.querySelectorAll('.btn_qntDecoy.cancel')
+const btn_hideAction= document.querySelectorAll('.btn_qntDecoy.cancel')
 const decoyInputs_all = document.querySelectorAll('input[name="cart_decoy"]')
 
 const qntOptions = document.querySelectorAll('.qntOption')
+const itemPreviews = document.querySelectorAll('.itemPreview')
 
+
+btns_showAction.forEach(x => x.addEventListener('click', (e) => {
+    const id = e.currentTarget.dataset.variant_id
+    toggle_actionBox(id, true)
+}))
+btn_hideAction.forEach(x => x.addEventListener('click', (e) => {
+    const id = parseInt(e.currentTarget.dataset.variant_id)
+    const info = get_itemInfo(id)
+    toggle_actionBox(id, false)
+    display([{target: info.target_error, value: false}])
+
+}))
+
+decoyInputs_all.forEach(x => x.addEventListener('input', (e) => {
+    const input_id = parseInt(e.currentTarget.dataset.variant_id)
+    const info = get_itemInfo(input_id)
+    
+    const request = parseInt(e.currentTarget.value)
+    const qnt_left = info.qnt_left
+    const input_decoy = document.querySelector(`input[name="cart_decoy"][data-variant_id="${input_id}"]`)
+
+    if (!request || request < 1) {
+        display([{target: info.target_btn, value: false}])
+        console.log('return')
+        input_decoy.focus()
+        input_decoy.select()
+
+    } else if (request > qnt_left) {
+        display([
+            {target: info.target_btn, value: false},
+            {target: info.target_error, value: true}
+        ])
+        input_decoy.focus()
+        input_decoy.select()
+
+    } else {
+        display([
+            {target: info.target_btn, value: true},
+            {target: info.target_error, value: false}
+        ])
+    }
+
+}))
+btn_submitDecoy.forEach(x => x.addEventListener('click', (e) => {
+    const info = get_itemInfo(parseInt(e.currentTarget.dataset.variant_id))
+    const btn_id = e.currentTarget.dataset.variant_id
+
+    const request = parseInt(document.querySelector(`input[name="cart_decoy"][data-variant_id="${e.currentTarget.dataset.variant_id}"]`).value)
+    const qnt_left = info.qnt_left
+
+    if (request > qnt_left) {
+        display([{target: info.target_error, value: true}])
+
+    } else {
+        display([{target: info.target_error, value: false}])
+        replace_activeOption(e.currentTarget)
+        submit_qnt(btn_id, request)
+        toggle_actionBox(btn_id, false)
+    }
+}))
+
+btns_add_minus.forEach(x => x.addEventListener('click', (e) => {
+    const info = get_itemInfo(parseInt(e.currentTarget.dataset.variant_id))
+    const btn_id = e.currentTarget.dataset.variant_id
+    
+    const qnt_request = e.currentTarget.dataset.update == 'plus' ? info.qnt_sel + 1 : info.qnt_sel - 1
+    const qnt_left = info.qnt_left
+
+   
+
+    if (qnt_request > qnt_left) {
+        display([{target: info.target_error, value: true}])
+
+    } else {
+        display([{target: info.target_error, value: false}])
+        replace_activeOption(e.currentTarget)
+        submit_qnt(btn_id, qnt_request)
+        toggle_actionBox(btn_id, false)
+    }
+}));
+qntOptions.forEach(x => x.addEventListener('click', (e) => {
+
+    const info = get_itemInfo(parseInt(e.currentTarget.dataset.variant_id))
+    const btn_id = e.currentTarget.dataset.variant_id
+
+    const request = parseInt(e.currentTarget.dataset.value)
+    const qnt_left = info.qnt_left
+
+    if (request > qnt_left) {
+        display([{target: info.target_error, value: true}])
+
+    } else {
+        display([{target: info.target_error, value: false}])
+        replace_activeOption(e.currentTarget)
+        submit_qnt(btn_id, request)
+        toggle_actionBox(btn_id, false)
+    }
+}))
+function scrollToY(scrollTargetY, speed) {
+    const scrollY = window.scrollY || window.pageYOffset;
+    let currentTime = 0;
+
+    const easingEquation = (t) => {
+        // Custom easing equation (ease-in-out in this case)
+        return 0.5 - 0.5 * Math.cos(Math.PI * t);
+    };
+
+    const time = Math.max(0.1, Math.min(Math.abs(scrollY - scrollTargetY) / speed, 0.8));
+
+    function tick() {
+        currentTime += 1 / 60;
+
+        const position = currentTime / time;
+        const easing = easingEquation(position);
+
+        if (position < 1) {
+            window.requestAnimationFrame(tick);
+            window.scrollTo(0, scrollY + (scrollTargetY - scrollY) * easing);
+        } else {
+            window.scrollTo(0, scrollTargetY);
+        }
+    }
+
+    tick();
+}
+
+itemPreviews.forEach(x => x.addEventListener('click', (e) => {
+    const scroll_target = document.querySelector(`.cart_item[data-variant_id="${e.currentTarget.dataset.variant_id}"]`);
+    if (scroll_target) {
+        const targetOffsetTop = scroll_target.getBoundingClientRect().top;
+        const scrollDistance = targetOffsetTop + window.scrollY - 180;
+        const scrollSpeed = 1000; // Adjust the scroll speed as desired (in pixels per second)
+        scrollToY(scrollDistance, scrollSpeed);
+    }
+}));
+
+
+
+// simple
+links_to_item.forEach(x => x.addEventListener('click', (e) => {
+    y = e.currentTarget
+    open_page_item(y.dataset.variant_id, y.dataset.bg, y.dataset.raw, y.dataset.link)
+}))
 btn_checkout.addEventListener('click', () => {btn_invisibleCheckout.click()})
-empt_cart_slots.forEach(x => {
+empty_cart_slots.forEach(x => {
     x.addEventListener('mouseover', (e) => {
         e.currentTarget.classList.add('change')
     })
@@ -50,95 +195,120 @@ empt_cart_slots.forEach(x => {
         e.currentTarget.classList.remove('change')
     })
 })
-btns_add_minus.forEach(x => x.addEventListener('click', (e) => {
-    const target = e.currentTarget
-    const value = (target.dataset.update == 'plus' ? true : false)
-    const input = target.parentElement.querySelector('input[type="number"]')
+empty_preview_slots.forEach(x => {
+    x.addEventListener('mouseover', (e) => {
+        e.currentTarget.classList.add('change')
+    })
+    x.addEventListener('mouseleave', (e) => {
+        e.currentTarget.classList.remove('change')
+    })
+    x.addEventListener('touchstart', (e) => {
+        if(isDesktop()) {return}
+        e.currentTarget.classList.add('change')
+    })
+    x.addEventListener('touchend', (e) => {
+        if(isDesktop()) {return}
+        e.currentTarget.classList.remove('change')
+    })
+})
+//------- 
 
-    // const info = get_itemInfo(e.currentTarget.dataset.variant_id)
-    // const request = parseInt(e.currentTarget.dataset.value)
-    // const qnt_left = info.qnt_left
+function get_itemInfo(id){ 
 
-    handle_qntInput(input, value)
-}));
-links_to_item.forEach(x => x.addEventListener('click', (e) => {
-    y = e.currentTarget
-    open_page_item(y.dataset.variant_id, y.dataset.bg, y.dataset.raw, y.dataset.link)
-}))
-btn_submitDecoy.forEach(x => x.addEventListener('click', (e) => {
+    const qnt_left = parseInt(document.querySelector(`.cart_item[data-variant_id="${id}"]`).dataset.qnt_left)
+    const qnt_sel = parseInt(document.querySelector(`.btn_showAction[data-variant_id="${id}"]`).dataset.selected_qnt)
+    const target_btn = document.querySelector(`.btn_qntDecoy.submit[data-variant_id="${id}"]`)
+    const target_error = document.querySelector(`.text_inputError[data-variant_id="${id}"]`)
+
+
+    return {
+        qnt_left, qnt_sel, target_btn, target_error
+    }
+}
+
+function toggle_actionBox(id, condition){
+
+    const parent = document.querySelector(`.actionBox_cartItem[data-variant_id="${id}"]`)
+    const box_front = document.querySelector(`.actionBox_FRONT[data-variant_id="${id}"]`)
+    const box_back = document.querySelector(`.actionBox_BACK[data-variant_id="${id}"]`)
+    const input_decoy = document.querySelector(`input[name="cart_decoy"][data-variant_id="${id}"]`)
     
-    const info = get_itemInfo(e.currentTarget.dataset.variant_id)
+
+    const get_childrenHeight = parentElement =>[...parentElement.children].reduce((sum, child) => sum + child.getBoundingClientRect().height,0);
+    let locked = false
+
+    if (condition && ! locked) {
+        locked = true
+        box_front.style.opacity = "0%"
+        box_back.style.display = 'block'
+
+        setTimeout(() => {box_back.style.opacity = "100%"}, 70)
+        setTimeout(() => {
+            box_front.style.display = 'none';
+            locked = false
+        }, 151)
   
+        parent.style.height = get_childrenHeight(box_back) + 'px'
 
+    } else if (! locked) {
 
-}))
+        locked = true
+        box_back.style.opacity = "0%"
+        box_front.style.display = 'flex'
 
-decoyInputs_all.forEach(x => x.addEventListener('input', (e) => {
-    const info = get_itemInfo(e.currentTarget.dataset.variant_id)
-    const request = parseInt(e.currentTarget.value)
-    const qnt_left = info.qnt_left
+        setTimeout(() => {box_front.style.opacity = "100%"}, 70)
+        setTimeout(() => {locked = false; box_back.style.display = 'none'; input_decoy.value = ''}, 151)
 
-    if (!request || request < 1) {
-        display([{target: info.target_btn, value: false}])
-        console.log('return')
-
-    } else if (request > qnt_left) {
-        display([
-            {target: info.target_btn, value: false},
-            {target: info.target_error, value: true}
-        ])
-    } else {
-        display([
-            {target: info.target_btn, value: true},
-            {target: info.target_error, value: false}
-        ])
+        parent.style.height = '60px'
     }
-
-}))
-
-btns_showAction.forEach(x => x.addEventListener('click', (e) => {
-    const id = e.currentTarget.dataset.variant_id
-    toggle_actionBox(id, true)
-}))
-btn_closeDecoy.forEach(x => x.addEventListener('click', (e) => {
-    const id = e.currentTarget.dataset.variant_id
-    toggle_actionBox(id, false)
-
-}))
-
-qntOptions.forEach(x => x.addEventListener('click', (e) => {
-
-    const info = get_itemInfo(e.currentTarget.dataset.variant_id)
-    const request = parseInt(e.currentTarget.dataset.value)
-    const qnt_left = info.qnt_left
-
-    if (request > qnt_left) {
-        display([{target: info.target_error, value: true}])
-        console.log('nope')
-    } else {
-        display([{target: info.target_error, value: false}])
-        replace_activeOption(e.currentTarget)
-        console.log('yessir')
-    }
+}
+function submit_qnt(id, value) {
+    const real_input = document.querySelector(`input[name="updates[]"][data-variant_id="${id}"]`)
+    const action_btn = document.querySelector(`.btn_showAction[data-variant_id="${id}"]`)
     
 
+    real_input.value = value
+    action_btn.dataset.selected_qnt = value
+    action_btn.textContent = value
 
-}))
+    document.querySelector('button[name="update"]').click()
+}
 
-function handle_qntInput(target, value) {
-    const info = get_itemInfo(e.currentTarget.dataset.variant_id)
-    const request = parseInt(e.currentTarget.dataset.value)
-    const qnt_left = info.qnt_left
+// function handle_new_qntOption(id, qnt) {
+//     console.log()
+// }
 
-    if (value) {
-        target.value++
-    } else {
-        if (target.value == 1) {
-            target.parentElement.nextElementSibling.click()
-        } 
-        target.value--
-    }
-    // document.querySelector('button[name="update"]').click()
+
+
+// simple
+function display(list){
+    list.forEach(x => {
+        if (x.value) {
+            x.target.classList.remove('hide') 
+        } else {
+            x.target.classList.add('hide') 
+        }
+    })
+}
+function recolor_qntInputs() {
+    const active_qntButtons = document.querySelectorAll('.qntOption.active')
+    active_qntButtons.forEach(x => {
+        const bg = x.dataset.bg
+        const raw = x.dataset.raw
+        x.style.backgroundColor = bg
+        x.style.color = raw
+    })
+
+
+}
+function replace_activeOption(newOption) {
+    const old_activeOption = document.querySelector(`.qntOption.active[data-variant_id="${newOption.dataset.variant_id}"]`)
+    old_activeOption.removeAttribute('style')
+    old_activeOption.classList.remove('active')
+    
+    newOption.classList.add('active')
+    newOption.style.backgroundColor = newOption.dataset.bg
+    newOption.style.color = newOption.dataset.raw
 }
 function edit_shippingLine() {
     if (!is_cart_empty_2()) {
@@ -171,97 +341,5 @@ function open_page_item(id, color_bg, color_raw, shopLink) {
     window.history.replaceState(null, null, url.toString())
     window.location.href = url.toString();
 }
-
-
-function handle_qntInput_cart(allow, request, qnt_left, id) {
-    if (allow) {
-        target_btn.classList.remove('hide')
-    } else {
-        target_btn.classList.add('hide')
-    }
-}
-function toggle_actionBox(id, condition){
-
-    const parent = document.querySelector(`.actionBox_cartItem[data-variant_id="${id}"]`)
-    const box_front = document.querySelector(`.actionBox_FRONT[data-variant_id="${id}"]`)
-    const box_back = document.querySelector(`.actionBox_BACK[data-variant_id="${id}"]`)
-    const get_childrenHeight = parentElement =>[...parentElement.children].reduce((sum, child) => sum + child.getBoundingClientRect().height,0);
-    let locked = false
-
-
-
-    if (condition && ! locked) {
-        locked = true
-        box_front.style.opacity = "0%"
-        box_back.style.display = 'block'
-
-        setTimeout(() => {box_back.style.opacity = "100%"}, 70)
-        setTimeout(() => {
-            box_front.style.display = 'none';
-            locked = false
-        }, 151)
-  
-        parent.style.height = get_childrenHeight(box_back) + 'px'
-
-    } else if (! locked) {
-
-        locked = true
-        box_back.style.opacity = "0%"
-        box_front.style.display = 'flex'
-
-        setTimeout(() => {box_front.style.opacity = "100%"}, 70)
-        setTimeout(() => {locked = false; box_back.style.display = 'none'}, 151)
-
-        parent.style.height = '70px'
-    }
-}
-
-function get_itemInfo(id){ // leave the structure
-    const decoy_input = document.querySelector(`input[name="cart_decoy"][data-variant_id="${id}"]`)
-    const qnt_left = parseInt(decoy_input.dataset.qnt_left)
-    const target_btn = document.querySelector(`.btn_qntDecoy.submit[data-variant_id="${id}"]`)
-    const target_error = document.querySelector(`.text_inputError[data-variant_id="${id}"]`)
-
-
-    return {
-        qnt_left, target_btn, target_error
-    }
-}
-function allow_submit(id, value){
-    return 
-}
-
-
-function display(list){
-    list.forEach(x => {
-        if (x.value) {
-            x.target.classList.remove('hide') 
-        } else {
-            x.target.classList.add('hide') 
-        }
-    })
-}
-function recolor_qntInputs() {
-    const active_qntButtons = document.querySelectorAll('.qntOption.active')
-    console.log()
-    active_qntButtons.forEach(x => {
-        const bg = x.dataset.bg
-        const raw = x.dataset.raw
-        x.style.backgroundColor = bg
-        x.style.color = raw
-    })
-
-
-}
-function replace_activeOption(newOption) {
-    const old_activeOption = document.querySelector(`.qntOption.active[data-variant_id="${newOption.dataset.variant_id}"]`)
-    old_activeOption.removeAttribute('style')
-    old_activeOption.classList.remove('active')
-    
-    newOption.classList.add('active')
-    newOption.style.backgroundColor = newOption.dataset.bg
-    newOption.style.color = newOption.dataset.raw
-}
-
 function isDesktop() {return window.innerWidth > 991 ? true : false};
-
+// ----------

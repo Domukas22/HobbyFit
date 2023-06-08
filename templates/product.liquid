@@ -408,6 +408,9 @@
                   </div>
                 </div>
             </fieldset>
+            <p class="text_qntError qnt_isCart">Inventoriuje liko ... vnt, ir Jūs krepšelyje jau turite&nbsp;<span data-cart_qnt></span>&nbsp;vnt. Pasirinkti galite daugiausiai &nbsp;<span data-qnt_avail></span>&nbsp;vnt.</p>
+            <p class="text_qntError qnt">Inventoriuje liko tiktai&nbsp;<span data-variant_qnt></span>&nbsp;vnt</p>
+
             <div class="wrap_formBtns">
 
               <div class="alertBox">
@@ -727,7 +730,7 @@
       edit_form_alerts(qnt_info.isCart, qnt_info.error)
       hanlde_qntOptions(parseInt(qnt_info.qnt_request), parseInt(qnt_info.qnt_avail))
       
-      edit_text_qnts(qnt_info.qnt_left, qnt_info.qnt_cart, qnt_info.qnt_request)
+      edit_text_qnts(qnt_info.qnt_left, qnt_info.qnt_cart, qnt_info.qnt_request, qnt_info.qnt_avail)
       
       insert_swiper(get_images())
       initiate_swiper();
@@ -767,7 +770,7 @@
 
         edit_form_alerts(qnt_info.isCart, qnt_info.error)
         handle_from_btns(qnt_info.isCart, qnt_info.error, qnt_info.qnt_avail)
-        edit_text_qnts(qnt_info.qnt_left, qnt_info.qnt_cart, qnt_info.qnt_request)
+        edit_text_qnts(qnt_info.qnt_left, qnt_info.qnt_cart, qnt_info.qnt_request, qnt_info.qnt_avail)
        
         hanlde_qntOptions(parseInt(qnt_info.qnt_request), parseInt(qnt_info.qnt_avail))
         fix_qnt_choice(qnt_info.qnt_avail, qnt_info.isCart, qnt_info.error, qnt_info.qnt_request)

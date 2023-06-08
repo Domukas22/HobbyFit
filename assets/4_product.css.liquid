@@ -426,8 +426,8 @@ input[type="radio"]:checked + label {
 }
 
 .input_box.qnt {
-  margin-bottom: 42px;
-  transition: 400;
+
+  transition: 400ms;
 }
 
 .quantity_front,
@@ -466,7 +466,7 @@ input[type="radio"]:checked + label {
   padding: 12px;
   column-gap: 4px;
   row-gap: 4px;
-  border-top: 1px solid rgba(0, 0, 0, 0.03);
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
 }
 .wrap_qntOptions_expanded.d {
   grid-template-columns: repeat(6, 1fr)
@@ -602,7 +602,9 @@ input[type="radio"]:checked + label {
 }
 
 
-.wrap_formBtns {}
+.wrap_formBtns {
+  margin-top: 42px
+}
 .formBtn {
   height: 54px;
   width: 100%;

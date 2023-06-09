@@ -1,11 +1,17 @@
 {% assign uniqueIDs = cart.items | map: 'id' | uniq %}
 
+
+<div class="fixed_buyBox">
+  <div class="btn btn_checkout fixed" data-scale>
+    <p style="display: flex; width: 100%;">Pateikti užsakymą (<span data-final_item_count>{{ cart.item_count }}</span>)<span data-final_price style="margin-left: auto;">{{ cart.total_price | money }}</span>
+    </p>
+  </div>
+</div>
 <section class="section_pageTitle cart">
   <div class="subWrap_pageTitle cart">
     <h2 class="pageTitle cart">Pirkinių krepšelis</h2>
   </div>
 </section>
-
 
 <section class="section_cartPage">
   {% form 'cart', cart, class: 'container container_cartItems' %}
@@ -58,10 +64,18 @@
                   <div
                     class="btn_showAction"
                     data-hover_grey
-                    data-variant_id="{{ item.variant.id }}"
-                    data-selected_qnt="{{ item.quantity }}">
-                    <p style="color: {{ raw }}; margin-right: 8px; font-size: 17px">Kiekis: {{ item.quantity }}</p>
-                    <p style="color: {{ raw }}; font-size: 17px">{{ item.final_line_price | money }}</p>
+                    data-variant_id="{{ item.variant.id }}">
+                    <p style="color: {{ raw }}; margin-right: 8px; font-size: 17px">Kiekis:
+                      <span
+                        class="qnt_current"
+                        data-variant_id="{{ item.variant.id }}"
+                        data-selected_qnt="{{ item.quantity }}">{{ item.quantity }}</span>
+                    </p>
+                    <p
+                      style="color: {{ raw }}; font-size: 17px"
+                      class="text_sumPrice"
+                      data-variant_id="{{ item.variant.id }}"
+                      data-price_for_one="{{ item.price }}">{{ item.final_line_price | money }}</p>
                   </div>
                   <a class="btn_deleteItem" href="{{ item.url_to_remove }}">
                     <img src="{{ 'icon_delete_red.svg' | asset_url }}" alt="">
@@ -72,12 +86,14 @@
                   class="actionBox_BACK"
                   data-variant_id="{{ item.variant.id }}"
                   style="display: none">
-                  <div class="qnt_decoy_TOP">
+                  <div
+                    class="qnt_decoy_TOP">
                     <input
                       type="number"
                       name="cart_decoy"
                       placeholder="Įveskite kiekį..."
-                      data-variant_id="{{ item.variant.id }}">
+                      data-variant_id="{{ item.variant.id }}"
+                      onkeydown="checkKeyPress_cart(event, this);">
                     <div
                       class="btn_qntDecoy cancel"
                       style="color: {{ raw}}"
@@ -91,10 +107,8 @@
                       Vykdyti
                     </div>
                   </div>
-                  <div
-                    class="qnt_decoy_BACK">
-                    <div
-                      class="wrap_qntOptions_expanded d">
+                  <div class="qnt_decoy_BACK">
+                    <div class="wrap_qntOptions_expanded d">
                       {% for i in (1..item.variant.inventory_quantity) %}
                         {% if i > 12 %}
                           {% break %}{% endif %}
@@ -116,8 +130,7 @@
                         </div>
                       {% endfor %}
                     </div>
-                    <div
-                      class="wrap_qntOptions_expanded m">
+                    <div class="wrap_qntOptions_expanded m">
                       {% for i in (1..item.variant.inventory_quantity) %}
                         {% if i > 10 %}
                           {% break %}{% endif %}
@@ -144,9 +157,7 @@
 
                 </div>
               </div>
-              <p
-                class="text_inputError hide"
-                data-variant_id="{{ item.variant.id }}">Inventoriuje liko tiktai {{ item.variant.inventory_quantity }} vnt</p>
+              <p class="text_inputError hide" data-variant_id="{{ item.variant.id }}">Inventoriuje liko tiktai {{ item.variant.inventory_quantity }} vnt</p>
             </div>
 
 
@@ -161,8 +172,7 @@
           href="{{ collections['badmintono-prekes'].url }}"
           data-scale>
           <div class="wrap_plus">
-            <div
-              class="line_plus"></div>
+            <div class="line_plus"></div>
             <div class="line_plus second"></div>
           </div>
           Idėti naują prekę
@@ -190,36 +200,27 @@
       {% endif %}>
 
       <div class="subWrap_stickyBox">
+
         <div class="box_proceedCheckout">
           {% if cart.item_count > 0 %}
-            <div class="titleWrap_checkoutBox">
-              <h4 class="title_Summary">Pirkinių krepšelis ({{ cart.item_count }}):</h4>
-              <h4 class="text_finalPrice">{{ cart.total_price | money }}</h4>
+            <div class="box_freeShipping">
+              <p class="alert_shipping yes" style="color: green">Siuntimas Jum bus nemokamas (nuo €70)
+              </p>
+              <p class="alert_shipping no">Jums trūksta
+                <b>
+                  <span class="price_leftForShipping">
+                    {{ 7000 | minus: cart.total_price | money }}
+                  </span>
+                </b>
+                iki nemokamo siuntimo (€70)</p>
             </div>
-            <div
-              class="box_leftToDiscount"
-              style="display: none"
-              data-price_current="{{ cart.total_price | money | remove: '€' }}">
-              <div class="lineWrap_freeShipping">
-                <div class="line_shipping default"></div>
-                <div class="line_shipping grow"></div>
+            <div class="box_checkout">
+              <div class="titleWrap_checkoutBox">
+                <h4 class="title_Summary">Pirkinių krepšelis (<span data-final_item_count>{{ cart.item_count }}</span>):</h4>
+                <h4 data-final_price style="margin-left: auto; color: #407ff2;">{{ cart.total_price | money }}</h4>
               </div>
-              {% assign difference = 7000 | minus: cart.total_price %}
-              {% if difference < 0 %}
-                <p style="color: var(--color_Main); margin-top: 4px">Jums bus priskaičiuotas nemokamas siuntimas</p>
-              {% else %}
-                <p>Jums trūksta
-                  <span class="text_leftForFreeShipping">{{ difference | money }}</span>
-                  iki nemokamo siuntimo
-                </p>
-              {% endif %}
+              <div class="btn btn_checkout" data-scale>Pateikti užsakymą</div>
             </div>
-            <div class="btn btn_checkout" data-scale>Pateikti užsakymą</div>
-            <a
-              class="btn inverted checkout"
-              href="{{ collections['badmintono-prekes'].url }}"
-              data-scale
-              style="display: none">Toliau ieškoti prekių</a>
           </div>
           <p class="text_separator" style="display: none;">Jūsų prekės</p>
           <div class="box_itemPreview">
@@ -244,7 +245,8 @@
                     <div
                       class="miniFeature"
                       style="background-color: {{ bg }}; color: {{ raw }}"
-                      data-hover_grey>
+                      data-hover_grey
+                      data-variant_id="{{ item.variant.id }}">
                       {{ item.quantity }}
                     </div>
                     {% if size_option %}
@@ -402,103 +404,82 @@
   {% endform %}
 </section>
 
-<section class="section_inline_slider">
-  <div class="container container_inlineSlider">
-    <h3 class="title_inlineSlider">
-      {% if cart.item_count == 0 %}
-        Mūsų pasiūlymai
-      {% else %}
-        Panašios prekės
-      {% endif %}
-    </h3>
-    <div class="controls_inlineSlider">
-      <div
-        class="btn_inlineSlider arrow left"
-        data-direction="left"
-        data-slider="hero1"
-        data-scale>
-        <div class="line_arrow"></div>
-        <div class="line_arrow reverse"></div>
-      </div>
-      <div
-        class="btn_inlineSlider arrow right"
-        data-direction="right"
-        data-slider="hero1"
-        data-scale>
-        <div class="line_arrow"></div>
-        <div class="line_arrow reverse"></div>
-      </div>
-      <a
-        class="btn_inlineSlider see_all"
-        href="{{ collections['badmintono-prekes'].url }}"
-        data-scale>Pamatyti visas</a>
-    </div>
-    <div class="inline_swiper_wrapper">
-      <div class="grid_products_inline" data-slider="hero1">
-        {% assign allProducts = collections['all'].products %}
-        {% for product in allProducts %}
-          <div class="product_parent_inline">
-            <a
-              href="{{ product.url }}"
-              class="product product_inline"
-              data-filter_word="{{ product.metafields.custom.filter_word}}"
-              data-sale="{{ product.metafields.custom.sale}}">
-              <div class="product_TOP">
-                <img
-                  class="img_product_filterPage"
-                  src="{{ product.featured_image | img_url: '600x600' }}"
-                  alt="{{ product.featured_image.alt | escape }}">
-                <img
-                  class="img_wave"
-                  src="{{ 'img_WAVE_filterPage.svg' | asset_url }}"
-                  alt="Colorful wave"
-                  data-color_bg="{{ product.metafields.custom.color_bg}}">
-                <p class="textIcon_sale" data-isSale="{{ product.metafields.custom.sale}}">
-                  {% assign a = product.compare_at_price_max | divided_by: 1.0 %}
-                  {% assign b = product.price | divided_by: 1.0 %}
-                  {% assign discount = ((a | minus: b) | divided_by: a) | times: 100 %}
-                  -{{ discount | round: 0 }}%
-                </p>
-                {% if product.options contains 'Color' %}
-                  <div class="wrap_collorBubbles">
-                    {% for option in product.options_with_values %}
-                      {% if option.name == 'Color' %}
-                        {% for value in option.values %}
-                          {% assign words = value | split: ' ' %}
-                          {% assign lastWord = words | last %}
-                          <div class="colorBubble" style="background-color: {{ lastWord }};"></div>
-                        {% endfor %}
-                      {% endif %}
-                    {% endfor %}
-                  </div>
-                {% endif %}
-
-              </div>
-              <div class="product_BOTTOM">
-                <h4 class="title_product_filterPage">{{ product.metafields.custom.name_short }}</h4>
-                <div class="priceWrap_filterPage">
-                  <p class="price_product_filterPage" data-isSale="{{ product.metafields.custom.sale}}">{{ product.price | money }}</p>
-                  <p class="price_product_filterPage compare">{{ product.compare_at_price | money }}</p>
-                </div>
-              </div>
-              <div class="click_overlay"></div>
-            </a>
-          </div>
-        {% endfor %}
-      </div>
-    </div>
-  </div>
-</section>
-
+{% render 'inline_slider' %}
 
 
 <script>
+  const format = "{{ shop.money_format }}"
+  const btn_update_form = document.querySelector('.btn_cartForm[name="update"]')
+  const texts_finalPrice_All = document.querySelectorAll('[data-final_price]')
+  const texts_finalItemCount_All = document.querySelectorAll('[data-final_item_count]')
+
+  Shopify.queue = Shopify.queue || [];
+
+  window.addEventListener('DOMContentLoaded', () => {
+    edit_freeShipping({{ cart.total_price }})
+  })
+
+  btn_update_form.addEventListener('click', (e) => {
+    event.preventDefault();
+    const id = parseInt(btn_update_form.dataset.update_element_id)
+    const qnt = parseInt(btn_update_form.dataset.update_element_qnt)
+    updateCart(id, qnt);
+
+  })
   function is_cart_empty_2() {
     {% if cart.item_count == 0 %}
       return true
     {% else %}
       return false
     {% endif %}
+  }
+  function updateCart(variantId, itemQty) {
+    Shopify.queue.push({
+      variantId: variantId,
+      quantity: itemQty,
+      _method: 'post',
+      _url: '/cart/add.js',
+      _queue: 'actions'
+    });
+
+// Send the AJAX request to update the cart on the server-side
+    fetch('/cart/update.js', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Requested-With': 'XMLHttpRequest'
+      },
+      body: JSON.stringify(
+        {
+          updates: {
+            [variantId]: itemQty
+          }
+        }
+      )
+    }).then(response => response.json()).then(cart_data => {
+
+// console.log(cart_data);
+      texts_finalPrice_All.forEach(x => x.textContent = formatMoney(cart_data.items_subtotal_price, format))
+      texts_finalItemCount_All.forEach(x => x.textContent = cart_data.item_count)
+      edit_freeShipping(cart_data.items_subtotal_price)
+      console.log(cart_data.items_subtotal_price)
+    })
+  }
+
+  function edit_freeShipping(current_price) {
+    document.querySelector('.price_leftForShipping').textContent = formatMoney(7000 - current_price, format)
+    const yes = document.querySelector('.alert_shipping.yes')
+    const no = document.querySelector('.alert_shipping.no')
+
+    if (current_price >= 7000) {
+      yes.style.display = "block"
+      no.style.display = "none"
+    } else {
+      yes.style.display = "none"
+      no.style.display = "block"
+    }
+
+
   }
 </script>
 

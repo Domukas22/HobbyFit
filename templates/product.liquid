@@ -408,18 +408,11 @@
                   </div>
                 </div>
             </fieldset>
-            <p class="text_qntError qnt_isCart">Inventoriuje liko ... vnt, ir Jūs krepšelyje jau turite&nbsp;<span data-cart_qnt></span>&nbsp;vnt. Pasirinkti galite daugiausiai &nbsp;<span data-qnt_avail></span>&nbsp;vnt.</p>
-            <p class="text_qntError qnt">Inventoriuje liko tiktai&nbsp;<span data-variant_qnt></span>&nbsp;vnt</p>
+            <p class="redText qnt_isCart">Inventoriuje liko <span data-variant_qnt></span> vnt, ir Jūs krepšelyje jau turite <span data-cart_qnt></span> vnt. Pasirinkti galite daugiausiai <span data-qnt_avail></span> vnt.</p>
+            <p class="redText qnt">Sandeliuke liko tiktai <span data-variant_qnt></span> vnt</p>
+            <p class="textAlert isCart">Ši prekė jau yra Jūsų krepšelyje (<span data-cart_qnt></span> vnt). Pasirinkti galite daugiausiai <span data-qnt_avail></span> vnt.</p>
 
             <div class="wrap_formBtns">
-
-              <div class="alertBox">
-                <p class="textAlert qnt_error">Sandeliuke liko tiktai
-                  <span data-span_color="red">
-                    <span variant_qnt></span>vnt.</span>
-                </p>
-                <p class="textAlert isCart">Ši prekė jau yra Jūsų krepšelyje&nbsp;(<span data-cart_qnt></span>&nbsp;vnt.)</p>
-              </div>
               <!-- form btns -->
               <div
                 class="formBtn buy"
@@ -576,87 +569,7 @@
   </div>
 </section>
 
-<section class="section_inline_slider">
-  <div class="container container_inlineSlider">
-    <h2 class="title_inlineSlider">Kiti pasiulymai</h2>
-    <div class="controls_inlineSlider">
-      <div
-        class="btn_inlineSlider arrow left"
-        data-direction="left"
-        data-slider="hero1"
-        data-scale>
-        <div class="line_arrow"></div>
-        <div class="line_arrow reverse"></div>
-      </div>
-      <div
-        class="btn_inlineSlider arrow right"
-        data-direction="right"
-        data-slider="hero1"
-        data-scale>
-        <div class="line_arrow"></div>
-        <div class="line_arrow reverse"></div>
-      </div>
-      <a
-        class="btn_inlineSlider see_all"
-        href="{{ collections['badmintono-prekes'].url }}"
-        data-scale>Pamatyti viska</a>
-    </div>
-    <div class="inline_swiper_wrapper">
-      <div class="grid_products_inline" data-slider="hero1">
-        {% assign allProducts = collections['all'].products %}
-        {% for product in allProducts %}
-          <div class="product_parent_inline">
-            <a
-              href="{{ product.url }}"
-              class="product product_inline"
-              data-filter_word="{{ product.metafields.custom.filter_word}}"
-              data-sale="{{ product.metafields.custom.sale}}">
-              <div class="product_TOP">
-                <img
-                  class="img_product_filterPage"
-                  src="{{ product.featured_image | img_url: '600x600' }}"
-                  alt="{{ product.featured_image.alt | escape }}">
-                <img
-                  class="img_wave"
-                  src="{{ 'img_WAVE_filterPage.svg' | asset_url }}"
-                  alt="Colorful wave"
-                  data-color_bg="{{ product.metafields.custom.color_bg}}">
-                <p class="textIcon_sale" data-isSale="{{ product.metafields.custom.sale}}">
-                  {% assign a = product.compare_at_price_max | divided_by: 1.0 %}
-                  {% assign b = product.price | divided_by: 1.0 %}
-                  {% assign discount = ((a | minus: b) | divided_by: a) | times: 100 %}
-                  -{{ discount | round: 0 }}%
-                </p>
-                {% if product.options contains 'Color' %}
-                  <div class="wrap_collorBubbles">
-                    {% for option in product.options_with_values %}
-                      {% if option.name == 'Color' %}
-                        {% for value in option.values %}
-                          {% assign words = value | split: ' ' %}
-                          {% assign lastWord = words | last %}
-                          <div class="colorBubble" style="background-color: {{ lastWord }};"></div>
-                        {% endfor %}
-                      {% endif %}
-                    {% endfor %}
-                  </div>
-                {% endif %}
-
-              </div>
-              <div class="product_BOTTOM">
-                <h4 class="title_product_filterPage">{{ product.metafields.custom.name_short }}</h4>
-                <div class="priceWrap_filterPage">
-                  <p class="price_product_filterPage" data-isSale="{{ product.metafields.custom.sale}}">{{ product.price | money }}</p>
-                  <p class="price_product_filterPage compare">{{ product.compare_at_price | money }}</p>
-                </div>
-              </div>
-              <div class="click_overlay"></div>
-            </a>
-          </div>
-        {% endfor %}
-      </div>
-    </div>
-  </div>
-</section>
+{% render 'inline_slider' %}
 
 <script>
   let swiper
@@ -668,6 +581,7 @@
   function find_matchedVariant() {
     let selected_radios = []
     document.querySelectorAll('input[type="radio"].optionRadio:checked').forEach(x => selected_radios.push(x.value))
+    
     const matchedVariant = product.variants.find(variant => {
       for (let option of selected_radios) {
         if (!variant.options.includes(option)) {
@@ -677,6 +591,7 @@
       return true;
     });
     return matchedVariant
+
 
   }
   function is_cart_empty() {
@@ -711,21 +626,21 @@
     return qnt_result
   }
 </script>
-{{ '4_0_formatMoney.js' | asset_url | script_tag }}
-<!-- formatMoney / edit_variant_price / edit_sum_price -->
+
 {{ '4_3_setFunctions.js' | asset_url | script_tag }}
-<!-- set_circleColors / changeUrl / edit_hiddenInput / bubble_jump / -->
 {{ '4_4_swiper.js' | asset_url | script_tag }}
-<!-- insert_swiper / initiate_swiper / replaceSwiper /  set_bullet_colors / set_parallax -->
 {{ '4_5_qnt.js' | asset_url | script_tag }}
-<!-- set_qnt_eventListeners / checkKeyPress /-->
+
 
 <script>
 
   window.addEventListener('DOMContentLoaded', () => {
+    
+
 
     if (product_available) {
       const qnt_info = qnt_police(find_matchedVariant())
+      
       handle_from_btns(qnt_info.isCart, qnt_info.error, qnt_info.qnt_avail)
       edit_form_alerts(qnt_info.isCart, qnt_info.error)
       hanlde_qntOptions(parseInt(qnt_info.qnt_request), parseInt(qnt_info.qnt_avail))
@@ -750,6 +665,8 @@
         recolor_bag_raw('{{ color_raw }}')
       {% endif %};
 
+
+
     } else { // leave swiper on
       recolor('{{ color_raw }}', '{{ color_bg }}');
       insert_swiper(get_images())
@@ -765,8 +682,10 @@
     const radios = document.querySelectorAll('input[type="radio"].optionRadio')
     radios.forEach(radio => { // colors + sizes
       radio.addEventListener('change', (e) => {
-      
-        const qnt_info = qnt_police(find_matchedVariant())
+
+
+        const matched_variant = find_matchedVariant()
+        const qnt_info = qnt_police(matched_variant)
 
         edit_form_alerts(qnt_info.isCart, qnt_info.error)
         handle_from_btns(qnt_info.isCart, qnt_info.error, qnt_info.qnt_avail)
@@ -776,8 +695,8 @@
         fix_qnt_choice(qnt_info.qnt_avail, qnt_info.isCart, qnt_info.error, qnt_info.qnt_request)
         
         recolor_default()
-        edit_hiddenInput(find_matchedVariant())
-        changeUrl(find_matchedVariant(), get_colors().bg, get_colors().raw)
+        edit_hiddenInput(matched_variant)
+        changeUrl(matched_variant, get_colors().bg, get_colors().raw)
         bubble_jump(document.getElementById('qnt_in_box'))
         bubble_jump(document.querySelector('.p_stockLeft'))
 
@@ -889,7 +808,7 @@
 // ------------------------------------------------------------------------------------------------------------
   function edit_size_options() {
     {% if product.options contains 'Color' and product.options contains 'Size'%}
-      const variants_raw = [];
+      const all_variants = []; // all product variants
 
 // -
       {% for option in product.options_with_values %}
@@ -898,50 +817,40 @@
             {% if variant.inventory_quantity != 0 %}
 
 // -
-              variants_raw.push({variant_bg: '{{ variant.option1 }}', size:'{{ variant.option2 }}'});
+              all_variants.push({variant_bg: '{{ variant.option1 }}', size:'{{ variant.option2 }}'});
 
 // -
             {% endif %}
           {% endfor %}
         {% endunless %}
       {% endfor %}
-
-      const variants_final = variants_raw.filter(x => x.variant_bg.includes(get_colors().bg))
       
-      const size_inputs = document.querySelectorAll('.optionRadio[name="Size"]')
-      let checkedInput = null;
-      let test_c
+      // product variants that match the currenty selected color, even if the varaint qnt is 0
+      const matching_variants = all_variants.filter(x => x.variant_bg.includes(get_colors().bg));
+      const radio_sizes = document.querySelectorAll('.optionRadio[name="Size"]');
+      let checked_and_true = []
 
-      size_inputs.forEach(input => {
-        const inputSize = input.value;
-        
-        if (variants_final.some(variant => variant.size === inputSize)) {
-          input.parentElement.classList.remove('hide');
-          
-          if (input.checked) {
-            test_c = input
-        }
-          
-          if (! checkedInput) {
-            checkedInput = input;
-            
-          }
-        } else {
-          input.parentElement.classList.add('hide');
-        }
+      const available = Array.from(radio_sizes).filter(radio => {
+        const radio_size = radio.value;
+        const is_0 = !matching_variants.some(variant => variant.size === radio_size);
+        if (radio.checked == true && !is_0){checked_and_true.push(radio)}
+        radio.parentElement.classList.toggle('hide', is_0);
+        return !is_0;
       });
+      
 
-
-      if (checkedInput && ! checkedInput.checked) {
-        
-        checkedInput.checked = true;
-        checkedInput.dispatchEvent(new Event('change'));
-      }
+      // if there is no radio thats available AND true, select the first one
+      if (checked_and_true.length == 0) {
+        const reselect = available[0]
+        reselect.checked = true;
+        reselect.dispatchEvent(new Event('change'));
+      } 
+      
+      
     {% endif %}
   }
 </script>
 
-<!-- console.log('{{ option.name }}', '{{ value }}'); -->
 
 
 {{ '4_1_productZoom.js' | asset_url | script_tag }}

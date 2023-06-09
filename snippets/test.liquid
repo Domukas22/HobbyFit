@@ -1,22 +1,11 @@
-{% if product.options contains 'Color' %}
-  <div class="wrap_collorBubbles">
-    {% for option in product.options_with_values %}
-      {% if option.name == 'Color' %}
-        {% for value in option.values %}
-          {% assign lastWord = value | split: ' ' | last %}
-          {% if product.variants | where: 'options', lastWord | where: 'available', true | size > 0 %}
-            <div class="colorBubble" style="background-color: {{ lastWord }}"></div>
-          {% endif %}
-        {% endfor %}
-      {% endif %}
-    {% endfor %}
-  </div>
-{% endif %}
+<h1>HELLLOOOOO</h1>
+<h1>HELLLOOOOO</h1>
+<h1>HELLLOOOOO</h1>
 
+<h1>HELLLOOOOO</h1>
+<h1>HELLLOOOOO</h1>
+<h1>HELLLOOOOO</h1>
+<h1>HELLLOOOOO</h1>
 
-{% assign test = product.variants[1].option1 %}
-<script>
-  {% if test contains "Melyna"%}
-  console.log('{{ test }}')
-  {% endif %}
-</script>
+<h1>HELLLOOOOO</h1>
+<h1>HELLLOOOOO</h1>

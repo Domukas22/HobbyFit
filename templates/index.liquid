@@ -26,87 +26,7 @@
     alt="">
 </section>
 <div class="home_fade"></div>
-<section class="section_inline_slider">
-  <div class="container container_inlineSlider">
-    <h2 class="title_inlineSlider">Geri pasiulymai</h2>
-    <div class="controls_inlineSlider">
-      <div
-        class="btn_inlineSlider arrow left"
-        data-direction="left"
-        data-slider="hero1"
-        data-scale>
-        <div class="line_arrow"></div>
-        <div class="line_arrow reverse"></div>
-      </div>
-      <div
-        class="btn_inlineSlider arrow right"
-        data-direction="right"
-        data-slider="hero1"
-        data-scale>
-        <div class="line_arrow"></div>
-        <div class="line_arrow reverse"></div>
-      </div>
-      <a
-        class="btn_inlineSlider see_all"
-        href="{{ collections['badmintono-prekes'].url }}"
-        data-scale>Pamatyti viska</a>
-    </div>
-    <div class="inline_swiper_wrapper">
-      <div class="grid_products_inline" data-slider="hero1">
-        {% assign allProducts = collections['all'].products %}
-        {% for product in allProducts %}
-          <div class="product_parent_inline">
-            <a
-              href="{{ product.url }}"
-              class="product product_inline"
-              data-filter_word="{{ product.metafields.custom.filter_word}}"
-              data-sale="{{ product.metafields.custom.sale}}">
-              <div class="product_TOP">
-                <img
-                  class="img_product_filterPage"
-                  src="{{ product.featured_image | img_url: '600x600' }}"
-                  alt="{{ product.featured_image.alt | escape }}">
-                <img
-                  class="img_wave"
-                  src="{{ 'img_WAVE_filterPage.svg' | asset_url }}"
-                  alt="Colorful wave"
-                  data-color_bg="{{ product.metafields.custom.color_bg}}">
-                <p class="textIcon_sale" data-isSale="{{ product.metafields.custom.sale}}">
-                  {% assign a = product.compare_at_price_max | divided_by: 1.0 %}
-                  {% assign b = product.price | divided_by: 1.0 %}
-                  {% assign discount = ((a | minus: b) | divided_by: a) | times: 100 %}
-                  -{{ discount | round: 0 }}%
-                </p>
-                {% if product.options contains 'Color' %}
-                  <div class="wrap_collorBubbles">
-                    {% for option in product.options_with_values %}
-                      {% if option.name == 'Color' %}
-                        {% for value in option.values %}
-                          {% assign words = value | split: ' ' %}
-                          {% assign lastWord = words | last %}
-                          <div class="colorBubble" style="background-color: {{ lastWord }};"></div>
-                        {% endfor %}
-                      {% endif %}
-                    {% endfor %}
-                  </div>
-                {% endif %}
-
-              </div>
-              <div class="product_BOTTOM">
-                <h4 class="title_product_filterPage">{{ product.metafields.custom.name_short }}</h4>
-                <div class="priceWrap_filterPage">
-                  <p class="price_product_filterPage" data-isSale="{{ product.metafields.custom.sale}}">{{ product.price | money }}</p>
-                  <p class="price_product_filterPage compare">{{ product.compare_at_price | money }}</p>
-                </div>
-              </div>
-              <div class="click_overlay"></div>
-            </a>
-          </div>
-        {% endfor %}
-      </div>
-    </div>
-  </div>
-</section>
+{% render 'inline_slider' %}
 <div class="home_fade up"></div>
 <div class="wrap_categories" style="overflow: hidden;">
   <section class="homeCategory" data-link_filterpage="racket">
@@ -165,8 +85,11 @@
       src="{{ 'img_homeWave_balls.svg' | asset_url }}"
       alt="">
   </section>
-  <section class="homeCategory" data-link_filterpage="clothing">
-    <div class="container homeCategory reversed">
+  <section
+    class="homeCategory"
+    data-link_filterpage="clothing">
+    <div
+      class="container homeCategory reversed">
       <div class="textWrap_homeCategory reversed clothing">
         <h1 class="title_homeCategory">Reikalinga ir<br>patvari apranga</h1>
         <div
@@ -185,7 +108,8 @@
           src="{{ 'img_home_shoe.png' | asset_url }}"
           alt=""
           data-scale>
-        <div class="fade_homeCategory"></div>
+        <div
+          class="fade_homeCategory"></div>
       </div>
     </div>
     <img

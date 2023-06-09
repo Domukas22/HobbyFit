@@ -85,12 +85,6 @@ function fix_qnt_choice(qnt_avail, isCart, error, qnt_request) {
     handle_from_btns(isCart, 'none') 
     texts_chosen_qnt.forEach(x => x.textContent = qnt_avail)
     price_inside_btn.textContent = formatMoney(find_matchedVariant().price * qnt_avail, format)
-
-
-    // const qnt_Box = document.querySelector('.input_box.qnt')
-    //     if (qnt_info.qnt_avail && qnt_Box.dataset.box == 'open') {toggle_qntInput(true); console.log('open box')}
-    //     else if (!qnt_info.qnt_avail && qnt_Box.dataset.box == 'open') {toggle_qntInput(false); console.log('close box')}
-    
   }
 }
 
@@ -137,18 +131,18 @@ function edit_text_qnts(qnt_left, qnt_cart, qnt_request, qnt_avail) {
 function edit_form_alerts(isCart, error) {
 
   const textAlerts = document.querySelectorAll('.textAlert')
-  const textAlert_qntError = document.querySelector('.textAlert.qnt_error')
   const textAlert_cart_full = document.querySelector('.textAlert.cart_full')
   const textAlert_isCart = document.querySelector('.textAlert.isCart')
   textAlerts.forEach(x => x.style.display = "none")
 
-  isCart && error == 'none' ? show([textAlert_isCart])
-  : error == 'qnt' ? show([textAlert_qntError])
+  isCart && error == 'none' ? display_text([textAlert_isCart])
   : error == 'cart_full' ? show([textAlert_cart_full])
   : ''
 
 }
-
+function edit_variant_price(matchedVariant, format) {
+  document.querySelector('.price_product_filterPage').textContent = formatMoney(matchedVariant.price, format)
+}
 
 function edit_hiddenInput(matchedVariant) {
   document.getElementById('product_id').value = matchedVariant.id
@@ -167,12 +161,9 @@ function changeUrl(matchedVariant, color_bg, color_raw) {
   url.query.color_raw = color_raw
   window.history.replaceState(null, null, url.toString())
 }
-function bubble_jump(target) {
-  target.classList.add('scale')
-  setTimeout(() => {
-    target.classList.remove('scale')
-  }, 300)
-}
 function show(elements) {
   elements.forEach(x => x.style.display = "flex")
+}
+function display_text(elements){
+  elements.forEach(x => x.style.display = "block")
 }

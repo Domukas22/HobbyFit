@@ -1,13 +1,30 @@
-
+const buy_fixed = document.querySelector('.fixed_buyBox')
+const nav = document.querySelector('nav') 
+const container = document.querySelector('.container.container_cartItems') 
 
 window.addEventListener('DOMContentLoaded', () => {
     handle_shadow();
-    edit_shippingLine();
     recolor_qntInputs()
+    if (!isDesktop()) {
+        nav.style.position = 'relative'
+        container.style.paddingTop = "4vw"
+    } else {
+        nav.style.position = 'fixed'
+        container.style.paddingTop = "0"
+    }
+
 
 })
-window.addEventListener('scroll', () => {handle_shadow()})
-window.addEventListener('resize', () => {handle_shadow(); edit_shippingLine()})
+window.addEventListener('scroll', () => {
+    handle_shadow()
+    const y = window.scrollY
+    y > 220 ? buy_fixed.classList.add('show') : buy_fixed.classList.remove('show')
+})
+window.addEventListener('resize', () => {
+    handle_shadow();
+    !isDesktop() ? nav.style.position = 'relative' : nav.style.position = 'fixed'
+
+})
 function handle_shadow() {
     const nav = document.querySelector('nav')
     if (isDesktop() && window.scrollY < 60) {
@@ -19,13 +36,14 @@ function handle_shadow() {
     }
 }
 
-const btn_checkout= document.querySelector('.btn.btn_checkout')
+
+
+const btns_checkout_BOTH = document.querySelectorAll('.btn.btn_checkout')
 const btn_invisibleCheckout = document.querySelector('button[name="checkout"]')
 const links_to_item = document.querySelectorAll('.link_overlay')
 const empty_cart_slots = document.querySelectorAll('.empty_cart_slot')
 const empty_preview_slots = document.querySelectorAll('.itemPreview.empty')
 
-const btns_add_minus = document.querySelectorAll('.btn_qnt')
 const btns_showAction = document.querySelectorAll('.btn_showAction')
 
 const btn_submitDecoy = document.querySelectorAll('.btn_qntDecoy.submit')
@@ -34,6 +52,7 @@ const decoyInputs_all = document.querySelectorAll('input[name="cart_decoy"]')
 
 const qntOptions = document.querySelectorAll('.qntOption')
 const itemPreviews = document.querySelectorAll('.itemPreview')
+const btn_UPDATE = document.querySelector('button[name="update"]')
 
 
 btns_showAction.forEach(x => x.addEventListener('click', (e) => {
@@ -47,7 +66,52 @@ btn_hideAction.forEach(x => x.addEventListener('click', (e) => {
     display([{target: info.target_error, value: false}])
 
 }))
+btn_submitDecoy.forEach(x => x.addEventListener('click', (e) => {
+    const info = get_itemInfo(parseInt(e.currentTarget.dataset.variant_id))
+    const btn_id = e.currentTarget.dataset.variant_id
 
+    const request = parseInt(document.querySelector(`input[name="cart_decoy"][data-variant_id="${e.currentTarget.dataset.variant_id}"]`).value)
+    const qnt_left = info.qnt_left
+
+    if (request > qnt_left) {
+        display([{target: info.target_error, value: true}])
+
+    } else {
+        display([{target: info.target_error, value: false}])
+        replace_activeOption(btn_id, request, qnt_left)
+        toggle_actionBox(btn_id, false)
+        submit_qnt(btn_id, request)
+    }
+}))
+qntOptions.forEach(x => x.addEventListener('click', (e) => {
+
+    const info = get_itemInfo(parseInt(e.currentTarget.dataset.variant_id))
+    const btn_id = e.currentTarget.dataset.variant_id
+
+    const request = parseInt(e.currentTarget.dataset.value)
+    const qnt_left = info.qnt_left
+
+    if (request > qnt_left) {
+        display([{target: info.target_error, value: true}])
+
+    } else {
+        toggle_actionBox(btn_id, false)
+        display([{target: info.target_error, value: false}])
+        submit_qnt(btn_id, request)
+        replace_activeOption(btn_id, request, qnt_left)
+        
+        
+    }
+}))
+itemPreviews.forEach(x => x.addEventListener('click', (e) => {
+    const scroll_target = document.querySelector(`.cart_item[data-variant_id="${e.currentTarget.dataset.variant_id}"]`);
+    if (scroll_target) {
+        const targetOffsetTop = scroll_target.getBoundingClientRect().top;
+        const scrollDistance = targetOffsetTop + window.scrollY - 180;
+        const scrollSpeed = 1000; // Adjust the scroll speed as desired (in pixels per second)
+        scrollToY(scrollDistance, scrollSpeed);
+    }
+}));
 decoyInputs_all.forEach(x => x.addEventListener('input', (e) => {
     const input_id = parseInt(e.currentTarget.dataset.variant_id)
     const info = get_itemInfo(input_id)
@@ -58,7 +122,6 @@ decoyInputs_all.forEach(x => x.addEventListener('input', (e) => {
 
     if (!request || request < 1) {
         display([{target: info.target_btn, value: false}])
-        console.log('return')
         input_decoy.focus()
         input_decoy.select()
 
@@ -78,99 +141,6 @@ decoyInputs_all.forEach(x => x.addEventListener('input', (e) => {
     }
 
 }))
-btn_submitDecoy.forEach(x => x.addEventListener('click', (e) => {
-    const info = get_itemInfo(parseInt(e.currentTarget.dataset.variant_id))
-    const btn_id = e.currentTarget.dataset.variant_id
-
-    const request = parseInt(document.querySelector(`input[name="cart_decoy"][data-variant_id="${e.currentTarget.dataset.variant_id}"]`).value)
-    const qnt_left = info.qnt_left
-
-    if (request > qnt_left) {
-        display([{target: info.target_error, value: true}])
-
-    } else {
-        display([{target: info.target_error, value: false}])
-        replace_activeOption(e.currentTarget)
-        submit_qnt(btn_id, request)
-        toggle_actionBox(btn_id, false)
-    }
-}))
-
-btns_add_minus.forEach(x => x.addEventListener('click', (e) => {
-    const info = get_itemInfo(parseInt(e.currentTarget.dataset.variant_id))
-    const btn_id = e.currentTarget.dataset.variant_id
-    
-    const qnt_request = e.currentTarget.dataset.update == 'plus' ? info.qnt_sel + 1 : info.qnt_sel - 1
-    const qnt_left = info.qnt_left
-
-   
-
-    if (qnt_request > qnt_left) {
-        display([{target: info.target_error, value: true}])
-
-    } else {
-        display([{target: info.target_error, value: false}])
-        replace_activeOption(e.currentTarget)
-        submit_qnt(btn_id, qnt_request)
-        toggle_actionBox(btn_id, false)
-    }
-}));
-qntOptions.forEach(x => x.addEventListener('click', (e) => {
-
-    const info = get_itemInfo(parseInt(e.currentTarget.dataset.variant_id))
-    const btn_id = e.currentTarget.dataset.variant_id
-
-    const request = parseInt(e.currentTarget.dataset.value)
-    const qnt_left = info.qnt_left
-
-    if (request > qnt_left) {
-        display([{target: info.target_error, value: true}])
-
-    } else {
-        display([{target: info.target_error, value: false}])
-        replace_activeOption(e.currentTarget)
-        submit_qnt(btn_id, request)
-        toggle_actionBox(btn_id, false)
-    }
-}))
-function scrollToY(scrollTargetY, speed) {
-    const scrollY = window.scrollY || window.pageYOffset;
-    let currentTime = 0;
-
-    const easingEquation = (t) => {
-        // Custom easing equation (ease-in-out in this case)
-        return 0.5 - 0.5 * Math.cos(Math.PI * t);
-    };
-
-    const time = Math.max(0.1, Math.min(Math.abs(scrollY - scrollTargetY) / speed, 0.8));
-
-    function tick() {
-        currentTime += 1 / 60;
-
-        const position = currentTime / time;
-        const easing = easingEquation(position);
-
-        if (position < 1) {
-            window.requestAnimationFrame(tick);
-            window.scrollTo(0, scrollY + (scrollTargetY - scrollY) * easing);
-        } else {
-            window.scrollTo(0, scrollTargetY);
-        }
-    }
-
-    tick();
-}
-
-itemPreviews.forEach(x => x.addEventListener('click', (e) => {
-    const scroll_target = document.querySelector(`.cart_item[data-variant_id="${e.currentTarget.dataset.variant_id}"]`);
-    if (scroll_target) {
-        const targetOffsetTop = scroll_target.getBoundingClientRect().top;
-        const scrollDistance = targetOffsetTop + window.scrollY - 180;
-        const scrollSpeed = 1000; // Adjust the scroll speed as desired (in pixels per second)
-        scrollToY(scrollDistance, scrollSpeed);
-    }
-}));
-
 
 
 // simple
@@ -178,7 +148,7 @@ links_to_item.forEach(x => x.addEventListener('click', (e) => {
     y = e.currentTarget
     open_page_item(y.dataset.variant_id, y.dataset.bg, y.dataset.raw, y.dataset.link)
 }))
-btn_checkout.addEventListener('click', () => {btn_invisibleCheckout.click()})
+btns_checkout_BOTH.forEach(x => x.addEventListener('click', () => {btn_invisibleCheckout.click()}))
 empty_cart_slots.forEach(x => {
     x.addEventListener('mouseover', (e) => {
         e.currentTarget.classList.add('change')
@@ -216,7 +186,7 @@ empty_preview_slots.forEach(x => {
 function get_itemInfo(id){ 
 
     const qnt_left = parseInt(document.querySelector(`.cart_item[data-variant_id="${id}"]`).dataset.qnt_left)
-    const qnt_sel = parseInt(document.querySelector(`.btn_showAction[data-variant_id="${id}"]`).dataset.selected_qnt)
+    const qnt_sel = parseInt(document.querySelector(`.qnt_current[data-variant_id="${id}"]`).dataset.selected_qnt)
     const target_btn = document.querySelector(`.btn_qntDecoy.submit[data-variant_id="${id}"]`)
     const target_error = document.querySelector(`.text_inputError[data-variant_id="${id}"]`)
 
@@ -225,19 +195,16 @@ function get_itemInfo(id){
         qnt_left, qnt_sel, target_btn, target_error
     }
 }
-
-function toggle_actionBox(id, condition){
-
+function toggle_actionBox(id, condition){ //true => showBack
     const parent = document.querySelector(`.actionBox_cartItem[data-variant_id="${id}"]`)
     const box_front = document.querySelector(`.actionBox_FRONT[data-variant_id="${id}"]`)
     const box_back = document.querySelector(`.actionBox_BACK[data-variant_id="${id}"]`)
     const input_decoy = document.querySelector(`input[name="cart_decoy"][data-variant_id="${id}"]`)
-    
 
     const get_childrenHeight = parentElement =>[...parentElement.children].reduce((sum, child) => sum + child.getBoundingClientRect().height,0);
     let locked = false
 
-    if (condition && ! locked) {
+    if (condition && ! locked) { // show back
         locked = true
         box_front.style.opacity = "0%"
         box_back.style.display = 'block'
@@ -249,6 +216,10 @@ function toggle_actionBox(id, condition){
         }, 151)
   
         parent.style.height = get_childrenHeight(box_back) + 'px'
+        setTimeout(() => {
+            input_decoy.focus()
+            input_decoy.select()
+        }, 30)
 
     } else if (! locked) {
 
@@ -262,23 +233,54 @@ function toggle_actionBox(id, condition){
         parent.style.height = '60px'
     }
 }
-function submit_qnt(id, value) {
+function submit_qnt(id, qnt) {
     const real_input = document.querySelector(`input[name="updates[]"][data-variant_id="${id}"]`)
-    const action_btn = document.querySelector(`.btn_showAction[data-variant_id="${id}"]`)
+    const qnt_text = document.querySelector(`.qnt_current[data-variant_id="${id}"]`)
+    const qnt_text_miniFeature = document.querySelector(`.miniFeature[data-variant_id="${id}"]`)
+    const text_sumPrice = document.querySelector(`.text_sumPrice[data-variant_id="${id}"]`)
     
+    real_input.value = qnt
+    qnt_text.dataset.selected_qnt = qnt
+    qnt_text.textContent = qnt
+    qnt_text_miniFeature.textContent = qnt
+    text_sumPrice.textContent = formatMoney(text_sumPrice.dataset.price_for_one * qnt, format)
 
-    real_input.value = value
-    action_btn.dataset.selected_qnt = value
-    action_btn.textContent = value
+    bubble_jump(qnt_text_miniFeature)
 
-    document.querySelector('button[name="update"]').click()
+    btn_UPDATE.dataset.update_element_id = id
+    btn_UPDATE.dataset.update_element_qnt = qnt
+    btn_UPDATE.click()
+
+
 }
+function checkKeyPress_cart(event, input_decoy) {
 
-// function handle_new_qntOption(id, qnt) {
-//     console.log()
-// }
+    if (event.key === "Enter" || event.keyCode === 13) {
+        event.preventDefault()
 
+        const info = get_itemInfo(parseInt(input_decoy.dataset.variant_id))
+        const id = input_decoy.dataset.variant_id
+    
+        const request = parseInt(input_decoy.value)
+        const qnt_left = info.qnt_left
+        
+        if (!request || request < 1) {
+            input_decoy.focus()
+            input_decoy.select()
 
+        } else if (request > qnt_left) {
+            display([{target: info.target_error, value: true}])
+    
+        } else {
+            input_decoy.blur()
+            display([{target: info.target_error, value: false}])
+            replace_activeOption(id, request, qnt_left)
+            toggle_actionBox(id, false)
+            submit_qnt(id, request)
+        }
+
+    }
+}
 
 // simple
 function display(list){
@@ -301,37 +303,52 @@ function recolor_qntInputs() {
 
 
 }
-function replace_activeOption(newOption) {
-    const old_activeOption = document.querySelector(`.qntOption.active[data-variant_id="${newOption.dataset.variant_id}"]`)
-    old_activeOption.removeAttribute('style')
-    old_activeOption.classList.remove('active')
-    
-    newOption.classList.add('active')
-    newOption.style.backgroundColor = newOption.dataset.bg
-    newOption.style.color = newOption.dataset.raw
-}
-function edit_shippingLine() {
-    if (!is_cart_empty_2()) {
-    const lines_shipping_ALL = document.querySelectorAll('.line_shipping.grow')
-    const line_box = document.querySelector('.lineWrap_freeShipping')
-    const money_threshold = 70
-    const money_current = parseInt(document.querySelector('[data-price_current]').dataset.price_current)
-    const money_diffrence = money_threshold - money_current
-    if (money_diffrence <= 0) {
-        lines_shipping_ALL.forEach(x => x.style.width = '100%')
-        line_box.style.display = 'none'
-    } else {
-        line_box.style.display = 'flex'
-        lines_shipping_ALL.forEach(x => {
-            const length_default = line_box.getBoundingClientRect().width
-            const percentageLeft = (money_diffrence / money_threshold) * 100;
-            const newWidth = length_default * (1 - (percentageLeft / 100));
-            x.style.width = `${newWidth}px`;
-        })
-        
-    }
+function replace_activeOption(id, qnt_request, qnt_left) {
 
-    }
+    const last_m = document.querySelector(`.qntOption.m.last[data-variant_id="${id}"]`)
+    const last_d = document.querySelector(`.qntOption.d.last[data-variant_id="${id}"]`)
+    const options_old = document.querySelectorAll(`.qntOption.active[data-variant_id="${id}"]`)
+    options_old.forEach(x => x.removeAttribute('style'))
+    options_old.forEach(x => x.classList.remove('active'))
+
+    if (qnt_request > 10 && qnt_request <= 12) {
+        const new_d = document.querySelector(`.qntOption.d[data-value="${qnt_request}"][data-variant_id="${id}"]`)
+        activate_activeOptions([last_m, new_d], qnt_request)
+        
+        if (qnt_left > 12) {reset_lastOptions([{target: last_d, qnt: 12}])}
+        
+
+    } else if (qnt_request > 12) {
+        activate_activeOptions([last_d, last_m], qnt_request)
+    } else {
+        const options_new = document.querySelectorAll(`.qntOption[data-value="${qnt_request}"][data-variant_id="${id}"]`)
+        options_new.forEach(option => {
+            option.classList.add('active')
+            option.style.backgroundColor = option.dataset.bg
+            option.style.color = option.dataset.raw
+        })
+        if (qnt_left > 12) {reset_lastOptions([{target: last_d, qnt: 12}])}
+        if (qnt_left > 10) {reset_lastOptions([{target: last_m, qnt: 10}])}
+    } 
+}
+function activate_activeOptions(option_list, value){
+    
+    option_list.forEach(option => {
+        option.classList.add('active')
+        option.style.backgroundColor = option.dataset.bg
+        option.style.color = option.dataset.raw
+        option.textContent = value
+        option.dataset.value = value
+    })
+}
+function reset_lastOptions(option_list){
+
+    option_list.forEach(option => {
+        const target = option.target
+        const qnt = option.qnt
+        target.dataset.value = qnt
+        target.textContent = qnt
+    })
 }
 function open_page_item(id, color_bg, color_raw, shopLink) {
     const url = new URLParse(shopLink, true)
@@ -341,5 +358,33 @@ function open_page_item(id, color_bg, color_raw, shopLink) {
     window.history.replaceState(null, null, url.toString())
     window.location.href = url.toString();
 }
+function scrollToY(scrollTargetY, speed) {
+    const scrollY = window.scrollY || window.pageYOffset;
+    let currentTime = 0;
+
+    const easingEquation = (t) => {
+        // Custom easing equation (ease-in-out in this case)
+        return 0.5 - 0.5 * Math.cos(Math.PI * t);
+    };
+
+    const time = Math.max(0.1, Math.min(Math.abs(scrollY - scrollTargetY) / speed, 0.8));
+
+    function tick() {
+        currentTime += 1 / 60;
+
+        const position = currentTime / time;
+        const easing = easingEquation(position);
+
+        if (position < 1) {
+            window.requestAnimationFrame(tick);
+            window.scrollTo(0, scrollY + (scrollTargetY - scrollY) * easing);
+        } else {
+            window.scrollTo(0, scrollTargetY);
+        }
+    }
+
+    tick();
+}
 function isDesktop() {return window.innerWidth > 991 ? true : false};
 // ----------
+

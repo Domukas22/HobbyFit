@@ -369,6 +369,9 @@
   overflow: hidden;
   position: relative;
 }
+.input_box.qnt {
+  margin-bottom: 10px;
+}
 .option {
   flex-grow: 1;
   display: flex;
@@ -425,10 +428,6 @@ input[type="radio"]:checked + label {
   background-color: grey;
 }
 
-.input_box.qnt {
-
-  transition: 400ms;
-}
 
 .quantity_front,
 .quantity_back {
@@ -647,11 +646,12 @@ input[type="radio"]:checked + label {
   justify-content: center;
 }
 
-.alertBox {
-  grid-column: 1 / 3;
-  margin: 10px 0 8px;
-}
+
 .textAlert {
+  display: none
+}
+.redText {
+  color: red;
   display: none
 }
 
@@ -697,6 +697,9 @@ input[type="radio"]:checked + label {
   height: auto;
 }
 
+.text_qntError {
+  display: none
+}
 
 
 @media only screen and (min-width: 1440px) {}
@@ -795,9 +798,7 @@ input[type="radio"]:checked + label {
     grid-template-columns: 1fr;
   }
 
-  .alertBox {
-    grid-column: 1 / 2;
-  }
+
   .wrap_qntOptions_expanded.d {
     display: none
   }

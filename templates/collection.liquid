@@ -95,11 +95,13 @@
   <div class="container_itemCount">
     <p>
       Rezultatai:
-      <span class="filter_count">{{ collections['all'].products.size }}</span>
+      <span
+        class="filter_count">{{ collections['all'].products.size }}</span>
     </p>
   </div>
 </div>
-<section class="section_product">
+<section
+  class="section_product">
   <div class="product_grid">
     {% assign allProducts = collections['all'].products %}
     {% for product in allProducts %}

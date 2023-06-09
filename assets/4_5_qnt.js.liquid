@@ -40,7 +40,6 @@ if (product_available) {
             edit_qntInput(decoy.value)
 
             recolor_default()
-            edit_sum_price(find_matchedVariant(), format)
             toggle_qntInput(false)
         }
   
@@ -76,6 +75,9 @@ if (product_available) {
         const qnt_avail = qnt_info.qnt_avail
         const value = parseInt(e.currentTarget.value)
 
+        const redText_qnt_Cart = document.querySelector('.redText.qnt_isCart')
+        const redText_qnt = document.querySelector('.redText.qnt')
+
         // handle button
         if (value && value > 0 && value <= qnt_avail) {
             toggle_btn_qntSubmit(true)
@@ -87,11 +89,16 @@ if (product_available) {
 
         //handle red text
         if (qnt_info.isCart && value > qnt_avail) {
-            // show text in cart + qnt error
+            redText_qnt_Cart.style.display = 'block'
+            redText_qnt.style.display = 'none'
+
         } else if (!qnt_info.isCart && value > qnt_avail) {
-            // show qnt error
+            redText_qnt_Cart.style.display = 'none'
+            redText_qnt.style.display = 'block'
+
         } else {
-            // hide all errors
+            redText_qnt_Cart.style.display = 'none'
+            redText_qnt.style.display = 'none'
         }
 
     })
@@ -103,15 +110,15 @@ function checkKeyPress(event, decoy) {
 
     const qntInput = document.querySelector('.qntInput')
     const qnt_info = qnt_police(find_matchedVariant())
-    
+    const qnt_request = parseInt(decoy.value)
+
     if (event.key === "Enter" || event.keyCode === 13) {
 
-        if (!parseInt(decoy.value) || parseInt(decoy.value) < 0) {
-            
+        if (!qnt_request || qnt_request < 0) {
             decoy.select();
             decoy.focus()
     
-        } else if (decoy.value > qnt_info.qnt_avail) {
+        } else if (qnt_request > qnt_info.qnt_avail) {
             animateCSS('#qnt_in_box', 'shakeX');
             document.querySelectorAll('.textAlert').forEach(x => red_highlight(x))
             decoy.select()
@@ -120,12 +127,11 @@ function checkKeyPress(event, decoy) {
         } else {
             decoy.blur()
             edit_form_alerts(qnt_info.isCart, qnt_info.error)
-            edit_text_qnts(qnt_info.qnt_left, qnt_info.qnt_cart, decoy.value, qnt_info.qnt_avail)
-            edit_qntInput(decoy.value)
-            hanlde_qntOptions(parseInt(decoy.value), parseInt(qnt_info.qnt_avail))
+            edit_text_qnts(qnt_info.qnt_left, qnt_info.qnt_cart, qnt_request, qnt_info.qnt_avail)
+            edit_qntInput(qnt_request)
+            hanlde_qntOptions(parseInt(qnt_request), parseInt(qnt_info.qnt_avail))
     
             recolor_default()
-            edit_sum_price(find_matchedVariant(), format)
             toggle_qntInput(false)
         }
     }

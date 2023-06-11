@@ -1,0 +1,107 @@
+
+
+{ 
+    "nav": {
+        "btn_home": "Home",
+        "btn_badminton": "Badminton",
+
+        "btn_more": "More",
+        "btn_conditions": "Purchase conditions",
+        "btn_cookies": "Cookie policies",
+        "btn_adress_contact": "Adress/Contact",
+
+        "btn_menu": "Menu",
+        "word_infos": "Information"
+    }, 
+
+    "home": {
+        "title_hero_upper": "Simple choices -",
+        "title_hero_lower": "quality results",
+        "topTitle_hero": "Badminton shop",
+        "btnText_heroMain": "Our Products",
+        "btnText_heroSecond": "New arrivals",
+
+        "title_rackets_upper": "Find a racket",
+        "title_rackets_lower": "that fits YOU",
+        "btn_rackets": "Our rackets",
+
+        "title_balls_upper": "Cheap and high quality",
+        "title_balls_lower": "badminton balls",
+        "btn_balls": "See all",
+
+        "title_clothing_upper": "Necessary and",
+        "title_clothing_lower": "durable clothing",
+        "btn_clothing": "Our collection",
+
+        "title_equipment": "Various accessories",
+        "btn_equipment": "See all"
+    }, 
+
+    "filters_badminton": {
+        "all": "All products",
+        "sale": "Sale",
+        "rackets": "Rackets",
+        "balls": "Balls",
+        "clothing": "Clothing",
+        "equipment": "Equipment",
+
+        "word_badminton": "Badminton",
+        "word_initial": "Products",
+        "word_filters": "Badminton filters",
+        "results": "Results:"
+    },
+
+    "product": {
+        "word_left": "In stock:",
+        "word_chooseColor": "Select your color:",
+        "word_chooseSize": "Select your size:",
+        "word_chooseQnt": "Select amount:",
+        "word_more": "More",
+        "word_submit": "Submit",
+        "word_cancel": "Cancel",
+        "word_qntInput": "Enter amount...",
+        "word_item": "items",
+
+        "btnWord_order_pre": "Order",
+        "btnWord_order_post": "",
+        "btnWord_add_pre": "Add",
+        "btnWord_add_post": "to cart",
+        "btnWord_addMore_pre": "Add",
+        "btnWord_addMore_post": "more to cart",
+        "btnWord_viewBasket": "View shopping cart",
+
+        "text_freeShipping": "Free shipping from 70 euros",
+        "text_return": "30 Day refund",
+        "text_contact": "Round-the-clock contact with us"
+    },
+
+    "alerts": {
+        "alert_cartFull_pre": "You already have",  
+        "alert_cartFull_post": "in your cart",  
+        "alert_isCart_pre": "This item is already in your shopping cart",
+        "alert_isCart_post": "You may choose up to",   
+
+        "red_qnt_pre": "There are only",
+        "red_qnt_post": "left in stock",
+        "red_qntCart_pre": "There are only",
+        "red_qntCart_mid": "left in stock, and you already have",
+        "red_qntCart_post": "in your shopping cart. You may choose up to"
+    },
+
+    "cart": {
+        "freeShipping_yes": "You will receive free shipping (from €70)",
+        "freeShipping_no_pre": "You still need",
+        "freeShipping_no_post": "for free shipping (€70)",
+
+        "cart": "Shopping Cart",
+        "make_order": "Place order",
+        "qnt": "Amount:",
+        "new_item": "Add new item:",
+        "empty": "Your shopping cart is empty"
+    },
+
+    "inline_slider": {
+        "title": "Good offers",
+        "btn_seeAll": "See all"
+    }
+}

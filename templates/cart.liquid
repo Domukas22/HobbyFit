@@ -1,15 +1,24 @@
 {% assign uniqueIDs = cart.items | map: 'id' | uniq %}
 
+{% assign lang = request.locale.iso_code %}
+{% if lang == 'lt-LT' %}
+  {% assign lang = '' %}
+{% endif %}
+<p
+  class="current_lang"
+  data-lang="{{ lang }}"
+  style="display: none;">{{ lang }}
+</p>
 
 <div class="fixed_buyBox">
   <div class="btn btn_checkout fixed" data-scale>
-    <p style="display: flex; width: 100%;">Pateikti užsakymą (<span data-final_item_count>{{ cart.item_count }}</span>)<span data-final_price style="margin-left: auto;">{{ cart.total_price | money }}</span>
+    <p style="display: flex; width: 100%;">{{ "cart.make_order" | t }} (<span data-final_item_count>{{ cart.item_count }}</span>)<span data-final_price style="margin-left: auto;">{{ cart.total_price | money }}</span>
     </p>
   </div>
 </div>
 <section class="section_pageTitle cart">
   <div class="subWrap_pageTitle cart">
-    <h2 class="pageTitle cart">Pirkinių krepšelis</h2>
+    <h2 class="pageTitle cart">{{ "cart.cart" | t }}</h2>
   </div>
 </section>
 
@@ -65,7 +74,7 @@
                     class="btn_showAction"
                     data-hover_grey
                     data-variant_id="{{ item.variant.id }}">
-                    <p style="color: {{ raw }}; margin-right: 8px; font-size: 17px">Kiekis:
+                    <p style="color: {{ raw }}; margin-right: 8px; font-size: 17px">{{ "cart.qnt" | t }}
                       <span
                         class="qnt_current"
                         data-variant_id="{{ item.variant.id }}"
@@ -86,12 +95,11 @@
                   class="actionBox_BACK"
                   data-variant_id="{{ item.variant.id }}"
                   style="display: none">
-                  <div
-                    class="qnt_decoy_TOP">
+                  <div class="qnt_decoy_TOP">
                     <input
                       type="number"
                       name="cart_decoy"
-                      placeholder="Įveskite kiekį..."
+                      placeholder="{{ "product.word_qntInput" | t }}"
                       data-variant_id="{{ item.variant.id }}"
                       onkeydown="checkKeyPress_cart(event, this);">
                     <div
@@ -175,7 +183,7 @@
             <div class="line_plus"></div>
             <div class="line_plus second"></div>
           </div>
-          Idėti naują prekę
+          {{ "cart.new_item" | t }}
         </a>
       {% else %}
         <a
@@ -186,7 +194,7 @@
             <div class="line_plus"></div>
             <div class="line_plus second"></div>
           </div>
-          Idėti naują prekę
+          {{ "cart.new_item" | t }}
         </a>
       {% endif %}
 
@@ -204,22 +212,18 @@
         <div class="box_proceedCheckout">
           {% if cart.item_count > 0 %}
             <div class="box_freeShipping">
-              <p class="alert_shipping yes" style="color: green">Siuntimas Jum bus nemokamas (nuo €70)
-              </p>
-              <p class="alert_shipping no">Jums trūksta
-                <b>
-                  <span class="price_leftForShipping">
-                    {{ 7000 | minus: cart.total_price | money }}
-                  </span>
+              <p class="alert_shipping yes" style="color: green">{{ "cart.freeShipping_yes" | t }}</p>
+              <p class="alert_shipping no">{{ "cart.freeShipping_no_pre" | t }}<b>
+                  <span class="price_leftForShipping">{{ 7000 | minus: cart.total_price | money }}</span>
                 </b>
-                iki nemokamo siuntimo (€70)</p>
+                {{ "cart.freeShipping_no_post" | t }}</p>
             </div>
             <div class="box_checkout">
               <div class="titleWrap_checkoutBox">
-                <h4 class="title_Summary">Pirkinių krepšelis (<span data-final_item_count>{{ cart.item_count }}</span>):</h4>
+                <h4 class="title_Summary">{{ "cart.cart" | t }} (<span data-final_item_count>{{ cart.item_count }}</span>):</h4>
                 <h4 data-final_price style="margin-left: auto; color: #407ff2;">{{ cart.total_price | money }}</h4>
               </div>
-              <div class="btn btn_checkout" data-scale>Pateikti užsakymą</div>
+              <div class="btn btn_checkout" data-scale>{{ "cart.make_order" | t }}</div>
             </div>
           </div>
           <p class="text_separator" style="display: none;">Jūsų prekės</p>
@@ -384,7 +388,7 @@
               class="icon_empty_cart"
               src="{{ "icon_bag.svg" | asset_url }}"
               alt="Empty shopping cart">
-            <p>Jūsų krepšelis yra tuščias</p>
+            <p>{{ "cart.empty" | t }}</p>
           </div>
         {% endif %}
 

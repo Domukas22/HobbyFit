@@ -1,17 +1,29 @@
+{% assign lang = request.locale.iso_code %}
+{% if lang == 'lt-LT' %}
+  {% assign lang = '' %}
+{% endif %}
+<p
+  class="current_lang"
+  data-lang="{{ lang }}"
+  style="display: none;">{{ lang }}
+</p>
+
+
+
 <section class="hero" style="overflow: hidden;">
   <div class="container hero">
     <div class="textWrap_heroHome">
-      <h5 class="heading_homeHero">Badmintono prekių parduotuvė</h5>
-      <h1 class="title_homeHero">Paprasti pasirinkimai,<br>kokybiški rezultatai</h1>
+      <h5 class="heading_homeHero">{{ "home.topTitle_hero" | t }}</h5>
+      <h1 class="title_homeHero">{{ "home.title_hero_upper" | t }}<br>{{ "home.title_hero_lower" | t }}</h1>
       <div class="btnWrap_hero">
         <a
           class="btn hero"
           href="{{ collections['badmintono-prekes'].url }}"
-          data-scale>Inventorius</a>
+          data-scale>{{ "home.btnText_heroMain" | t }}</a>
         <div
           class="btn inverted hero"
           data-hover_grey
-          data-scale>Naujausios Prekės</div>
+          data-scale>{{ "home.btnText_heroSecond" | t }}</div>
       </div>
     </div>
     <img
@@ -32,11 +44,11 @@
   <section class="homeCategory" data-link_filterpage="racket">
     <div class="container homeCategory reversed">
       <div class="textWrap_homeCategory reversed rackets">
-        <h1 class="title_homeCategory">Susirask TAU<br>tinkamą rakėtę</h1>
+        <h1 class="title_homeCategory">{{ "home.title_rackets_upper" | t }}<br>{{ "home.title_rackets_lower" | t }}</h1>
         <div
           class="btn red"
           data-link_filterpage="racket"
-          data-scale>Visos rakėtes</div>
+          data-scale>{{ "home.btn_rackets" | t }}</div>
       </div>
       <div class="imgWrap_homeCategory rackets">
         <img
@@ -60,11 +72,11 @@
   <section class="homeCategory" data-link_filterpage="ball">
     <div class="container homeCategory">
       <div class="textWrap_homeCategory balls">
-        <h1 class="title_homeCategory">Pigus ir kokybiški<br>plunksniukai</h1>
+        <h1 class="title_homeCategory">{{ "home.title_balls_upper" | t }}<br>{{ "home.title_balls_lower" | t }}</h1>
         <div
           class="btn"
           data-link_filterpage="ball"
-          data-scale>Pamatyti visus</div>
+          data-scale>{{ "home.btn_balls" | t }}</div>
       </div>
       <div class="imgWrap_homeCategory balls">
         <img
@@ -85,17 +97,14 @@
       src="{{ 'img_homeWave_balls.svg' | asset_url }}"
       alt="">
   </section>
-  <section
-    class="homeCategory"
-    data-link_filterpage="clothing">
-    <div
-      class="container homeCategory reversed">
+  <section class="homeCategory" data-link_filterpage="clothing">
+    <div class="container homeCategory reversed">
       <div class="textWrap_homeCategory reversed clothing">
-        <h1 class="title_homeCategory">Reikalinga ir<br>patvari apranga</h1>
+        <h1 class="title_homeCategory">{{ "home.title_clothing_upper" | t }}<br>{{ "home.title_clothing_lower" | t }}</h1>
         <div
           class="btn orange"
           data-link_filterpage="clothing"
-          data-scale>Pamatyti Aprangą</div>
+          data-scale>{{ "home.btn_clothing" | t }}</div>
       </div>
       <div class="imgWrap_homeCategory clothing">
         <img
@@ -108,8 +117,7 @@
           src="{{ 'img_home_shoe.png' | asset_url }}"
           alt=""
           data-scale>
-        <div
-          class="fade_homeCategory"></div>
+        <div class="fade_homeCategory"></div>
       </div>
     </div>
     <img
@@ -119,12 +127,13 @@
   </section>
   <section class="homeCategory" data-link_filterpage="equipment">
     <div class="container homeCategory">
-      <div class="textWrap_homeCategory">
-        <h1 class="title_homeCategory">Įvairiausi priedai</h1>
+      <div
+        class="textWrap_homeCategory">
+        <h1 class="title_homeCategory">{{ "home.title_equipment" | t }}</h1>
         <div
           class="btn red"
           data-link_filterpage="equipment"
-          data-scale>Pamatyti visus</div>
+          data-scale>{{ "home.btn_equipment" | t }}</div>
       </div>
       <div class="imgWrap_homeCategory equipment">
         <img
@@ -170,5 +179,7 @@
       });
     })
 </script>
+
+
 
 {{ '6_inline_slider.js' | asset_url | script_tag }}

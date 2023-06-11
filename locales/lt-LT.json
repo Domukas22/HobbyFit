@@ -1,0 +1,107 @@
+
+{ 
+    "nav": {
+        "btn_home": "Pradžia",
+        "btn_badminton": "Badmintonas",
+
+        "btn_more": "Daugiau",
+        "btn_conditions": "Prikimo sąlygos",
+        "btn_cookies": "Sausainių ir privatumo politika",
+        "btn_adress_contact": "Adresas/Kontaktai",
+
+        "btn_menu": "Meniu",
+        "word_infos": "Informacija"
+
+    }, 
+
+    "home": {
+        "title_hero_upper": "Paprasti pasirinkimai -",
+        "title_hero_lower": "kokybiški rezultatai",
+        "topTitle_hero": "Badmintono prekių parduotuvė",
+        "btnText_heroMain": "Inventorius",
+        "btnText_heroSecond": "Naujausios Prekės",
+
+        "title_rackets_upper": "Susirask TAU",
+        "title_rackets_lower": "tinkamą rakėtę",
+        "btn_rackets": "Visos Rakėtes",
+
+        "title_balls_upper": "Pigus ir kokybiški",
+        "title_balls_lower": "plunksniukai",
+        "btn_balls": "Pamatyti visus",
+
+        "title_clothing_upper": "Reikalinga ir",
+        "title_clothing_lower": "patvari apranga",
+        "btn_clothing": "Pamatyti viską",
+
+        "title_equipment": "Įvairiausi priedai",
+        "btn_equipment": "Visi Priedai"
+    }, 
+
+    "filters_badminton": {
+        "all": "Visos prekės",
+        "sale": "Nuolaida",
+        "rackets": "Raketės",
+        "balls": "Plunksniukai",
+        "clothing": "Apranga",
+        "equipment": "Priedai",
+
+        "word_badminton": "Badmintono",
+        "word_initial": "Prekės",
+        "word_filters": "Badmintono filtrai",
+        "results": "Rezultatai:"
+    },
+
+    "product": {
+        "word_left": "Liko dar:",
+        "word_chooseColor": "Pasirinkite spalvą:",
+        "word_chooseSize": "Pasirinkite dydį:",
+        "word_chooseQnt": "Pasirinkite kiekį:",
+        "word_more": "Daugiau",
+        "word_submit": "Vykdyti",
+        "word_cancel": "Atšaukti",
+        "word_qntInput": "Įveskite kiekį...",
+        "word_item": "vnt",
+
+        "btnWord_order_pre": "Užsisakyti",
+        "btnWord_order_post": "",
+        "btnWord_add_pre": "Pridėti:",
+        "btnWord_add_post": "į krepšelį",
+        "btnWord_addMore_pre": "Pridėti dar:",
+        "btnWord_addMore_post": "į krepšelį",
+        "btnWord_viewBasket": "Peržiūrėti krepšelį",
+
+        "text_freeShipping": "Nemokamas siuntimas nuo 70 Euru",
+        "text_return": "30 Dienų gražinimas",
+        "text_contact": "Nuolatos palaikomas kontaktas"
+    },
+
+    "alerts": {
+        "alert_cartFull_pre": "Jūsų krepšelyje jau yra ",  
+        "alert_cartFull_post": "",  
+        "alert_isCart_pre": "Ši prekė jau yra Jūsų krepšelyje",
+        "alert_isCart_post": "Pasirinkti galite dar", 
+
+        "red_qnt_pre": "Sandeliuke liko tiktai",
+        "red_qnt_post": "",
+        "red_qntCart_pre": "Sandeliuke liko titkai",
+        "red_qntCart_mid": ", ir Jūs krepšelyje jau turite",
+        "red_qntCart_post": ". Pasirinkti galite daugiausiai"
+    },
+
+    "cart": {
+        "freeShipping_yes": "Siuntimas Jum bus nemokamas (nuo €70)",
+        "freeShipping_no_pre": "Jums trūksta",
+        "freeShipping_no_post": "iki nemokamo siuntimo (€70)",
+
+        "cart": "Pirkinių krepšelis",
+        "make_order": "Pateikti užsakymą",
+        "qnt": "Kiekis:",
+        "new_item": "Idėti naują prekę:",
+        "empty": "Jūsų krepšelis yra tuščias"
+    },
+
+    "inline_slider": {
+        "title": "Geri pasiūlymai",
+        "btn_seeAll": "Pamatyti viską"
+    }
+}

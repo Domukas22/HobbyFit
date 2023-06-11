@@ -13,6 +13,7 @@ btn_menu.addEventListener('click', (e) => {
     e.currentTarget.classList.toggle('open')
     e.currentTarget.classList.contains('open') ? toggle_menu(true) : toggle_menu(false)
 })
+window.addEventListener('DOMContentLoaded', () => {set_activeLang()})
 
 function toggle_menu(value) {
     animate_btnContent(value);
@@ -45,27 +46,50 @@ function animate_menuDropdown(value) {
         setTimeout(() => {dropdown_menu.style.display = "none"}, 151);
     }
 }
+function set_activeLang(){
+    const lang = document.querySelector('.current_lang[data-lang]').dataset.lang
+
+    switch (lang) {
+        case "": document.querySelectorAll('.langLink[data-lang=""]').forEach(x => x.classList.add('active'))
+        break;
+        case "en": document.querySelectorAll('.langLink[data-lang="en"]').forEach(x => x.classList.add('active'))
+        break;
+        case "de": document.querySelectorAll('.langLink[data-lang="de"]').forEach(x => x.classList.add('active'))
+        break;
+    }  
+}
+
 
 function isDesktop() {return window.innerWidth > 990 ? true : false}
 //--------------------------------------------------------------------------
 // toggle btn_more
 const btn_more = document.querySelector('.navLink.btn_more')
 const dropdown_more = document.querySelector('.nav_Dropdown.more')
-
-const btn_badminton = document.querySelector('.navLink_dropdown.badminton')
-const dropdown_badminton = document.querySelector('.nav_Dropdown.badminton')
-
 btn_more.addEventListener('mouseover', () => {
     toggle_dropdown(dropdown_more, true)
 })
 btn_more.addEventListener('mouseleave', () => {
     toggle_dropdown(dropdown_more, false)
 })
+
+// toggle btn badminton
+const btn_badminton = document.querySelector('.navLink_dropdown.badminton')
+const dropdown_badminton = document.querySelector('.nav_Dropdown.badminton')
 btn_badminton.addEventListener('mouseover', () => {
     toggle_dropdown(dropdown_badminton, true)
 })
 btn_badminton.addEventListener('mouseleave', () => {
     toggle_dropdown(dropdown_badminton, false)
+})
+
+// toggle language dropdown
+const btn_lang = document.querySelector('.navLink.langBox')
+const dropdown_lang = document.querySelector('.nav_Dropdown.lang')
+btn_lang.addEventListener('mouseover', () => {
+    toggle_dropdown(dropdown_lang, true)
+})
+btn_lang.addEventListener('mouseleave', () => {
+    toggle_dropdown(dropdown_lang, false)
 })
 
 function toggle_dropdown(target, value) {
@@ -75,5 +99,36 @@ function toggle_dropdown(target, value) {
     } else {
         target.style.opacity = "0%"
         setTimeout(() => {target.style.display = 'none'}, 150);
+    }
+}
+
+
+//------------
+
+const btn_lang_mob = document.querySelector('.langToggle_m_TOP')
+btn_lang_mob.addEventListener('click', (e) => {
+    const btn = e.currentTarget
+    const isOpen = (btn.dataset.open == 'true')
+    if (isOpen) {
+        animate_langDropdown(false)
+        btn.dataset.open = 'false'
+    } else {
+        animate_langDropdown(true)
+        btn.dataset.open = 'true'
+    }
+    
+})
+btn_lang.addEventListener('mouseleave', () => {
+    toggle_dropdown(dropdown_lang, false)
+})
+function animate_langDropdown(value) {
+    const dropdown_lang_mob = document.querySelector('.langToggle_m_BOTTOM')
+
+    if (value) {
+        dropdown_lang_mob.style.display = "block"
+        setTimeout(() => {dropdown_lang_mob.classList.add('show')}, 10);
+    } else {
+        dropdown_lang_mob.classList.remove('show')
+        setTimeout(() => {dropdown_lang_mob.style.display = "none"}, 151);
     }
 }

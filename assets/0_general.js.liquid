@@ -2,6 +2,9 @@
 
 
 
+
+
+
 window.addEventListener('DOMContentLoaded', () => {
     const items_color_bg = document.querySelectorAll('[data-color_bg]')
     const items_sale = document.querySelectorAll('[data-isSale="true"]')
@@ -12,12 +15,15 @@ window.addEventListener('DOMContentLoaded', () => {
     items_sale.forEach(x => x.classList.add('sale'))
     btn_cart.dataset.cart_count > 0 ? btn_cart.classList.add('not_empty') : btn_cart.classList.remove('not_empty')
     setTimeout(() => {waves.forEach(x => x.style.opacity = '100%')}, 100)
-    
+    set_langLinks()
 })
 
-const scale_btns = document.querySelectorAll('[data-scale]');
-const url_Badminton = window.location.origin + "/collections/badmintono-prekes";
+
+
+const lang = document.querySelector('.current_lang[data-lang]').dataset.lang
+const url_Badminton = `${window.location.origin}/${lang}/collections/badmintono-prekes`;
 const links = document.querySelectorAll('[data-link_filterpage]')
+const scale_btns = document.querySelectorAll('[data-scale]');
 const formatMoney = function(cents, format) {
   if (typeof cents == 'string') { cents = cents.replace('.',''); }
   var value = '';
@@ -99,6 +105,7 @@ scale_btns.forEach(function(el) {
 
 function set_URL(word) {
   const urlTag = new URLSearchParams();
+  
   urlTag.set('filter', encodeURIComponent(word));
   window.location.href = url_Badminton + "?" + urlTag.toString();
   
@@ -115,4 +122,42 @@ function bubble_jump(target) {
   setTimeout(() => {
     target.classList.remove('scale')
   }, 300)
+}
+
+function set_langLinks(){
+  const langBtns = document.querySelectorAll('.langLink')
+  langBtns.forEach(x => x.addEventListener('click', (e) => {
+
+    const url = window.location.href
+    const lang_current = get_lang(url)
+    const lang_target = e.currentTarget.dataset.lang
+    console.log(lang_current)
+    window.location.href = create_langUrl(lang_current, lang_target, url)
+
+  }))
+
+
+}
+function get_lang(url) {
+  if (url.includes('.com/en')) {return "en"}
+  else if (window.location.href.includes('.com/de')) {return "de"}
+  else {return ""}
+}
+function create_langUrl(lang_current, lang_target, url){
+  if (lang_current == '' && lang_target == '') { //if LT
+    return url
+
+  } else if (lang_current == '') {
+    return url.replace('.com', `.com/${lang_target}`)
+
+  } else if ((lang_current == 'de' || lang_current == 'en') && lang_target == '') {
+    if (lang_current == 'de') {return url.replace('.com/de', `.com`)}
+    else if (lang_current == 'en') {return url.replace('.com/en', `.com`)}
+    
+  } else if (lang_current == 'de') {
+    return url.replace('.com/de/', `.com/${lang_target}/`)
+
+  } else if (lang_current == 'en') {
+    return url.replace('.com/en/', `.com/${lang_target}/`)
+  }
 }

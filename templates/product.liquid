@@ -2,6 +2,17 @@
 {% assign color_bg = product.metafields.custom.color_bg %}
 {% assign color_raw = product.metafields.custom.color_raw %}
 
+<!-- get language -->
+{% assign lang = request.locale.iso_code %}
+{% if lang == 'lt-LT' %}
+  {% assign lang = '' %}
+{% endif %}
+<p
+  class="current_lang"
+  data-lang="{{ lang }}"
+  style="display: none;">{{ lang }}
+</p>
+
 <section class="section_productPage">
   <div class="container container_productPage">
     <div class="sticky_left">
@@ -16,7 +27,7 @@
                 style="margin-right: 6px; font-size: 18px; font-weight: 600;">{{ product.selected_or_first_available_variant.price | money }}</p>
               <p class="price_product_filterPage compare" style="font-size: 18px; font-weight: 600;">{{ product.selected_or_first_available_variant.compare_at_price | money }}</p>
             </div>
-            <p class="p_stockLeft {% if product.selected_or_first_available_variant.inventory_quantity <= 2 %}red{% endif %}" data-text_green>Liko dar
+            <p class="p_stockLeft {% if product.selected_or_first_available_variant.inventory_quantity <= 2 %}red{% endif %}" data-text_green>{{ "product.word_left" | t }}
               <span data-variant_qnt data-text_green>{{ product.selected_or_first_available_variant.inventory_quantity }}</span>
             </p>
           </div>
@@ -102,7 +113,7 @@
 
       </div>
     </div>
-
+    
     <div class="normal_right">
       <div class="padding_subwrap">
         {% form 'product', product, class: 'form_productPage' %}
@@ -118,9 +129,9 @@
                 {% for option in product.options_with_values %}
 
                   {% if option.name == 'Size' %}
-                    <label for="Size" data-color_06>Pasirinkite dydį:</label>
+                    <label for="Size" data-color_06>{{ "product.word_chooseSize" | t }}</label>
                   {% elsif option.name == 'Color' %}
-                    <label for="Color" data-color_06>Pasirinkite spalvą:</label>
+                    <label for="Color" data-color_06>{{ "product.word_chooseColor" | t }}</label>
                   {% endif %}
 
                   <fieldset class="input_box">
@@ -197,12 +208,12 @@
             <label
               for="qantity"
               style="display: flex;"
-              data-color_06>Pasirinkite kiekį:
+              data-color_06>{{ "product.word_chooseQnt" | t }}
               <span
                 class=""
                 style="margin-left: auto"
                 data-color_06
-                id="qnt_in_box">Liko dar:&nbsp<span data-variant_qnt data-color_06>{{ product.selected_or_first_available_variant.inventory_quantity }}</span>
+                id="qnt_in_box">{{ "product.word_left" | t }}&nbsp;<span data-variant_qnt data-color_06>{{ product.selected_or_first_available_variant.inventory_quantity }}</span>
               </span>
             </label>
             <fieldset class="input_box qnt" data-box="closed">
@@ -255,13 +266,14 @@
                 <div
                   class="btn_giveQuantity d disabled"
                   data-recolor_text_raw
-                  data-scale>Daugiau</div>
+                  data-scale>{{ "product.word_more" | t }}</div>
                 <div
                 class="btn_giveQuantity m disabled"
                 data-recolor_text_raw
-                  data-scale>Daugiau</div>
+                  data-scale>{{ "product.word_more" | t }}</div>
                 <div class="textAlert cart_full">
-                  Jūsų krepšelyje jau yra&nbsp;<span data-cart_qnt></span>&nbsp;vnt.
+                  {{ "alerts.alert_cartFull_pre" | t }}&nbsp;<span data-cart_qnt></span>&nbsp;{{ "product.word_item" | t }} {{ "alerts.alert_cartFull_post" | t }}
+                  <!-- Sie haben bereits 4 Stück im Einkaufswagen -->
                 </div>
               </div>
               <div class="quantity_back">
@@ -277,17 +289,17 @@
                     type="number"
                     name="fake"
                     class="qntInput_decoy"
-                    placeholder="Iveskite kiekį..."
+                    placeholder="{{ "product.word_qntInput" | t }}"
                     onkeydown="checkKeyPress(event, this);"
                     style="font-size: 17px">
                   <div
                     class="btn_nearQtn cancel"
                     data-recolor_text_raw
-                    data-scale>Atšaukti</div>
+                    data-scale>{{ "product.word_cancel" | t }}</div>
                   <div
                     class="btn_nearQtn submit"
                     data-recolor_raw
-                    data-scale>Vykdyti</div>
+                    data-scale>{{ "product.word_submit" | t }}</div>
                 </div>
                 <div class="wrap_qntOptions_expanded d">
                   <div
@@ -408,9 +420,13 @@
                   </div>
                 </div>
             </fieldset>
-            <p class="redText qnt_isCart">Inventoriuje liko <span data-variant_qnt></span> vnt, ir Jūs krepšelyje jau turite <span data-cart_qnt></span> vnt. Pasirinkti galite daugiausiai <span data-qnt_avail></span> vnt.</p>
-            <p class="redText qnt">Sandeliuke liko tiktai <span data-variant_qnt></span> vnt</p>
-            <p class="textAlert isCart">Ši prekė jau yra Jūsų krepšelyje (<span data-cart_qnt></span> vnt). Pasirinkti galite daugiausiai <span data-qnt_avail></span> vnt.</p>
+
+            <p class="redText qnt_isCart">{{ "alerts.red_qntCart_pre" | t }} <span data-variant_qnt></span> {{ "product.word_item" | t }} {{ "alerts.red_qntCart_mid" | t }} <span data-cart_qnt></span> {{ "product.word_item" | t }} {{ "alerts.red_qntCart_post" | t }} <span data-qnt_avail></span> {{ "product.word_item" | t }}.</p>
+            <!-- Es sind nur noch 4 Stück übrig, und Sie haben bereits 3 Stück in Ihrem Einkaufswagen. Wählen Sie gerne bis zu 1 Stück -->
+            <p class="redText qnt">{{ "alerts.red_qnt_pre" | t }} <span data-variant_qnt></span> {{ "product.word_item" | t }} {{ "alerts.red_qnt_post" | t }}</p>
+            <!-- Es sind nur noch 4 Stück übrig -->
+            <p class="textAlert isCart">{{ "alerts.alert_isCart_pre" | t }} (<span data-cart_qnt></span>). {{ "alerts.alert_isCart_post" | t }} <span data-qnt_avail></span> {{ "product.word_item" | t }}</p>
+            <!-- Diese Ware ist bereits in Ihrem Einkaufswagen (2 Stück). Wählen Sie gerne bis zu 3 Stück -->
 
             <div class="wrap_formBtns">
               <!-- form btns -->
@@ -419,8 +435,7 @@
                 style="background-color: {{ color_raw }}; color: white;"
                 data-recolor_raw
                 data-scale>
-                Užsisakyti&nbsp
-                <span data-chosen_qnt>2</span>
+                {{ "product.btnWord_order_pre" | t }}&nbsp;<span data-chosen_qnt></span>&nbsp;{{ "product.word_item" | t }} {{ "product.btnWord_order_post" | t }}
                 <span class="price_insideBtn" data-price_sum_calc>{{ product.selected_or_first_available_variant.price | money }}</span>
               </div>
               <div
@@ -428,7 +443,7 @@
                 style="font-weight: 400;"
                 data-recolor_raw
                 data-scale>
-                <p style="color: white">Pridėti dar&nbsp;<span data-chosen_qnt></span>&nbsp;</p>
+                <p style="color: white">{{ "product.btnWord_addMore_pre" | t }}&nbsp;<span data-chosen_qnt></span>&nbsp;{{ "product.btnWord_addMore_post" | t }}</p>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 337.94 421.48"
@@ -443,7 +458,7 @@
                 style="font-weight: 400;"
                 data-recolor_raw
                 data-scale>
-                <p style="color: white">Pridėti&nbsp;<span data-chosen_qnt></span>&nbsp;į krepšelį</p>
+                <p style="color: white">{{ "product.btnWord_add_pre" | t }}&nbsp;<span data-chosen_qnt></span>&nbsp;{{ "product.word_item" | t }} {{ "product.btnWord_add_post" | t }}</p>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 337.94 421.48"
@@ -458,9 +473,7 @@
                 style="border: 1px solid {{ color_bg }}; font-weight: 400;"
                 data-recolor_border_raw
                 data-scale>
-                <p data-recolor_text_raw="">Pridėti
-                  <span data-chosen_qnt>2</span>
-                  į krepšelį</p>
+                <p data-recolor_text_raw="">{{ "product.btnWord_add_pre" | t }}&nbsp;<span data-chosen_qnt></span>&nbsp;{{ "product.word_item" | t }} {{ "product.btnWord_add_post" | t }}</p>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 337.94 421.48"
@@ -473,18 +486,18 @@
               <a
                 class="formBtn viewCart not_full"
                 style="border: 1px solid {{ color_bg }}; font-weight: 400;"
-                href="{{ shop.url }}/cart"
+                href="{{ shop.url }}/{{ lang }}/cart"
                 data-recolor_border_raw
                 data-scale>
-                <p style="color:{{ color_raw }}" data-recolor_text_raw>Peržiūrėti krepšelį</p>
+                <p style="color:{{ color_raw }}" data-recolor_text_raw>{{ "product.btnWord_viewBasket" | t }}</p>
               </a>
               <a
                 class="formBtn viewCart full"
                 style="background-color: {{ color_raw }}; color: white;"
-                href="{{ shop.url }}/cart"
+                href="{{ shop.url }}/{{ lang }}/cart"
                 data-recolor_raw
                 data-scale>
-                <p style="color: white; text-align: center">Peržiūrėti krepšelį</p>
+                <p style="color: white; text-align: center">{{ "product.btnWord_viewBasket" | t }}</p>
               </a>
 
               <!---------------------------------------------------------------------------->
@@ -512,21 +525,21 @@
               src="{{ 'icon_shipping.png' | asset_url }}"
               alt=""
               class="icon_otherInfo">
-            <p>Nemokamas siuntimas nuo 70 Euru</p>
+            <p>{{ "product.text_freeShipping" | t }}</p>
           </div>
           <div class="otherInfo">
             <img
               src="{{ 'icon_return.png' | asset_url }}"
               alt=""
               class="icon_otherInfo">
-            <p>30 Dienu grazinimas</p>
+            <p>{{ "product.text_return" | t }}</p>
           </div>
           <div class="otherInfo">
             <img
               src="{{ 'icon_phone.png' | asset_url }}"
               alt=""
               class="icon_otherInfo">
-            <p>Nuolatos palaikomas kontaktas</p>
+            <p>{{ "product.text_contact" | t }}</p>
           </div>
         </div>
         <div class="wrap_payments">

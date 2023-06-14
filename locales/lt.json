@@ -90,11 +90,13 @@
 
     "cart": {
         "freeShipping_yes": "Siuntimas Jum bus nemokamas (nuo €70)",
-        "freeShipping_no_pre": "Jums trūksta",
+        "freeShipping_no_pre": "Liko",
         "freeShipping_no_post": "iki nemokamo siuntimo (€70)",
+        "btnWord_main": "Pateikti užsakymą",
+        "btnWord_inverted": "Toliau ieškoti prekių",
+        "your_items": "Jūsų prekės",
 
         "cart": "Pirkinių krepšelis",
-        "make_order": "Pateikti užsakymą",
         "qnt": "Kiekis:",
         "new_item": "Idėti naują prekę:",
         "empty": "Jūsų krepšelis yra tuščias"

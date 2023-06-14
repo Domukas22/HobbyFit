@@ -38,7 +38,7 @@ function handle_shadow() {
 
 
 
-const btns_checkout_BOTH = document.querySelectorAll('.btn.btn_checkout')
+const btns_checkout_BOTH = document.querySelectorAll('.btn.cart.buy')
 const btn_invisibleCheckout = document.querySelector('button[name="checkout"]')
 const links_to_item = document.querySelectorAll('.link_overlay')
 const empty_cart_slots = document.querySelectorAll('.empty_cart_slot')
@@ -186,13 +186,11 @@ empty_preview_slots.forEach(x => {
 function get_itemInfo(id){ 
 
     const qnt_left = parseInt(document.querySelector(`.cart_item[data-variant_id="${id}"]`).dataset.qnt_left)
-    const qnt_sel = parseInt(document.querySelector(`.qnt_current[data-variant_id="${id}"]`).dataset.selected_qnt)
     const target_btn = document.querySelector(`.btn_qntDecoy.submit[data-variant_id="${id}"]`)
     const target_error = document.querySelector(`.text_inputError[data-variant_id="${id}"]`)
 
-
     return {
-        qnt_left, qnt_sel, target_btn, target_error
+        qnt_left, target_btn, target_error
     }
 }
 function toggle_actionBox(id, condition){ //true => showBack
@@ -235,13 +233,13 @@ function toggle_actionBox(id, condition){ //true => showBack
 }
 function submit_qnt(id, qnt) {
     const real_input = document.querySelector(`input[name="updates[]"][data-variant_id="${id}"]`)
-    const qnt_text = document.querySelector(`.qnt_current[data-variant_id="${id}"]`)
+    const qnt_texts = document.querySelectorAll(`[data-variant_id="${id}"][data-qnt_current]`)
+
     const qnt_text_miniFeature = document.querySelector(`.miniFeature[data-variant_id="${id}"]`)
     const text_sumPrice = document.querySelector(`.text_sumPrice[data-variant_id="${id}"]`)
     
     real_input.value = qnt
-    qnt_text.dataset.selected_qnt = qnt
-    qnt_text.textContent = qnt
+    qnt_texts.forEach(x => x.textContent = qnt)
     qnt_text_miniFeature.textContent = qnt
     text_sumPrice.textContent = formatMoney(text_sumPrice.dataset.price_for_one * qnt, format)
 

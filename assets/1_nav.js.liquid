@@ -48,11 +48,12 @@ function animate_menuDropdown(value) {
 }
 function set_activeLang(){
     const lang = document.querySelector('.current_lang[data-lang]').dataset.lang
+    console.log('active lang:' + lang)
 
     switch (lang) {
         case "": document.querySelectorAll('.langLink[data-lang=""]').forEach(x => x.classList.add('active'))
         break;
-        case "en": document.querySelectorAll('.langLink[data-lang="en"]').forEach(x => x.classList.add('active'))
+        case "lt": document.querySelectorAll('.langLink[data-lang="lt"]').forEach(x => x.classList.add('active'))
         break;
         case "de": document.querySelectorAll('.langLink[data-lang="de"]').forEach(x => x.classList.add('active'))
         break;

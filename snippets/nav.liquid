@@ -1,5 +1,5 @@
 {% assign lang = request.locale.iso_code %}
-{% if lang == 'lt-LT' %}
+{% if lang == 'en' %}
   {% assign lang = '' %}
 {% endif %}
 
@@ -140,8 +140,11 @@
         <p class="quantity_cart_nav" data-textcolor="grey">{{ cart.item_count }}</p>
         <div class="click_overlay"></div>
       </a>
-      <div class="navLink btn_more" data-hover_grey>
-        <div class="btnWrap_more">
+      <div
+        class="navLink btn_more"
+        data-hover_grey>
+        <div
+          class="btnWrap_more">
           <p>{{ "nav.btn_more" | t }}</p>
           <img
             class="icon_arrowDropdown"
@@ -151,8 +154,7 @@
         </div>
         <div class="nav_Dropdown more">
           <!-- needed for the distance -->
-          <div
-            class="content_navDropdown">
+          <div class="content_navDropdown">
             <a
               href=""
               class="link_dropdown"
@@ -206,15 +208,15 @@
           </div>
         </div>
       </div>
-      <div class="navLink langBox">
+      <div class="navLink langBox" data-hover_grey>
 
         <img
           {% if lang == '' %}
-          src="{{ 'img_flag_lt.png' | asset_url }}"
+          src="{{ 'img_flag_en.svg' | asset_url }}"
           {% elsif lang == 'de' %}
           src="{{ 'img_flag_de.png' | asset_url }}"
-          {% elsif lang == 'en' %}
-          src="{{ 'img_flag_en.svg' | asset_url }}"
+          {% elsif lang == 'lt' %}
+          src="{{ 'img_flag_lt.png' | asset_url }}"
           {% endif %}
           alt=""
           class="langFlag">
@@ -222,7 +224,7 @@
           <div class="content_navDropdown">
             <div
               class="langLink"
-              data-lang=""
+              data-lang="lt"
               data-hover_grey>
               <img
                 src="{{ 'img_flag_lt.png' | asset_url }}"
@@ -232,7 +234,7 @@
             </div>
             <div
               class="langLink"
-              data-lang="en"
+              data-lang=""
               data-hover_grey>
               <img
                 src="{{ 'img_flag_en.svg' | asset_url }}"
@@ -273,11 +275,11 @@
         <div class="langToggle_m_TOP" data-open="false">
           <img
             {% if lang == '' %}
-            src="{{ 'img_flag_lt.png' | asset_url }}"
+            src="{{ 'img_flag_en.svg' | asset_url }}"
             {% elsif lang == 'de' %}
             src="{{ 'img_flag_de.png' | asset_url }}"
-            {% elsif lang == 'en' %}
-            src="{{ 'img_flag_en.svg' | asset_url }}"
+            {% elsif lang == 'lt' %}
+            src="{{ 'img_flag_lt.png' | asset_url }}"
             {% endif %}
             alt=""
             class="langFlag mobile_dropdown">
@@ -289,7 +291,7 @@
         <div class="langToggle_m_BOTTOM">
           <div
             class="langLink"
-            data-lang=""
+            data-lang="lt"
             data-hover_grey>
             <img
               src="{{ 'img_flag_lt.png' | asset_url }}"
@@ -299,7 +301,7 @@
           </div>
           <div
             class="langLink"
-            data-lang="en"
+            data-lang=""
             data-hover_grey>
             <img
               src="{{ 'img_flag_en.svg' | asset_url }}"

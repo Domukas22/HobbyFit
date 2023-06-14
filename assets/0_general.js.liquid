@@ -139,25 +139,25 @@ function set_langLinks(){
 
 }
 function get_lang(url) {
-  if (url.includes('.com/en')) {return "en"}
-  else if (window.location.href.includes('.com/de')) {return "de"}
+  if (url.includes('.com/de')) {return "de"}
+  else if (window.location.href.includes('.com/lt')) {return "lt"}
   else {return ""}
 }
 function create_langUrl(lang_current, lang_target, url){
-  if (lang_current == '' && lang_target == '') { //if LT
+  if (lang_current == '' && lang_target == '') { //if EN
     return url
 
   } else if (lang_current == '') {
     return url.replace('.com', `.com/${lang_target}`)
 
-  } else if ((lang_current == 'de' || lang_current == 'en') && lang_target == '') {
+  } else if ((lang_current == 'de' || lang_current == 'lt') && lang_target == '') {
     if (lang_current == 'de') {return url.replace('.com/de', `.com`)}
-    else if (lang_current == 'en') {return url.replace('.com/en', `.com`)}
+    else if (lang_current == 'lt') {return url.replace('.com/lt', `.com`)}
     
   } else if (lang_current == 'de') {
     return url.replace('.com/de/', `.com/${lang_target}/`)
 
-  } else if (lang_current == 'en') {
-    return url.replace('.com/en/', `.com/${lang_target}/`)
+  } else if (lang_current == 'lt') {
+    return url.replace('.com/lt/', `.com/${lang_target}/`)
   }
 }

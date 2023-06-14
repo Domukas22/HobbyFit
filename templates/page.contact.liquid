@@ -1,0 +1,34 @@
+{% form 'contact' %}
+  {{ form.errors | default_errors }}
+
+  <div class="first-name" style="margin-top: 100px;">
+    <label for="first-name">First name</label>
+    <input
+      type="text"
+      name="contact[first_name]"
+      id="first-name" />
+  </div>
+
+  <div class="last-name">
+    <label for="last-name">Last name</label>
+    <input
+      type="text"
+      name="contact[last_name]"
+      id="last-name" />
+  </div>
+
+  <div class="email">
+    <label for="email">Test</label>
+    <input type="email" name="contact[test]" />
+  </div>
+
+
+  <div class="message">
+    <label for="message">Message</label>
+    <textarea name="contact[body]" id="message"></textarea>
+  </div>
+
+  <div class="submit">
+    <input type="submit" value="Create" />
+  </div>
+{% endform %}

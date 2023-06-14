@@ -90,11 +90,13 @@
 
     "cart": {
         "freeShipping_yes": "You will receive free shipping (from €70)",
-        "freeShipping_no_pre": "You still need",
-        "freeShipping_no_post": "for free shipping (€70)",
+        "freeShipping_no_pre": "",
+        "freeShipping_no_post": " left to receive free shipping (€70)",
+        "btnWord_main": "Place order",
+        "btnWord_inverted": "Keep shopping",
+        "your_items": "Your items",
 
         "cart": "Shopping Cart",
-        "make_order": "Place order",
         "qnt": "Amount:",
         "new_item": "Add new item:",
         "empty": "Your shopping cart is empty"

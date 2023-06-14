@@ -90,11 +90,13 @@
 
     "cart": {
         "freeShipping_yes": "Sie erhalten kostenlosen Versand (ab €70)",
-        "freeShipping_no_pre": "Es fehlt Ihnen",
-        "freeShipping_no_post": "für den kostenlosen Versand (€70)",
+        "freeShipping_no_pre": "Noch ",
+        "freeShipping_no_post": "für kostenlosen Versand (€70)",
+        "btnWord_main": "Waren bestellen",
+        "btnWord_inverted": "Weiter einkaufen",
+        "your_items": "Ihre Waren",
 
         "cart": "Einkaufswagen",
-        "make_order": "Waren bestellen",
         "qnt": "Menge:",
         "new_item": "Neue Ware hinfügen:",
         "empty": "Ihr Einkaufswagen ist leer"

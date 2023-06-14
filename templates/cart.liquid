@@ -1,7 +1,7 @@
 {% assign uniqueIDs = cart.items | map: 'id' | uniq %}
 
 {% assign lang = request.locale.iso_code %}
-{% if lang == 'lt-LT' %}
+{% if lang == 'en' %}
   {% assign lang = '' %}
 {% endif %}
 <p
@@ -11,8 +11,8 @@
 </p>
 
 <div class="fixed_buyBox">
-  <div class="btn btn_checkout fixed" data-scale>
-    <p style="display: flex; width: 100%;">{{ "cart.make_order" | t }} (<span data-final_item_count>{{ cart.item_count }}</span>)<span data-final_price style="margin-left: auto;">{{ cart.total_price | money }}</span>
+  <div class="btn cart buy fixed" data-scale>
+    <p style="display: flex; width: 100%;">{{ "cart.btnWord_main" | t }} (<span data-final_item_count>{{ cart.item_count }}</span>)<span data-final_price style="margin-left: auto;">{{ cart.total_price | money }}</span>
     </p>
   </div>
 </div>
@@ -35,10 +35,12 @@
           <div
             class="cart_item"
             data-variant_id="{{ item.variant.id }}"
+            data-qnt_selected="{{ item.quantity }}"
             data-qnt_left="{{ item.variant.inventory_quantity }}">
             <div class="cart_item_TOP">
               <div class="titleWrap_cartItem">
-                <h4 class="title_cartItem">{{ item.product.metafields.custom.name_short }}</h4>
+                <h4 class="title_cartItem">{{ item.product.metafields.custom.name_short }} (<span data-variant_id="{{ item.variant.id }}" data-qnt_current>{{ item.quantity }}</span>)
+                </h4>
                 <p style="color: rgba(0,0,0, 0.65);">{{ item.product.metafields.custom.what_item_short }} {{ item.product.metafields.custom.extra_text }}
                   {% if size_option %}/ {{ size_option.value }}{% endif %}
                 </p>
@@ -77,8 +79,8 @@
                     <p style="color: {{ raw }}; margin-right: 8px; font-size: 17px">{{ "cart.qnt" | t }}
                       <span
                         class="qnt_current"
-                        data-variant_id="{{ item.variant.id }}"
-                        data-selected_qnt="{{ item.quantity }}">{{ item.quantity }}</span>
+                        data-qnt_current="{{ item.quantity }}"
+                        data-variant_id="{{ item.variant.id }}">{{ item.quantity }}</span>
                     </p>
                     <p
                       style="color: {{ raw }}; font-size: 17px"
@@ -209,24 +211,26 @@
 
       <div class="subWrap_stickyBox">
 
-        <div class="box_proceedCheckout">
-          {% if cart.item_count > 0 %}
-            <div class="box_freeShipping">
+        {% if cart.item_count > 0 %}
+          <div class="box_proceedCheckout">
+            <div class="checkoutBox_TOP">
+              <h4 class="title_Summary">{{ "cart.cart" | t }} (<span data-final_item_count>{{ cart.item_count }}</span>):</h4>
+              <h4 data-final_price style="margin-left: auto; color: #407ff2;">{{ cart.total_price | money }}</h4>
+            </div>
+            <div class="checkoutBox_BOTTOM">
               <p class="alert_shipping yes" style="color: green">{{ "cart.freeShipping_yes" | t }}</p>
               <p class="alert_shipping no">{{ "cart.freeShipping_no_pre" | t }}<b>
                   <span class="price_leftForShipping">{{ 7000 | minus: cart.total_price | money }}</span>
                 </b>
                 {{ "cart.freeShipping_no_post" | t }}</p>
-            </div>
-            <div class="box_checkout">
-              <div class="titleWrap_checkoutBox">
-                <h4 class="title_Summary">{{ "cart.cart" | t }} (<span data-final_item_count>{{ cart.item_count }}</span>):</h4>
-                <h4 data-final_price style="margin-left: auto; color: #407ff2;">{{ cart.total_price | money }}</h4>
-              </div>
-              <div class="btn btn_checkout" data-scale>{{ "cart.make_order" | t }}</div>
+              <a
+                class="btn cart keepShopping"
+                href="{{ collections['badmintono-prekes'].url }}"
+                data-scale>{{ "cart.btnWord_inverted" | t }}</a>
+              <div class="btn cart buy" data-scale>{{ "cart.btnWord_main" | t }}</div>
             </div>
           </div>
-          <p class="text_separator" style="display: none;">Jūsų prekės</p>
+          <p class="text_separator">{{ "cart.your_items" | t }} (<span data-final_item_count>{{ cart.item_count }}</span>)</p>
           <div class="box_itemPreview">
             {% if cart.item_count > 0 %}
               {% for item in cart.items %}
@@ -394,6 +398,8 @@
 
       </div>
     </div>
+
+
     <button
       class="btn_cartForm"
       type="submit"
@@ -414,8 +420,7 @@
 <script>
   const format = "{{ shop.money_format }}"
   const btn_update_form = document.querySelector('.btn_cartForm[name="update"]')
-  const texts_finalPrice_All = document.querySelectorAll('[data-final_price]')
-  const texts_finalItemCount_All = document.querySelectorAll('[data-final_item_count]')
+
 
   Shopify.queue = Shopify.queue || [];
 
@@ -463,8 +468,13 @@
     }).then(response => response.json()).then(cart_data => {
 
 // console.log(cart_data);
-      texts_finalPrice_All.forEach(x => x.textContent = formatMoney(cart_data.items_subtotal_price, format))
-      texts_finalItemCount_All.forEach(x => x.textContent = cart_data.item_count)
+
+      const texts_finalPrice_All = document.querySelectorAll('[data-final_price]')
+      const texts_finalItemCount_All = document.querySelectorAll('[data-final_item_count]')
+
+
+      texts_finalPrice_All.forEach(x => x.textContent = formatMoney(cart_data.items_subtotal_price, format));
+      texts_finalItemCount_All.forEach(x => x.textContent = cart_data.item_count);
       edit_freeShipping(cart_data.items_subtotal_price)
       console.log(cart_data.items_subtotal_price)
     })
@@ -474,13 +484,16 @@
     document.querySelector('.price_leftForShipping').textContent = formatMoney(7000 - current_price, format)
     const yes = document.querySelector('.alert_shipping.yes')
     const no = document.querySelector('.alert_shipping.no')
+    const btn_keepShopping = document.querySelector('.btn.cart.keepShopping')
 
     if (current_price >= 7000) {
       yes.style.display = "block"
       no.style.display = "none"
+      btn_keepShopping.style.display = "none"
     } else {
       yes.style.display = "none"
       no.style.display = "block"
+      btn_keepShopping.style.display = "flex"
     }
 
 

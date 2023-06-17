@@ -79,6 +79,9 @@ body {
   overflow-x: hidden;
   background-color: var(--color_bg);
 }
+textarea {
+  font-family: 'Lato', sans-serif;
+}
 
 input[type="number"] {
   border: none;
@@ -92,9 +95,6 @@ input[type="text"] {
   border: none;
   outline: none;
   background-color: transparent;
-}
-input[type="text"]:focus {
-  box-shadow: none;
 }
 input[type='number']::-webkit-inner-spin-button,
 input[type='number']::-webkit-outer-spin-button {
@@ -171,6 +171,7 @@ ul {
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 }
 .line_X {
   width: 30px;
@@ -291,6 +292,10 @@ section {
 .red_highlight > * {
   color: red;
 }
+.color_blue {
+  color: var(--color_Main)
+}
+
 
 @media only screen and (min-width: 1921px) {
   .container {

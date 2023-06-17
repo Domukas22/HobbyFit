@@ -1,0 +1,69 @@
+{% assign lang = request.locale.iso_code %}
+{% if lang == 'en' %}
+  {% assign lang = '' %}
+{% endif %}
+<p
+  class="current_lang"
+  data-lang="{{ lang }}"
+  style="display: none;">{{ lang }}
+</p>
+
+
+<section class="section_legal">
+  <div class="container container_legal">
+    <div class="content_legal">
+      <h2 class="title_legal">{{ page.title }}</h2>
+      <p>{{ page.content }}</p>
+    </div>
+    <div class="linkBox_legal">
+      <div class="linkBox_TOP">
+        <h4>HobbyFit - Legal</h4>
+        <div class="X_wrap legal">
+          <div class="line_X"></div>
+          <div class="line_X reverse"></div>
+        </div>
+      </div>
+
+      {% for link in linklists['footer'].links %}
+        <a
+          href="{{ link.url }}"
+          class="legal_link"
+          data-title="{{ link.title }}"
+          data-hover_grey>{{ link.title }}</a>
+      {% endfor %}
+    </div>
+    <div class="boxToggle_legal">
+      <div class="toggleBtn_legal" data-box="closed">
+        {{ page.title }}
+        <img
+          class="icon_arrowDropdown"
+          src="{{ 'icon_arrow.svg' | asset_url }}"
+          alt=""
+          style="margin-left: auto;">
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<script>
+
+
+  document.querySelectorAll('.legal_link').forEach(x => {
+    if (x.href === window.location.href) {
+      x.classList.add('active')
+    }
+
+  });
+
+
+
+  function isDesktop() {
+    return window.innerWidth > 991
+      ? true
+      : false
+  }
+</script>
+
+{{ '8_legal.js' | asset_url | script_tag }}

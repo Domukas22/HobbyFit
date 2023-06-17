@@ -126,25 +126,28 @@
         </div>
 
       </div>
-      <a
-        class="navLink bag"
-        data-hover_grey
-        data-cart_count="{{ cart.item_count }}"
-        href='{{ shop.url }}/{{ lang }}/cart'
-        data-scale>
-        <img
-          class="icon_Nav bag"
-          src="{{ 'icon_bag.png' | asset_url }}"
-          alt=""
-          draggable="false">
-        <p class="quantity_cart_nav" data-textcolor="grey">{{ cart.item_count }}</p>
-        <div class="click_overlay"></div>
-      </a>
-      <div
-        class="navLink btn_more"
-        data-hover_grey>
-        <div
-          class="btnWrap_more">
+      <div class="navLink cart" data-hover_grey>
+        <a
+          class="btn_bag"
+          data-hover_grey
+          data-cart_count="{{ cart.item_count }}"
+          href='{{ shop.url }}/{{ lang }}/cart'
+          data-scale>
+          <img
+            class="icon_Nav bag"
+            src="{{ 'icon_bag.png' | asset_url }}"
+            alt=""
+            draggable="false">
+          <p class="quantity_cart_nav" data-textcolor="grey">{{ cart.item_count }}</p>
+          <div class="click_overlay"></div>
+        </a>
+        <div class="nav_Dropdown cart">
+          <div class="content_navDropdown"></div>
+        </div>
+      </div>
+
+      <div class="navLink btn_more" data-hover_grey>
+        <div class="btnWrap_more">
           <p>{{ "nav.btn_more" | t }}</p>
           <img
             class="icon_arrowDropdown"
@@ -156,47 +159,17 @@
           <!-- needed for the distance -->
           <div class="content_navDropdown">
             <a
-              href=""
+              href="tel:{{ shop.phone }}"
               class="link_dropdown"
               data-hover_grey>
               <img
                 class="icon_Nav"
                 src="{{ 'icon_phone.png' | asset_url }}"
                 alt="">
-              <p>8692 1204 01</p>
+              <p>{{ shop.phone }}</p>
             </a>
             <a
-              href=""
-              class="link_dropdown"
-              data-hover_grey>
-              <img
-                class="icon_Nav"
-                src="{{ 'icon_email.png' | asset_url }}"
-                alt="">
-              <p>musupastas@gmail.com</p>
-            </a>
-            <a
-              href=""
-              class="link_dropdown"
-              data-hover_grey>
-              <img
-                class="icon_Nav"
-                src="{{ 'icon_terms.png' | asset_url }}"
-                alt="">
-              <p>{{ "nav.btn_conditions" | t }}</p>
-            </a>
-            <a
-              href=""
-              class="link_dropdown"
-              data-hover_grey>
-              <img
-                class="icon_Nav"
-                src="{{ 'icon_cookie.png' | asset_url }}"
-                alt="">
-              <p>{{ "nav.btn_cookies" | t }}</p>
-            </a>
-            <a
-              href=""
+              href='{{ shop.url }}/{{ lang }}/pages/contact'
               class="link_dropdown"
               data-hover_grey>
               <img
@@ -205,6 +178,27 @@
                 alt="">
               <p>{{ "nav.btn_adress_contact" | t }}</p>
             </a>
+            <a
+              href='{{ shop.url }}/{{ lang }}/pages/shipping'
+              class="link_dropdown"
+              data-hover_grey>
+              <img
+                class="icon_Nav"
+                src="{{ 'icon_shipping.png' | asset_url }}"
+                alt="">
+              <p>Shipping info</p>
+            </a>
+            <a
+              href='{{ shop.url }}/{{ lang }}/pages/refund'
+              class="link_dropdown"
+              data-hover_grey>
+              <img
+                class="icon_Nav"
+                src="{{ 'icon_return.png' | asset_url }}"
+                alt="">
+              <p>Refund info</p>
+            </a>
+
           </div>
         </div>
       </div>
@@ -388,43 +382,37 @@
     </div>
     <div class="menuDropwdown_LINKS">
       <a
-        href=""
+        href="tel:{{ shop.phone }}"
         class="link_dropdown menu"
         data-scale>
         <img
           class="icon_Nav"
           src="{{ 'icon_phone.png' | asset_url }}"
           alt="">
-        <p>8692 1204 01</p>
+        <p>{{ shop.phone }}</p>
       </a>
-      <a href="" class="link_dropdown menu">
-        <img
-          class="icon_Nav"
-          src="{{ 'icon_email.png' | asset_url }}"
-          alt="">
-        <p>musupastas@gmail.com</p>
-      </a>
-      <a href="" class="link_dropdown menu">
-        <img
-          class="icon_Nav"
-          src="{{ 'icon_terms.png' | asset_url }}"
-          alt="">
-        <p>{{ "nav.btn_conditions" | t }}</p>
-      </a>
-      <a href="" class="link_dropdown menu">
-        <img
-          class="icon_Nav"
-          src="{{ 'icon_cookie.png' | asset_url }}"
-          alt="">
-        <p>{{ "nav.btn_cookies" | t }}</p>
-      </a>
-      <a href="" class="link_dropdown menu">
+      <a href='{{ shop.url }}/{{ lang }}/pages/contact' class="link_dropdown menu">
         <img
           class="icon_Nav"
           src="{{ 'icon_person.png' | asset_url }}"
           alt="">
         <p>{{ "nav.btn_adress_contact" | t }}</p>
       </a>
+      <a href='{{ shop.url }}/{{ lang }}/pages/shipping' class="link_dropdown menu">
+        <img
+          class="icon_Nav"
+          src="{{ 'icon_shipping.png' | asset_url }}"
+          alt="">
+        <p>Shipping info</p>
+      </a>
+      <a href='{{ shop.url }}/{{ lang }}/pages/refund' class="link_dropdown menu">
+        <img
+          class="icon_Nav"
+          src="{{ 'icon_return.png' | asset_url }}"
+          alt="">
+        <p>Refund info</p>
+      </a>
+
 
     </div>
   </div>

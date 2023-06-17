@@ -1,0 +1,132 @@
+:root {
+    --color_Main: #407ff2;
+    --color_Main_Hover: #3068cf;
+    --color_hover: #f5f5f5;
+    --color_hover_lightBlue: #ebf2fd;
+
+    --color_Text: rgba(0, 0, 0, 0.80);
+    --color_bigText: rgba(0, 0, 0, 0.75);
+    --color_activeLink: rgba(64, 127, 242, 0.1);
+    --color_black_06: rgba(0, 0, 0, 0.600);
+    --color_text_green: rgb(23 116 0 / 80%);
+
+    --color_grey: #747474;
+    --color_bg: #f9fbff;
+    --color_red: #ff4f4f;
+
+    --shadow_normal: 0 1px 4px rgba(0, 0, 0, 0.10);
+    --border_bottom: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.section_contact {
+    background-color: var(--color_bg);
+}
+
+.wrap_contactForm {
+    flex: 1;
+}
+.wrap_contactInfo {
+    width: 400px;
+    margin-left: 62px;
+}
+
+.form_contact {
+    display: flex;
+    flex-direction: column;
+}
+
+
+
+.form_contact > label {
+    color: #434343;
+    font-size: 15px;
+    font-weight: 600px;
+    margin: 26px 0 8px;
+}
+
+
+.form_contact > input,
+.form_contact > textarea  {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+
+    height: 54px;
+    background-color: #fff !important;
+    box-shadow: var(--shadow_normal) !important;
+    border-radius: 4px;
+    border: none;
+    padding-left: 16px;
+    font-size: 17px;
+}
+.form_contact > textarea {
+    height: 200px;
+    padding-top: 16px;
+    margin-bottom: 8px;
+}
+.btn.submit_contact {
+    border-radius: 8px;
+    width: 300px;
+    height: 54px;
+}
+.btn.inverted.call {
+    border-radius: 8px;
+    width: 100%;
+    display: none;
+    height: 54px;
+    margin-top: 8px;
+    background: white;
+}
+
+.error_contact{
+    margin-top: 4px;
+    color: red;
+    display: none;
+}
+
+
+.contactBox {
+    background-color: white;
+    box-shadow: var(--shadow_normal);
+    border-radius: 8px;
+    margin-bottom: 24px;
+}
+.miniSection_contactBox {
+    padding: 26px;
+    border-bottom: var(--border_bottom);
+
+}
+.miniSection_contactBox > p {
+    color: rgba(0, 0, 0, 0.75);
+}
+.miniTitle {
+    font-weight: 600;
+    color: #131313 !important;
+}
+
+
+
+@media only screen and (min-width: 1440px) {}
+@media only screen and (min-width: 1921px) {}
+/* Default == 991 to 1440 */
+@media only screen and (max-width: 990px) {
+    .container.container_contact {
+        flex-direction: column;
+    }
+    .wrap_contactInfo {
+        margin: 62px 0 0;
+        width: 100%;
+    }
+    .section_contact {
+        padding: 8vw 4vw 4vw;
+    }
+}
+@media only screen and (max-width: 770px) {
+    .btn.submit_contact {
+        width: 100%;
+    }
+    .btn.inverted.call {
+        display: flex;
+    }
+}
+@media only screen and (max-width: 500px) {}

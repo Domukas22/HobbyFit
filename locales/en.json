@@ -8,7 +8,7 @@
         "btn_more": "More",
         "btn_conditions": "Purchase conditions",
         "btn_cookies": "Cookie policies",
-        "btn_adress_contact": "Adress/Contact",
+        "btn_adress_contact": "Contact us",
 
         "btn_menu": "Menu",
         "word_infos": "Information"
@@ -89,7 +89,7 @@
     },
 
     "cart": {
-        "freeShipping_yes": "You will receive free shipping (from €70)",
+        "freeShipping_yes": "Shipping will be free",
         "freeShipping_no_pre": "",
         "freeShipping_no_post": " left to receive free shipping (€70)",
         "btnWord_main": "Place order",
@@ -97,7 +97,8 @@
         "your_items": "Your items",
 
         "cart": "Shopping Cart",
-        "qnt": "Amount:",
+        "qnt": "Chosen amount:",
+        "qnt_short": "Amount:",
         "new_item": "Add new item:",
         "empty": "Your shopping cart is empty"
     },

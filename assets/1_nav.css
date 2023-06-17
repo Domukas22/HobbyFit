@@ -89,6 +89,9 @@ nav.no_shadow {
 .navLink.current {
   background-color: var(--color_activeLink);
 }
+.navLink.cart {
+  padding: none;
+}
 .navLink_dropdown {
   position: relative;
 }
@@ -154,14 +157,15 @@ nav.no_shadow {
 }
 
 /* btn cart */
-.navLink.bag {
+.btn_bag {
   font-weight: 600;
   position: relative;
+  display: flex;
 }
-.navLink.bag.not_empty > p {
+.btn_bag.not_empty > p {
   color: var(--color_Main) !important;
 }
-.navLink.bag.not_empty > .icon_Nav.bag {
+.btn_bag.not_empty > .icon_Nav.bag {
   filter: saturate(100%);
 }
 .icon_Nav.bag {

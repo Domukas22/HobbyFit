@@ -1,0 +1,54 @@
+
+
+
+
+const linkBox_legal = document.querySelector('.linkBox_legal')
+const boxToggle_legal = document.querySelector('.boxToggle_legal')
+const toggleBtn_legal = document.querySelector('.toggleBtn_legal')
+toggleBtn_legal.addEventListener('click', toggle_Legal)
+document.querySelector('.X_wrap.legal').addEventListener('click', toggle_Legal)
+let locked = false
+
+window.addEventListener('resize', () => {
+    if (!isMobile()) {
+        linkBox_legal.style.display = "block"
+        linkBox_legal.classList.remove('show')
+    }
+
+    if (isMobile() && !linkBox_legal.classList.contains('show')) {
+        linkBox_legal.classList.remove('show')
+        linkBox_legal.style.display = "none"
+    }
+      
+})
+
+function toggle_Legal() {
+
+    const btn = document.querySelector('.toggleBtn_legal') // redeclaration to get the current info
+    
+
+    if (btn.dataset.box == "closed" && !locked) {
+        locked = true
+        linkBox_legal.style.display = "block"
+        setTimeout(() => {
+            linkBox_legal.classList.add('show')
+            btn.dataset.box = "open"
+        }, 10);
+        setTimeout(() => {locked = false}, 151);
+            
+    } else if (!locked) {
+        locked = true
+        linkBox_legal.classList.remove('show')
+        btn.dataset.box = "closed"
+        setTimeout(() => {
+            linkBox_legal.style.display = "none"
+            locked = false
+        }, 151);
+    }
+    
+}
+function isMobile() {
+    return window.innerWidth > 767
+        ? false
+        : true
+}

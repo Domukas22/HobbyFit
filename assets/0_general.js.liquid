@@ -15,14 +15,13 @@ window.addEventListener('DOMContentLoaded', () => {
     items_sale.forEach(x => x.classList.add('sale'))
     btn_cart.dataset.cart_count > 0 ? btn_cart.classList.add('not_empty') : btn_cart.classList.remove('not_empty')
     setTimeout(() => {waves.forEach(x => x.style.opacity = '100%')}, 100)
-    set_langLinks()
+    set_langlinks_to_filterPage()
 })
-
 
 
 const lang = document.querySelector('.current_lang[data-lang]').dataset.lang
 const url_Badminton = `${window.location.origin}/${lang}/collections/badmintono-prekes`;
-const links = document.querySelectorAll('[data-link_filterpage]')
+const links_to_filterPage = document.querySelectorAll('[data-link_filterpage]')
 const scale_btns = document.querySelectorAll('[data-scale]');
 const formatMoney = function(cents, format) {
   if (typeof cents == 'string') { cents = cents.replace('.',''); }
@@ -81,7 +80,7 @@ const animateCSS = (element, animation, prefix = 'animate__') =>
     node.addEventListener('animationend', handleAnimationEnd, {once: true});
 });
 
-links.forEach(x => x.addEventListener('click', e => {
+links_to_filterPage.forEach(x => x.addEventListener('click', e => {
   set_URL(e.currentTarget.dataset.link_filterpage);
 }));
 scale_btns.forEach(function(el) {
@@ -124,7 +123,7 @@ function bubble_jump(target) {
   }, 300)
 }
 
-function set_langLinks(){
+function set_langlinks_to_filterPage(){
   const langBtns = document.querySelectorAll('.langLink')
   langBtns.forEach(x => x.addEventListener('click', (e) => {
 

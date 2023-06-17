@@ -93,6 +93,19 @@ btn_lang.addEventListener('mouseleave', () => {
     toggle_dropdown(dropdown_lang, false)
 })
 
+// toggle cart dropdown
+const btn_cart = document.querySelector('.navLink.cart')
+const dropdown_cart = document.querySelector('.nav_Dropdown.cart')
+btn_cart.addEventListener('mouseover', () => {
+    toggle_dropdown(dropdown_cart, true)
+})
+btn_cart.addEventListener('mouseleave', () => {
+    toggle_dropdown(dropdown_cart, false)
+})
+
+
+
+
 function toggle_dropdown(target, value) {
     if (value) {
         target.style.display = 'block'

@@ -29,17 +29,16 @@
     <div class="footer_block">
       <h5 class="footer_title">{{ "nav.word_infos" | t }}</h5>
       <ul class="footer_list">
-        <li class="footer_link">
-          <a href="">{{ "nav.btn_adress_contact" | t }}</a>
-        </li>
-        <li class="footer_link">
-          <a href="">{{ "nav.btn_conditions" | t }}</a>
-        </li>
-        <li class="footer_link">
-          <a href="">{{ "nav.btn_cookies" | t }}</a>
-        </li>
+        {% for link in linklists['footer'].links %}
+          <li class="footer_link">
+            <a href="{{ link.url }}">{{ link.title }}</a>
+          </li>
+        {% endfor %}
       </ul>
     </div>
+
+
+
     <div class="contact_links_footer">
       <a href="">musupastas@gmail.com</a>
       <a href="">+49 120 2042 1024</a>

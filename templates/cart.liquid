@@ -27,7 +27,7 @@
 
     <div class="grid_cartItems">
       {% if cart.item_count > 0 %}
-        {% for item in cart.items %}
+        {% for item in cart.items reversed %}
           {% assign bg = item.image.alt | split: " " | slice: -2, 1 | first %}
           {% assign raw = item.image.alt | split: " " | last %}
           {% assign size_option = item.options_with_values | where: "name", "Size" | first %}
@@ -76,8 +76,10 @@
                     class="btn_showAction"
                     data-hover_grey
                     data-variant_id="{{ item.variant.id }}">
-                    <p style="color: {{ raw }}; margin-right: 8px; font-size: 17px">{{ "cart.qnt" | t }}
-                      <span
+                    <p style="color: {{ raw }}; margin-right: 8px; font-size: 17px; display: flex">
+                      <span class="word_qnt d">{{ "cart.qnt" | t }}</span>
+                      <span class="word_qnt m">{{ "cart.qnt_short" | t }}</span>
+                      &nbsp;<span
                         class="qnt_current"
                         data-qnt_current="{{ item.quantity }}"
                         data-variant_id="{{ item.variant.id }}">{{ item.quantity }}</span>
@@ -108,7 +110,7 @@
                       class="btn_qntDecoy cancel"
                       style="color: {{ raw}}"
                       data-variant_id="{{ item.variant.id }}">
-                      Atšaukti
+                      {{ "product.word_cancel" | t }}
                     </div>
                     <div
                       class="btn_qntDecoy submit hide"
@@ -218,11 +220,23 @@
               <h4 data-final_price style="margin-left: auto; color: #407ff2;">{{ cart.total_price | money }}</h4>
             </div>
             <div class="checkoutBox_BOTTOM">
-              <p class="alert_shipping yes" style="color: green">{{ "cart.freeShipping_yes" | t }}</p>
-              <p class="alert_shipping no">{{ "cart.freeShipping_no_pre" | t }}<b>
-                  <span class="price_leftForShipping">{{ 7000 | minus: cart.total_price | money }}</span>
-                </b>
-                {{ "cart.freeShipping_no_post" | t }}</p>
+              <div class="alert_shipping yes">
+                <img
+                  class="icon_checkmark"
+                  src="{{ 'icon_checkmark.svg' | asset_url }}"
+                  alt="">
+                <p>{{ "cart.freeShipping_yes" | t }}</p>
+              </div>
+              <div class="alert_shipping no">
+                <p>{{ "cart.freeShipping_no_pre" | t }}<b>
+                    <span class="price_leftForShipping">{{ 7000 | minus: cart.total_price | money }}</span>
+                  </b>
+                  {{ "cart.freeShipping_no_post" | t }}</p>
+                <div class="wrap_shippingLines">
+                  <div class="shippingLine bg"></div>
+                  <div class="shippingLine grow"></div>
+                </div>
+              </div>
               <a
                 class="btn cart keepShopping"
                 href="{{ collections['badmintono-prekes'].url }}"
@@ -233,7 +247,7 @@
           <p class="text_separator">{{ "cart.your_items" | t }} (<span data-final_item_count>{{ cart.item_count }}</span>)</p>
           <div class="box_itemPreview">
             {% if cart.item_count > 0 %}
-              {% for item in cart.items %}
+              {% for item in cart.items reversed %}
                 {% assign bg = item.image.alt | split: " " | slice: -2, 1 | first %}
                 {% assign raw = item.image.alt | split: " " | last %}
                 {% assign size_option = item.options_with_values | where: "name", "Size" | first %}
@@ -426,6 +440,7 @@
 
   window.addEventListener('DOMContentLoaded', () => {
     edit_freeShipping({{ cart.total_price }})
+    edit_shippingLine({{ cart.total_price }})
   })
 
   btn_update_form.addEventListener('click', (e) => {
@@ -476,7 +491,7 @@
       texts_finalPrice_All.forEach(x => x.textContent = formatMoney(cart_data.items_subtotal_price, format));
       texts_finalItemCount_All.forEach(x => x.textContent = cart_data.item_count);
       edit_freeShipping(cart_data.items_subtotal_price)
-      console.log(cart_data.items_subtotal_price)
+      edit_shippingLine(cart_data.items_subtotal_price)
     })
   }
 
@@ -487,16 +502,28 @@
     const btn_keepShopping = document.querySelector('.btn.cart.keepShopping')
 
     if (current_price >= 7000) {
-      yes.style.display = "block"
+      yes.style.display = "flex"
       no.style.display = "none"
       btn_keepShopping.style.display = "none"
     } else {
       yes.style.display = "none"
-      no.style.display = "block"
+      no.style.display = "flex"
       btn_keepShopping.style.display = "flex"
     }
 
 
+
+  }
+
+  function edit_shippingLine(current_price) {
+    const line_grow = document.querySelector('.shippingLine.grow')
+    const money_threshold = 7000
+    const money_diffrence = money_threshold - current_price
+
+    const length_default = line_grow.parentElement.getBoundingClientRect().width
+    const percentageLeft = (money_diffrence / money_threshold) * 100;
+    const newWidth = length_default * (1 - (percentageLeft / 100));
+    line_grow.style.width = `${newWidth}px`;
   }
 </script>
 

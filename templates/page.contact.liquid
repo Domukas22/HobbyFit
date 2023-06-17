@@ -1,34 +1,94 @@
-{% form 'contact' %}
-  {{ form.errors | default_errors }}
+{% assign lang = request.locale.iso_code %}
+{% if lang == 'en' %}
+  {% assign lang = '' %}
+{% endif %}
+<p
+  class="current_lang"
+  data-lang="{{ lang }}"
+  style="display: none;">{{ lang }}
+</p>
 
-  <div class="first-name" style="margin-top: 100px;">
-    <label for="first-name">First name</label>
-    <input
-      type="text"
-      name="contact[first_name]"
-      id="first-name" />
+<section class="section_pageTitle" style="z-index: 1;">
+  <div class="subWrap_pageTitle">
+    <h2 class="pageTitle">Susisiekite su mumis!</h2>
   </div>
+</section>
 
-  <div class="last-name">
-    <label for="last-name">Last name</label>
-    <input
-      type="text"
-      name="contact[last_name]"
-      id="last-name" />
+<section class="section_contact">
+  <div class="container container_contact">
+    <div class="boxComplete" style="display: none">
+      <p>Your message has been sent</p>
+    </div>
+    <div class="wrap_contactForm">
+      {% form 'contact', class: 'form_contact' %}
+        {{ form.errors | default_errors }}
+
+
+        <label for="name_full" style="margin-top: 0px;">Your full name</label>
+        <input
+          type="text"
+          name="contact[first_name]"
+          class="input_contact"
+          placeholder="First name, last name..." />
+        <p class="error_contact name">Please enter your full name</p>
+
+        <label for="email">Email</label>
+        <input
+          type="email"
+          name="contact[email]"
+          class="input_contact"
+          placeholder="email@gmail.com..." />
+        <p class="error_contact email">Please enter a valid email</p>
+
+        <label for="message">Message</label>
+        <textarea
+          name="contact[body]"
+          class="input_contact"
+          placeholder="Type your message here..."></textarea>
+        <p class="error_contact body">Please enter your message</p>
+        <p style="margin-bottom: 32px;">Your message will go to
+          <a href="#" class="color_blue">{{ shop.email }}</a>
+        </p>
+
+        <div class="btn submit_contact">Send message</div>
+        <a href="tel:{{ shop.phone }}" class="btn inverted call">Call us: {{ shop.phone }}</a>
+
+      {% endform %}
+    </div>
+    <div class="wrap_contactInfo">
+      <div class="contactBox">
+        <div class="miniSection_contactBox">
+          <p class="miniTitle">Contact person</p>
+          <p>Andrius Urbonas, direktorius</p>
+        </div>
+        <div class="miniSection_contactBox">
+          <p class="miniTitle">Contact info</p>
+          <p>musupastas@gmail.com<br>+370 2910 9351</p>
+        </div>
+        <div class="miniSection_contactBox">
+          <p class="miniTitle">Working hours</p>
+          <p>Mon/Fr: 8:00 - 18:00</p>
+        </div>
+        <div class="miniSection_contactBox">
+          <p>We usually respond to messages in less than 24 hours, unless it's a weekend. In that case, you will receive an answer on Monday.</p>
+        </div>
+      </div>
+      <div class="contactBox">
+        <div class="miniSection_contactBox">
+          <p class="miniTitle" style="margin-bottom: 4px;">Rekvizitai</p>
+          <p>UAB "HobbyFit"<br>
+            Addresss<br>
+            Tel. nr. +3706 9219 4246<br>
+            El. paštas info@hobbyfit.com<br>
+            Bank Swedbank<br>
+            Įmonės kodas 814642425<br>
+            PVM kodas LT1002135099279<br>
+            Sąskaitos numeris LT8873015010515229488</p>
+        </div>
+      </div>
+    </div>
   </div>
-
-  <div class="email">
-    <label for="email">Test</label>
-    <input type="email" name="contact[test]" />
-  </div>
+</section>
 
 
-  <div class="message">
-    <label for="message">Message</label>
-    <textarea name="contact[body]" id="message"></textarea>
-  </div>
-
-  <div class="submit">
-    <input type="submit" value="Create" />
-  </div>
-{% endform %}
+{{ '9_contact.js' | asset_url | script_tag }}

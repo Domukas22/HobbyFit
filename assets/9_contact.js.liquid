@@ -1,0 +1,98 @@
+
+
+window.addEventListener('DOMContentLoaded', () => {
+    handle_shadow_3()
+})
+window.addEventListener('scroll', () => {
+    handle_shadow_3()
+})
+
+function handle_shadow_3() {
+    const nav = document.querySelector('nav');
+    window.scrollY < 60
+      ? nav.classList.add('no_shadow')
+      : nav.classList.remove('no_shadow');
+  }
+  
+const form = document.querySelector('.form_contact');
+const formBtn_contact = document.querySelector('.btn.submit_contact');
+
+
+formBtn_contact.addEventListener('click', (e) => {
+    //e.preventDefault()
+
+    const input_name = document.querySelector('input[name="contact[first_name]"]');
+    const input_email = document.querySelector('input[name="contact[email]"]');
+    const input_message = document.querySelector('textarea[name="contact[body]"]');
+    const error_name = document.querySelector('.error_contact.name');
+    const error_email = document.querySelector('.error_contact.email');
+    const error_body = document.querySelector('.error_contact.body');
+    const errors_all = document.querySelectorAll('.error_contact');
+
+    errors_all.forEach((x) => (x.style.display = 'none'));
+
+    if (isEmpty(input_name)) {
+        error_name.style.display = 'block';
+    }
+    if (!validateEmail(input_email.value)) {
+        error_email.style.display = 'block';
+    }
+    if (isEmpty(input_message)) {
+        error_body.style.display = 'block';
+    }
+    if (!isEmpty(input_name) && !isEmpty(input_message) && validateEmail(input_email.value)) {
+        [error_name, error_email, error_body].forEach((x) => (x.style.display = 'none'));
+        console.log('works')
+        form.submit()
+       // pushFormInfoToShopify(input_name.value, input_email.value, input_message.value);
+    }
+});
+
+const isEmpty = (input) => {
+return input.value === '';
+};
+
+const validateEmail = (email) => {
+return String(email)
+    .toLowerCase()
+    .match(
+    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    );
+};
+
+const formWrap = document.querySelector('.wrap_contactForm');
+const boxComplete = document.querySelector('.boxComplete');
+
+function pushFormInfoToShopify(name, email, message) {
+    const payload = {
+        contact: {
+            email: email,
+            firstName: name,
+            body: message
+        }
+    };
+
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', '/contact', true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            formWrap.style.display = 'none';
+            boxComplete.style.display = 'block';
+            // Optionally, you can perform additional actions after form submission
+            // For example, display a success message or clear the form inputs
+        } else {
+            console.error('Failed to submit form to Shopify');
+            // Handle the error case if the form submission fails
+            // For example, display an error message to the user
+        }
+    };
+    xhr.onerror = function () {
+        console.error('Failed to submit form to Shopify');
+        // Handle any network or other errors that occur during the form submission
+        // For example, display an error message to the user
+    };
+    xhr.send(JSON.stringify(payload));
+}
+//create function to manually push the form info

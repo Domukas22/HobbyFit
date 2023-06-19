@@ -66,7 +66,7 @@
         "btnWord_order_post": "",
         "btnWord_add_pre": "Pridėti:",
         "btnWord_add_post": "į krepšelį",
-        "btnWord_addMore_pre": "Pridėti dar:",
+        "btnWord_addMore_pre": "Pridėti dar",
         "btnWord_addMore_post": "į krepšelį",
         "btnWord_viewBasket": "Peržiūrėti krepšelį",
 
@@ -106,5 +106,57 @@
     "inline_slider": {
         "title": "Geri pasiūlymai",
         "btn_seeAll": "Pamatyti viską"
+    },
+
+    "cookies": {
+        "title": "Mes renkame slapukus",
+        "paragraph_pre": "Ši svetainė naudoja slapukus, kad užtikrintų geriausią Jūsų patirtį. Daugiau informacijos rasite mūsų",
+        "paragraph_link": "privatumo politikoje",
+        "paragraph_post": ".",
+        "decline": "Atsisakyti",
+        "accept": "Supratau!"
+    },
+
+    "links": {
+        "shipping": "Siuntimas",
+        "refund": "Grąžinimas"
+    },
+
+    "contact": {
+        "title": "Susisiekite su mumis!",
+
+        "full_name": "Jūsų pilnas vardas",
+        "place_name": "Vardas, pavardė...",
+        "error_name": "Prašau įveskite savo pilną vardą.",
+
+        "email": "El. pašto adresas",
+        "error_email": "Prašau įveskite galiojantį el. pašto adresą",
+
+        "message": "Jūsų žinutė",
+        "place_message": "Parašykite žinutę...",
+        "error_message": "Prašau įveskite žinutę.",
+        "reach": "Jūsų žinutė pasieks",
+
+        "send": "Siųsti žinutę",
+
+        "contact_person": "Pašnekovas",
+        "contact_info": "Kontaktai",
+        "working_hours": "Darbo laikai",
+        "answer_p": "Į pranešimus paprastai atsakome greičiau nei per 24 valandas, nebent tai būtų savaitgalis. Tokiu atveju atsakymą gausite pirmadienį.",
+        
+        "sent": "Jūsų žinutė išsiūsta!",
+        "call_us": "Skambinkite:",
+
+        "info": "Informacija",
+        "adress": "Adresas:",
+        "phone": "Mobilus:",
+        "info_email": "El. paštas:",
+        "bank": "Bankas:",
+        "code_company": "Įmonės kodas:",
+        "vat": "PVM kodas:",
+        "number_account": "Sąskaitos numeris:"
     }
+
+
+
 }

@@ -106,5 +106,54 @@
     "inline_slider": {
         "title": "Good offers",
         "btn_seeAll": "See all"
+    },
+
+    "cookies": {
+        "title": "We collect cookies",
+        "paragraph_pre": "This website uses cookies to ensure you get the best experience. See our",
+        "paragraph_link": "privacy policy",
+        "paragraph_post": "to learn more.",
+        "decline": "Decline",
+        "accept": "Got it!"
+    },
+
+    "links": {
+        "shipping": "Shipping info",
+        "refund": "Refund info"
+    },
+
+    "contact": {
+        "title": "Reach out to us!",
+
+        "full_name": "Your full name",
+        "place_name": "First name, last name...",
+        "error_name": "Please enter your full name.",
+
+        "email": "Email",
+        "error_email": "Please enter a valid email.",
+
+        "message": "Your message",
+        "place_message": "Type your message here...",
+        "error_message": "Please enter your full name.",
+        
+        "reach": "Your message will go to",
+        "send": "Send message",
+
+        "contact_person": "Contact person",
+        "contact_info": "Contact info",
+        "working_hours": "Working hours",
+        "answer_p": "We usually respond to messages in less than 24 hours, unless it's a weekend. In that case, you will receive an answer on Monday.",
+        
+        "sent": "Your message has been sent!",
+        "call_us": "Call us:",
+
+        "info": "Infos",
+        "adress": "Adress:",
+        "phone": "Phone:",
+        "info_email": "Email:",
+        "bank": "Bank:",
+        "code_company": "Company code:",
+        "vat": "VAT:",
+        "number_account": "Account number:"
     }
 }

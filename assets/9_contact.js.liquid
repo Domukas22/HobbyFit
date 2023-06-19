@@ -44,7 +44,7 @@ formBtn_contact.addEventListener('click', (e) => {
         [error_name, error_email, error_body].forEach((x) => (x.style.display = 'none'));
         console.log('works')
         form.submit()
-       // pushFormInfoToShopify(input_name.value, input_email.value, input_message.value);
+        //pushFormInfoToShopify(input_name.value, input_email.value, input_message.value);
     }
 });
 
@@ -63,36 +63,41 @@ return String(email)
 const formWrap = document.querySelector('.wrap_contactForm');
 const boxComplete = document.querySelector('.boxComplete');
 
-function pushFormInfoToShopify(name, email, message) {
-    const payload = {
-        contact: {
-            email: email,
-            firstName: name,
-            body: message
-        }
-    };
 
-    const xhr = new XMLHttpRequest();
-    xhr.open('POST', '/contact', true);
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-    xhr.onload = function () {
-        if (xhr.status === 200) {
-            formWrap.style.display = 'none';
-            boxComplete.style.display = 'block';
-            // Optionally, you can perform additional actions after form submission
-            // For example, display a success message or clear the form inputs
-        } else {
-            console.error('Failed to submit form to Shopify');
-            // Handle the error case if the form submission fails
-            // For example, display an error message to the user
-        }
+function pushFormInfoToShopify(name, email, message) {
+    console.log(name, email, message);
+    const payload = {
+      contact: {
+        email: email,
+        firstName: name,
+        body: message,
+      },
     };
-    xhr.onerror = function () {
-        console.error('Failed to submit form to Shopify');
+  
+    fetch('/contact', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Requested-With': 'XMLHttpRequest',
+      },
+      body: JSON.stringify(payload),
+    })
+      .then((response) => {
+        if (response.ok) {
+          formWrap.style.display = 'none';
+          boxComplete.style.display = 'block';
+          // Optionally, you can perform additional actions after form submission
+          // For example, display a success message or clear the form inputs
+        } else {
+          console.error('Failed to submit form to Shopify');
+          // Handle the error case if the form submission fails
+          // For example, display an error message to the user
+        }
+      })
+      .catch((error) => {
+        console.error('Failed to submit form to Shopify:', error);
         // Handle any network or other errors that occur during the form submission
         // For example, display an error message to the user
-    };
-    xhr.send(JSON.stringify(payload));
-}
+      });
+  }
 //create function to manually push the form info

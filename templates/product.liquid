@@ -649,8 +649,6 @@
 
   window.addEventListener('DOMContentLoaded', () => {
     
-
-
     if (product_available) {
       const qnt_info = qnt_police(find_matchedVariant())
       
@@ -718,7 +716,7 @@
         if (radio.getAttribute("name") == "Color") {
           document.querySelector('.swiper').style.opacity = "0%"
           document.querySelector('.sliderControls').style.opacity = "0%"
-          edit_size_options() // dont mess with this function
+          edit_size_options()
           setTimeout(() => {
             insert_swiper(get_images())
             replaceSwiper()

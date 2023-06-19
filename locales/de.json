@@ -106,5 +106,54 @@
     "inline_slider": {
         "title": "Gute Angebote",
         "btn_seeAll": "Alles sehen"
+    },
+
+    "cookies": {
+        "title": "Wir sammeln Cookies",
+        "paragraph_pre": "Diese Website verwendet Cookies, um das beste Erlebnis zu gewährleisten. Weitere Informationen finden Sie in unserer",
+        "paragraph_link": "Datenschutzerklärung",
+        "paragraph_post": ".",
+        "decline": "Ablehnen",
+        "accept": "Einverstandens"
+    },
+
+    "links": {
+        "shipping": "Lieferung",
+        "refund": "Rückerstattung"
+    },
+
+    "contact": {
+        "title": "Schreiben Sie uns an!",
+
+        "full_name": "Vollständiger Name",
+        "place_name": "Vorname, Nachname...",
+        "error_name": "Bitte geben Sie Ihre vollständigen Name ein.",
+
+        "email": "Email-Adresse",
+        "error_email": "Bitte geben eine gültige Email-Adresse ein.",
+
+        "message": "Ihre Nachricht",
+        "place_message": "Ihre Nachricht schreiben...",
+        "error_message": "Bitte schreiben Sie eine Nachricht.",
+        
+        "reach": "Ihre Nachricht erreicht",
+        "send": "Nachricht senden",
+
+        "contact_person": "Gesprächsparter",
+        "contact_info": "Kontakt Info",
+        "working_hours": "Arbeitszeiten",
+        "answer_p": "Normalerweise antworten wir auf Nachrichten in weniger als 24 Stunden, es sei denn, es ist ein Wochenende. In diesem Fall erhalten Sie am Montag eine Antwort.",
+        
+        "sent": "Ihre Nachricht wurde versendet!",
+        "call_us": "Anrufen:",
+
+        "info": "Infornationen",
+        "adress": "Adresse:",
+        "phone": "Handy:",
+        "info_email": "Email:",
+        "bank": "Bank:",
+        "code_company": "Firmencode:",
+        "vat": "MwSt:",
+        "number_account": "Kontonummer:"
     }
 }

@@ -21,6 +21,7 @@
     {{ '7_footer.css' | asset_url | stylesheet_tag }}
     {{ '8_legal.css' | asset_url | stylesheet_tag }}
     {{ '9_contact.css' | asset_url | stylesheet_tag }}
+    {{ '10_cookies.css' | asset_url | stylesheet_tag }}
 
   </head>
   <body>
@@ -34,6 +35,7 @@
 
 
     {% render 'nav' %}
+    {% render 'cookies' %}
     {{ content_for_layout }}
     {% render 'footer' %}
     {{ '0_general.js' | asset_url | script_tag }}

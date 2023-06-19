@@ -10,47 +10,47 @@
 
 <section class="section_pageTitle" style="z-index: 1;">
   <div class="subWrap_pageTitle">
-    <h2 class="pageTitle">Susisiekite su mumis!</h2>
+    <h2 class="pageTitle">{{ "contact.title" | t }}</h2>
   </div>
 </section>
 
 <section class="section_contact">
   <div class="container container_contact">
     <div class="boxComplete" style="display: none">
-      <p>Your message has been sent</p>
+      <p>{{ "contact.sent" | t }}</p>
     </div>
     <div class="wrap_contactForm">
       {% form 'contact', class: 'form_contact' %}
         {{ form.errors | default_errors }}
 
 
-        <label for="name_full" style="margin-top: 0px;">Your full name</label>
+        <label for="name_full" style="margin-top: 0px;">{{ "contact.full_name" | t }}</label>
         <input
           type="text"
           name="contact[first_name]"
           class="input_contact"
-          placeholder="First name, last name..." />
-        <p class="error_contact name">Please enter your full name</p>
+          placeholder="{{ "contact.place_name" | t }}" />
+        <p class="error_contact name">{{ "contact.error_name" | t }}</p>
 
-        <label for="email">Email</label>
+        <label for="email">{{ "contact.email" | t }}</label>
         <input
           type="email"
           name="contact[email]"
           class="input_contact"
           placeholder="email@gmail.com..." />
-        <p class="error_contact email">Please enter a valid email</p>
+        <p class="error_contact email">{{ "contact.error_email" | t }}</p>
 
-        <label for="message">Message</label>
+        <label for="message">{{ "contact.message" | t }}</label>
         <textarea
           name="contact[body]"
           class="input_contact"
-          placeholder="Type your message here..."></textarea>
-        <p class="error_contact body">Please enter your message</p>
-        <p style="margin-bottom: 32px;">Your message will go to
+          placeholder="{{ "contact.place_message" | t }}"></textarea>
+        <p class="error_contact body">{{ "contact.error_message" | t }}</p>
+        <p style="margin-bottom: 32px;">{{ "contact.reach" | t }}
           <a href="#" class="color_blue">{{ shop.email }}</a>
         </p>
 
-        <div class="btn submit_contact">Send message</div>
+        <div class="btn submit_contact">{{ "contact.send" | t }}</div>
         <a href="tel:{{ shop.phone }}" class="btn inverted call">Call us: {{ shop.phone }}</a>
 
       {% endform %}
@@ -58,32 +58,32 @@
     <div class="wrap_contactInfo">
       <div class="contactBox">
         <div class="miniSection_contactBox">
-          <p class="miniTitle">Contact person</p>
+          <p class="miniTitle">{{ "contact.contact_person" | t }}</p>
           <p>Andrius Urbonas, direktorius</p>
         </div>
         <div class="miniSection_contactBox">
-          <p class="miniTitle">Contact info</p>
+          <p class="miniTitle">{{ "contact.contact_info" | t }}</p>
           <p>musupastas@gmail.com<br>+370 2910 9351</p>
         </div>
         <div class="miniSection_contactBox">
-          <p class="miniTitle">Working hours</p>
+          <p class="miniTitle">{{ "contact.working_hours" | t }}</p>
           <p>Mon/Fr: 8:00 - 18:00</p>
         </div>
         <div class="miniSection_contactBox">
-          <p>We usually respond to messages in less than 24 hours, unless it's a weekend. In that case, you will receive an answer on Monday.</p>
+          <p>{{ "contact.answer_p" | t }}</p>
         </div>
       </div>
       <div class="contactBox">
         <div class="miniSection_contactBox">
-          <p class="miniTitle" style="margin-bottom: 4px;">Rekvizitai</p>
+          <p class="miniTitle" style="margin-bottom: 4px;">{{ "contact.info" | t }}</p>
           <p>UAB "HobbyFit"<br>
-            Addresss<br>
-            Tel. nr. +3706 9219 4246<br>
-            El. paštas info@hobbyfit.com<br>
-            Bank Swedbank<br>
-            Įmonės kodas 814642425<br>
-            PVM kodas LT1002135099279<br>
-            Sąskaitos numeris LT8873015010515229488</p>
+            {{ "contact.adress" | t }} Musu adresas<br>
+            {{ "contact.phone" | t }} +3706 9219 4246<br>
+            {{ "contact.info_email" | t }} info@hobbyfit.com<br>
+            {{ "contact.bank" | t }} Swedbank<br>
+            {{ "contact.code_company" | t }} 814642425<br>
+            {{ "contact.vat" | t }} LT1002135099279<br>
+            {{ "contact.number_account" | t }} LT8873015010515229488</p>
         </div>
       </div>
     </div>

@@ -327,7 +327,7 @@ input[name="cart_decoy"] {
 }
 .shippingLine.bg {
     width: 100%;
-    background-color: #E2E2E2;
+    background-color: #eeeeee;
     z-index: 1;
 } 
 .shippingLine.grow {
@@ -335,6 +335,7 @@ input[name="cart_decoy"] {
     background: linear-gradient(90deg, #407FF2 0%, #85D3FF 100%);
     border-radius: 100px;
     width: 50px;
+    transition: 400ms ease-out;
 }
 
 .empty_cart_slot {

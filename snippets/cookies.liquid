@@ -1,0 +1,87 @@
+{% assign lang = request.locale.iso_code %}
+{% if lang == 'en' %}
+  {% assign lang = '' %}
+{% endif %}
+
+
+<div id="cookies-banner">
+  <div class="titleWrap_cookies">
+    <h5>{{ "cookies.title" | t }}</h5>
+    <img
+      class="icon_cookie"
+      src="{{ 'icon_cookie.png' | asset_url }}"
+      alt="">
+  </div>
+
+
+  <p>{{ "cookies.paragraph_pre" | t }}
+    <span>
+      <a href="{{ shop.url }}/{{ lang }}/pages/privacy-policy" style="color: #407ff2;">{{ "cookies.paragraph_link" | t }}</a>
+    </span>
+    {{ "cookies.paragraph_post" | t }}
+  </p>
+  <div class="btnWrap_cookies">
+    <div class="btn cookies decline" onclick="handleDecline()">{{ "cookies.decline" | t }}</div>
+    <div class="btn cookies accept" onclick="handleAccept()">{{ "cookies.accept" | t }}</div>
+  </div>
+</div>
+
+
+
+<script>
+  function getBannerEl() {
+    return document.getElementById('cookies-banner');
+  }
+  function hideBanner(res) {
+    const banner = getBannerEl()
+    banner.style.opacity = "0%"
+
+    setTimeout(() => {
+      banner.style.display = 'none';
+    }, 4000)
+  }
+  function showBanner() {
+    const banner = getBannerEl()
+    banner.style.display = 'block';
+    setTimeout(() => {
+      banner.style.opacity = "100%"
+    }, 10)
+  }
+
+
+  function handleAccept(e) {
+    window.Shopify.customerPrivacy.setTrackingConsent(true, hideBanner);
+    document.addEventListener('trackingConsentAccepted', function() {
+      console.log('trackingConsentAccepted event fired');
+    });
+
+  }
+  function handleDecline() {
+    window.Shopify.customerPrivacy.setTrackingConsent(false, hideBanner);
+  }
+
+  function initCookieBanner() {
+    const userCanBeTracked = window.Shopify.customerPrivacy.userCanBeTracked();
+    const userTrackingConsent = window.Shopify.customerPrivacy.getTrackingConsent();
+
+    if (! userCanBeTracked && userTrackingConsent === 'no_interaction') {
+      setTimeout(() => {
+        showBanner();
+      }, 5000)
+
+    }
+  }
+
+  window.Shopify.loadFeatures([
+    {
+      name: 'consent-tracking-api',
+      version: '0.1'
+    }
+  ], function(error) {
+    if (error) {
+      throw error;
+    }
+
+    initCookieBanner();
+  });
+</script>

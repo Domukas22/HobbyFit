@@ -186,7 +186,7 @@
                 class="icon_Nav"
                 src="{{ 'icon_shipping.png' | asset_url }}"
                 alt="">
-              <p>Shipping info</p>
+              <p>{{ "links.shipping" | t }}</p>
             </a>
             <a
               href='{{ shop.url }}/{{ lang }}/pages/refund'
@@ -196,7 +196,7 @@
                 class="icon_Nav"
                 src="{{ 'icon_return.png' | asset_url }}"
                 alt="">
-              <p>Refund info</p>
+              <p>{{ "links.refund" | t }}</p>
             </a>
 
           </div>
@@ -403,14 +403,14 @@
           class="icon_Nav"
           src="{{ 'icon_shipping.png' | asset_url }}"
           alt="">
-        <p>Shipping info</p>
+        <p>{{ "links.shipping" | t }}</p>
       </a>
       <a href='{{ shop.url }}/{{ lang }}/pages/refund' class="link_dropdown menu">
         <img
           class="icon_Nav"
           src="{{ 'icon_return.png' | asset_url }}"
           alt="">
-        <p>Refund info</p>
+        <p>{{ "links.refund" | t }}</p>
       </a>
 
 

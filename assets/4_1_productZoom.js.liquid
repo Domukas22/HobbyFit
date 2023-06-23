@@ -121,40 +121,7 @@ function toggle_activeZoomBtn(magnify) {
         
 })}
 
-function zoom_mouseClick(wrapper) {
-    let startX;
-    let startY;
-    let isMouseDown = false;
-    let locked = false
 
-    wrapper.addEventListener("mousedown", function(event) {
-        startX = event.clientX;
-        startY = event.clientY;
-        isMouseDown = true;
-    });
-
-    wrapper.addEventListener("mouseup", function(event) {
-        if (isMouseDown) {
-        const distanceX = Math.abs(event.clientX - startX);
-        const distanceY = Math.abs(event.clientY - startY);
-        if ((distanceX < 0.4 || distanceY < 0.4 ) && wrapper.dataset.magnify !== '1' && !locked) {
-            locked = true
-            setTimeout(() => {toggle_zoom(1)}, 10);
-            setTimeout(() => {locked = false}, 410);
-        }
-        isMouseDown = false;
-        }
-    });
-
-    const slides = document.querySelectorAll('.swiper-slide')
-    slides.forEach(slide => slide.addEventListener('dblclick', (e) => {
-        if (e.currentTarget.parentElement.dataset.magnify == '1' && !locked) {
-            locked = true
-            toggle_zoom(2)
-            setTimeout(() => {locked = false}, 410);
-        }
-    }))
-} zoom_mouseClick(document.querySelector('.swiper-wrapper'))
 
 
  function isDesktop() {return window.innerWidth > 991 ? true : false}

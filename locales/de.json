@@ -72,7 +72,9 @@
 
         "text_freeShipping": "Kostenloser Versand ab 70 Euro",
         "text_return": "30 Tage Rückerstattung",
-        "text_contact": "Durchgehender Kontakt mit uns"
+        "text_contact": "Durchgehender Kontakt mit uns",
+
+        "word_outOfReviews": "Kundenbewertungen"
     },
 
     "alerts": {
@@ -147,13 +149,20 @@
         "sent": "Ihre Nachricht wurde versendet!",
         "call_us": "Anrufen:",
 
-        "info": "Infornationen",
+        "info": "Impressum",
         "adress": "Adresse:",
         "phone": "Handy:",
         "info_email": "Email:",
         "bank": "Bank:",
         "code_company": "Firmencode:",
         "vat": "MwSt:",
-        "number_account": "Kontonummer:"
+
+        "success_title": "Nachricht versendet!",
+        "success_p": "Danke für Ihre Nachricht. Bald bekommen Sie eine Antwort.",
+        "success_link": "Zurück zur Startseite",
+
+        "word_ceo": "Geschäftsführer",
+        "luca": "LUCA GmbH"
+
     }
 }

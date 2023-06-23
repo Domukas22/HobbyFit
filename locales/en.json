@@ -72,7 +72,9 @@
 
         "text_freeShipping": "Free shipping from 70 euros",
         "text_return": "30 Day refund",
-        "text_contact": "Round-the-clock contact with us"
+        "text_contact": "Round-the-clock contact with us",
+
+        "word_outOfReviews": "reviews"
     },
 
     "alerts": {
@@ -147,13 +149,19 @@
         "sent": "Your message has been sent!",
         "call_us": "Call us:",
 
-        "info": "Infos",
+        "info": "Legal notice",
         "adress": "Adress:",
         "phone": "Phone:",
         "info_email": "Email:",
         "bank": "Bank:",
         "code_company": "Company code:",
         "vat": "VAT:",
-        "number_account": "Account number:"
+
+        "success_title": "Your message has been sent!",
+        "success_p": "Thanks for reaching out. We'll get back to you shortly.",
+        "success_link": "Back to homepage",
+
+        "word_ceo": "CEO",
+        "luca": "LUCA Ltd."
     }
 }

@@ -18,6 +18,39 @@
     --border_bottom: 1px solid rgba(0, 0, 0, 0.04);
 }
 
+
+table {
+    margin: 16px 0 16px;
+}
+th {
+    text-align: left;
+}
+td {
+    padding-right: 32px;
+
+}
+
+td > ul > li {
+    margin-bottom: 14px;
+}
+
+ul {
+    margin: 16px 0;
+}
+
+.content_legal > h2 {
+    margin-top: 72px;
+    margin-bottom: 26px;
+}
+
+.content_legal > h3 {
+    margin-top: 60px;
+    margin-bottom: 20px;
+}
+.content_legal > ul > li {
+    margin-bottom: 14px;
+}
+
 .section_legal {
     background-color: var(--color_bg);
     position: relative;
@@ -43,7 +76,7 @@
     z-index: 3;
 }
 .title_legal {
-    margin-bottom: 20px;
+    margin: 0 0 20px !important;
 }
 .linkBox_TOP {
     height: 80px;

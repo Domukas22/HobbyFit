@@ -14,6 +14,8 @@
   </div>
 </section>
 
+
+
 <section class="section_contact">
   <div class="container container_contact">
     <div class="boxComplete" style="display: none">
@@ -23,35 +25,52 @@
       {% form 'contact', class: 'form_contact' %}
         {{ form.errors | default_errors }}
 
+        {% if form.posted_successfully? %}
+          <div class="box_contactSuccess">
+            <img
+              class="icon_checkmark_contact"
+              src="{{ 'icon_checkmark.svg' | asset_url }}"
+              alt="">
+            <h4>{{ "contact.success_title" | t }}</h4>
+            <p>{{ "contact.success_p" | t }}</p>
+            <a href="{{ shop.url }}/{{ lang }}" class="link_contactSuccess">{{ "contact.success_link" | t }}</a>
+          </div>
 
-        <label for="name_full" style="margin-top: 0px;">{{ "contact.full_name" | t }}</label>
-        <input
-          type="text"
-          name="contact[first_name]"
-          class="input_contact"
-          placeholder="{{ "contact.place_name" | t }}" />
-        <p class="error_contact name">{{ "contact.error_name" | t }}</p>
 
-        <label for="email">{{ "contact.email" | t }}</label>
-        <input
-          type="email"
-          name="contact[email]"
-          class="input_contact"
-          placeholder="email@gmail.com..." />
-        <p class="error_contact email">{{ "contact.error_email" | t }}</p>
+        {% else %}
 
-        <label for="message">{{ "contact.message" | t }}</label>
-        <textarea
-          name="contact[body]"
-          class="input_contact"
-          placeholder="{{ "contact.place_message" | t }}"></textarea>
-        <p class="error_contact body">{{ "contact.error_message" | t }}</p>
-        <p style="margin-bottom: 32px;">{{ "contact.reach" | t }}
-          <a href="#" class="color_blue">{{ shop.email }}</a>
-        </p>
+          <label for="name_full" style="margin-top: 0px;">{{ "contact.full_name" | t }}</label>
+          <input
+            type="text"
+            name="contact[first_name]"
+            class="input_contact"
+            placeholder="{{ "contact.place_name" | t }}" />
+          <p class="error_contact name">{{ "contact.error_name" | t }}</p>
 
-        <div class="btn submit_contact">{{ "contact.send" | t }}</div>
-        <a href="tel:{{ shop.phone }}" class="btn inverted call">Call us: {{ shop.phone }}</a>
+          <label for="email">{{ "contact.email" | t }}</label>
+          <input
+            type="email"
+            name="contact[email]"
+            class="input_contact"
+            placeholder="email@gmail.com..." />
+          <p class="error_contact email">{{ "contact.error_email" | t }}</p>
+
+          <label for="message">{{ "contact.message" | t }}</label>
+          <textarea
+            name="contact[body]"
+            class="input_contact"
+            placeholder="{{ "contact.place_message" | t }}"></textarea>
+          <p class="error_contact body">{{ "contact.error_message" | t }}</p>
+          <p style="margin-bottom: 32px;">{{ "contact.reach" | t }}
+            <a href="#" class="color_blue">{{ shop.email }}</a>
+          </p>
+
+          <div class="btn submit_contact">{{ "contact.send" | t }}</div>
+          <a href="tel:{{ shop.phone }}" class="btn inverted call">{{ "contact.call_us" | t }} {{ shop.phone }}</a>
+
+        {% endif %}
+
+
 
       {% endform %}
     </div>
@@ -59,11 +78,11 @@
       <div class="contactBox">
         <div class="miniSection_contactBox">
           <p class="miniTitle">{{ "contact.contact_person" | t }}</p>
-          <p>Andrius Urbonas, direktorius</p>
+          <p>Andrius Urbonas, {{ "contact.word_ceo" | t }}</p>
         </div>
         <div class="miniSection_contactBox">
           <p class="miniTitle">{{ "contact.contact_info" | t }}</p>
-          <p>musupastas@gmail.com<br>+370 2910 9351</p>
+          <p>autopartsluca@gmail.com<br>+370 2910 9351</p>
         </div>
         <div class="miniSection_contactBox">
           <p class="miniTitle">{{ "contact.working_hours" | t }}</p>
@@ -76,19 +95,28 @@
       <div class="contactBox">
         <div class="miniSection_contactBox">
           <p class="miniTitle" style="margin-bottom: 4px;">{{ "contact.info" | t }}</p>
-          <p>UAB "HobbyFit"<br>
-            {{ "contact.adress" | t }} Musu adresas<br>
-            {{ "contact.phone" | t }} +3706 9219 4246<br>
-            {{ "contact.info_email" | t }} info@hobbyfit.com<br>
-            {{ "contact.bank" | t }} Swedbank<br>
-            {{ "contact.code_company" | t }} 814642425<br>
-            {{ "contact.vat" | t }} LT1002135099279<br>
-            {{ "contact.number_account" | t }} LT8873015010515229488</p>
+          <p>{{ "contact.luca" | t }}<br>
+            {{ "contact.phone" | t }} +370 61805888<br>
+            {{ "contact.info_email" | t }} autopartsluca@gmail.com<br>
+
+            {{ "contact.adress" | t }} Liūdynės k., Velžio sen., Panevėžio r. Lithuania<br>
+            {{ "contact.code_company" | t }} 302590296<br>
+            {{ "contact.vat" | t }} LT100005903618<br><br>
+
+            {{ "contact.bank" | t }} PKO Bank Polski S.A<br>
+            SWIFT: BPKOPLPW<br>
+            IBAN: PL45102013320000180213546983<br><br>
+
+            {{ "contact.bank" | t }} AB Citadele bankas<br>
+            SWIFT: INDULT2X<br>
+            IBAN: LT757290000009467134<br>
+
         </div>
       </div>
     </div>
   </div>
 </section>
+
 
 
 {{ '9_contact.js' | asset_url | script_tag }}

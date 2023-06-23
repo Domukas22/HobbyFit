@@ -27,7 +27,7 @@
 
     <div class="grid_cartItems">
       {% if cart.item_count > 0 %}
-        {% for item in cart.items reversed %}
+        {% for item in cart.items reverse %}
           {% assign bg = item.image.alt | split: " " | slice: -2, 1 | first %}
           {% assign raw = item.image.alt | split: " " | last %}
           {% assign size_option = item.options_with_values | where: "name", "Size" | first %}
@@ -237,17 +237,13 @@
                   <div class="shippingLine grow"></div>
                 </div>
               </div>
-              <a
-                class="btn cart keepShopping"
-                href="{{ collections['badmintono-prekes'].url }}"
-                data-scale>{{ "cart.btnWord_inverted" | t }}</a>
               <div class="btn cart buy" data-scale>{{ "cart.btnWord_main" | t }}</div>
             </div>
           </div>
           <p class="text_separator">{{ "cart.your_items" | t }} (<span data-final_item_count>{{ cart.item_count }}</span>)</p>
           <div class="box_itemPreview">
             {% if cart.item_count > 0 %}
-              {% for item in cart.items reversed %}
+              {% for item in cart.items reverse %}
                 {% assign bg = item.image.alt | split: " " | slice: -2, 1 | first %}
                 {% assign raw = item.image.alt | split: " " | last %}
                 {% assign size_option = item.options_with_values | where: "name", "Size" | first %}
@@ -432,32 +428,33 @@
 
 
 <script>
-  const format = "{{ shop.money_format }}"
-  const btn_update_form = document.querySelector('.btn_cartForm[name="update"]')
-
+  const format = "{{ shop.money_format }}";
+  const btn_update_form = document.querySelector('.btn_cartForm[name="update"]');
 
   Shopify.queue = Shopify.queue || [];
 
   window.addEventListener('DOMContentLoaded', () => {
-    edit_freeShipping({{ cart.total_price }})
-    edit_shippingLine({{ cart.total_price }})
-  })
+    edit_freeShipping({{ cart.total_price }});
+    edit_shippingLine({{ cart.total_price }});
+  });
 
   btn_update_form.addEventListener('click', (e) => {
     event.preventDefault();
-    const id = parseInt(btn_update_form.dataset.update_element_id)
-    const qnt = parseInt(btn_update_form.dataset.update_element_qnt)
+    const id = parseInt(btn_update_form.dataset.update_element_id);
+    const qnt = parseInt(btn_update_form.dataset.update_element_qnt);
     updateCart(id, qnt);
+  });
 
-  })
   function is_cart_empty_2() {
     {% if cart.item_count == 0 %}
-      return true
+      return true;
     {% else %}
-      return false
-    {% endif %}
+      return false;{% endif %}
   }
+
   function updateCart(variantId, itemQty) {
+    const updates = {};{% for item in cart.items reverse %}updates[{{ item.variant_id }}] = {{ item.quantity }};{% endfor %}updates[variantId] = itemQty; // Add the updated quantity for the current variantId
+
     Shopify.queue.push({
       variantId: variantId,
       quantity: itemQty,
@@ -466,7 +463,6 @@
       _queue: 'actions'
     });
 
-// Send the AJAX request to update the cart on the server-side
     fetch('/cart/update.js', {
       method: 'POST',
       headers: {
@@ -474,41 +470,34 @@
         'X-Requested-With': 'XMLHttpRequest'
       },
       body: JSON.stringify(
-        {
-          updates: {
-            [variantId]: itemQty
-          }
-        }
+        {updates: updates}
       )
     }).then(response => response.json()).then(cart_data => {
+      console.log(cart_data);
 
-// console.log(cart_data);
-
-      const texts_finalPrice_All = document.querySelectorAll('[data-final_price]')
-      const texts_finalItemCount_All = document.querySelectorAll('[data-final_item_count]')
-
+      const texts_finalPrice_All = document.querySelectorAll('[data-final_price]');
+      const texts_finalItemCount_All = document.querySelectorAll('[data-final_item_count]');
 
       texts_finalPrice_All.forEach(x => x.textContent = formatMoney(cart_data.items_subtotal_price, format));
       texts_finalItemCount_All.forEach(x => x.textContent = cart_data.item_count);
-      edit_freeShipping(cart_data.items_subtotal_price)
-      edit_shippingLine(cart_data.items_subtotal_price)
-    })
+      edit_freeShipping(cart_data.items_subtotal_price);
+      edit_shippingLine(cart_data.items_subtotal_price);
+    });
   }
+
+
 
   function edit_freeShipping(current_price) {
     document.querySelector('.price_leftForShipping').textContent = formatMoney(7000 - current_price, format)
     const yes = document.querySelector('.alert_shipping.yes')
     const no = document.querySelector('.alert_shipping.no')
-    const btn_keepShopping = document.querySelector('.btn.cart.keepShopping')
 
     if (current_price >= 7000) {
       yes.style.display = "flex"
       no.style.display = "none"
-      btn_keepShopping.style.display = "none"
     } else {
       yes.style.display = "none"
       no.style.display = "flex"
-      btn_keepShopping.style.display = "flex"
     }
 
 

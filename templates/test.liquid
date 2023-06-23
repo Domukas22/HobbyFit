@@ -1,0 +1,303 @@
+{{ email_title }}<meta content="text/html; charset=utf-8" http-equiv="Content-Type"> <meta content="width=device-width" name="viewport"> <link href="/assets/notifications/styles.css" type="text/css" rel="stylesheet">
+<style><!--
+    .button__cell { background: {{ shop.email_accent_color }}; }
+    a, a:hover, a:active, a:visited { color: {{ shop.email_accent_color }}; }
+  
+--></style>
+<table class="body">
+<tbody>
+<tr>
+<td>
+<table class="header row">
+<tbody>
+<tr>
+<td class="header__cell"><center>
+<table class="container">
+<tbody>
+<tr>
+<td>{%- if po_number %} {%- endif %}
+<table class="row">
+<tbody>
+<tr>
+<td class="shop-name__cell">{%- if shop.email_logo_url %} <img src="{{shop.email_logo_url}}" alt="{{ shop.name }}" width="{{ shop.email_logo_width }}"> {%- else %}
+<h1 class="shop-name__text"><a href="{{shop.url}}">{{ shop.name }}</a></h1>
+{%- endif %}</td>
+<td></td>
+</tr>
+<tr>
+<td class="order-number__cell"><span class="order-number__text"> Sąskaita {{ order_name }} </span></td>
+</tr>
+<tr>
+<td class="po-number__cell"><span class="po-number__text"> Siuntimo numeris #{{ po_number }} </span></td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</center></td>
+</tr>
+</tbody>
+</table>
+<table class="row content">
+<tbody>
+<tr>
+<td class="content__cell"><center>
+<table class="container">
+<tbody>
+<tr>
+<td>{% if payment_terms.type == 'receipt' and payment_terms.next_payment.due_at == nil %} {% assign due_date = 'now' %} {% else %} {% assign due_date = payment_terms.next_payment.due_at | default: nil %} {% endif %} {% if payment_terms.type == 'fulfillment' and payment_terms.next_payment.due_at == nil %}
+<h2>{{ order.total_outstanding | money }} apmokėjimas turi būti atliktas įvykdžius</h2>
+{% else %}
+<h2>{{ order.total_outstanding | money }} apmokėjimas {{ due_date | date: format: 'date' }}</h2>
+{% endif %} {% if custom_message != blank %}
+<p>{{ custom_message }}</p>
+{% endif %} {% if checkout_payment_collection_url %}
+<table class="row actions">
+<tbody>
+<tr>
+<td class="actions__cell">
+<table class="button main-action-cell">
+<tbody>
+<tr>
+<td class="button__cell"><a href="{{ checkout_payment_collection_url }}" class="button__text">Sumokėti dabar</a></td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+{% endif %}</td>
+</tr>
+</tbody>
+</table>
+</center></td>
+</tr>
+</tbody>
+</table>
+<table class="row section">
+<tbody>
+<tr>
+<td class="section__cell"><center>
+<table class="container">
+<tbody>
+<tr>
+<td>
+<h3>Užsakymo santrauka</h3>
+</td>
+</tr>
+</tbody>
+</table>
+<table class="container">
+<tbody>
+<tr>
+<td>{% for line in subtotal_line_items %} {% endfor %}
+<table class="row">
+<tbody>
+<tr class="order-list__item">
+<td class="order-list__item__cell">
+<table>
+<tbody>
+<tr>
+<td>{% if line.image %} <img src="{{ line | img_url: 'compact_cropped' }}" align="left" width="60" height="60" class="order-list__product-image"> {% endif %}</td>
+<td class="order-list__product-description-cell">{% if line.product.title %} {% assign line_title = line.product.title %} {% else %} {% assign line_title = line.title %} {% endif %} {% if line.quantity &lt; line.quantity %} {% capture line_display %} {{ line.quantity }} of {{ line.quantity }} {% endcapture %} {% else %} {% assign line_display = line.quantity %} {% endif %} <span class="order-list__item-title">{{ line_title }}&nbsp;×&nbsp;{{ line_display }}</span><br> {% if line.variant.title != 'Default Title' %} <span class="order-list__item-variant">{{ line.variant.title }}</span><br> {% endif %} {% for group in line.groups %} <span class="order-list__item-variant">Part of: {{ group.display_title }}</span><br> {% endfor %} {% if line.gift_card and line.properties["__shopify_send_gift_card_to_recipient"] %} {% for property in line.properties %} {% assign property_first_char = property.first | slice: 0 %} {% if property.last != blank and property_first_char != '_' %}
+<dt>{{ property.first }}:</dt>
+<dd>{% if property.last contains '/uploads/' %} <a href="{{ property.last }}" class="link" target="_blank"> {{ property.last | split: '/' | last }} </a> {% else %} {{ property.last }} {% endif %}</dd>
+{% endif %} {% endfor %} {% endif %} {% if line.selling_plan_allocation %} <span class="order-list__item-variant">{{ line.selling_plan_allocation.selling_plan.name }}</span><br> {% endif %} {% if line.refunded_quantity &gt; 0 %} <span class="order-list__item-refunded">Refunded</span> {% endif %} {% if line.discount_allocations %} {% for discount_allocation in line.discount_allocations %} {% if discount_allocation.discount_application.target_selection != 'all' %} <span class="order-list__item-discount-allocation"> <img src="{{ 'notifications/discounttag.png' | shopify_asset_url }}" width="18" height="18" class="discount-tag-icon"> <span> {{ discount_allocation.discount_application.title | upcase }} (-{{ discount_allocation.amount | money }}) </span> </span> {% endif %} {% endfor %} {% endif %}</td>
+<td class="order-list__price-cell">{% if line.original_line_price != line.final_line_price %} <del class="order-list__item-original-price">{{ line.original_line_price | money }}</del> {% endif %}
+<p class="order-list__item-price">{% if line.final_line_price &gt; 0 %} {{ line.final_line_price | money }} {% if line.unit_price_measurement %}</p>
+<div class="order-list__unit-price">{{ line.unit_price | money }}/ {%- if line.unit_price_measurement.reference_value != 1 -%} {{- line.unit_price_measurement.reference_value -}} {%- endif -%} {{ line.unit_price_measurement.reference_unit }}</div>
+{% endif %} {% else %} Nemokama {% endif %}
+<p>&nbsp;</p>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+<table class="row subtotal-lines">
+<tbody>
+<tr>
+<td class="subtotal-spacer"></td>
+<td>{% for discount_application in discount_applications %} {% if discount_application.target_selection == 'all' %} {% capture discount_title %} {% if discount_application.title %} {{ discount_application.title | upcase }} {% else %} Discount {% endif %} {% endcapture %} {% endif %} {% endfor %} {% if total_tip_received and total_tip_received &gt; 0 %} {% endif %}
+<table class="row subtotal-table">
+<tbody>
+<tr class="subtotal-line">
+<td class="subtotal-line__title">
+<p><span>Nuolaida</span> <span class="subtotal-line__discount"> <img src="{{ 'notifications/discounttag.png' | shopify_asset_url }}" width="18" height="18" class="discount-tag-icon"> <span class="subtotal-line__discount-title">{{ discount_title }}</span> </span></p>
+</td>
+<td class="subtotal-line__value"><strong>-{{ discount_application.total_allocated_amount | money }}</strong></td>
+</tr>
+<tr class="subtotal-line">
+<td class="subtotal-line__title">
+<p><span>Iš viso</span></p>
+</td>
+<td class="subtotal-line__value"><strong>{{ subtotal_price | money }}</strong></td>
+</tr>
+<tr class="subtotal-line">
+<td class="subtotal-line__title">
+<p><span>Siuntimas</span></p>
+</td>
+<td class="subtotal-line__value"><strong>{{ shipping_price | money }}</strong></td>
+</tr>
+<tr class="subtotal-line">
+<td class="subtotal-line__title">
+<p><span>Mokesčiai</span></p>
+</td>
+<td class="subtotal-line__value"><strong>{{ tax_price | money }}</strong></td>
+</tr>
+<tr class="subtotal-line">
+<td class="subtotal-line__title">
+<p><span>Arbatpinigiai</span></p>
+</td>
+<td class="subtotal-line__value"><strong>{{ total_tip_received | money }}</strong></td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+{% if total_price &gt; total_outstanding %} {% else %}
+<table class="row subtotal-lines">
+<tbody>
+<tr>
+<td class="subtotal-spacer"></td>
+<td>
+<table class="row subtotal-table">
+<tbody>
+<tr class="subtotal-line">
+<td class="subtotal-line__title">
+<p><span>Atnaujinta suma</span></p>
+</td>
+<td class="subtotal-line__value"><strong>{{ total_price | money }}</strong></td>
+</tr>
+<tr class="subtotal-line">
+<td class="subtotal-line__title">
+<p><span>Jau sumokėta</span></p>
+</td>
+<td class="subtotal-line__value"><strong>{{ net_payment | money }}</strong></td>
+</tr>
+</tbody>
+</table>
+<table class="row subtotal-table subtotal-table--total">
+<tbody>
+<tr class="subtotal-line">
+<td class="subtotal-line__title">
+<p><span>Liko sumokėti</span></p>
+</td>
+<td class="subtotal-line__value"><strong>{{ total_outstanding | money_with_currency }}</strong></td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+<table class="row subtotal-table subtotal-table--total">
+<tbody>
+<tr class="subtotal-line">
+<td class="subtotal-line__title">
+<p><span>Liko sumokėti</span></p>
+</td>
+<td class="subtotal-line__value"><strong>{{ total_outstanding | money_with_currency }}</strong></td>
+</tr>
+</tbody>
+</table>
+{% endif %}</td>
+</tr>
+</tbody>
+</table>
+</center></td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+{% if shipping_address or billing_address or shipping_method or payment_terms or company_location %}
+<table class="row section">
+<tbody>
+<tr>
+<td class="section__cell"><center>
+<table class="container">
+<tbody>
+<tr>
+<td>
+<h3>Pirkėjo informacija</h3>
+</td>
+</tr>
+</tbody>
+</table>
+<table class="container">
+<tbody>
+<tr>
+<td>{% if shipping_address %} {% endif %} {% if billing_address %} {% endif %}
+<table class="row">
+<tbody>
+<tr>
+<td class="customer-info__item">
+<h4>Siuntimo adresas</h4>
+{{ shipping_address | format_address }}</td>
+<td class="customer-info__item">
+<h4>Apmokėjimo adresas</h4>
+{{ billing_address | format_address }}</td>
+</tr>
+</tbody>
+</table>
+{% if company_location %} {% endif %} {% if payment_terms %} {% if shipping_method %} {% endif %}
+<table class="row">
+<tbody>
+<tr>
+<td class="customer-info__item">
+<h4>Vietovė</h4>
+<p>{{ company_location.name }}</p>
+</td>
+<td class="customer-info__item">
+<h4>Apmokėjimas</h4>
+{% if payment_terms.type == 'receipt' and payment_terms.next_payment.due_at == nil %} {% assign due_date = 'now' %} {% else %} {% assign due_date = payment_terms.next_payment.due_at | default: nil %} {% endif %} {% if payment_terms.type == 'fulfillment' and payment_terms.next_payment.due_at == nil %}
+<p>{{ payment_terms.translated_name }}</p>
+{% else %}
+<p>{{ payment_terms.translated_name }}: iki {{ due_date | date: format: 'date' }}</p>
+{% endif %} {% endif %}</td>
+</tr>
+<tr>
+<td class="customer-info__item">
+<h4>Siuntimo būdas</h4>
+<p>{{ shipping_method.title }}<br>{{ shipping_method.price | money }}</p>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</center></td>
+</tr>
+</tbody>
+</table>
+{% endif %}
+<table class="row footer">
+<tbody>
+<tr>
+<td class="footer__cell"><center>
+<table class="container">
+<tbody>
+<tr>
+<td>
+<p class="disclaimer__subtext">Jei turite klausimų, atsakykite į šį el. laišką arba susisiekite su mumis per <a href="mailto:{{ shop.email }}">{{ shop.email }}</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</center></td>
+</tr>
+</tbody>
+</table>
+<img src="{{ 'notifications/spacer.png' | shopify_asset_url }}" class="spacer" height="1">

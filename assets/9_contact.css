@@ -24,6 +24,7 @@
 
 .wrap_contactForm {
     flex: 1;
+    position: relative;
 }
 .wrap_contactInfo {
     width: 400px;
@@ -33,18 +34,15 @@
 .form_contact {
     display: flex;
     flex-direction: column;
+    position: sticky;
+    top: 100px;
 }
-
-
-
 .form_contact > label {
     color: #434343;
     font-size: 15px;
     font-weight: 600px;
     margin: 26px 0 8px;
 }
-
-
 .form_contact > input,
 .form_contact > textarea  {
     -webkit-appearance: none;
@@ -104,6 +102,39 @@
     color: #131313 !important;
 }
 
+.box_contactSuccess {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    box-shadow: var(--shadow_normal);
+    border-radius: 8px;
+    background-color: #fff;
+
+    height: 500px;
+    width: 100%;
+    padding: 32px;
+}
+.icon_checkmark_contact {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+    margin-bottom: 20px;
+}
+
+.box_contactSuccess > h4 {
+    text-align: center !important;
+}
+.box_contactSuccess > p {
+    margin-top: 2px;
+    color: var(--color_Text);
+    text-align: center !important;
+}
+.link_contactSuccess {
+    color: var(--color_Main);
+    margin-top: 72px;
+}
 
 
 @media only screen and (min-width: 1440px) {}

@@ -33,31 +33,6 @@
           </div>
         </div>
         <div class="swiper">
-          <img
-            src="{{ 'img_WAVE_filterPage.svg' | asset_url }}"
-            alt=""
-            class="img_WAVE_long"
-            style="background-color: {{ product.metafields.custom.color_bg }}"
-            data-recolor_bg>
-          <div
-            class="swiper-wrapper"
-            data-effect="zoom"
-            data-zoom_active="false"
-            data-magnify="1"
-            data-reset>
-            {% for image in product.images %}
-              {% if image.alt contains color_bg %}
-                <div class="swiper-slide" data-reset>
-                  <img
-                    src="{{ image | img_url: '600x600' }}"
-                    alt=" {{ image.alt }}"
-                    class="imgSwiper"
-                    draggable="false">
-                </div>
-              {% endif %}
-            {% endfor %}
-
-          </div>
         </div>
         <div class="sliderControls" data-effect="zoom">
           <div class="container_productPage mini" style="flex-wrap: nowrap;">
@@ -83,6 +58,7 @@
                 <div class="line_arrow reverse"></div>
               </div>
               <div
+                style="background-image: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), url('{{ 'icon_magnify.svg' | asset_url }}');"
                 class="btn_Zoom"
                 data-zoom="2"
                 data-hover_grey
@@ -116,6 +92,8 @@
     
     <div class="normal_right">
       <div class="padding_subwrap">
+        
+
         {% form 'product', product, class: 'form_productPage' %}
           {% if product.available %}
             <!-- from creation -->
@@ -479,7 +457,7 @@
                   viewBox="0 0 337.94 421.48"
                   style="width: 17px; margin: 0 0 2px auto;">
                   <g id="Ebene_2" data-name="Ebene 2">
-                    <g id="Ebene_1-2" data-name="Ebene 1"><path class="cartIcon_path" d="M337.69,385.58,301.08,86.79a10,10,0,0,0-9.88-8.74H46.73a10,10,0,0,0-9.88,8.74L.24,385.58A32,32,0,0,0,32,421.48H305.92A32,32,0,0,0,337.69,385.58ZM268.84,141.66c-.16,3.29-.48,6.53-.94,9.72-7.1,48.82-48.69,86.29-98.93,86.29S77.14,200.2,70,151.38c-.46-3.19-.78-6.43-.94-9.72v0a24.81,24.81,0,0,1,24.68-22.26q1.06,0,2.1.09A3.05,3.05,0,0,1,98.67,123a76.8,76.8,0,0,0,5.08,43.86C115,192.6,139.94,210.5,169,210.5s54-17.9,65.22-43.62a75.89,75.89,0,0,0,6.27-30.35,77,77,0,0,0-1.18-13.42,3.14,3.14,0,0,1,2.86-3.67c.66,0,1.34-.08,2-.08a24.81,24.81,0,0,1,24.68,22.26Z" /><path class="cartIcon_path" d="M250.13,64H225.46a2.64,2.64,0,0,1-2.33-1.43c-11.27-21.74-31.31-36.2-54.16-36.2s-42.89,14.46-54.16,36.2A2.62,2.62,0,0,1,112.48,64H87.8a1.46,1.46,0,0,1-1.38-2C100.28,25.52,132,0,169,0s68.68,25.52,82.54,62A1.46,1.46,0,0,1,250.13,64Z" /></g>
+                    <g id="Ebene_1-2" data-name="Ebene 1"><path data-path_raw class="cartIcon_path" d="M337.69,385.58,301.08,86.79a10,10,0,0,0-9.88-8.74H46.73a10,10,0,0,0-9.88,8.74L.24,385.58A32,32,0,0,0,32,421.48H305.92A32,32,0,0,0,337.69,385.58ZM268.84,141.66c-.16,3.29-.48,6.53-.94,9.72-7.1,48.82-48.69,86.29-98.93,86.29S77.14,200.2,70,151.38c-.46-3.19-.78-6.43-.94-9.72v0a24.81,24.81,0,0,1,24.68-22.26q1.06,0,2.1.09A3.05,3.05,0,0,1,98.67,123a76.8,76.8,0,0,0,5.08,43.86C115,192.6,139.94,210.5,169,210.5s54-17.9,65.22-43.62a75.89,75.89,0,0,0,6.27-30.35,77,77,0,0,0-1.18-13.42,3.14,3.14,0,0,1,2.86-3.67c.66,0,1.34-.08,2-.08a24.81,24.81,0,0,1,24.68,22.26Z" /><path class="cartIcon_path" data-path_raw d="M250.13,64H225.46a2.64,2.64,0,0,1-2.33-1.43c-11.27-21.74-31.31-36.2-54.16-36.2s-42.89,14.46-54.16,36.2A2.62,2.62,0,0,1,112.48,64H87.8a1.46,1.46,0,0,1-1.38-2C100.28,25.52,132,0,169,0s68.68,25.52,82.54,62A1.46,1.46,0,0,1,250.13,64Z" /></g>
                   </g>
                 </svg>
               </div>
@@ -511,13 +489,28 @@
         {% endform %}
 
 
-
         <div class="separator"></div>
+
+        {% if product.metafields.reviews.rating.value | plus: 0 > 0  %}
+        <!-- <p class="preview_reviews" data-hover_grey data-recolor_text_raw><span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span>{{ product.metafields.reviews.rating_count | remove: '.0' }} {{ "product.word_outOfReviews" | t }}<span class="arrow_reviews"> 
+            
+          <svg style="height: 18px; object-fit: contain" viewBox="0 0 364 364" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path data-path_raw d="M182 0C131.826 0 91 40.8203 91 91C91 141.18 131.82 182 182 182C232.18 182 273 141.182 273 91C273 40.8182 232.176 0 182 0Z" fill="#0C0C0C"/>
+          <path data-path_raw d="M349.691 303.406C333.36 271.93 304.14 246.018 266.988 230.065C229.836 214.113 187.04 209.104 145.862 215.887C104.685 222.67 67.6616 240.829 41.075 267.281C14.4884 293.733 -0.0240508 326.85 2.99198e-05 361.012V364H364V361.012C364.045 341.223 359.179 321.63 349.691 303.406Z" fill="#0C0C0C"/>
+          </svg>
+
+          </span>
+        </p>
+        -->
+      {% endif %}
+
         <div class="wrap_productDescription">
           {{ product.metafields.custom.bullets | metafield_tag }}
           <p class="productDescription">
             {{ product.description }}</p>
         </div>
+        <div class="separator"></div>
+        <!-- <div id="shopify-product-reviews" data-id="{{product.id}}">{{ product.metafields.spr.reviews }}</div>-->
         <div class="separator"></div>
         <div class="wrap_otherInfo">
           <div class="otherInfo">
@@ -649,7 +642,9 @@
 
   window.addEventListener('DOMContentLoaded', () => {
     
+    
     if (product_available) {
+      changeUrl(find_matchedVariant(), get_colors().bg, get_colors().raw)
       const qnt_info = qnt_police(find_matchedVariant())
       
       handle_from_btns(qnt_info.isCart, qnt_info.error, qnt_info.qnt_avail)
@@ -670,10 +665,8 @@
         const checked = document.querySelector('.optionRadio[name="Color"]:checked').value.split(" ");
         recolor(checked[2], checked[1]);
         set_circleColors();
-        recolor_bag_raw(checked[2])
       {% else %}
         recolor('{{ color_raw }}', '{{ color_bg }}');
-        recolor_bag_raw('{{ color_raw }}')
       {% endif %};
 
 
@@ -694,6 +687,8 @@
     radios.forEach(radio => { // colors + sizes
       radio.addEventListener('change', (e) => {
 
+
+        
 
         const matched_variant = find_matchedVariant()
         const qnt_info = qnt_police(matched_variant)
@@ -756,10 +751,8 @@
     {% if product.options contains 'Color' %}
       const checked_color = document.querySelector('.optionRadio[name="Color"]:checked').value.split(" ");
       recolor(checked_color[2], checked_color[1]);
-      recolor_bag_raw(checked_color[2])
     {% else %};
       recolor('{{ color_raw }}', '{{ color_bg }}');
-      recolor_bag_raw('{{ color_raw }}')
 
 // -
     {% endif %};
@@ -790,14 +783,9 @@
 
 
     })
-  }
-  function recolor_bag_raw(color) {
-    const paths = document.querySelectorAll('.cartIcon_path')
-
-    paths.forEach(path => {
-      path.style.fill = color;
-    })
-  }
+  
+    document.querySelectorAll('[data-path_raw]').forEach(path => {path.style.fill = raw;})
+    }
 
 // ------------------------------------------------------------------------------------------------------------
 
@@ -809,8 +797,6 @@
 
     return images_raw
   }
-
-
 
 // ------------------------------------------------------------------------------------------------------------
 
@@ -860,7 +846,9 @@
       
     {% endif %}
   }
-</script>
+  
+  </script>
+
 
 
 

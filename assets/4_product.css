@@ -22,7 +22,7 @@
 .section_productPage {
   background-color: var(--color_bg);
   overflow: visible;
-  padding-top: 120px;
+  padding-top: 60px;
 }
 .container_productPage {
   height: auto;
@@ -274,7 +274,7 @@
   width: 55px;
   height: 55px;
 
-  background-image: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), url('{{ 'icon_magnify.svg' | asset_url }}');
+  
   background-position: 50%, 50%;
   background-repeat: no-repeat;
   background-size: 24px, 24px;
@@ -702,6 +702,68 @@ input[type="radio"]:checked + label {
 }
 
 
+/* reviews */
+
+.preview_reviews {
+  display: flex;
+  margin: 16px 0;
+  cursor: pointer;
+}
+
+.arrow_reviews {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+}
+
+.spr-container {
+  padding: 0 !important;
+  border: none !important;
+}
+
+.spr-summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.spr-header-title {
+  margin-bottom: 4px !important;
+  text-align: left !important;
+}
+.spr-summary-caption {
+  margin: 2px 0 0 8px;
+}
+.spr-summary-actions {
+  min-width: 100%;
+  display: flex;
+  margin: 24px 0 0 ;
+  
+}
+
+.spr-summary-actions-newreview {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 54px;
+  width: 100%;
+  border: 1px solid rgba(0, 0, 0, 15);
+  border-radius: 8px;
+  margin-top: 6px;
+}
+
+.spr-badge {
+  margin-right: 4px;
+}
+.spr-badge-caption {
+  display: none;
+}
+.spr-icon {
+  transition: 150ms !important;
+}
+
+
+
+
 @media only screen and (min-width: 1440px) {}
 @media only screen and (min-width: 1921px) {
   .container_productPage {
@@ -711,7 +773,7 @@ input[type="radio"]:checked + label {
 /* Default == 991 to 1440 */
 @media only screen and (max-width: 990px) {
   .section_productPage {
-    padding: 60px 0 0;
+    padding: 0;
   }
   .sticky_div {
     border-radius: 0;

@@ -64,7 +64,7 @@
 
         "btnWord_order_pre": "Užsisakyti",
         "btnWord_order_post": "",
-        "btnWord_add_pre": "Pridėti:",
+        "btnWord_add_pre": "Pridėti",
         "btnWord_add_post": "į krepšelį",
         "btnWord_addMore_pre": "Pridėti dar",
         "btnWord_addMore_post": "į krepšelį",
@@ -72,7 +72,9 @@
 
         "text_freeShipping": "Nemokamas siuntimas nuo 70 Euru",
         "text_return": "30 Dienų gražinimas",
-        "text_contact": "Nuolatos palaikomas kontaktas"
+        "text_contact": "Nuolatos palaikomas kontaktas",
+
+        "word_outOfReviews": "įvertinimai"
     },
 
     "alerts": {
@@ -147,14 +149,20 @@
         "sent": "Jūsų žinutė išsiūsta!",
         "call_us": "Skambinkite:",
 
-        "info": "Informacija",
+        "info": "Rekvizitai",
         "adress": "Adresas:",
         "phone": "Mobilus:",
         "info_email": "El. paštas:",
         "bank": "Bankas:",
         "code_company": "Įmonės kodas:",
         "vat": "PVM kodas:",
-        "number_account": "Sąskaitos numeris:"
+
+        "success_title": "Laiškas išsiūstas!",
+        "success_p": "Dėkojame už žinutę. Neužilgo sulauksite atsakymo.",
+        "success_link": "Atgal į pradžią",
+
+        "word_ceo": "vadybininkas",
+        "luca": "UAB LUCA"
     }
 
 

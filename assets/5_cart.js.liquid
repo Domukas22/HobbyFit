@@ -6,7 +6,7 @@ window.addEventListener('DOMContentLoaded', () => {
     handle_shadow();
     recolor_qntInputs()
     if (!isDesktop()) {
-        nav.style.position = 'relative'
+        nav.style.position = 'absolute'
         container.style.paddingTop = "4vw"
     } else {
         nav.style.position = 'fixed'
@@ -22,7 +22,7 @@ window.addEventListener('scroll', () => {
 })
 window.addEventListener('resize', () => {
     handle_shadow();
-    !isDesktop() ? nav.style.position = 'relative' : nav.style.position = 'fixed'
+    !isDesktop() ? nav.style.position = 'absolute' : nav.style.position = 'fixed'
 
 })
 function handle_shadow() {

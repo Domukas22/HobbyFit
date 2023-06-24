@@ -113,17 +113,22 @@ function toggle_activeFilter(filterTag) {    //separate funtion because of filte
 function handle_filterText(filterTag) {
     const icon_current = document.getElementById('icon_currentFilter')
     const btnText = document.querySelector('.text_currentFilter')
-    const pageTitle = document.getElementById('pageTitle')
+    const pageTitle_all = document.querySelector('.pageTitle_all')
+    const pageTitle_filter = document.querySelector('.pageTitle_filter')
 
     const targetFilter = document.querySelector(`.filter[data-filter="${filterTag}"`)
 
     if (filterTag == "all") {
         icon_current.classList.add('hide')
-        pageTitle.textContent = "Prekės"
+        pageTitle_all.style.display = "inline"
+        pageTitle_filter.style.display = "none"
+
     } else {
         icon_current.classList.remove('hide') 
         icon_current.src = targetFilter.querySelector('img').src
-        pageTitle.textContent = targetFilter.querySelector('p').textContent
+        pageTitle_all.style.display = "none"
+        pageTitle_filter.style.display = "inline"
+        pageTitle_filter.textContent = targetFilter.querySelector('p').textContent
     }
     btnText.textContent = targetFilter.querySelector('p').textContent
 }

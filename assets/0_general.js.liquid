@@ -160,3 +160,13 @@ function create_langUrl(lang_current, lang_target, url){
     return url.replace('.com/lt/', `.com/${lang_target}/`)
   }
 }
+
+document.querySelector('.section_footer').addEventListener('click', () => {
+  console.log(document.querySelector('option[value="DE"]'))
+  document.querySelector('option[value="DE"]').selected = true
+
+  ShopifyAPI.getCart(function(cart) {
+    cart['note_attributes']['country_code'] = "DE";
+    ShopifyAPI.updateCart(cart);
+  });
+})

@@ -1,1 +1,19 @@
-<h1 style="margin-top: 100px;">Not found</h1>
+{% assign lang = request.locale.iso_code %}
+{% if lang == 'en' %}
+  {% assign lang = '' %}
+{% endif %}
+<p
+  class="current_lang"
+  data-lang="{{ lang }}"
+  style="display: none;">{{ lang }}
+</p>
+
+<div class="box_404">
+  <h1 style="margin-bottom: 40px;">Whoop, this link doesn't seem to exist</h1>
+  <div class="btnWrap_404">
+    <a style="margin-right: 32px" href="{{ shop.url }}/{{ lang }}">Back to homepage</a>
+    <a href="{{ shop.url }}/{{ lang }}/collections/badmintono-prekes">See our producs</a>
+  </div>
+
+
+</div>

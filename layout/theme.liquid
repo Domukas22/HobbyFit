@@ -1,46 +1,47 @@
 <html>
-        <head>
-          <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css">
-          {{ content_for_header }}
-          <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <link rel="preconnect" href="https://fonts.googleapis.com">
-          <link
-            rel="preconnect"
-            href="https://fonts.gstatic.com"
-            crossorigin>
-          <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
-          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+  <head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css">
+    {{ content_for_header }}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+      rel="preconnect"
+      href="https://fonts.gstatic.com"
+      crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 
-          {{ '0_general.css' | asset_url | stylesheet_tag }}
-          {{ '1_nav.css' | asset_url | stylesheet_tag }}
-          {{ '2_home.css' | asset_url | stylesheet_tag }}
-          {{ '3_filterPage.css' | asset_url | stylesheet_tag }}
-          {{ '4_product.css' | asset_url | stylesheet_tag }}
-          {{ '5_cart.css' | asset_url | stylesheet_tag }}
-          {{ '6_inline_slider.css' | asset_url | stylesheet_tag }}
-          {{ '7_footer.css' | asset_url | stylesheet_tag }}
-          {{ '8_legal.css' | asset_url | stylesheet_tag }}
-          {{ '9_contact.css' | asset_url | stylesheet_tag }}
-          {{ '10_cookies.css' | asset_url | stylesheet_tag }}
+    {{ '0_general.css' | asset_url | stylesheet_tag }}
+    {{ '1_nav.css' | asset_url | stylesheet_tag }}
+    {{ '2_home.css' | asset_url | stylesheet_tag }}
+    {{ '3_filterPage.css' | asset_url | stylesheet_tag }}
+    {{ '4_product.css' | asset_url | stylesheet_tag }}
+    {{ '5_cart.css' | asset_url | stylesheet_tag }}
+    {{ '6_inline_slider.css' | asset_url | stylesheet_tag }}
+    {{ '7_footer.css' | asset_url | stylesheet_tag }}
+    {{ '8_legal.css' | asset_url | stylesheet_tag }}
+    {{ '9_contact.css' | asset_url | stylesheet_tag }}
+    {{ '10_cookies.css' | asset_url | stylesheet_tag }}
+    {{ '11_404.css' | asset_url | stylesheet_tag }}
 
-        </head>
-        <body style="padding-top: 60px !important;">
-
-
-          <script src="https://cdn.jsdelivr.net/npm/url-parse@1.5.10/dist/url-parse.min.js"></script>
-          <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
-          {{ '//ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js' | script_tag }}
-          {{ '//cdn.shopify.com/shopifycloud/shopify/assets/checkout-iframe/v1/checkout-iframe.js' | script_tag }}
+  </head>
+  <body style="padding-top: 60px !important;">
 
 
-
-          {% render 'nav' %}
-          {% render 'cookies' %}
-          {{ content_for_layout }}
-          {% render 'footer' %}
-          {{ '0_general.js' | asset_url | script_tag }}
-          {{ '1_nav.js' | asset_url | script_tag }}
+    <script src="https://cdn.jsdelivr.net/npm/url-parse@1.5.10/dist/url-parse.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+    {{ '//ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js' | script_tag }}
+    {{ '//cdn.shopify.com/shopifycloud/shopify/assets/checkout-iframe/v1/checkout-iframe.js' | script_tag }}
 
 
-        </body>
-      </html>
+
+    {% render 'nav' %}
+    {% render 'cookies' %}
+    {{ content_for_layout }}
+    {% render 'footer' %}
+    {{ '0_general.js' | asset_url | script_tag }}
+    {{ '1_nav.js' | asset_url | script_tag }}
+
+
+  </body>
+</html>

@@ -488,8 +488,17 @@
           {% endif %}
         {% endform %}
 
-
         <div class="separator"></div>
+        
+        <p style="margin: 16px 0; display: flex; align-items: center">
+          <span><img
+            src="{{ 'icon_shipping.png' | asset_url }}"
+            alt=""
+            class="icon_otherInfo"></span>{{ "product.text_shippingDuration_pre" | t }} 2 {{ "product.text_shippingDuration_post" | t }}
+        </p>
+
+
+        
 
         {% if product.metafields.reviews.rating.value | plus: 0 > 0  %}
         <!-- <p class="preview_reviews" data-hover_grey data-recolor_text_raw><span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span>{{ product.metafields.reviews.rating_count | remove: '.0' }} {{ "product.word_outOfReviews" | t }}<span class="arrow_reviews"> 
@@ -502,17 +511,20 @@
           </span>
         </p>
         -->
-      {% endif %}
+        {% endif %}
 
-        <div class="wrap_productDescription">
+        <div class="wrap_productDescription" style="margin-bottom: 16px;">
           {{ product.metafields.custom.bullets | metafield_tag }}
           <p class="productDescription">
             {{ product.description }}</p>
         </div>
-        <div class="separator"></div>
-        <!-- <div id="shopify-product-reviews" data-id="{{product.id}}">{{ product.metafields.spr.reviews }}</div>-->
-        <div class="separator"></div>
-        <div class="wrap_otherInfo">
+        
+        <!--  <div class="separator"></div>
+        
+          <div id="shopify-product-reviews" data-id="{{product.id}}">{{ product.metafields.spr.reviews }}</div>
+        <div class="separator"></div> 
+        -->
+        <div class="wrap_otherInfo" >
           <div class="otherInfo">
             <img
               src="{{ 'icon_shipping.png' | asset_url }}"

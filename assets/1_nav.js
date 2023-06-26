@@ -1,5 +1,3 @@
-
-
 //menu toggle
 const btn_menu = document.querySelector('.navLink.menu')
 
@@ -120,20 +118,16 @@ function toggle_dropdown(target, value) {
 //------------
 
 const btn_lang_mob = document.querySelector('.langToggle_m_TOP')
+const close_mobileLang = document.querySelector('.X_wrap.mobileLang')
 btn_lang_mob.addEventListener('click', (e) => {
-    const btn = e.currentTarget
-    const isOpen = (btn.dataset.open == 'true')
-    if (isOpen) {
-        animate_langDropdown(false)
-        btn.dataset.open = 'false'
-    } else {
-        animate_langDropdown(true)
-        btn.dataset.open = 'true'
-    }
-    
+    mobile_langDropdown(true)
 })
 btn_lang.addEventListener('mouseleave', () => {
     toggle_dropdown(dropdown_lang, false)
+})
+close_mobileLang.addEventListener('click', (e) => {
+    mobile_langDropdown(false)
+    
 })
 function animate_langDropdown(value) {
     const dropdown_lang_mob = document.querySelector('.langToggle_m_BOTTOM')
@@ -144,5 +138,17 @@ function animate_langDropdown(value) {
     } else {
         dropdown_lang_mob.classList.remove('show')
         setTimeout(() => {dropdown_lang_mob.style.display = "none"}, 151);
+    }
+}
+function mobile_langDropdown(value) {
+    const parent = document.querySelector('.langBox_mobile')
+    const contents = document.querySelector('.langBox_mobileSubwrap')
+
+    if (value) {
+        parent.style.display = "flex"
+        setTimeout(() => {parent.classList.add('show')}, 10);
+    } else {
+        parent.classList.remove('show')
+        setTimeout(() => {parent.style.display = "none"}, 151);
     }
 }

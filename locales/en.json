@@ -11,7 +11,10 @@
         "btn_adress_contact": "Contact us",
 
         "btn_menu": "Menu",
-        "word_infos": "Information"
+        "word_infos": "Information",
+
+        "choose_lang": "Choose a language:",
+        "choose_currency": "Choose a country/currency:"
     }, 
 
     "home": {
@@ -70,6 +73,8 @@
         "btnWord_addMore_post": "more to cart",
         "btnWord_viewBasket": "View shopping cart",
 
+        "text_shippingDuration_pre": "Shipping will take around",
+        "text_shippingDuration_post": "days",
         "text_freeShipping": "Free shipping from 70 euros",
         "text_return": "30 Day refund",
         "text_contact": "Round-the-clock contact with us",

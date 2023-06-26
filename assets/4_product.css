@@ -680,8 +680,8 @@ input[type="radio"]:checked + label {
 }
 .icon_otherInfo {
   margin-right: 14px;
-  height: 24px;
-  min-height: 24px;
+  height: 26px;
+  min-height: 26px;
   object-fit: contain;
 }
 

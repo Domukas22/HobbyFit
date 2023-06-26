@@ -154,10 +154,10 @@ function create_langUrl(lang_current, lang_target, url){
     else if (lang_current == 'lt') {return url.replace('.com/lt', `.com`)}
     
   } else if (lang_current == 'de') {
-    return url.replace('.com/de/', `.com/${lang_target}/`)
+    return url.replace('.com/de', `.com/${lang_target}`)
 
   } else if (lang_current == 'lt') {
-    return url.replace('.com/lt/', `.com/${lang_target}/`)
+    return url.replace('.com/lt', `.com/${lang_target}`)
   }
 }
 
@@ -168,5 +168,5 @@ document.querySelector('.section_footer').addEventListener('click', () => {
   ShopifyAPI.getCart(function(cart) {
     cart['note_attributes']['country_code'] = "DE";
     ShopifyAPI.updateCart(cart);
-  });
+  }); 
 })

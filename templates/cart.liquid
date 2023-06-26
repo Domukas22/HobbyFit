@@ -12,7 +12,8 @@
 
 <div class="fixed_buyBox">
   <div class="btn cart buy fixed" data-scale>
-    <p style="display: flex; width: 100%;">{{ "cart.btnWord_main" | t }} (<span data-final_item_count>{{ cart.item_count }}</span>)<span data-final_price style="margin-left: auto;">{{ cart.total_price | money }}</span>
+    <p style="display: flex; width: 100%;">{{ "cart.btnWord_main" | t }} (<span data-final_item_count>{{ cart.item_count }}</span>
+      &nbsp;{{ "product.word_item" | t }})<span data-final_price style="margin-left: auto;">{{ cart.total_price | money }}</span>
     </p>
   </div>
 </div>
@@ -514,6 +515,22 @@
     const newWidth = length_default * (1 - (percentageLeft / 100));
     line_grow.style.width = `${newWidth}px`;
   }
+</script>
+
+<script>
+
+  const observer = new MutationObserver(() => {
+    const elementToMove = document.querySelector('.locale-selectors__container').parentElement;
+    if (elementToMove) {
+      document.body.insertBefore(elementToMove, document.body.firstChild);
+      observer.disconnect();
+    }
+  });
+
+  observer.observe(document, {
+    childList: true,
+    subtree: true
+  });
 </script>
 
 {{ '5_cart.js' | asset_url | script_tag }}

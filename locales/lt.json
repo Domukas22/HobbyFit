@@ -10,7 +10,10 @@
         "btn_adress_contact": "Kontaktai",
 
         "btn_menu": "Meniu",
-        "word_infos": "Informacija"
+        "word_infos": "Informacija",
+
+        "choose_lang": "Pasirinkite kalbą:",
+        "choose_currency": "Pasirinkite šalį/valiutą:"
 
     }, 
 
@@ -70,6 +73,8 @@
         "btnWord_addMore_post": "į krepšelį",
         "btnWord_viewBasket": "Peržiūrėti krepšelį",
 
+        "text_shippingDuration_pre": "Siuntimas užtruks maždaug",
+        "text_shippingDuration_post": "dienas",
         "text_freeShipping": "Nemokamas siuntimas nuo 70 Euru",
         "text_return": "30 Dienų gražinimas",
         "text_contact": "Nuolatos palaikomas kontaktas",

@@ -11,7 +11,10 @@
         "btn_adress_contact": "Kontaktiere uns",
 
         "btn_menu": "Menu",
-        "word_infos": "Informationen"
+        "word_infos": "Informationen",
+
+        "choose_lang": "Sprache auswählen:",
+        "choose_currency": "Land/Währung auswählen:"
     }, 
 
     "home": {
@@ -70,6 +73,8 @@
         "btnWord_addMore_post": "in den Warenkorb",
         "btnWord_viewBasket": "Warenkorb ansehen",
 
+        "text_shippingDuration_pre": "Die Lieferung dauert ca.",
+        "text_shippingDuration_post": "Tage",
         "text_freeShipping": "Kostenloser Versand ab 70 Euro",
         "text_return": "30 Tage Rückerstattung",
         "text_contact": "Durchgehender Kontakt mit uns",
@@ -116,7 +121,7 @@
         "paragraph_link": "Datenschutzerklärung",
         "paragraph_post": ".",
         "decline": "Ablehnen",
-        "accept": "Einverstandens"
+        "accept": "Einverstanden"
     },
 
     "links": {

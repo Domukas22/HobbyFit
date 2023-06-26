@@ -147,7 +147,8 @@
       </div>
 
       <div class="navLink btn_more" data-hover_grey>
-        <div class="btnWrap_more">
+        <div
+          class="btnWrap_more">
           <p>{{ "nav.btn_more" | t }}</p>
           <img
             class="icon_arrowDropdown"
@@ -206,51 +207,88 @@
       </div>
       <div class="navLink langBox" data-hover_grey>
 
-        <img
-          {% if lang == '' %}
-          src="{{ 'img_flag_en.svg' | asset_url }}"
-          {% elsif lang == 'de' %}
-          src="{{ 'img_flag_de.png' | asset_url }}"
-          {% elsif lang == 'lt' %}
-          src="{{ 'img_flag_lt.png' | asset_url }}"
-          {% endif %}
-          alt=""
-          class="langFlag">
+        <div class="wrap_langPreview">
+          <img
+            {% if lang == '' %}
+            src="{{ 'img_flag_en.svg' | asset_url }}"
+            {% elsif lang == 'de' %}
+            src="{{ 'img_flag_de.png' | asset_url }}"
+            {% elsif lang == 'lt' %}
+            src="{{ 'img_flag_lt.png' | asset_url }}"
+            {% endif %}
+            alt=""
+            class="langFlag">
+          <div class="separator_langPreview"></div>
+          <p>{{ localization.country.currency.iso_code }}</p>
+        </div>
         <div class="nav_Dropdown lang">
-          <div class="content_navDropdown">
-            <div
-              class="langLink"
-              data-lang="lt"
-              data-hover_grey>
-              <img
-                src="{{ 'img_flag_lt.png' | asset_url }}"
-                alt=""
-                class="langFlag">
-              <p class="langTag">LT</p>
+          <div class="content_navDropdown lang">
+            <div class="optionWrap_langDropdown">
+              <p>{{ "nav.choose_lang" | t }}</p>
+              <div class="options_langDropdown lang">
+                <div
+                  class="langLink lang"
+                  data-lang="lt"
+                  data-hover_grey>
+                  <img
+                    src="{{ 'img_flag_lt.png' | asset_url }}"
+                    alt=""
+                    class="langFlag">
+                  <p class="langTag">LT</p>
+                </div>
+                <div
+                  class="langLink lang"
+                  data-lang=""
+                  data-hover_grey>
+                  <img
+                    src="{{ 'img_flag_en.svg' | asset_url }}"
+                    alt=""
+                    class="langFlag">
+                  <p class="langTag">EN</p>
+                </div>
+                <div
+                  class="langLink lang"
+                  data-lang="de"
+                  data-hover_grey>
+                  <img
+                    src="{{ 'img_flag_de.png' | asset_url }}"
+                    alt=""
+                    class="langFlag">
+                  <p class="langTag">DE</p>
+                </div>
+              </div>
             </div>
-            <div
-              class="langLink"
-              data-lang=""
-              data-hover_grey>
-              <img
-                src="{{ 'img_flag_en.svg' | asset_url }}"
-                alt=""
-                class="langFlag">
-              <p class="langTag">EN</p>
-            </div>
-            <div
-              class="langLink"
-              data-lang="de"
-              data-hover_grey>
-              <img
-                src="{{ 'img_flag_de.png' | asset_url }}"
-                alt=""
-                class="langFlag">
-              <p class="langTag">DE</p>
+            <div class="optionWrap_langDropdown currency">
+              <p>{{ "nav.choose_currency" | t }}</p>
+              <div class="options_langDropdown currency">
+                <div class="box_activeCurrency">
+                  <p>{{ localization.country.name }}</p>
+                  <p>{{ localization.country.currency.iso_code }} {{ localization.country.currency.symbol }}</p>
+                </div>
+                {% form 'localization', class: "form_currency" %}
+                  <div class="currencyWrap">
+                    {% for country in localization.available_countries %}
+                      <div class="currencyOption {% if country.iso_code == localization.country.iso_code %}active{% endif %}" data-value="{{ country.iso_code }}">
+                        <p>{{ country.name }}</p>
+                        <p>{{ country.currency.iso_code }} {{ country.currency.symbol }}</p>
+                      </div>
+                    {% endfor %}
+
+                  </div>
+                  <input
+                    type="hidden"
+                    name="country_code"
+                    value="{{ localization.country.iso_code }}">
+
+                {% endform %}
+                <div class="currencyFade"></div>
+
+              </div>
             </div>
           </div>
         </div>
       </div>
+
 
     </div>
   </div>
@@ -279,10 +317,8 @@
             {% endif %}
             alt=""
             class="langFlag mobile_dropdown">
-          <div class="X_wrap lang">
-            <div class="line_X" data-bgcolor="grey"></div>
-            <div class="line_X reverse" data-bgcolor="grey"></div>
-          </div>
+          <div class="separator_langPreview"></div>
+          <p>{{ localization.country.currency.iso_code }}</p>
         </div>
         <div class="langToggle_m_BOTTOM">
           <div
@@ -420,3 +456,87 @@
     </div>
   </div>
 </nav>
+
+<div class="langBox_mobile">
+  <div class="langBox_mobileSubwrap">
+    <div class="titlWrap_langDropdown_mobile">
+      <h4>Languages</h4>
+      <div class="X_wrap mobileLang" style="height: 50px;">
+        <div class="line_X" data-bgcolor="grey"></div>
+        <div class="line_X reverse" data-bgcolor="grey"></div>
+      </div>
+    </div>
+    <div class="optionWrap_langDropdown">
+      <p>{{ "nav.choose_lang" | t }}</p>
+      <div class="options_langDropdown lang">
+        <div
+          class="langLink lang"
+          data-lang="lt"
+          data-hover_grey>
+          <img
+            src="{{ 'img_flag_lt.png' | asset_url }}"
+            alt=""
+            class="langFlag">
+          <p class="langTag">LT</p>
+        </div>
+        <div
+          class="langLink lang"
+          data-lang=""
+          data-hover_grey>
+          <img
+            src="{{ 'img_flag_en.svg' | asset_url }}"
+            alt=""
+            class="langFlag">
+          <p class="langTag">EN</p>
+        </div>
+        <div
+          class="langLink lang"
+          data-lang="de"
+          data-hover_grey>
+          <img
+            src="{{ 'img_flag_de.png' | asset_url }}"
+            alt=""
+            class="langFlag">
+          <p class="langTag">DE</p>
+        </div>
+      </div>
+    </div>
+    <div class="optionWrap_langDropdown currency">
+      <p>{{ "nav.choose_currency" | t }}</p>
+      <div class="options_langDropdown currency">
+        <div class="box_activeCurrency">
+          <p>{{ localization.country.name }}</p>
+          <p>{{ localization.country.currency.iso_code }} {{ localization.country.currency.symbol }}</p>
+        </div>
+        {% form 'localization', class: "form_currency_mobile" %}
+          <div class="currencyWrap" style="padding-bottom: 56px;">
+            {% for country in localization.available_countries %}
+              <div class="currencyOption {% if country.iso_code == localization.country.iso_code %}active{% endif %}" data-value="{{ country.iso_code }}">
+                <p>{{ country.name }}</p>
+                <p>{{ country.currency.iso_code }} {{ country.currency.symbol }}</p>
+              </div>
+            {% endfor %}
+          </div>
+          <input
+            type="hidden"
+            name="country_code"
+            value="{{ localization.country.iso_code }}">
+
+        {% endform %}
+        <div class="currencyFade"></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+
+  document.querySelectorAll('.currencyOption').forEach(x => x.addEventListener('click', (e) => {
+    document.querySelector('input[name="country_code"]').value = e.currentTarget.dataset.value;
+    document.querySelector('.form_currency').submit();
+    console.log(e.currentTarget.dataset.value)
+  }))
+
+  console.log('{{ localization.country }}')
+</script>

@@ -16,9 +16,23 @@ window.addEventListener('DOMContentLoaded', () => {
     btn_cart.dataset.cart_count > 0 ? btn_cart.classList.add('not_empty') : btn_cart.classList.remove('not_empty')
     setTimeout(() => {waves.forEach(x => x.style.opacity = '100%')}, 100)
     set_langlinks_to_filterPage()
+
+    const url = window.location.href
+    const cookie_lang = getCookie_nav('user_lang');
+    const lang_curr = get_lang(url) == "" ? "en" : get_lang(url)
+    if (lang_curr !== cookie_lang) {
+      window.location.href = create_langUrl(get_lang(url), cookie_lang, url)
+    }
 })
 
-
+const options_lang = document.querySelectorAll('.langLink.lang')
+function setCookie_nav(name, value, days) {
+    const expires = new Date();
+    expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000);
+    document.cookie = `${name}=${value};expires=${
+        expires.toUTCString()
+    };path=/`;
+}
 const lang = document.querySelector('.current_lang[data-lang]').dataset.lang
 const url_Badminton = `${window.location.origin}/${lang}/collections/badmintono-prekes`;
 const links_to_filterPage = document.querySelectorAll('[data-link_filterpage]')
@@ -130,7 +144,9 @@ function set_langlinks_to_filterPage(){
     const url = window.location.href
     const lang_current = get_lang(url)
     const lang_target = e.currentTarget.dataset.lang
-    console.log(lang_current)
+
+    if (lang_target == "") {setCookie_nav('user_lang', 'en', 14)} else {setCookie_nav('user_lang', lang_target, 14);}
+
     window.location.href = create_langUrl(lang_current, lang_target, url)
 
   }))
@@ -170,3 +186,15 @@ document.querySelector('.section_footer').addEventListener('click', () => {
     ShopifyAPI.updateCart(cart);
   }); 
 })
+
+function setCookie_nav(name, value, days) {
+    const expires = new Date();
+    expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000);
+    document.cookie = `${name}=${value};expires=${
+        expires.toUTCString()
+    };path=/`;
+}
+function getCookie_nav(name) {
+  const cookieValue = document.cookie.match(`(^|;)\\s*${name}=([^;]+)`);
+  return cookieValue ? cookieValue[2] : null;
+}

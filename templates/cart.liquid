@@ -517,21 +517,6 @@
   }
 </script>
 
-<script>
-
-  const observer = new MutationObserver(() => {
-    const elementToMove = document.querySelector('.locale-selectors__container').parentElement;
-    if (elementToMove) {
-      document.body.insertBefore(elementToMove, document.body.firstChild);
-      observer.disconnect();
-    }
-  });
-
-  observer.observe(document, {
-    childList: true,
-    subtree: true
-  });
-</script>
 
 {{ '5_cart.js' | asset_url | script_tag }}
 {{ '6_inline_slider.js' | asset_url | script_tag }}

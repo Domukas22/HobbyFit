@@ -339,6 +339,7 @@ nav.no_shadow {
 .content_navDropdown.lang {
   padding: 16px;
   display: flex;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);
   flex-direction: column;
 }
 
@@ -351,6 +352,7 @@ nav.no_shadow {
 .optionWrap_langDropdown.currency {
   height: 40vh;
   position: relative;
+  margin: 0;
 }
 .optionWrap_langDropdown > p {
   color: var(--color_black_06);
@@ -465,8 +467,16 @@ nav.no_shadow {
 .langBox_mobileSubwrap {
   width: 100%;
   background-color: white;
-  padding: 16px 16px 32px;
+  padding: 4px 16px 32px;
   overflow-y: scroll;
+  position: relative;
+
+  top: 50px;
+  opacity: 0%;
+}
+.langBox_mobileSubwrap.show {
+  top: 0px;
+  opacity: 100%;
 }
 .titlWrap_langDropdown_mobile {
   display: flex;

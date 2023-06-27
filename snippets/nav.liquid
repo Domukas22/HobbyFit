@@ -147,8 +147,7 @@
       </div>
 
       <div class="navLink btn_more" data-hover_grey>
-        <div
-          class="btnWrap_more">
+        <div class="btnWrap_more">
           <p>{{ "nav.btn_more" | t }}</p>
           <img
             class="icon_arrowDropdown"
@@ -263,14 +262,14 @@
               <div class="options_langDropdown currency">
                 <div class="box_activeCurrency">
                   <p>{{ localization.country.name }}</p>
-                  <p>{{ localization.country.currency.iso_code }} {{ localization.country.currency.symbol }}</p>
+                  <p>{{ localization.country.currency.iso_code }}</p>
                 </div>
                 {% form 'localization', class: "form_currency" %}
                   <div class="currencyWrap">
                     {% for country in localization.available_countries %}
                       <div class="currencyOption {% if country.iso_code == localization.country.iso_code %}active{% endif %}" data-value="{{ country.iso_code }}">
                         <p>{{ country.name }}</p>
-                        <p>{{ country.currency.iso_code }} {{ country.currency.symbol }}</p>
+                        <p>{{ country.currency.iso_code }}</p>
                       </div>
                     {% endfor %}
 
@@ -281,7 +280,7 @@
                     value="{{ localization.country.iso_code }}">
 
                 {% endform %}
-                <div class="currencyFade"></div>
+
 
               </div>
             </div>
@@ -529,14 +528,3 @@
     </div>
   </div>
 </div>
-
-<script>
-
-  document.querySelectorAll('.currencyOption').forEach(x => x.addEventListener('click', (e) => {
-    document.querySelector('input[name="country_code"]').value = e.currentTarget.dataset.value;
-    document.querySelector('.form_currency').submit();
-    console.log(e.currentTarget.dataset.value)
-  }))
-
-  console.log('{{ localization.country }}')
-</script>

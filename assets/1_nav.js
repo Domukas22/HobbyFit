@@ -24,9 +24,11 @@ function animate_btnContent(value) {
     if (value) {
         X_of_menuBtn.classList.add('show')
         text_of_menuBtn.classList.remove('show')
+        document.querySelector('body').style.overflow = "hidden"
     } else {
         X_of_menuBtn.classList.remove('show')
         text_of_menuBtn.classList.add('show') 
+        document.querySelector('body').style.overflow = "auto"
     }
         
 }
@@ -146,9 +148,25 @@ function mobile_langDropdown(value) {
 
     if (value) {
         parent.style.display = "flex"
-        setTimeout(() => {parent.classList.add('show')}, 10);
+        setTimeout(() => {
+            parent.classList.add('show')
+            contents.classList.add('show')
+        }, 10);
+        
     } else {
         parent.classList.remove('show')
+        contents.classList.remove('show')
         setTimeout(() => {parent.style.display = "none"}, 151);
+        
     }
 }
+
+
+
+const options_country = document.querySelectorAll('.currencyOption')
+options_country.forEach(x => x.addEventListener('click', (e) => {
+    const country = e.currentTarget.dataset.value;
+    document.querySelector('input[name="country_code"]').value = country;
+    document.querySelector('.form_currency').submit();
+}))
+

@@ -1,9 +1,6 @@
 {% assign uniqueIDs = cart.items | map: 'id' | uniq %}
 
 {% assign lang = request.locale.iso_code %}
-{% if lang == 'en' %}
-  {% assign lang = '' %}
-{% endif %}
 <p
   class="current_lang"
   data-lang="{{ lang }}"

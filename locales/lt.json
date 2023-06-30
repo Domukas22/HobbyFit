@@ -168,6 +168,12 @@
 
         "word_ceo": "vadybininkas",
         "luca": "UAB LUCA"
+    },
+
+    "404": {
+        "title": "Opapa, kažkas negerai su šia nuoroda",
+        "link_home": "Atgal į pradžią",
+        "link_products": "Peržiūrėti mūsų prekes"
     }
 
 

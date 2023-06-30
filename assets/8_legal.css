@@ -140,7 +140,7 @@ ul {
 }
 @media only screen and (max-width: 770px) {
     .section_legal {
-        padding-top: 160px;
+        padding-top: 100px;
     }
     .boxToggle_legal {
         display: flex;

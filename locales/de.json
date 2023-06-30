@@ -169,5 +169,11 @@
         "word_ceo": "Geschäftsführer",
         "luca": "LUCA GmbH"
 
+    },
+
+    "404": {
+        "title": "Whoop, etwas stimmt mit diesem Link nicht",
+        "link_home": "Zurück zur Startseite",
+        "link_products": "Unsere Waren ansehen"
     }
 }

@@ -1,0 +1,12 @@
+{% form 'localization', class: "localization_form" %}
+
+  <input
+    type="hidden"
+    name="country_code"
+    value="{{ localization.country.iso_code }}">
+  <input
+    type="hidden"
+    name="language_code"
+    value="{{ localization.language.iso_code }}">
+
+{% endform %}

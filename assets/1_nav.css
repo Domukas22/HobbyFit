@@ -383,6 +383,7 @@ nav.no_shadow {
   background-color: #FFF4DA;
   border-bottom: var(--border_bottom);
   height: 64px;
+  min-height: 64px;
 }
 .form_currency {
   height: 100%;
@@ -417,7 +418,10 @@ nav.no_shadow {
 .langLink:hover {
   background-color: var(--color_hover);
 }
-.currencyOption {
+.countryWrap {
+  overflow-y: scroll;
+}
+.countryOption {
   display: flex;
   align-items: center;
   height: 42px;
@@ -425,7 +429,7 @@ nav.no_shadow {
   justify-content: space-between;
   padding: 0 14px;
 }
-.currencyOption:hover {
+.countryOption:hover {
   background-color: var(--color_hover);
 }
 

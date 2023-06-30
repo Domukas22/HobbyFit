@@ -168,5 +168,11 @@
 
         "word_ceo": "CEO",
         "luca": "LUCA Ltd."
+    },
+
+    "404": {
+        "title": "Whoop, something is wrong with this link",
+        "link_home": "Back to homepage",
+        "link_products": "See our products"
     }
 }

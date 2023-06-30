@@ -15,25 +15,10 @@ window.addEventListener('DOMContentLoaded', () => {
     items_sale.forEach(x => x.classList.add('sale'))
     btn_cart.dataset.cart_count > 0 ? btn_cart.classList.add('not_empty') : btn_cart.classList.remove('not_empty')
     setTimeout(() => {waves.forEach(x => x.style.opacity = '100%')}, 100)
-    set_langlinks_to_filterPage()
-
-    const url = window.location.href
-    const cookie_lang = getCookie_nav('user_lang');
-    const lang_curr = get_lang(url) == "" ? "en" : get_lang(url)
-    if (lang_curr !== cookie_lang) {
-      window.location.href = create_langUrl(get_lang(url), cookie_lang, url)
-    }
 })
 
-const options_lang = document.querySelectorAll('.langLink.lang')
-function setCookie_nav(name, value, days) {
-    const expires = new Date();
-    expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000);
-    document.cookie = `${name}=${value};expires=${
-        expires.toUTCString()
-    };path=/`;
-}
-const lang = document.querySelector('.current_lang[data-lang]').dataset.lang
+let lang = document.querySelector('.current_lang[data-lang]').dataset.lang
+if (lang == 'en') {lang = ''}
 const url_Badminton = `${window.location.origin}/${lang}/collections/badmintono-prekes`;
 const links_to_filterPage = document.querySelectorAll('[data-link_filterpage]')
 const scale_btns = document.querySelectorAll('[data-scale]');
@@ -118,7 +103,6 @@ scale_btns.forEach(function(el) {
 
 function set_URL(word) {
   const urlTag = new URLSearchParams();
-  
   urlTag.set('filter', encodeURIComponent(word));
   window.location.href = url_Badminton + "?" + urlTag.toString();
   
@@ -137,64 +121,5 @@ function bubble_jump(target) {
   }, 300)
 }
 
-function set_langlinks_to_filterPage(){
-  const langBtns = document.querySelectorAll('.langLink')
-  langBtns.forEach(x => x.addEventListener('click', (e) => {
-
-    const url = window.location.href
-    const lang_current = get_lang(url)
-    const lang_target = e.currentTarget.dataset.lang
-
-    if (lang_target == "") {setCookie_nav('user_lang', 'en', 14)} else {setCookie_nav('user_lang', lang_target, 14);}
-
-    window.location.href = create_langUrl(lang_current, lang_target, url)
-
-  }))
 
 
-}
-function get_lang(url) {
-  if (url.includes('.com/de')) {return "de"}
-  else if (window.location.href.includes('.com/lt')) {return "lt"}
-  else {return ""}
-}
-function create_langUrl(lang_current, lang_target, url){
-  if (lang_current == '' && lang_target == '') { //if EN
-    return url
-
-  } else if (lang_current == '') {
-    return url.replace('.com', `.com/${lang_target}`)
-
-  } else if ((lang_current == 'de' || lang_current == 'lt') && lang_target == '') {
-    if (lang_current == 'de') {return url.replace('.com/de', `.com`)}
-    else if (lang_current == 'lt') {return url.replace('.com/lt', `.com`)}
-    
-  } else if (lang_current == 'de') {
-    return url.replace('.com/de', `.com/${lang_target}`)
-
-  } else if (lang_current == 'lt') {
-    return url.replace('.com/lt', `.com/${lang_target}`)
-  }
-}
-
-document.querySelector('.section_footer').addEventListener('click', () => {
-  console.log(document.querySelector('option[value="DE"]'))
-  document.querySelector('option[value="DE"]').selected = true
-
-  ShopifyAPI.getCart(function(cart) {
-    cart['note_attributes']['country_code'] = "DE";
-    ShopifyAPI.updateCart(cart);
-  }); 
-})
-
-function setCookie_nav(name, value, days) {
-    const expires = new Date();
-    expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000);
-    document.cookie = `${name}=${value};expires=${
-        expires.toUTCString()
-    };path=/`;
-}
-function getCookie_nav(name) {
-  const cookieValue = document.cookie.match(`(^|;)\\s*${name}=([^;]+)`);
-  return cookieValue ? cookieValue[2] : null;
-}

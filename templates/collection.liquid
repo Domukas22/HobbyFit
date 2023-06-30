@@ -1,7 +1,4 @@
 {% assign lang = request.locale.iso_code %}
-{% if lang == 'en' %}
-  {% assign lang = '' %}
-{% endif %}
 <p
   class="current_lang"
   data-lang="{{ lang }}"
@@ -26,30 +23,30 @@
       <div class="click_overlay"></div>
       <p>{{ "filters_badminton.all" | t }}</p>
     </div>
-    <div
-      class="filter"
-      data-filter="sale"
-      data-hover_grey
-      data-scale>
-      <div class="click_overlay"></div>
-      <img
-        class="icon_filter"
-        src="{{ 'icon_filter_sale.png' | asset_url }}"
-        alt="">
-      <p>{{ "filters_badminton.sale" | t }}</p>
+    <!-- <div
+    class="filter"
+    data-filter="sale"
+    data-hover_grey
+    data-scale>
+    <div class="click_overlay"></div>
+    <img
+    class="icon_filter"
+    src="{{ 'icon_filter_sale.png' | asset_url }}"
+    alt="">
+    <p>{{ "filters_badminton.sale" | t }}</p>
     </div>
     <div
-      class="filter"
-      data-filter="racket"
-      data-hover_grey
-      data-scale>
-      <div class="click_overlay"></div>
-      <img
-        class="icon_filter"
-        src="{{ 'icon_filter_racket.png' | asset_url }}"
-        alt="">
-      <p>{{ "filters_badminton.rackets" | t }}</p>
-    </div>
+    class="filter"
+    data-filter="racket"
+    data-hover_grey
+    data-scale>
+    <div class="click_overlay"></div>
+    <img
+    class="icon_filter"
+    src="{{ 'icon_filter_racket.png' | asset_url }}"
+    alt="">
+    <p>{{ "filters_badminton.rackets" | t }}</p>
+    </div> -->
     <div
       class="filter"
       data-filter="ball"
@@ -62,31 +59,30 @@
         alt="">
       <p>{{ "filters_badminton.balls" | t }}</p>
     </div>
-    <div
-      class="filter"
-      data-filter="clothing"
-      data-hover_grey
-      data-scale>
-      <div class="click_overlay"></div>
-      <img
-        class="icon_filter"
-        src="{{ 'icon_filter_clothing.png' | asset_url }}"
-        alt="">
-      <p>{{ "filters_badminton.clothing" | t }}</p>
+    <!-- <div
+    class="filter"
+    data-filter="clothing"
+    data-hover_grey
+    data-scale>
+    <div class="click_overlay"></div>
+    <img
+    class="icon_filter"
+    src="{{ 'icon_filter_clothing.png' | asset_url }}"
+    alt="">
+    <p>{{ "filters_badminton.clothing" | t }}</p>
     </div>
     <div
-      class="filter"
-      data-filter="equipment"
-      data-hover_grey
-      data-scale>
-      <div class="click_overlay"></div>
-      <img
-        class="icon_filter"
-        src="{{ 'icon_filter_equipment.png' | asset_url }}"
-        alt="">
-      <p>{{ "filters_badminton.equipment" | t }}</p>
-    </div>
-  </div>
+    class="filter"
+    data-filter="equipment"
+    data-hover_grey
+    data-scale>
+    <div class="click_overlay"></div>
+    <img
+    class="icon_filter"
+    src="{{ 'icon_filter_equipment.png' | asset_url }}"
+    alt="">
+    <p>{{ "filters_badminton.equipment" | t }}</p>
+    </div> --></div>
   <div
     class="btn_openFilters"
     data-toggle="filters"
@@ -194,31 +190,30 @@
     <p>{{ "filters_badminton.all" | t }}</p>
     <p class="category_item_count" data-category_count="all">2</p>
   </div>
-  <div
-    class="filter"
-    data-filter="sale"
-    data-scale>
-    <div class="click_overlay"></div>
-    <img
-      class="icon_filter"
-      src="{{ 'icon_filter_sale.png' | asset_url }}"
-      alt="">
-    <p>{{ "filters_badminton.sale" | t }}</p>
-    <p class="category_item_count" data-category_count="sale">2</p>
+  <!-- <div
+  class="filter"
+  data-filter="sale"
+  data-scale>
+  <div class="click_overlay"></div>
+  <img
+  class="icon_filter"
+  src="{{ 'icon_filter_sale.png' | asset_url }}"
+  alt="">
+  <p>{{ "filters_badminton.sale" | t }}</p>
+  <p class="category_item_count" data-category_count="sale">2</p>
   </div>
   <div
-    class="filter"
-    data-filter="racket"
-    data-scale>
-    <div class="click_overlay"></div>
-    <img
-      class="icon_filter"
-      src="{{ 'icon_filter_racket.png' | asset_url }}"
-      alt="">
-    <p>{{ "filters_badminton.rackets" | t }}</p>
-    <p class="category_item_count" data-category_count="racket">2</p>
-  </div>
-  <div
+  class="filter"
+  data-filter="racket"
+  data-scale>
+  <div class="click_overlay"></div>
+  <img
+  class="icon_filter"
+  src="{{ 'icon_filter_racket.png' | asset_url }}"
+  alt="">
+  <p>{{ "filters_badminton.rackets" | t }}</p>
+  <p class="category_item_count" data-category_count="racket">2</p>
+  </div> --><div
     class="filter"
     data-filter="ball"
     data-scale>
@@ -230,31 +225,30 @@
     <p>{{ "filters_badminton.balls" | t }}</p>
     <p class="category_item_count" data-category_count="ball">2</p>
   </div>
-  <div
-    class="filter"
-    data-filter="clothing"
-    data-scale>
-    <div class="click_overlay"></div>
-    <img
-      class="icon_filter"
-      src="{{ 'icon_filter_clothing.png' | asset_url }}"
-      alt="">
-    <p>{{ "filters_badminton.clothing" | t }}</p>
-    <p class="category_item_count" data-category_count="clothing">2</p>
+  <!-- <div
+  class="filter"
+  data-filter="clothing"
+  data-scale>
+  <div class="click_overlay"></div>
+  <img
+  class="icon_filter"
+  src="{{ 'icon_filter_clothing.png' | asset_url }}"
+  alt="">
+  <p>{{ "filters_badminton.clothing" | t }}</p>
+  <p class="category_item_count" data-category_count="clothing">2</p>
   </div>
   <div
-    class="filter"
-    data-filter="equipment"
-    data-scale>
-    <div class="click_overlay"></div>
-    <img
-      class="icon_filter"
-      src="{{ 'icon_filter_equipment.png' | asset_url }}"
-      alt="">
-    <p>{{ "filters_badminton.equipment" | t }}</p>
-    <p class="category_item_count" data-category_count="equipment">2</p>
-  </div>
-</div>
+  class="filter"
+  data-filter="equipment"
+  data-scale>
+  <div class="click_overlay"></div>
+  <img
+  class="icon_filter"
+  src="{{ 'icon_filter_equipment.png' | asset_url }}"
+  alt="">
+  <p>{{ "filters_badminton.equipment" | t }}</p>
+  <p class="category_item_count" data-category_count="equipment">2</p>
+  </div> --></div>
 
 
 

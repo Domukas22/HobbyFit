@@ -3,7 +3,6 @@
   {% assign lang = '' %}
 {% endif %}
 
-
 <nav>
   <div class="cWrap_Nav">
     <div class="wrap_navLeft">
@@ -51,27 +50,27 @@
                 data-link_filterpage="all">
                 <p>{{ "filters_badminton.all" | t }}</p>
               </div>
-              <div
-                class="link_dropdown badminton"
-                data-hover_grey
-                data-link_filterpage="sale">
-                <img
-                  class="icon_Nav"
-                  src="{{ 'icon_filter_sale.png' | asset_url }}"
-                  alt="">
-                <p>{{ "filters_badminton.sale" | t }}</p>
+              <!--  <div
+              class="link_dropdown badminton"
+              data-hover_grey
+              data-link_filterpage="sale">
+              <img
+              class="icon_Nav"
+              src="{{ 'icon_filter_sale.png' | asset_url }}"
+              alt="">
+              <p>{{ "filters_badminton.sale" | t }}</p>
               </div>
               <div
-                href=""
-                class="link_dropdown badminton"
-                data-hover_grey
-                data-link_filterpage="racket">
-                <img
-                  class="icon_Nav"
-                  src="{{ 'icon_filter_racket.png' | asset_url }}"
-                  alt="">
-                <p>{{ "filters_badminton.rackets" | t }}</p>
-              </div>
+              href=""
+              class="link_dropdown badminton"
+              data-hover_grey
+              data-link_filterpage="racket">
+              <img
+              class="icon_Nav"
+              src="{{ 'icon_filter_racket.png' | asset_url }}"
+              alt="">
+              <p>{{ "filters_badminton.rackets" | t }}</p>
+              </div> -->
               <div
                 href=""
                 class="link_dropdown badminton"
@@ -83,28 +82,28 @@
                   alt="">
                 <p>{{ "filters_badminton.balls" | t }}</p>
               </div>
-              <div
-                href=""
-                class="link_dropdown badminton"
-                data-hover_grey
-                data-link_filterpage="clothing">
-                <img
-                  class="icon_Nav"
-                  src="{{ 'icon_filter_clothing.png' | asset_url }}"
-                  alt="">
-                <p>{{ "filters_badminton.clothing" | t }}</p>
+              <!--  <div
+              href=""
+              class="link_dropdown badminton"
+              data-hover_grey
+              data-link_filterpage="clothing">
+              <img
+              class="icon_Nav"
+              src="{{ 'icon_filter_clothing.png' | asset_url }}"
+              alt="">
+              <p>{{ "filters_badminton.clothing" | t }}</p>
               </div>
               <div
-                href=""
-                class="link_dropdown badminton"
-                data-hover_grey
-                data-link_filterpage="equipment">
-                <img
-                  class="icon_Nav"
-                  src="{{ 'icon_filter_equipment.png' | asset_url }}"
-                  alt="">
-                <p>{{ "filters_badminton.equipment" | t }}</p>
-              </div>
+              href=""
+              class="link_dropdown badminton"
+              data-hover_grey
+              data-link_filterpage="equipment">
+              <img
+              class="icon_Nav"
+              src="{{ 'icon_filter_equipment.png' | asset_url }}"
+              alt="">
+              <p>{{ "filters_badminton.equipment" | t }}</p>
+              </div> -->
             </div>
           </div>
         </div>
@@ -237,7 +236,7 @@
                 </div>
                 <div
                   class="langLink lang"
-                  data-lang=""
+                  data-lang="en"
                   data-hover_grey>
                   <img
                     src="{{ 'img_flag_en.svg' | asset_url }}"
@@ -264,24 +263,15 @@
                   <p>{{ localization.country.name }}</p>
                   <p>{{ localization.country.currency.iso_code }}</p>
                 </div>
-                {% form 'localization', class: "form_currency" %}
-                  <div class="currencyWrap">
-                    {% for country in localization.available_countries %}
-                      <div class="currencyOption {% if country.iso_code == localization.country.iso_code %}active{% endif %}" data-value="{{ country.iso_code }}">
-                        <p>{{ country.name }}</p>
-                        <p>{{ country.currency.iso_code }}</p>
-                      </div>
-                    {% endfor %}
+                <div class="countryWrap">
+                  {% for country in localization.available_countries %}
+                    <div class="countryOption {% if country.iso_code == localization.country.iso_code %}active{% endif %}" data-value="{{ country.iso_code }}">
+                      <p>{{ country.name }}</p>
+                      <p>{{ country.currency.iso_code }}</p>
+                    </div>
+                  {% endfor %}
 
-                  </div>
-                  <input
-                    type="hidden"
-                    name="country_code"
-                    value="{{ localization.country.iso_code }}">
-
-                {% endform %}
-
-
+                </div>
               </div>
             </div>
           </div>
@@ -332,7 +322,7 @@
           </div>
           <div
             class="langLink"
-            data-lang=""
+            data-lang="en"
             data-hover_grey>
             <img
               src="{{ 'img_flag_en.svg' | asset_url }}"
@@ -366,20 +356,20 @@
       </a>
     </div>
     <div class="menuDropwdown_CONTENT">
-      <div
-        href=""
-        class="categoryLink"
-        data-link_filterpage="racket"
-        data-scale>
-        <img
-          class="img_categoryLink"
-          src="{{ 'img_filterRackets.png' | asset_url }}"
-          alt="">
-        <p class="text_categoryLink">
-          {{ "filters_badminton.rackets" | t }}
-        </p>
+      <!-- <div
+      href=""
+      class="categoryLink"
+      data-link_filterpage="racket"
+      data-scale>
+      <img
+      class="img_categoryLink"
+      src="{{ 'img_filterRackets.png' | asset_url }}"
+      alt="">
+      <p class="text_categoryLink">
+      {{ "filters_badminton.rackets" | t }}
+      </p>
 
-      </div>
+      </div> -->
       <div
         href=""
         class="categoryLink"
@@ -392,30 +382,30 @@
         <p class="text_categoryLink">{{ "filters_badminton.balls" | t }}</p>
 
       </div>
-      <div
-        href=""
-        class="categoryLink"
-        data-link_filterpage="clothing"
-        data-scale>
-        <img
-          class="img_categoryLink"
-          src="{{ 'img_filterClothing.png' | asset_url }}"
-          alt="">
-        <p class="text_categoryLink">{{ "filters_badminton.clothing" | t }}</p>
+      <!-- <div
+      href=""
+      class="categoryLink"
+      data-link_filterpage="clothing"
+      data-scale>
+      <img
+      class="img_categoryLink"
+      src="{{ 'img_filterClothing.png' | asset_url }}"
+      alt="">
+      <p class="text_categoryLink">{{ "filters_badminton.clothing" | t }}</p>
 
       </div>
       <div
-        href=""
-        class="categoryLink"
-        data-link_filterpage="equipment"
-        data-scale>
-        <img
-          class="img_categoryLink"
-          src="{{ 'img_filterEquipment.png' | asset_url }}"
-          alt="">
-        <p class="text_categoryLink">{{ "filters_badminton.equipment" | t }}</p>
+      href=""
+      class="categoryLink"
+      data-link_filterpage="equipment"
+      data-scale>
+      <img
+      class="img_categoryLink"
+      src="{{ 'img_filterEquipment.png' | asset_url }}"
+      alt="">
+      <p class="text_categoryLink">{{ "filters_badminton.equipment" | t }}</p>
 
-      </div>
+      </div> -->
     </div>
     <div class="menuDropwdown_LINKS">
       <a href='{{ shop.url }}/{{ lang }}/pages/contact' class="link_dropdown menu">
@@ -480,7 +470,7 @@
         </div>
         <div
           class="langLink lang"
-          data-lang=""
+          data-lang="en"
           data-hover_grey>
           <img
             src="{{ 'img_flag_en.svg' | asset_url }}"
@@ -507,21 +497,15 @@
           <p>{{ localization.country.name }}</p>
           <p>{{ localization.country.currency.iso_code }} {{ localization.country.currency.symbol }}</p>
         </div>
-        {% form 'localization', class: "form_currency_mobile" %}
-          <div class="currencyWrap" style="padding-bottom: 56px;">
-            {% for country in localization.available_countries %}
-              <div class="currencyOption {% if country.iso_code == localization.country.iso_code %}active{% endif %}" data-value="{{ country.iso_code }}">
-                <p>{{ country.name }}</p>
-                <p>{{ country.currency.iso_code }} {{ country.currency.symbol }}</p>
-              </div>
-            {% endfor %}
-          </div>
-          <input
-            type="hidden"
-            name="country_code"
-            value="{{ localization.country.iso_code }}">
+        <div class="countryWrap" style="padding-bottom: 56px;">
+          {% for country in localization.available_countries %}
+            <div class="countryOption {% if country.iso_code == localization.country.iso_code %}active{% endif %}" data-value="{{ country.iso_code }}">
+              <p>{{ country.name }}</p>
+              <p>{{ country.currency.iso_code }} {{ country.currency.symbol }}</p>
+            </div>
+          {% endfor %}
+        </div>
 
-        {% endform %}
         <div class="currencyFade"></div>
       </div>
 

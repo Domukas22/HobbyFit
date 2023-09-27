@@ -13,32 +13,18 @@
       <h5 class="heading_homeHero">{{ "home.topTitle_hero" | t }}</h5>
       <h1 class="title_homeHero">{{ "home.title_hero_upper" | t }}<br>{{ "home.title_hero_lower" | t }}</h1>
       <div class="btnWrap_hero">
-        <a
-          class="btn hero"
-          href="{{ collections['badmintono-prekes'].url }}"
-          data-scale>{{ "home.btnText_heroMain" | t }}</a>
-        <div
-          class="btn inverted hero"
-          data-hover_grey
-          data-scale>{{ "home.btnText_heroSecond" | t }}</div>
+        <a class="btn hero" href="{{ collections['badmintono-prekes'].url }}" data-scale>{{ "home.btnText_heroMain" | t }}</a>
+        <div class="btn inverted hero" data-hover_grey data-scale>{{ "home.btnText_heroSecond" | t }}</div>
       </div>
     </div>
-    <img
-      class="img_Hero"
-      src="{{ 'img_hero.png' | asset_url }}"
-      alt="">
+    <img class="img_Hero" src="{{ 'img_hero.png' | asset_url }}" alt="">
   </div>
   <div class="img_heroFade"></div>
-  <img
-    class="img_heroWave"
-    src="{{ 'img_waveHero.svg' | asset_url }}"
-    alt="">
+  <img class="img_heroWave" src="{{ 'img_waveHero.svg' | asset_url }}" alt="">
 </section>
 <div class="home_fade"></div>
 {% render 'inline_slider' %}
 <div class="home_fade up"></div>
-
-
 
 <div class="wrap_categories" style="overflow: hidden;">
   <!-- <section class="homeCategory" data-link_filterpage="racket">
@@ -72,29 +58,15 @@
     <div class="container homeCategory">
       <div class="textWrap_homeCategory balls">
         <h1 class="title_homeCategory">{{ "home.title_balls_upper" | t }}<br>{{ "home.title_balls_lower" | t }}</h1>
-        <div
-          class="btn"
-          data-link_filterpage="ball"
-          data-scale>{{ "home.btn_balls" | t }}</div>
+        <div class="btn" data-link_filterpage="ball" data-scale>{{ "home.btn_balls" | t }}</div>
       </div>
       <div class="imgWrap_homeCategory balls">
-        <img
-          class="img_homeCategory ball_one"
-          src="{{ 'img_home_ballBlue.png' | asset_url }}"
-          alt=""
-          data-scale>
-        <img
-          class="img_homeCategory"
-          src="{{ 'img_home_ballGreen.png' | asset_url }}"
-          alt=""
-          data-scale>
+        <img class="img_homeCategory ball_one" src="{{ 'img_home_ballBlue.png' | asset_url }}" alt="" data-scale>
+        <img class="img_homeCategory" src="{{ 'img_home_ballGreen.png' | asset_url }}" alt="" data-scale>
         <div class="fade_homeCategory"></div>
       </div>
     </div>
-    <img
-      class="img_categoryWave balls"
-      src="{{ 'img_homeWave_balls.svg' | asset_url }}"
-      alt="">
+    <img class="img_categoryWave balls" src="{{ 'img_homeWave_balls.svg' | asset_url }}" alt="">
   </section>
   <!-- <section class="homeCategory" data-link_filterpage="clothing">
   <div class="container homeCategory reversed">
@@ -155,20 +127,13 @@
 
 <script>
   const nav = document.querySelector('nav');
-  window
-    .addEventListener('DOMContentLoaded', () => {
-      nav.classList.add('no_shadow');
-    })
-    window
-    .addEventListener('scroll', () => {
-      window.scrollY > 60
-        ? nav.classList.remove('no_shadow')
-        : nav.classList.add('no_shadow');
-    })
-
-    document
-    .querySelector('.btn.inverted.hero')
-    .addEventListener('click', () => {
+  window.addEventListener('DOMContentLoaded', () => {nav.classList.add('no_shadow');})
+  window.addEventListener('scroll', () => {
+    window.scrollY > 60
+      ? nav.classList.remove('no_shadow')
+      : nav.classList.add('no_shadow');
+  })
+  document.querySelector('.btn.inverted.hero').addEventListener('click', () => {
       const slider_top = document.querySelector('.section_inline_slider').getBoundingClientRect().top;
       window.scrollTo({
         top: slider_top - 100,

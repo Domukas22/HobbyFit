@@ -384,14 +384,14 @@
 .option:hover {
   background-color: var(--color_hover);
 }
-.option.hide {
+.option[data-visible="false"] {
   flex-grow: 0;
 }
-.option.hide > label {
+.option[data-visible="false"] > label {
   width: 0;
   opacity: 0;
 }
-.option.hide > input {
+.option[data-visible="false"] > input {
   display: none
 }
 .optionRadio {

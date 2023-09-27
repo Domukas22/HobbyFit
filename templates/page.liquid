@@ -22,21 +22,13 @@
       </div>
 
       {% for link in linklists['footer'].links %}
-        <a
-          href="{{ link.url }}"
-          class="legal_link"
-          data-title="{{ link.title }}"
-          data-hover_grey>{{ link.title }}</a>
+        <a href="{{ link.url }}" class="legal_link" data-title="{{ link.title }}" data-hover_grey>{{ link.title }}</a>
       {% endfor %}
     </div>
     <div class="boxToggle_legal">
       <div class="toggleBtn_legal" data-box="closed">
         {{ page.title }}
-        <img
-          class="icon_arrowDropdown"
-          src="{{ 'icon_arrow.svg' | asset_url }}"
-          alt=""
-          style="margin-left: auto;">
+        <img class="icon_arrowDropdown" src="{{ 'icon_arrow.svg' | asset_url }}" alt="" style="margin-left: auto;">
       </div>
     </div>
   </div>
@@ -51,16 +43,9 @@
     if (x.href === window.location.href) {
       x.classList.add('active')
     }
-
   });
 
-
-
-  function isDesktop() {
-    return window.innerWidth > 991
-      ? true
-      : false
-  }
+  function isDesktop() { return window.innerWidth > 991 ? true : false }
 </script>
 
 {{ '8_legal.js' | asset_url | script_tag }}

@@ -92,7 +92,8 @@
         "red_qnt_post": "left in stock",
         "red_qntCart_pre": "There are only",
         "red_qntCart_mid": "left in stock, and you already have",
-        "red_qntCart_post": "in your shopping cart. You may choose up to"
+        "red_qntCart_post": "in your shopping cart. You may choose up to",
+        "item_unavaiable": "Sadly, this product is out of stock."
     },
 
     "cart": {

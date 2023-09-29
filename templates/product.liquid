@@ -1,6 +1,6 @@
 <!-- set default colors -->
-{% assign defaultBgColor = product.metafields.custom.defaultBgColor %}
-{% assign defaultRawColor = product.metafields.custom.defaultRawColor %}
+{% assign defaultBgColor = product.metafields.custom.color_bg %}
+{% assign defaultRawColor = product.metafields.custom.color_raw %}
 
 <!-- get language -->
 {% assign lang = request.locale.iso_code %}
@@ -78,39 +78,42 @@
                     <label for="Color" data-color_06>{{ "product.word_chooseColor" | t }}</label>
                   {% endif %}
                   <fieldset class="input_box">
+                    <!-- option values are defined in the product "variant" section on shopify-->
+                    <!-- example color option value: "Blue #E5E8FF #172556" -->
+                    <!-- example size option value: "S" -->
                     {% for value in option.values %}
 
                       {% if option.name == 'Color' %}
                         <!-- only print available colors -->
-                        {% assign value_available = false %}
+                        {% assign ISvalueAvailable = false %}
                         {% for variant in product.variants %}
                           {% if variant.available and variant.option1 == value %}
-                            {% assign value_available = true %}
+                            {% assign ISvalueAvailable = true %}
                             {% break %}
                           {% endif %}
                         {% endfor %}
 
-                        {% if value_available %}
+                        {% if ISvalueAvailable %}
                           <div class="option">
                             <input class="optionRadio" type="radio" name="{{ option.name }}" value="{{ value }}" id="{{ option.name | handleize }}={{ value | handleize }}" {% if option.selected_value == value %}checked{% endif %}>
                             <label for="{{ option.name | handleize }}={{ value | handleize }}" style="display: none;">
                               {{ value }}
                             </label>
-                            <div class="circle_option" data-circle_color="{{ value }}"></div>
+                            <div class="circle_option" data-color="{{ value }}"></div>
                           </div>
                         {% endif %}
 
                       {% else %}
                         <!-- print normal, letter options (only available ones) -->
                         <!-- if one of the product options has this value, it means it does in fact exist, so print it-->
-                        {% assign value_size = value %}
+                        {% assign sizeVALUE = value %}
                         {% assign exists = false %}
 
+                        <!-- edit the "exists" variable above -->
                         {% for variant in product.variants %}
                           {% if variant.available and exists == false %}
                             {% for value in variant.options %}
-                              {% if value == value_size %}
-                                <!-- edit the "exists" variable above -->
+                              {% if value == sizeVALUE %}
                                 {% assign exists = true %}
                               {% endif %}
                             {% endfor %}
@@ -141,19 +144,19 @@
             <fieldset class="input_box qnt" data-box="closed">
               <div class="quantity_front">
                 <div class="wrap_qntOptions desktop">
-                  <div class="qntOption d active" data-value="1" data-redefaultBgColor data-recolor_text_raw data-scale>1</div>
+                  <div class="qntOption d active" data-value="1" data-bgCOLOR data-rawTextCOLOR data-scale>1</div>
                   <div class="qntOption d" data-value="2" data-scale>2</div>
                   <div class="qntOption d" data-value="3" data-scale>3</div>
                   <div class="qntOption d" data-value="4" data-scale>4</div>
                   <div class="qntOption d last" data-value="5" data-scale>5</div>
                 </div>
                 <div class="wrap_qntOptions mobile">
-                  <div class="qntOption m active" data-value="1" data-redefaultBgColor data-recolor_text_raw data-scale>1</div>
+                  <div class="qntOption m active" data-value="1" data-bgCOLOR data-rawTextCOLOR data-scale>1</div>
                   <div class="qntOption m" data-value="2" data-scale>2</div>
                   <div class="qntOption m last" data-value="3" data-scale>3</div>
                 </div>
-                <div class="btn_giveQuantity d disabled" data-recolor_text_raw data-scale>{{ "product.word_more" | t }}</div>
-                <div class="btn_giveQuantity m disabled" data-recolor_text_raw data-scale>{{ "product.word_more" | t }}</div>
+                <div class="btn_giveQuantity d disabled" data-rawTextCOLOR data-scale>{{ "product.word_more" | t }}</div>
+                <div class="btn_giveQuantity m disabled" data-rawTextCOLOR data-scale>{{ "product.word_more" | t }}</div>
                 <div class="textAlert cart_full">
                   {{ "alerts.alert_cartFull_pre" | t }}&nbsp;<span data-cart_qnt></span>&nbsp;{{ "product.word_item" | t }} {{ "alerts.alert_cartFull_post" | t }}
                   <!-- Sie haben bereits 4 Stück im Einkaufswagen -->
@@ -161,13 +164,13 @@
               </div>
               <div class="quantity_back">
                 <div class="qnt_back_TOP">
-                  <input class="qntInput" type="number" name="quantity" value="1" data-qnt_left="{{ product.selected_or_first_available_variant.inventory_quantity }}" style="display: none">
-                  <input class="qntInput_decoy" type="number" name="fake"  placeholder="{{ "product.word_qntInput" | t }}" onkeydown="QNT.CHECKkeyPress(event, this);" style="font-size: 17px">
-                  <div class="btn_nearQtn cancel" data-recolor_text_raw data-scale>{{ "product.word_cancel" | t }}</div>
-                  <div class="btn_nearQtn submit" data-redefaultRawColor data-scale>{{ "product.word_submit" | t }}</div>
+                  <input class="qntInput" type="number" name="quantity" value="1" data-leftQNT="{{ product.selected_or_first_available_variant.inventory_quantity }}" style="display: none">
+                  <input class="qntInput_decoy" type="number" name="fake"  placeholder="{{ "product.word_qntInput" | t }}" onkeydown="QNT.HANDLEmobileGoBtnClick(event, this);" style="font-size: 17px">
+                  <div class="btn_nearQtn cancel" data-rawTextCOLOR data-scale>{{ "product.word_cancel" | t }}</div>
+                  <div class="btn_nearQtn submit" data-rawBgCOLOR data-scale>{{ "product.word_submit" | t }}</div>
                 </div>
                 <div class="wrap_qntOptions_expanded d">
-                  <div class="qntOption d exp active" data-value="1" data-redefaultBgColor data-recolor_text_raw data-scale>1</div>
+                  <div class="qntOption d exp active" data-value="1" data-bgCOLOR data-rawTextCOLOR data-scale>1</div>
                   <div class="qntOption d exp" data-value="2" data-scale>2</div>
                   <div class="qntOption d exp" data-value="3" data-scale>3</div>
                   <div class="qntOption d exp" data-value="4" data-scale>4</div>
@@ -181,7 +184,7 @@
                   <div class="qntOption d exp last" data-value="12" data-scale>12</div>
                 </div>
                 <div class="wrap_qntOptions_expanded m">
-                  <div class="qntOption m exp active" data-value="1" data-redefaultBgColor data-recolor_text_raw data-scale>1</div>
+                  <div class="qntOption m exp active" data-value="1" data-bgCOLOR data-rawTextCOLOR data-scale>1</div>
                   <div class="qntOption m exp" data-value="2" data-scale>2</div>
                   <div class="qntOption m exp" data-value="3" data-scale>3</div>
                   <div class="qntOption m exp" data-value="4" data-scale>4</div>
@@ -195,20 +198,20 @@
               </div>
             </fieldset>
 
-            <p class="redText qnt_isCart">{{ "alerts.red_qntCart_pre" | t }} <span data-variant_qnt></span> {{ "product.word_item" | t }} {{ "alerts.red_qntCart_mid" | t }} <span data-cart_qnt></span> {{ "product.word_item" | t }} {{ "alerts.red_qntCart_post" | t }} <span data-qnt_avail></span> {{ "product.word_item" | t }}.</p>
+            <p class="redText qnt_isCart">{{ "alerts.red_qntCart_pre" | t }} <span data-variant_qnt></span> {{ "product.word_item" | t }} {{ "alerts.red_qntCart_mid" | t }} <span data-cart_qnt></span> {{ "product.word_item" | t }} {{ "alerts.red_qntCart_post" | t }} <span data-availQNT></span> {{ "product.word_item" | t }}.</p>
             <!-- Es sind nur noch 4 Stück übrig, und Sie haben bereits 3 Stück in Ihrem Einkaufswagen. Wählen Sie gerne bis zu 1 Stück -->
             <p class="redText qnt">{{ "alerts.red_qnt_pre" | t }} <span data-variant_qnt></span> {{ "product.word_item" | t }} {{ "alerts.red_qnt_post" | t }}</p>
             <!-- Es sind nur noch 4 Stück übrig -->
-            <p class="textAlert isCart">{{ "alerts.alert_isCart_pre" | t }} (<span data-cart_qnt></span>). {{ "alerts.alert_isCart_post" | t }} <span data-qnt_avail></span> {{ "product.word_item" | t }}</p>
+            <p class="textAlert isCart">{{ "alerts.alert_isCart_pre" | t }} (<span data-cart_qnt></span>). {{ "alerts.alert_isCart_post" | t }} <span data-availQNT></span> {{ "product.word_item" | t }}</p>
             <!-- Diese Ware ist bereits in Ihrem Einkaufswagen (2 Stück). Wählen Sie gerne bis zu 3 Stück -->
 
             <div class="wrap_formBtns">
               <!-- form btns -->
-              <div class="formBtn buy" style="background-color: {{ defaultRawColor }}; color: white;" data-redefaultRawColor data-scale>
+              <div class="formBtn buy" style="background-color: {{ defaultRawColor }}; color: white;" data-rawBgCOLOR data-scale>
                 {{ "product.btnWord_order_pre" | t }}&nbsp;<span data-chosen_qnt></span>&nbsp;{{ "product.word_item" | t }} {{ "product.btnWord_order_post" | t }}
                 <span class="price_insideBtn" data-price_sum_calc>{{ product.selected_or_first_available_variant.price | money }}</span>
               </div>
-              <div class="formBtn addCart main isCart" style="font-weight: 400;" data-redefaultRawColor data-scale>
+              <div class="formBtn addCart main isCart" style="font-weight: 400;" data-rawBgCOLOR data-scale>
                 <p style="color: white">{{ "product.btnWord_addMore_pre" | t }}&nbsp;<span data-chosen_qnt></span>&nbsp;{{ "product.btnWord_addMore_post" | t }}</p>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 337.94 421.48" style="width: 17px; margin: 0 0 2px auto;">
                   <g id="Ebene_2" data-name="Ebene 2">
@@ -216,7 +219,7 @@
                   </g>
                 </svg>
               </div>
-              <div class="formBtn addCart main noCart" style="font-weight: 400;" data-redefaultRawColor data-scale>
+              <div class="formBtn addCart main noCart" style="font-weight: 400;" data-rawBgCOLOR data-scale>
                 <p style="color: white">{{ "product.btnWord_add_pre" | t }}&nbsp;<span data-chosen_qnt></span>&nbsp;{{ "product.word_item" | t }} {{ "product.btnWord_add_post" | t }}</p>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 337.94 421.48" style="width: 17px; margin: 0 0 2px auto;">
                   <g id="Ebene_2" data-name="Ebene 2">
@@ -225,7 +228,7 @@
                 </svg>
               </div>
               <div class="formBtn addCart second" style="border: 1px solid {{ defaultBgColor }}; font-weight: 400;" data-recolor_border_raw data-scale>
-                <p data-recolor_text_raw="">{{ "product.btnWord_add_pre" | t }}&nbsp;<span data-chosen_qnt></span>&nbsp;{{ "product.word_item" | t }} {{ "product.btnWord_add_post" | t }}</p>
+                <p data-rawTextCOLOR="">{{ "product.btnWord_add_pre" | t }}&nbsp;<span data-chosen_qnt></span>&nbsp;{{ "product.word_item" | t }} {{ "product.btnWord_add_post" | t }}</p>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 337.94 421.48" style="width: 17px; margin: 0 0 2px auto;">
                   <g id="Ebene_2" data-name="Ebene 2">
                     <g id="Ebene_1-2" data-name="Ebene 1"><path data-path_raw class="cartIcon_path" d="M337.69,385.58,301.08,86.79a10,10,0,0,0-9.88-8.74H46.73a10,10,0,0,0-9.88,8.74L.24,385.58A32,32,0,0,0,32,421.48H305.92A32,32,0,0,0,337.69,385.58ZM268.84,141.66c-.16,3.29-.48,6.53-.94,9.72-7.1,48.82-48.69,86.29-98.93,86.29S77.14,200.2,70,151.38c-.46-3.19-.78-6.43-.94-9.72v0a24.81,24.81,0,0,1,24.68-22.26q1.06,0,2.1.09A3.05,3.05,0,0,1,98.67,123a76.8,76.8,0,0,0,5.08,43.86C115,192.6,139.94,210.5,169,210.5s54-17.9,65.22-43.62a75.89,75.89,0,0,0,6.27-30.35,77,77,0,0,0-1.18-13.42,3.14,3.14,0,0,1,2.86-3.67c.66,0,1.34-.08,2-.08a24.81,24.81,0,0,1,24.68,22.26Z" /><path class="cartIcon_path" data-path_raw d="M250.13,64H225.46a2.64,2.64,0,0,1-2.33-1.43c-11.27-21.74-31.31-36.2-54.16-36.2s-42.89,14.46-54.16,36.2A2.62,2.62,0,0,1,112.48,64H87.8a1.46,1.46,0,0,1-1.38-2C100.28,25.52,132,0,169,0s68.68,25.52,82.54,62A1.46,1.46,0,0,1,250.13,64Z" /></g>
@@ -233,9 +236,9 @@
                 </svg>
               </div>
               <a class="formBtn viewCart not_full" style="border: 1px solid {{ defaultBgColor }}; font-weight: 400;" href="{{ shop.url }}/{{ lang }}/cart" data-recolor_border_raw data-scale>
-                <p style="color:{{ defaultRawColor }}" data-recolor_text_raw>{{ "product.btnWord_viewBasket" | t }}</p>
+                <p style="color:{{ defaultRawColor }}" data-rawTextCOLOR>{{ "product.btnWord_viewBasket" | t }}</p>
               </a>
-              <a class="formBtn viewCart full" style="background-color: {{ defaultRawColor }}; color: white;" href="{{ shop.url }}/{{ lang }}/cart" data-redefaultRawColor data-scale>
+              <a class="formBtn viewCart full" style="background-color: {{ defaultRawColor }}; color: white;" href="{{ shop.url }}/{{ lang }}/cart" data-rawBgCOLOR data-scale>
                 <p style="color: white; text-align: center">{{ "product.btnWord_viewBasket" | t }}</p>
               </a>
 
@@ -244,7 +247,7 @@
             </div>
 
           {% else %}
-            <div class="sign_outOfstock">Deja nebeturime šios prekės</div>
+            <div class="sign_outOfstock">{{ "alerts.item_unavaiable" | t }}</div>
           {% endif %}
         {% endform %}
 
@@ -252,13 +255,10 @@
         
         <p style="margin: 16px 0; display: flex; align-items: center">
           <span><img src="{{ 'icon_shipping.png' | asset_url }}" alt="" class="icon_otherInfo"></span>{{ "product.text_shippingDuration_pre" | t }} 2 {{ "product.text_shippingDuration_post" | t }}
-        </p>
-
-
-        
+        </p> 
 
         {% if product.metafields.reviews.rating.value | plus: 0 > 0  %}
-        <!-- <p class="preview_reviews" data-hover_grey data-recolor_text_raw><span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span>{{ product.metafields.reviews.rating_count | remove: '.0' }} {{ "product.word_outOfReviews" | t }}<span class="arrow_reviews"> 
+        <!-- <p class="preview_reviews" data-hover_grey data-rawTextCOLOR><span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span>{{ product.metafields.reviews.rating_count | remove: '.0' }} {{ "product.word_outOfReviews" | t }}<span class="arrow_reviews"> 
             
           <svg style="height: 18px; object-fit: contain" viewBox="0 0 364 364" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path data-path_raw d="M182 0C131.826 0 91 40.8203 91 91C91 141.18 131.82 182 182 182C232.18 182 273 141.182 273 91C273 40.8182 232.176 0 182 0Z" fill="#0C0C0C"/>
@@ -350,119 +350,123 @@
 
 <script>
 
+// TOFIX: QNT.HANDLEqntOptions()
+// qnt submit button doesnt appear on type
+// see cart infos on load, and display/hide add to cart buttons based on parent class
 // qnt selection incorrectly calculates the final price inside btn
 // shopping cart btn in the nav only works if the bag icon is clicked
-// swiper doesnt initiate for badminton balls
 // colors dont set correctly when choosing qnt
 
 
-const product = {{ product | json}}
+const product = {{ product | json }}
 const format = "{{ shop.money_format }}"
-const product_available = {{ product.available }}
+const ISproductAvailable = {{ product.available }}
+const cartITEMS = {{ cart.items | json }};
+const variantQUANTITIES = [];
+
+{% for variant in product.variants %}
+  variantQUANTITIES.push({ varID: {{ variant.id }}, varQNT: {{ variant.inventory_quantity }}});
+{% endfor %};
+
+
 
 const GENERAL = (() => {
-  function CHANGEurl(matchedVariant, color_bg, color_raw) {
-    const url = new URLParse(window.location.href, true)
-    url.query.variant = matchedVariant.id
-    url.query.color_bg = color_bg
-    url.query.color_raw = color_raw
-    window.history.replaceState(null, null, url.toString())
+  function CHANGEurl(matchedVARIANT, bgCOLOR, rawCOLOR) {
+    const url = new URLParse(window.location.href, true);
+    url.query.variant = matchedVARIANT.id;
+    url.query.color_bg = bgCOLOR;
+    url.query.color_raw = rawCOLOR;
+    window.history.replaceState(null, null, url.toString());
   }
   function DISPLAYflex(elements) {
-    elements.forEach(x => x.style.display = "flex")
+    elements.forEach(x => x.style.display = "flex");
   }
   function DISPLAYblock(elements){
-    elements.forEach(x => x.style.display = "block")
+    elements.forEach(x => x.style.display = "block");
   }
   function TOGGLEdataVisibility(htmlELEMENT, visibility) {
     htmlELEMENT.setAttribute('data-visible', visibility);
   }
   function ISdesktop() {
-    return window.innerWidth > 991
-        ? true
-        : false
-}
-  function FINDmatchedVariant() {
-    let selected_radios = []
-    document.querySelectorAll('input[type="radio"].optionRadio:checked').forEach(x => selected_radios.push(x.value))
-    
-    const matchedVariant = product.variants.find(variant => {
-      for (let option of selected_radios) {
-        if (!variant.options.includes(option)) {
-          return false;
-        }
-      }
-      return true;
-    });
-    return matchedVariant
+    return window.innerWidth > 991 ? true : false;
+  }
+  function GETselectedVariant() {
+    // Find variant based on checked radios
+    const checkedRADIOS = document.querySelectorAll('input[type="radio"].optionRadio:checked');
+    const checkedRadioVALUES = [...checkedRADIOS].map(x => x.value);
+    return _FINDmatchedVariant(checkedRadioVALUES);
+  }
+  function _FINDmatchedVariant(selectedRadioVALUES) {
+    return product.variants.find(variant =>
+      // "color" is the first product option, second is set to "size"
+      selectedRadioVALUES.every(colorOPTION => variant.options.includes(colorOPTION))
+    );
   }
   function EDIThiddenInput(matchedVariant) {
-    document.getElementById('product_id').value = matchedVariant.id
+    document.getElementById('product_id').value = matchedVariant.id;
   }
-
-  return { CHANGEurl, DISPLAYflex, DISPLAYblock, TOGGLEdataVisibility, ISdesktop, FINDmatchedVariant, EDIThiddenInput  }
+  return { CHANGEurl, DISPLAYflex, DISPLAYblock, TOGGLEdataVisibility, ISdesktop, GETselectedVariant, EDIThiddenInput  }
 })();
 const COLOR = (() => {
-  function GETcolors() {
-    // if product has color options, return the color of the selected checkbox
-    {% if product.options contains 'Color' and product.available %}
-      const [ , bgCOLOR, rawCOLOR ] = document.querySelector('.optionRadio[name="Color"]:checked').value.split(" ");
-      return {bgCOLOR, rawCOLOR}
-    {% else %}
-      return {bgCOLOR: '{{ defaultBgColor }}', rawCOLOR: '{{ defaultRawColor }}'}
-    {% endif %};
-  }
-  function recolor(raw, bg) {
-    // --> "#FFF", #FFF
-    const elements_raw = document.querySelectorAll('[data-redefaultRawColor]');
-    const elements_bg = document.querySelectorAll('[data-redefaultBgColor]');
-    const text_raw = document.querySelectorAll('[data-recolor_text_raw]');
-    const border_raw = document.querySelectorAll('[data-recolor_border_raw]');
-    text_raw.forEach(el => el.style.color = raw);
-    elements_raw.forEach(el => el.style.backgroundColor = raw);
-    elements_bg.forEach(el => el.style.backgroundColor = bg);
-    border_raw.forEach(el => el.style.borderColor = raw);
+  function color() {
+    const { rawCOLOR, bgCOLOR } = GETcolorToUse()
+    
+    const rawELEMENTS = document.querySelectorAll('[data-rawBgCOLOR]');
+    const bgELEMENTS = document.querySelectorAll('[data-bgCOLOR]');
+    const rawTEXTS = document.querySelectorAll('[data-rawTextCOLOR]');
+    const rawBORDERS = document.querySelectorAll('[data-recolor_border_raw]');
+    const rawPATHS = document.querySelectorAll('[data-path_raw]');
+    rawTEXTS.forEach(el => el.style.color = rawCOLOR);
+    rawELEMENTS.forEach(el => el.style.backgroundColor = rawCOLOR);
+    bgELEMENTS.forEach(el => el.style.backgroundColor = bgCOLOR);
+    rawBORDERS.forEach(el => el.style.borderColor = rawCOLOR);
+    rawPATHS.forEach(path => path.style.fill = rawCOLOR);
 
-    const parents_optionRadio = document.querySelectorAll('.option');
-    parents_optionRadio.forEach(parent => {
-      const inputElement = parent.querySelector('input[type="radio"]');
-      if (inputElement && inputElement.checked) {
-        parent.style.backgroundColor = bg;
-        parent.querySelector('label').style.color = raw;
-
-      } else {
-        parent.removeAttribute('style');
-        parent.querySelector('label').style.color = 'black';
-      }
+    // remove all radio colors
+    const radioPARENTS = document.querySelectorAll('.option');
+    radioPARENTS.forEach(parent => {
+      parent.removeAttribute('style');
+      parent.querySelector('label').style.color = 'black';
     })
-    document.querySelectorAll('[data-path_raw]').forEach(path => {path.style.fill = raw;})
-  }
-  function RECOLORdefault() {
-    {% if product.options contains 'Color' %}
-      const [ , bgCOLOR, rawCOLOR ] = document.querySelector('.optionRadio[name="Color"]:checked').value.split(" ");
-      recolor(rawCOLOR, bgCOLOR);
-      _SETcircleColors();
-      return;
-    {% endif %};
-    recolor('{{ defaultRawColor }}', '{{ defaultBgColor }}');
-  }
-  function SETbuletColors() {
-    const bullets = document.querySelectorAll('.swiper-pagination-bullet');
-    const magnify = document.querySelectorAll('[data-btn_magnify]');
-    [bullets, magnify].forEach(x => x.forEach(y => y.style.backgroundColor = COLOR.GETcolors().bg))
 
-    const activeBullet = document.querySelector('.swiper-pagination-bullet-active');
-    const magnifyActive = document.querySelector('[data-btn_magnify].active');
-    [activeBullet, magnifyActive].forEach(x => x.style.backgroundColor = COLOR.GETcolors().raw)
+    // color checked radios
+    const checkedRADIOS = document.querySelectorAll('input[type="radio"]:checked');
+    checkedRADIOS.forEach(radio => {
+      const parent = radio.parentElement;
+      parent.style.backgroundColor = bgCOLOR;
+      parent.querySelector('label').style.color = rawCOLOR;
+    })
+  }
+  function COLORswiper() {
+    const { rawCOLOR, bgCOLOR } = GETcolorToUse()
+
+    const swiperBULLETS = document.querySelectorAll('.swiper-pagination-bullet');
+    const magnifyBTNS = document.querySelectorAll('[data-btn_magnify]');
+    const activeBULLET = document.querySelector('.swiper-pagination-bullet-active');
+    const activeMagnifyBTN = document.querySelector('[data-btn_magnify].active');
+
+    swiperBULLETS.forEach(y => y.style.backgroundColor = bgCOLOR)
+    magnifyBTNS.forEach(y => y.style.backgroundColor = bgCOLOR)
+    activeBULLET.style.backgroundColor = rawCOLOR
+    activeMagnifyBTN.style.backgroundColor = rawCOLOR
 }
-  function _SETcircleColors() {
-    const circle_option = document.querySelectorAll('.circle_option')
-    circle_option.forEach(x => {
-      const defaultRawColor = x.dataset.circle_color.split(" ")[2];
-      x.style.backgroundColor = defaultRawColor;
+  function COLORradioDots() {
+    const radioDOTS = document.querySelectorAll('.circle_option')
+    radioDOTS.forEach(dot => {
+      // Blau #E5E8FF #172556
+      const [ , , rawCOLOR ] = dot.dataset.color.split(" ");
+      dot.style.backgroundColor = rawCOLOR;
     })
-  }    
-  return { GETcolors, recolor, RECOLORdefault, SETbuletColors }
+  }   
+  function GETcolorToUse(){
+    {% if product.options contains 'Color' %}
+      const checkedColorRADIO = document.querySelector('.optionRadio[name="Color"]:checked')
+      const [ , bgCOLOR, rawCOLOR ] = checkedColorRADIO.value.split(" ");
+      return { bgCOLOR, rawCOLOR }
+    {% endif %};
+    return { bgCOLOR: '{{ defaultBgColor }}', rawCOLOR: '{{ defaultRawColor }}'}
+  }
+  return { GETcolorToUse, color, COLORswiper, COLORradioDots }
 })();
 const sizeRADIOS = (() => {
   function adjust() {
@@ -470,7 +474,7 @@ const sizeRADIOS = (() => {
     {% if product.options contains 'Color' and product.options contains 'Size'%}
 
       const allVARIANTS = _COLLECTallProductVariants() 
-      const colorMatchingVARIANTS = _FILTERvariantsByColor(allVARIANTS, COLOR.GETcolors().bgCOLOR)
+      const colorMatchingVARIANTS = _FILTERvariantsByColor(allVARIANTS, COLOR.GETcolorToUse().bgCOLOR)
       const sizeRADIOS = document.querySelectorAll('.optionRadio[name="Size"]');
       let selectedRADIO = undefined;
       let availableRadioLIST = []
@@ -514,22 +518,7 @@ const sizeRADIOS = (() => {
   return { adjust }
 })();
 const ZOOM = (() => {
-  window.addEventListener('DOMContentLoaded', () => {setTimeout(() => {set_desktop_grab()}, 300)})
-
-  const btns_colorOptions = document.querySelectorAll('input[name="Color"]')
-  btns_colorOptions.forEach(x => x.addEventListener('click', () => {
-      toggle_zoom(1)
-      set_desktop_grab()
-      setTimeout(() => {set_desktop_grab()}, 300)
-  }))
-  
-  const btns_Magnify = document.querySelectorAll('div[data-zoom]')
-  btns_Magnify.forEach(x => x.addEventListener('click', (e) => {
-      const magnify = e.currentTarget.dataset.zoom
-      toggle_zoom(Number(magnify))
-  }))
-  
-  function set_desktop_grab() {
+  function SETdesktopImgDrag() {
       let slides_new = document.querySelectorAll('.swiper-slide');
       slides_new.forEach(slide => {   // desktop zoom move
           let isDragging = false;
@@ -542,7 +531,7 @@ const ZOOM = (() => {
               startY = e.pageY - slide.offsetTop;
               scrollLeft = slide.scrollLeft;
               scrollTop = slide.scrollTop;
-              console.log('down')
+              console.log('down');
           });
           slide.addEventListener('mouseleave', () => {isDragging = false});
           slide.addEventListener('mouseup', () => {isDragging = false});
@@ -558,85 +547,76 @@ const ZOOM = (() => {
           });
       });
   }
-  function toggle_zoom(magnify) {
-      
-      const swiperWrapper = document.querySelector('.swiper-wrapper')
-      swiperWrapper.dataset.magnify = magnify
+  function TOGGLEzoom(magnify) {
+      document.querySelector('.swiper-wrapper').dataset.magnify = magnify
       const wrap_Controls = document.querySelector('.controls_magnify')
-  
+
       if (magnify == 1) { // return to normal
-          wrap_Controls.classList.remove('zoom') // remove controls earlier
-          grow_Image(1);
-          setTimeout(() => {handle_elements(false)}, 400)
-          setTimeout(() => {toggle_activeZoomBtn(magnify), COLOR.SETbulletColors()}, 600);
-  
-      } else {
-          handle_elements(true)
-          grow_Image(magnify)
-          toggle_activeZoomBtn(magnify)
-          COLOR.SETbulletColors()
+        wrap_Controls.classList.remove('zoom') // remove controls earlier
+        _GROWimage(1);
+        setTimeout(() => {_HANDLEzoomElements(false)}, 400)
+        setTimeout(() => {_ADJUSTzoomBtnColors(magnify), COLOR.COLORswiper()}, 600);
+        return;
       }
-  
+      _HANDLEzoomElements(true);
+      _GROWimage(magnify);
+      _ADJUSTzoomBtnColors(magnify);
+      COLOR.COLORswiper();
   }
-  function handle_elements(value) {
-      const divs = document.querySelectorAll('[data-effect="zoom"]');
-      const product_Wave = document.querySelector('.img_WAVE_long')
-      const activeSlide = document.querySelector('.swiper-slide-active')
+  function _HANDLEzoomElements(value) {
+    const zoomELEMENTS = document.querySelectorAll('[data-effect="zoom"]');
+    const productWAVE = document.querySelector('.img_WAVE_long');
+    const activeSlide = document.querySelector('.swiper-slide-active');
+    zoomELEMENTS.forEach(x => value ? x.classList.add('zoom') : x.classList.remove('zoom'))
+    activeSlide.style.overflow = value ? 'scroll' : 'visible';
+    productWAVE.style.opacity = value ? '0%' : '100%';
+    _ADJUSTslides(value)
+  }
+  function _GROWimage(magnify) {
+    const img = document.querySelector('.swiper-slide-active').firstElementChild;
+    const { naturalWidth: w, naturalHeight: h } = img;
+
+    if (magnify == 1) {
+      img.parentElement.scrollTo({top:0, left:0, behavior:'smooth'});
+      img.style.height = "100%";
+      img.style.width = "100%"; 
+      return;
+    }
+
+    if (GENERAL.ISdesktop()) {
+      let targetHeight = window.innerHeight * (magnify - 0.8);
+      const w_Value = w / h * targetHeight;
+      img.style.width = w_Value + "px"
+      img.style.height = targetHeight + "px";
+      return; 
+    }
+
+    const targetWidth = window.innerWidth * magnify;
+    const h_Value = h / w * targetWidth;
+    img.style.width = targetWidth + "px";
+    img.style.height = h_Value + "px";
+  }
+  function _ADJUSTslides(value){
+    const slides = document.querySelectorAll('.swiper-slide')
+    slides.forEach(slide => {
       if (value) {
-          product_Wave.style.opacity = '0%'
-          divs.forEach(x => x.classList.add('zoom'));
-          activeSlide.style.overflow = "scroll"
-      } else {
-          product_Wave.style.opacity = '100%'
-          divs.forEach(x => x.classList.remove('zoom'));
-          activeSlide.style.overflow = "visible"    
+        slide.classList.add('slider-no-swiping');
+        if (!slide.classList.contains('swiper-slide-active')) {slide.firstElementChild.style.opacity = '0%'};
+        return;
       }
-      const slides = document.querySelectorAll('.swiper-slide')
-      slides.forEach(slide => {
-          if (value) {
-              slide.classList.add('slider-no-swiping')
-              if (!slide.classList.contains('swiper-slide-active')) {slide.firstElementChild.style.opacity = '0%'}
-          }
-          else {
-              slide.classList.remove('slider-no-swiping');
-              slide.firstElementChild.style.opacity = '100%'
-          }
-  
-      })
-  
+      slide.classList.remove('slider-no-swiping');
+      slide.firstElementChild.style.opacity = '100%'
+    })
   }
-  function grow_Image(magnify) {
-      const img = document.querySelector('.swiper-slide-active').firstElementChild
-      const { naturalWidth: w, naturalHeight: h } = img;
-      if (magnify == 1) {
-          img.parentElement.scrollTo({top:0, left:0, behavior:'smooth'});
-      img.style.height = "100%"
-      img.style.width = "100%"  
-      } else {
-          if (GENERAL.ISdesktop()) {
-          let targetHeight = window.innerHeight * (magnify - 0.8);
-          const w_Value = w / h * targetHeight;
-          img.style.width = w_Value + "px"
-          img.style.height = targetHeight + "px";
-  
-          } else {
-          const targetWidth = window.innerWidth * magnify;
-          const h_Value = h / w * targetWidth;
-          img.style.width = targetWidth + "px";
-          img.style.height = h_Value + "px"
-          } 
-      }
+  function _ADJUSTzoomBtnColors(magnify) {
+    const btns = document.querySelectorAll('[data-btn_magnify]')
+    btns.forEach(x => {
+      if (magnify == 1 && x.dataset.zoom == 2){x.classList.add('active')}
+      else if (x.dataset.zoom == magnify) {x.classList.add('active')}
+      else {x.classList.remove('active')}  
+    })
   }
-  function toggle_activeZoomBtn(magnify) {
-      const btns = document.querySelectorAll('[data-btn_magnify]')
-      btns.forEach(x => {
-          if (magnify == 1 && x.dataset.zoom == 2){x.classList.add('active')}
-          else if (x.dataset.zoom == magnify) {x.classList.add('active')}
-          else {x.classList.remove('active')}
-          
-  })}
-  
-  return {}
+  return { SETdesktopImgDrag, TOGGLEzoom }
 })();
 const IMG = (() => {
   function GETproductImages() {
@@ -648,7 +628,7 @@ const IMG = (() => {
       imgInfoLIST.push({src: '{{ image | img_url: 'master' | prepend: 'https:'}}', alt: '{{ image.alt }}' })
     {% endfor %};
   
-    // create and push the img element into list
+    // create and push the img into imageELEMENTS
     for (let imgNR = 0; imgNR < imgInfoLIST.length; imgNR++) {
       imageELEMENTS.push(_CREATEimage(imgInfoLIST[imgNR]))
     }
@@ -662,83 +642,44 @@ const IMG = (() => {
     elementIMG.setAttribute('alt', `${alt}`);
     return elementIMG
   }
-  
-    return { GETproductImages }
+  return { GETproductImages }
 })();  
 const SWIPER = (() => {
   let swiper
 
-  // FIXME: window load is calling SETimgSwiper, and its not working
-  // with badminton balls. It does work with the hoodie ==> color problem??
-  
   function SETimgSwiper() {
     INSERTswiper(IMG.GETproductImages())
-    _INITIATEswiper(); // ERROR HERE
+    _ACTIVATEswiper();
     _RESETtransitions();
-    
+    SETparallax()
   }
-  function INSERTswiper(images_raw) {
+  function INSERTswiper(unfilteredIMAGES) {
     const colorHex_bg = new URLSearchParams(window.location.search).get('color_bg');
-    const stickyDiv = document.querySelector('.sticky_div')
-    const swiper_old = stickyDiv.querySelector('.swiper')
-    if (colorHex_bg) {
+    if (!colorHex_bg) { console.log('Load default color'); return;}
 
-    const chosenImages = images_raw.filter(img => {
-        return img.getAttribute('alt').includes(colorHex_bg)
-        })
-    
-      const swiper_new = document.createElement('div');
-      swiper_new.classList.add('swiper');
-      swiper_new.setAttribute('style', "opacity: 0%");
+    const stickyDIV = document.querySelector('.sticky_div');
+    const oldSWIPER = stickyDIV.querySelector('.swiper');
+    const filteredIMAGES = _FILTERimagesByColor(unfilteredIMAGES, colorHex_bg);
+    const newSWIPER = _CREATEswiper();
+    const swiperWRAPPER = _CREATEswiperWrapper();
+    const sliderCONTROLS = document.querySelector('.sliderControls');;
+    const wave = _CREATEwave("{{ 'img_WAVE_filterPage.svg' | asset_url }}", colorHex_bg);
 
-      const swiper_wrapper = document.createElement('div');
-      swiper_wrapper.classList.add('swiper-wrapper');
-      swiper_wrapper.setAttribute('data-effect', "zoom");
-      swiper_wrapper.setAttribute('data-zoom_active', "false");
-      swiper_wrapper.setAttribute('data-reset', "");
-      swiper_wrapper.setAttribute('data-magnify', "1");
+    _APPENDswiperSlides(swiperWRAPPER, filteredIMAGES);
+    stickyDIV.removeChild(sliderCONTROLS);
+    stickyDIV.append(sliderCONTROLS);
 
-      chosenImages.forEach(img => {
-        const swiper_slide = document.createElement('div');
-        swiper_slide.classList.add('swiper-slide');
-        img.classList.add('imgSwiper');
-        img.setAttribute('draggable', 'false');
+    newSWIPER.append(wave);
+    newSWIPER.append(swiperWRAPPER);
+    stickyDIV.removeChild(oldSWIPER);
+    stickyDIV.append(newSWIPER);
 
-        swiper_slide.append(img);
-        swiper_wrapper.append(swiper_slide);
-        
-      })
-      
-      const wave = document.createElement('img');
-      wave.classList.add('img_WAVE_long');
-      wave.setAttribute('src', "{{ 'img_WAVE_filterPage.svg' | asset_url }}");
-      wave.setAttribute('style', `background-color: ${colorHex_bg}`);
-      wave.setAttribute('data-swiper-parallax', "-13%");
-      wave.setAttribute('data-recolor_bg', ``);
-
-
-      const sliderControls = document.querySelector('.sliderControls')
-      stickyDiv.removeChild(sliderControls);
-      stickyDiv.append(sliderControls);
-
-      
-      swiper_new.append(wave);
-      swiper_new.append(swiper_wrapper);
-      stickyDiv.removeChild(swiper_old)
-      stickyDiv.append(swiper_new)
-
-      setTimeout(() => {
-        swiper_new.removeAttribute('style')
-      }, 30)
-
-
-
-    } else {
-      console.log('Load default color');
-    }
+    setTimeout(() => {
+      newSWIPER.removeAttribute('style')
+    }, 30)
   }
   function REPLACEswiper() {
-    swiper.destroy()
+    swiper.destroy();
     swiper = new Swiper(".swiper", {
         parallax: true,
         grabCursor: true,
@@ -753,21 +694,20 @@ const SWIPER = (() => {
         }
     });
     swiper.on('transitionEnd', function() {
-        _RESETtransitions()
+        _RESETtransitions();
     });
     swiper.on('slideChange', function() {
-      COLOR.SETbuletColors()
+      COLOR.COLORswiper();
     });
-    SETparallax()
   }
   function SETparallax() {
     if (GENERAL.ISdesktop()) {
       document.querySelector('.img_WAVE_long').setAttribute('data-swiper-parallax', '-20%')
     } else {
-      document.querySelector('.img_WAVE_long').setAttribute('data-swiper-parallax', '-13%')
+      document.querySelector('.img_WAVE_long').setAttribute('data-swiper-parallax', '-13%');
     }
-  }
-  function _INITIATEswiper() {
+  } 
+  function _ACTIVATEswiper() {
     swiper = new Swiper(".swiper", { // ERROR HERE
       parallax: true,
       grabCursor: true,
@@ -782,275 +722,346 @@ const SWIPER = (() => {
       }
     });
     swiper.on('transitionEnd', function() {
-      _RESETtransitions()
+      _RESETtransitions();
     });
     swiper.on('slideChange', function() {
-      COLOR.SETbuletColors()
+      COLOR.COLORswiper();
     });
-    
-    SETparallax()
-
   }
   function _RESETtransitions() {
     document.querySelectorAll('[data-reset]').forEach(x => {
-      x.style.transitionDuration = "400ms"
+      x.style.transitionDuration = "400ms";
     });
     document.querySelector('.img_WAVE_long').style.transition = "400ms";
   }
+  function _CREATEwave(src, bgCOLOR){
+    const wave = document.createElement('img');
+    wave.classList.add('img_WAVE_long');
+    wave.setAttribute('src', src);
+    wave.setAttribute('style', `background-color: ${bgCOLOR}`);
+    wave.setAttribute('data-swiper-parallax', "-13%");
+    wave.setAttribute('data-recolor_bg', ``);
+    return wave;
+  }
+  function _CREATEswiper(){
+    const newSWIPER = document.createElement('div');
+    newSWIPER.classList.add('swiper');
+    newSWIPER.setAttribute('style', "opacity: 0%");
+    return newSWIPER;
+  }
+  function _CREATEswiperWrapper(){
+    const swiperWRAPPER = document.createElement('div');
+    swiperWRAPPER.classList.add('swiper-wrapper');
+    swiperWRAPPER.setAttribute('data-effect', "zoom");
+    swiperWRAPPER.setAttribute('data-zoom_active', "false");
+    swiperWRAPPER.setAttribute('data-reset', "");
+    swiperWRAPPER.setAttribute('data-magnify', "1");
+    return swiperWRAPPER;
+  }
+  function _CREATEswiperSlide(img){
+    const swiperSLIDE = document.createElement('div');
+    swiperSLIDE.classList.add('swiper-slide');
+    img.classList.add('imgSwiper');
+    img.setAttribute('draggable', 'false');
+    swiperSLIDE.append(img);
+    return swiperSLIDE;
+  }
+  function _APPENDswiperSlides(targetWRAPPER, imgLIST){
+    imgLIST.forEach(img => {
+      const slide = _CREATEswiperSlide(img);
+      targetWRAPPER.append(slide);
+    });
+  }
+  function _FILTERimagesByColor(unfilteredIMAGES, color){
+    const filteredIMAGES = unfilteredIMAGES.filter(img => {
+      return img.getAttribute('alt').includes(color);
+    })
+    return filteredIMAGES;
+  }
   return { SETimgSwiper, REPLACEswiper, INSERTswiper, SETparallax}
 })();
-//--------
 const CART = (() => {
   function IScartEmpty() {
-    {% if cart.item_count == 0 %}
-      return true
-    {% else %}
-      return false
-    {% endif %}
+    {% if cart.item_count == 0 %} return true ;{% endif %}
+    return false
+  };
+  function FINDvariantInBag(variantID) {
+    return cartITEMS.find(x => x.id == variantID);
   }
-  function ISvariantInBag(target_id) {
-    let item = {{ cart.items | json }}.filter(x => x.id == target_id)[0]
-    return {
-      inCart: !! item
-        ? item
-        : false,
-      qnt: !! item
-        ? item.quantity
-        : 0
-    } // {inCart: {item/false}, qnt: 2}
-  }
-  return { IScartEmpty, ISvariantInBag }
+
+  return { IScartEmpty, FINDvariantInBag }
 })();
-//--------
 const FORM = (() => {
-  function HANDLEformBtns(isCart, error, qnt_avail) {
-    const formBtns = document.querySelectorAll('.formBtn')
-    const buy = document.querySelector('.formBtn.buy')
-  
-    const add_main_noCart = document.querySelector('.formBtn.addCart.main.noCart')
-    const add_main_isCart = document.querySelector('.formBtn.addCart.main.isCart')
-    const add_second = document.querySelector('.formBtn.addCart.second')
-  
-    const viewCart_notFull = document.querySelector('.formBtn.viewCart.not_full')
-    const viewCart_full = document.querySelector('.formBtn.viewCart.full')
-  
-    formBtns.forEach(x => x.style.display = "none")
+  function HANDLEformBtns(ISitemInCart, error) {
+    const fromBTNS = document.querySelectorAll('.formBtn')
+    fromBTNS.forEach(x => x.style.display = "none")
+
+    const buyBTN = document.querySelector('.formBtn.buy')
+    const mainEmptyAtcBTN = document.querySelector('.formBtn.addCart.main.noCart')
+    const mainNotEmptAtcBTN = document.querySelector('.formBtn.addCart.main.isCart')
+    const secondaryAtcBTN = document.querySelector('.formBtn.addCart.second')
+    const viewCartFullBTN = document.querySelector('.formBtn.viewCart.full')
+    const viewCartNotFullBTN = document.querySelector('.formBtn.viewCart.not_full')
   
     if (CART.IScartEmpty()) {
-      GENERAL.DISPLAYflex([buy, add_second])
-  
-    } else {
-      !isCart ? GENERAL.DISPLAYflex([add_main_noCart])
-      : isCart && error == "cart_full" ? GENERAL.DISPLAYflex([viewCart_full])
-      : GENERAL.DISPLAYflex([add_main_isCart, viewCart_notFull])
-       
+      GENERAL.DISPLAYflex([buyBTN, secondaryAtcBTN])
+      return;
     }
-  
+    if (!ISitemInCart) {
+      GENERAL.DISPLAYflex([mainEmptyAtcBTN])
+      return;
+    }
+    if (ISitemInCart && error == "cart_full") {
+      GENERAL.DISPLAYflex([viewCartFullBTN])
+      return;
+    }
+    GENERAL.DISPLAYflex([mainNotEmptAtcBTN, viewCartNotFullBTN])
   }
-  function EDITformAlerts(isCart, error) {
-    const textAlerts = document.querySelectorAll('.textAlert')
-    const textAlert_cart_full = document.querySelector('.textAlert.cart_full')
-    const textAlert_isCart = document.querySelector('.textAlert.isCart')
-    textAlerts.forEach(x => x.style.display = "none")
-  
-    isCart && error == 'none' ? GENERAL.DISPLAYblock([textAlert_isCart])
-    : error == 'cart_full' ? GENERAL.DISPLAYflex([textAlert_cart_full])
-    : ''
+  function EDITformAlerts(ISitemInCart, error) {
+    const textALERTS = document.querySelectorAll('.textAlert')
+    textALERTS.forEach(x => x.style.display = "none")
+
+    const cartFullALERT = document.querySelector('.textAlert.cart_full')
+    const itemIsInCartALERT = document.querySelector('.textAlert.isCart')
+
+    if (ISitemInCart && error == 'none') {
+      GENERAL.DISPLAYblock([itemIsInCartALERT]);
+      return;
+    }
+    if (error == 'cart_full') {
+      GENERAL.DISPLAYflex([cartFullALERT])
+    }
   }
   return { HANDLEformBtns, EDITformAlerts}
 })();
-//--------
 const QNT = (() => {
   let locked = false
-  // when pressing "Go" in phone
-  function CHECKkeyPress(event, decoy) {
-      const qntInput = document.querySelector('.qntInput')
-      const qnt_info = GETqntInfo(GENERAL.FINDmatchedVariant())
-      const qnt_request = parseInt(decoy.value)
-  
-      if (event.key === "Enter" || event.keyCode === 13) {
-  
-          if (!qnt_request || qnt_request < 0) {
-              decoy.select();
-              decoy.focus()
-      
-          } else if (qnt_request > qnt_info.qnt_avail) {
-              animateCSS('#qnt_in_box', 'shakeX');
-              document.querySelectorAll('.textAlert').forEach(x => red_highlight(x))
-              decoy.select()
-              decoy.focus()
-      
-          } else {
-              decoy.blur()
-              FORM.EDITformAlerts(qnt_info.isCart, qnt_info.error)
-              EDITtextQnts(qnt_info.qnt_left, qnt_info.qnt_cart, qnt_request, qnt_info.qnt_avail)
-              EDITqntInput(qnt_request)
-              HANDLEqntOptions(parseInt(qnt_request), parseInt(qnt_info.qnt_avail))
-      
-              COLOR.RECOLORdefault()
-              TOGGLE_qntInput(false)
-          }
+
+  function GETqntInfo(variant) {
+    const reqQNT = parseInt(document.querySelector('.qntInput').value)
+    const inBagVARIANT = CART.FINDvariantInBag(variant.id)
+    const ISitemInBag = inBagVARIANT ?? false;
+    const bagQNT = inBagVARIANT ? inBagVARIANT.quantity : 0;
+    const stockQNT = _GETvariantQnt(variant.id)
+    const toChooseQNT = stockQNT - bagQNT;
+    
+    let ALLOWadd = true
+    let error = 'none'
+
+    if (bagQNT == stockQNT) {
+      ALLOWadd = false
+      error = 'cart_full'
+
+    } else if ((bagQNT && (bagQNT + reqQNT) > stockQNT)) {
+      ALLOWadd = false
+      error = 'cart'
+
+    } else if (bagQNT && (reqQNT > stockQNT)) {
+      ALLOWadd = false
+      error = 'qnt'
+
+    } else if (!bagQNT && (reqQNT > stockQNT)) {
+      ALLOWadd = false
+      error = 'qnt'
+    }
+    
+    return { reqQNT, ISitemInBag, bagQNT, stockQNT, toChooseQNT, ALLOWadd, error, }
+  }
+  function HANDLEmobileGoBtnClick(event, decoy) {
+    // hanlde qnt-submit (blue "Go" btn) on mobile 
+    const qntInput = document.querySelector('.qntInput')
+    const reqQNT = parseInt(decoy.value)
+    const { leftQNT, inCartQNT, availQNT, ISitemInCart, error } = GETqntInfo(GENERAL.GETselectedVariant())
+    if (event.key === "Enter" || event.keyCode === 13) {
+      if (!reqQNT || reqQNT < 0) {
+          decoy.select();
+          decoy.focus();
+          return;
+      }  
+      if (reqQNT > availQNT) {
+        animateCSS('#qnt_in_box', 'shakeX');
+        document.querySelectorAll('.textAlert').forEach(x => red_highlight(x));
+        decoy.select();
+        decoy.focus();
+        return;
       }
+      decoy.blur();
+      EDITtextQnts(leftQNT, inCartQNT, reqQNT, availQNT);
+      EDITqntInput(reqQNT);
+      //HANDLEqntOptions(reqQNT, availQNT);
+      TOGGLE_qntInput(false)
+      FORM.EDITformAlerts(ISitemInCart, error);
+      COLOR.color()
+    }
   }
   function TOGGLE_qntInput(value) {
-      const parent = document.querySelector('.input_box.qnt')
-      const qnt_front = document.querySelector('.quantity_front')
-      const qnt_back = document.querySelector('.quantity_back')
-      const get_childrenHeight = parentElement =>[...parentElement.children].reduce((sum, child) => sum + child.getBoundingClientRect().height,0);
-      document.querySelector('.qntInput_decoy').value = ""
-  
-      
-      if (value && ! locked) {
-          locked = true
-          parent.dataset.box = 'open'
-          qnt_front.style.opacity = "0%"
-          qnt_back.style.display = 'block'
-  
-          setTimeout(() => {qnt_back.style.opacity = "100%"}, 70)
-          setTimeout(() => {
-              qnt_front.style.display = 'none';
-              parent.style.height = get_childrenHeight(qnt_back) + 'px'
-              locked = false
-          }, 151)
-    
-          
-  
-      } else if (! locked) {
-  
-          locked = true
-          parent.dataset.box = 'closed'
-          qnt_back.style.opacity = "0%"
-          qnt_front.style.display = 'flex'
-  
-          setTimeout(() => {qnt_front.style.opacity = "100%"}, 70)
-          setTimeout(() => {locked = false; qnt_back.style.display = 'none'}, 151)
-  
-          parent.style.height = '54px'
-      }
-  
+    const qntInputPARENT = document.querySelector('.input_box.qnt')
+    const qntInputFRONT = document.querySelector('.quantity_front')
+    const qntInputBACK = document.querySelector('.quantity_back')
+    const GETchildrenHeight = parentElement =>[...parentElement.children].reduce((sum, child) => sum + child.getBoundingClientRect().height,0);
+    document.querySelector('.qntInput_decoy').value = ""
+
+    if (value && ! locked) {
+      locked = true
+      qntInputPARENT.dataset.box = 'open'
+      qntInputFRONT.style.opacity = "0%"
+      qntInputBACK.style.display = 'block'
+      setTimeout(() => {qntInputBACK.style.opacity = "100%"}, 70)
+      setTimeout(() => {
+          qntInputFRONT.style.display = 'none';
+          qntInputPARENT.style.height = GETchildrenHeight(qntInputBACK) + 'px'
+          locked = false
+      }, 151)
+      return;
+    } 
+    if (!locked) {
+      console.log('as')
+      locked = true
+      qntInputPARENT.dataset.box = 'closed'
+      qntInputBACK.style.opacity = "0%"
+      qntInputFRONT.style.display = 'flex'
+      setTimeout(() => {qntInputFRONT.style.opacity = "100%"}, 70)
+      setTimeout(() => {locked = false; qntInputBACK.style.display = 'none'}, 151)
+      qntInputPARENT.style.height = '54px'
+    }
   }
-  function HANDLEqntOptions(qnt_selected, qnt_avail) { 
+  function _CLOSEqntInput(){}
+  function HANDLEqntOptions(selQNT, availQNT) { 
   
       // select all qnt options and deactivate them
       // find options with selected value and activate them
       // if item is unavailable, return
   
-      if (!qnt_avail) {return} else if (qnt_selected > qnt_avail) {qnt_selected = qnt_avail}
+      if (!availQNT) {return} else if (selQNT > availQNT) {selQNT = availQNT}
   
-      _TOGGLEgiveQntBtn(qnt_avail)
-      let option_d, option_d_exp, option_m, option_m_exp
-  
-  
-      const last_d = document.querySelector(`.qntOption.d.last`);
-      const last_m = document.querySelector(`.qntOption.m.last`);
-      const last_d_exp = document.querySelector(`.qntOption.d.exp.last`);
-      const last_m_exp = document.querySelector(`.qntOption.m.exp.last`);
+      _TOGGLEgiveQntBtn(availQNT)
+      
+      const lastDescOPTION = document.querySelector(`.qntOption.d.last`);
+      const lastMobOPTION = document.querySelector(`.qntOption.m.last`);
+      const lastDescExpOPTION = document.querySelector(`.qntOption.d.exp.last`);
+      const lastMobExpOPTION = document.querySelector(`.qntOption.m.exp.last`);
+      
+      let descOPTION = lastDescOPTION
+      let mobOPTION = lastMobOPTION
+      let descExpOPTION = lastDescExpOPTION
+      let mobExpOPTION = lastMobExpOPTION
+
+      let lastDescOptionVALUE = selQNT
+      let lastMobOptionVALUE = selQNT
+      let lastDescExpOptionVALUE = selQNT
+      let lastMobExpOptionVALUE = selQNT
       
       const qnt_btns = document.querySelectorAll('.qntOption')
       qnt_btns.forEach(btn => {
           btn.classList.remove('active');
           btn.removeAttribute('data-recolor_bg');
-          btn.removeAttribute('data-recolor_text_raw');
+          btn.removeAttribute('data-rawTextCOLOR');
           btn.removeAttribute('style');
   
-          if (btn.dataset.value > qnt_avail) {
+          if (btn.dataset.value > availQNT) {
               btn.classList.add('disabled')
           } else {
               btn.classList.remove('disabled')
           }
       })
   
-      if (qnt_selected <= 2) {
-          option_d = document.querySelector(`.qntOption.d[data-value="${qnt_selected}"]`);
-          option_m = document.querySelector(`.qntOption.m[data-value="${qnt_selected}"]`);
-          option_d_exp = document.querySelector(`.qntOption.d.exp[data-value="${qnt_selected}"]`);
-          option_m_exp = document.querySelector(`.qntOption.m.exp[data-value="${qnt_selected}"]`);
-  
-          _SETnewQnt([
-              {target: last_d, new_value: 5}, 
-              {target: last_m, new_value: 3},
-              {target: last_d_exp, new_value: 12}, 
-              {target: last_m_exp, new_value: 10}
-          ])
-  
-  
-      } else if (qnt_selected <= 4) {
-          option_d = document.querySelector(`.qntOption.d[data-value="${qnt_selected}"]`);
-          option_m = last_m
-          option_d_exp = document.querySelector(`.qntOption.d.exp[data-value="${qnt_selected}"]`);
-          option_m_exp = document.querySelector(`.qntOption.m.exp[data-value="${qnt_selected}"]`);
-          _SETnewQnt([
-              {target: option_m, new_value: qnt_selected},
-              {target: last_d, new_value: 5}, 
-              {target: last_d_exp, new_value: 12}, 
-              {target: last_m_exp, new_value: 10}
-          ])
-          
-  
-      } else if (qnt_selected >= 5 && qnt_selected <= 9) {
-          option_d = last_d
-          option_m = last_m
-          option_d_exp = document.querySelector(`.qntOption.d.exp[data-value="${qnt_selected}"]`);
-          option_m_exp = document.querySelector(`.qntOption.m.exp[data-value="${qnt_selected}"]`);
-          _SETnewQnt([
-              {target: option_d, new_value: qnt_selected},
-              {target: option_m, new_value: qnt_selected},
-              {target: last_d_exp, new_value: 12}, 
-              {target: last_m_exp, new_value: 10}
-          ])
-  
-  
-      } else if (qnt_selected == 10 || qnt_selected == 11){
-          option_d = last_d
-          option_m = last_m
-          option_d_exp = document.querySelector(`.qntOption.d.exp[data-value="${qnt_selected}"]`);
-          option_m_exp = last_m_exp
-  
-          _SETnewQnt([
-              {target: option_d, new_value: qnt_selected},
-              {target: option_m, new_value: qnt_selected},
-              {target: option_m_exp, new_value: qnt_selected},
-              {target: last_d_exp, new_value: 12}
-          ])
-  
-      } else if (qnt_selected >= 12) {
-  
-          option_d = last_d
-          option_m = last_m
-          option_d_exp = last_d_exp
-          option_m_exp = last_m_exp
-  
-          _SETnewQnt([
-              {target: option_d, new_value: qnt_selected},
-              {target: option_m, new_value: qnt_selected},
-              {target: option_d_exp, new_value: qnt_selected},
-              {target: option_m_exp, new_value: qnt_selected}
-          ])
-  
+      if (selQNT <= 2) {
+          descOPTION = document.querySelector(`.qntOption.d[data-value="${selQNT}"]`);
+          mobOPTION = document.querySelector(`.qntOption.m[data-value="${selQNT}"]`);
+          descExpOPTION = document.querySelector(`.qntOption.d.exp[data-value="${selQNT}"]`);
+          mobExpOPTION = document.querySelector(`.qntOption.m.exp[data-value="${selQNT}"]`);
+          lastDescOptionVALUE = 5
+          lastMobOptionVALUE = 3;
+          lastDescExpOptionVALUE = 12;
+          lastMobExpOptionVALUE = 10;
+
+      } else if (selQNT <= 4) {
+          descOPTION = document.querySelector(`.qntOption.d[data-value="${selQNT}"]`);
+          descExpOPTION = document.querySelector(`.qntOption.d.exp[data-value="${selQNT}"]`);
+          mobExpOPTION = document.querySelector(`.qntOption.m.exp[data-value="${selQNT}"]`);
+          lastMobOptionVALUE = 5;
+          lastDescExpOptionVALUE = 12;
+          lastMobExpOptionVALUE = 10;
+
+      } else if (selQNT >= 5 && selQNT <= 9) {
+          descExpOPTION = document.querySelector(`.qntOption.d.exp[data-value="${selQNT}"]`);
+          mobExpOPTION = document.querySelector(`.qntOption.m.exp[data-value="${selQNT}"]`);
+          lastDescExpOptionVALUE = 12;
+          lastMobExpOptionVALUE = 10;
+
+      } else if (selQNT == 10 || selQNT == 11){
+          descExpOPTION = document.querySelector(`.qntOption.d.exp[data-value="${selQNT}"]`);
+          lastMobExpOptionVALUE = 12;
       }
+
+        console.log({target: descOPTION, newVALUE: lastDescOptionVALUE})
+
+      _SETnewQnt([
+        {target: descOPTION, newVALUE: lastDescOptionVALUE},
+        {target: mobOPTION, newVALUE: lastMobOptionVALUE},
+        {target: descExpOPTION, newVALUE: lastDescExpOptionVALUE},
+        {target: mobExpOPTION, newVALUE: lastMobExpOptionVALUE}
+      ])
   
-      _HANDLEactiveOptions([option_d, option_d_exp, option_m, option_m_exp])
+      _HANDLEactiveOptions([descOPTION, descExpOPTION, mobOPTION, mobExpOPTION])
   }
-  function _HANDLEactiveOptions(options) {
-      options.forEach(x => {
-          x.classList.add('active');
-          x.setAttribute('data-recolor_bg', '');
-          x.setAttribute('data-recolor_text_raw', '');
-      })
-      
+  function FIXqntChoice(availQNT, isCart, error, reqQNT) {
+    if (!availQNT){
+      FORM.EDITformAlerts(isCart, error)
+      FORM.HANDLEformBtns(isCart, error)  
+      return
+    }
+
+    const selQNT = document.querySelector('.qntInput').value
+    const texts_chosen_qnt = document.querySelectorAll('[data-chosen_qnt]')
+    const price_inside_btn = document.querySelector('[data-price_sum_calc]')
+    
+    if (selQNT > availQNT) {
+
+      console.log('fix triggered')
+      EDITqntInput(availQNT)
+      FORM.EDITformAlerts(isCart, 'none')
+      FORM.HANDLEformBtns(isCart, 'none') 
+      texts_chosen_qnt.forEach(x => x.textContent = availQNT)
+      price_inside_btn.textContent = formatMoney(GENERAL.GETselectedVariant().price * availQNT, format)
+    }
   }
-  function _SETnewQnt(objects) {
-      objects.forEach(obj => {
-          obj.target.dataset.value = obj.new_value;
-          obj.target.textContent = obj.new_value;
-      })
+  function EDITtextQnts(leftQNT, inCartQNT, reqQNT, availQNT) {
+    document.querySelectorAll('[data-cart_qnt]').forEach(x => x.textContent = inCartQNT)
+    document.querySelectorAll('[data-chosen_qnt]').forEach(x => x.textContent = reqQNT)
+    document.querySelectorAll('[data-variant_qnt]').forEach(x => x.textContent = leftQNT);
+    document.querySelectorAll('[data-availQNT]').forEach(x => x.textContent = availQNT);
+    
+    const sum = document.querySelector('[data-price_sum_calc]')
+    sum.textContent = formatMoney(GENERAL.GETselectedVariant().price * reqQNT, format)
+    bubble_jump(sum)
+
+    const p_stockLeft = document.querySelector('.p_stockLeft')
+    leftQNT <= 2 ?  p_stockLeft.classList.add('red') : p_stockLeft.classList.remove('red')
   }
   function EDITqntInput(value) {
-      const qntInput = document.querySelector('.qntInput')
-      qntInput.value = value
-      qntInput.setAttribute("value", value); // the data-value is just for me to see, but serves no purpose
+    const qntInput = document.querySelector('.qntInput')
+    qntInput.value = value
+    qntInput.setAttribute("value", value); // the data-value is just for me to see, but serves no purpose
+}
+  function _HANDLEactiveOptions(options) {
+    options.forEach(x => {
+        x.classList.add('active');
+        x.setAttribute('data-recolor_bg', '');
+        x.setAttribute('data-rawTextCOLOR', '');
+    })
+    
+}
+  function _SETnewQnt(objects) {
+    objects.forEach(obj => {
+        obj.target.dataset.value = obj.newVALUE;
+        obj.target.textContent = obj.newVALUE;
+    })
   }
-  function _TOGGLEqntSubmitBtn(value) {
+  function _GETvariantQnt(variantID) {
+    return variantQUANTITIES.find(variant => variant.varID === variantID).varQNT
+  }
+  function TOGGLEqntSubmitBtn(value) {
   
       const btn = document.querySelector('.btn_nearQtn.submit')
       value ? btn.classList.add('DISPLAYflex') : btn.classList.remove('DISPLAYflex')
@@ -1063,206 +1074,18 @@ const QNT = (() => {
       qnt_available >= 6 ? btn_giveQuantity_d.classList.remove('disabled') : btn_giveQuantity_d.classList.add('disabled') 
   
   }
-  function FIXqntChoice(qnt_avail, isCart, error, qnt_request) {
-  if (!qnt_avail){
-    FORM.EDITformAlerts(isCart, error)
-    FORM.HANDLEformBtns(isCart, error)  
-    return
-  }
-
-  const qnt_selected = document.querySelector('.qntInput').value
-  const texts_chosen_qnt = document.querySelectorAll('[data-chosen_qnt]')
-  const price_inside_btn = document.querySelector('[data-price_sum_calc]')
   
-  if (qnt_selected > qnt_avail) {
-
-    console.log('fix triggered')
-    EDITqntInput(qnt_avail)
-    FORM.EDITformAlerts(isCart, 'none')
-    FORM.HANDLEformBtns(isCart, 'none') 
-    texts_chosen_qnt.forEach(x => x.textContent = qnt_avail)
-    price_inside_btn.textContent = formatMoney(GENERAL.FINDmatchedVariant().price * qnt_avail, format)
-  }
-}
-  function GETqntInfo(variant) {
-    const x = CART.ISvariantInBag(variant.id)
-    const is_in_cart = x.inCart
-    const qnt_cart = x.qnt
-    const qnt_left = _GETvariantQnt(variant.id)
-    const qnt_request = parseInt(document.querySelector('.qntInput').value)
-
-    let allow_add = false
-    let error = 'none'
-
-    if (qnt_cart == qnt_left) {
-      allow_add = false
-      error = 'cart_full'
-      item = x.inCart
-
-    } else if ((is_in_cart && (qnt_cart + qnt_request) > qnt_left)) {
-      allow_add = false
-      error = 'cart'
-      item = x.inCart
-
-    } else if (is_in_cart && qnt_request > qnt_left) {
-      allow_add = false
-      error = 'qnt'
-      item = x.inCart
-
-    } else if (!is_in_cart && qnt_request > qnt_left) {
-      allow_add = false
-      error = 'qnt'
-    } else {
-      allow_add = true
-    }
-    
-    let obj = {
-      allow_add,
-      error,
-      qnt_request: qnt_request,
-      qnt_cart: x.qnt,
-      qnt_left: qnt_left,
-      qnt_avail: qnt_left - x.qnt,
-      isCart: !!is_in_cart,
-      }
-
-      return obj
-  }
-  function EDITtextQnts(qnt_left, qnt_cart, qnt_request, qnt_avail) {
-    document.querySelectorAll('[data-cart_qnt]').forEach(x => x.textContent = qnt_cart)
-    document.querySelectorAll('[data-chosen_qnt]').forEach(x => x.textContent = qnt_request)
-    document.querySelectorAll('[data-variant_qnt]').forEach(x => x.textContent = qnt_left);
-    document.querySelectorAll('[data-qnt_avail]').forEach(x => x.textContent = qnt_avail);
-    
-    const sum = document.querySelector('[data-price_sum_calc]')
-    sum.textContent = formatMoney(GENERAL.FINDmatchedVariant().price * qnt_request, format)
-    bubble_jump(sum)
-
-    const p_stockLeft = document.querySelector('.p_stockLeft')
-    qnt_left <= 2 ?  p_stockLeft.classList.add('red') : p_stockLeft.classList.remove('red')
-
-  }
-  function _GETvariantQnt(variant_id) {
-    let qnt_list = [];
-    let qnt_result;
-    //
-    {% for variant in product.variants %}
-      qnt_list.push([{{ variant.id }}, {{ variant.inventory_quantity }}]);
-    {% endfor %};
-    qnt_list.forEach(list_item => {
-      if (list_item.includes(variant_id)) {
-        qnt_result = list_item[1]
-      }
-    })
-    return qnt_result
-  }
-    // still in QNT
-  if (product_available) {
-    const btns_giveQuantity_BOTH = document.querySelectorAll('.btn_giveQuantity')
-    const btn_cancelQuantity = document.querySelector('.btn_nearQtn.cancel')
-    const btn_submitQuantity = document.querySelector('.btn_nearQtn.submit')
-    const qntInput = document.querySelector('.qntInput')
-    const decoy = document.querySelector('.qntInput_decoy')
-    
-    btn_cancelQuantity.addEventListener('click', () => {TOGGLE_qntInput(false); _TOGGLEqntSubmitBtn(false)});
-    btns_giveQuantity_BOTH.forEach(x => x.addEventListener('click', () => {TOGGLE_qntInput(true)}))
-    btn_submitQuantity.addEventListener('click', () => {
-        const qnt_info = GETqntInfo(GENERAL.FINDmatchedVariant())
-  
-        if (!parseInt(decoy.value) || parseInt(decoy.value) < 0) {
-  
-            // Shouldnt happen, because we hide it on input if its 0
-            // This is a safety measure
-            decoy.select();
-            decoy.focus()
-            return
-  
-        } else if (decoy.value > qnt_info.qnt_avail) {
-            animateCSS('#qnt_in_box', 'shakeX');
-            document.querySelectorAll('.textAlert').forEach(x => red_highlight(x))
-            decoy.select()
-            decoy.focus()
-  
-        } else {
-  
-            FORM.EDITformAlerts(qnt_info.isCart, qnt_info.error)
-            EDITtextQnts(qnt_info.qnt_left, qnt_info.qnt_cart, decoy.value, qnt_info.qnt_avail)
-            HANDLEqntOptions(parseInt(decoy.value), parseInt(qnt_info.qnt_avail))
-            EDITqntInput(decoy.value)
-  
-            COLOR.RECOLORdefault()
-            TOGGLE_qntInput(false)
-        }
-  
-    });
-  
-    const qnt_btns = document.querySelectorAll('.qntOption')
-    qnt_btns.forEach(x => x.addEventListener('click', (e) => {
-  
-        const qnt_info = GETqntInfo(GENERAL.FINDmatchedVariant())
-        const qnt_selected = e.currentTarget.dataset.value;
-        
-        if (qnt_selected > qnt_info.qnt_avail) {
-            animateCSS('#qnt_in_box', 'shakeX');
-            document.querySelectorAll('.textAlert').forEach(x => red_highlight(x))
-            console.log('return')
-            return
-        } else {
-  
-        FORM.EDITformAlerts(qnt_info.isCart, qnt_info.error)
-        EDITtextQnts(qnt_info.qnt_left, qnt_info.qnt_cart, qnt_selected, qnt_info.qnt_avail)
-        HANDLEqntOptions(parseInt(qnt_selected), parseInt(qnt_info.qnt_avail))
-        EDITqntInput(qnt_selected)
-  
-        COLOR.RECOLORdefault()
-        TOGGLE_qntInput(false)
-        
-        }
-    }))
-  
-    decoy.addEventListener('input', (e) => {
-        const qnt_info = GETqntInfo(GENERAL.FINDmatchedVariant())
-        const qnt_left = qnt_info.qnt_left
-        const qnt_avail = qnt_info.qnt_avail
-        const value = parseInt(e.currentTarget.value)
-  
-        const redText_qnt_Cart = document.querySelector('.redText.qnt_isCart')
-        const redText_qnt = document.querySelector('.redText.qnt')
-  
-        // handle button
-        if (value && value > 0 && value <= qnt_avail) {
-            _TOGGLEqntSubmitBtn(true)
-        } else {
-            _TOGGLEqntSubmitBtn(false)
-            decoy.focus()
-            decoy.select()
-        }
-  
-        //handle red text
-        if (qnt_info.isCart && value > qnt_avail) {
-            redText_qnt_Cart.style.display = 'block'
-            redText_qnt.style.display = 'none'
-  
-        } else if (!qnt_info.isCart && value > qnt_avail) {
-            redText_qnt_Cart.style.display = 'none'
-            redText_qnt.style.display = 'block'
-  
-        } else {
-            redText_qnt_Cart.style.display = 'none'
-            redText_qnt.style.display = 'none'
-        }
-  
-    })
-  } return { CHECKkeyPress, TOGGLE_qntInput, HANDLEqntOptions, EDITqntInput, FIXqntChoice, GETqntInfo, EDITtextQnts}
+  return { HANDLEmobileGoBtnClick, TOGGLE_qntInput, TOGGLEqntSubmitBtn, HANDLEqntOptions, EDITqntInput, FIXqntChoice, GETqntInfo, EDITtextQnts}
 })();
-//--------
 
+  
 const EVENTS = (() => {
   function set() {
-    window.addEventListener('resize', () => {
-      SWIPER.SETparallax()
-    })
+    window.addEventListener('resize', () => { SWIPER.SETparallax()})
     const main_slider_btns = document.querySelectorAll('.swiperBtn')
+    const btns_colorOptions = document.querySelectorAll('input[name="Color"]')
+    const magnifyBTNS = document.querySelectorAll('div[data-zoom]')
+
     main_slider_btns.forEach(function(el) {
       const is_right = (el.classList.contains('swiper-btn-next'))
       el.addEventListener('mousedown', function() {
@@ -1284,39 +1107,137 @@ const EVENTS = (() => {
       el.style.left = "0px"
     });
     });
+    btns_colorOptions.forEach(x => x.addEventListener('click', () => {
+      ZOOM.TOGGLEzoom(1)
+      ZOOM.SETdesktopImgDrag()
+      setTimeout(() => {ZOOM.SETdesktopImgDrag()}, 300)
+    }))
+    magnifyBTNS.forEach(x => x.addEventListener('click', (e) => {
+      const magnify = e.currentTarget.dataset.zoom
+      ZOOM.TOGGLEzoom(Number(magnify))
+    }))
   }
+  function set_2() {
+    if (!ISproductAvailable) return;
+    const qntInputToggleBTNS = document.querySelectorAll('.btn_giveQuantity')
+    const cancelQntBTN = document.querySelector('.btn_nearQtn.cancel')
+    const submitQntBTN = document.querySelector('.btn_nearQtn.submit')
+    const qntINPUT = document.querySelector('.qntInput')
+    const qntBTNS = document.querySelectorAll('.qntOption')
+    const decoy = document.querySelector('.qntInput_decoy')
+    
+    cancelQntBTN.addEventListener('click', () => {QNT.TOGGLE_qntInput(false); QNT.TOGGLEqntSubmitBtn(false)});
+    qntInputToggleBTNS.forEach(x => x.addEventListener('click', () => {QNT.TOGGLE_qntInput(true)}))
+    submitQntBTN.addEventListener('click', () => {
+      const { ISitemInBag, bagQNT, stockQNT, toChooseQNT, error } = QNT.GETqntInfo(GENERAL.GETselectedVariant())
+      if (!parseInt(decoy.value) || parseInt(decoy.value) < 0) {
+        // Safety measure in case input is 0
+        decoy.select();
+        decoy.focus();
+        return;
+      } 
+      if (decoy.value > toChooseQNT) {
+        // reqQNT is bigger than availableQNT
+        animateCSS('#qnt_in_box', 'shakeX');
+        document.querySelectorAll('.textAlert').forEach(x => red_highlight(x));
+        decoy.select();
+        decoy.focus();
+        return;
+      }
+      QNT.EDITtextQnts(stockQNT, bagQNT, decoy.value, toChooseQNT)
+      //QNT.HANDLEqntOptions(parseInt(decoy.value), parseInt(toChooseQNT))
+      QNT.EDITqntInput(decoy.value)
+      QNT.TOGGLE_qntInput(false)
+      FORM.EDITformAlerts(ISitemInBag, error)
+      COLOR.color()
+    });
+    qntBTNS.forEach(x => x.addEventListener('click', (e) => {
+      const reqQNT = parseInt(e.currentTarget.dataset.value)
+      console.log(reqQNT)
+      const { ISitemInBag, bagQNT, stockQNT, toChooseQNT, error } = QNT.GETqntInfo(GENERAL.GETselectedVariant());
+      if (reqQNT > toChooseQNT) {
+          animateCSS('#qnt_in_box', 'shakeX');
+          document.querySelectorAll('.textAlert').forEach(x => red_highlight(x));
+          console.log('return');
+          return;
+      }
+      QNT.EDITtextQnts(stockQNT, bagQNT, reqQNT, toChooseQNT);
+      //QNT.HANDLEqntOptions(reqQNT, toChooseQNT);
+      QNT.EDITqntInput(reqQNT);
+      QNT.TOGGLE_qntInput(false);
+      FORM.EDITformAlerts(ISitemInBag, error);
+      COLOR.color();
+    }))
+    decoy.addEventListener('input', (e) => {
+      const { ISitemInBag, stockQNT, toChooseQNT } = QNT.GETqntInfo(GENERAL.GETselectedVariant());
+      const decoyInputVALUE = parseInt(e.currentTarget.value)
+      const inCartQntRedTEXT = document.querySelector('.redText.qnt_isCart')
+      const qntRedTEXT = document.querySelector('.redText.qnt')
 
-  return { set }
+      // handle button
+      if (decoyInputVALUE && (decoyInputVALUE > 0) && (decoyInputVALUE <= toChooseQNT)) {
+        QNT.TOGGLEqntSubmitBtn(true)
+      } else {
+        QNT.TOGGLEqntSubmitBtn(false)
+          decoy.focus()
+          decoy.select()
+      }
+      //handle red text
+      if (ISitemInBag && (decoyInputVALUE > toChooseQNT)) {
+          inCartQntRedTEXT.style.display = 'block'
+          qntRedTEXT.style.display = 'none'
+          return;
+      } 
+      if (!ISitemInBag && (decoyInputVALUE > toChooseQNT)) {
+        inCartQntRedTEXT.style.display = 'none'
+        qntRedTEXT.style.display = 'block'
+        return;
+      }
+      inCartQntRedTEXT.style.display = 'none'
+      qntRedTEXT.style.display = 'none'
+    })
+  }
+  return { set, set_2 }
 })();
 EVENTS.set()
+EVENTS.set_2()
 
 window.addEventListener('DOMContentLoaded', () => {
-  if (product_available) {
-    
-    console.log('1')
-    const { isCart, error, qnt_avail, qnt_request, qnt_left, qnt_cart } = QNT.GETqntInfo(GENERAL.FINDmatchedVariant())
 
-    GENERAL.CHANGEurl(GENERAL.FINDmatchedVariant(), COLOR.GETcolors().bgCOLOR, COLOR.GETcolors().rawCOLOR)
-    FORM.HANDLEformBtns(isCart, error, qnt_avail)
-    FORM.EDITformAlerts(isCart, error)
-    QNT.EDITtextQnts(qnt_left, qnt_cart, qnt_request, qnt_avail)
-    COLOR.RECOLORdefault()
-    QNT.HANDLEqntOptions(parseInt(qnt_request), parseInt(qnt_avail))
-    
+  setTimeout(() => {
+    ZOOM.SETdesktopImgDrag()
+  }, 300)
+
+  if (ISproductAvailable) {
+  
+    const loadedVARIANT = GENERAL.GETselectedVariant()
+    const { reqQNT, ISitemInBag, bagQNT, stockQNT, toChooseQNT, error } = QNT.GETqntInfo(loadedVARIANT)
+    const { bgCOLOR, rawCOLOR } = COLOR.GETcolorToUse()
+
+    GENERAL.CHANGEurl(loadedVARIANT, bgCOLOR, rawCOLOR)
+    FORM.HANDLEformBtns(ISitemInBag, error)
+    FORM.EDITformAlerts(ISitemInBag, error)
+
+    //QNT.HANDLEqntOptions(reqQNT, toChooseQNT)
+
     SWIPER.SETimgSwiper()
-   
+
+    COLOR.color()
+    COLOR.COLORradioDots()
+    COLOR.COLORswiper()
+    
   } else { // leave swiper on
   
-    COLOR.recolor('{{ defaultRawColor }}', '{{ defaultBgColor }}');
+    COLOR.color();
     SWIPER.SETimgSwiper()
     setTimeout(() => {
-      COLOR.SETbuletColors()
+      COLOR.COLORswiper()
     }, 20)
   }
 })
 
 //---------------------
-if (product_available) {
+if (ISproductAvailable) {
   const btn_buy = document.querySelector('.formBtn.buy')
   const btns_addCart = document.querySelectorAll('.formBtn.addCart')
   const btn_viewCart = document.querySelector('.formBtn.viewCart')
@@ -1337,18 +1258,25 @@ if (product_available) {
   const radios = document.querySelectorAll('input[type="radio"].optionRadio')
   radios.forEach(radio => { // colors + sizes
     radio.addEventListener('change', (e) => {
-      const matched_variant = GENERAL.FINDmatchedVariant()
-      const { isCart, error, qnt_avail, qnt_request, qnt_left, qnt_cart } = QNT.GETqntInfo(matched_variant)
+      
 
-      GENERAL.CHANGEurl(matched_variant, COLOR.GETcolors().bgCOLOR, COLOR.GETcolors().rawCOLOR)
-      FORM.HANDLEformBtns(isCart, error, qnt_avail)
-      FORM.EDITformAlerts(isCart, error)
-      QNT.EDITtextQnts(qnt_left, qnt_cart, qnt_request, qnt_avail)
-      COLOR.RECOLORdefault()
-      QNT.HANDLEqntOptions(parseInt(qnt_request), parseInt(qnt_avail))
+      const selectedVARIANT = GENERAL.GETselectedVariant()
+      const { reqQNT, ISitemInBag, bagQNT, stockQNT, toChooseQNT, error } = QNT.GETqntInfo(selectedVARIANT)
+      const { bgCOLOR, rawCOLOR } = COLOR.GETcolorToUse()
 
-      QNT.FIXqntChoice(qnt_avail, isCart, error, qnt_request)
-      GENERAL.EDIThiddenInput(matched_variant)
+      FORM.HANDLEformBtns(ISitemInBag, error)
+      FORM.EDITformAlerts(ISitemInBag, error)
+
+      GENERAL.CHANGEurl(selectedVARIANT, bgCOLOR, rawCOLOR)
+      FORM.HANDLEformBtns(ISitemInBag, error)
+      FORM.EDITformAlerts(ISitemInBag, error)
+      
+      QNT.EDITtextQnts(stockQNT, bagQNT, reqQNT, toChooseQNT)
+      //QNT.HANDLEqntOptions(parseInt(reqQNT), parseInt(toChooseQNT))
+      QNT.FIXqntChoice(toChooseQNT, ISitemInBag, error, reqQNT)
+
+      COLOR.color()
+      GENERAL.EDIThiddenInput(selectedVARIANT)
       bubble_jump(document.getElementById('qnt_in_box'))
       bubble_jump(document.querySelector('.p_stockLeft'))
 
@@ -1359,7 +1287,8 @@ if (product_available) {
         setTimeout(() => {
           SWIPER.INSERTswiper(IMG.GETproductImages())
           SWIPER.REPLACEswiper()
-          COLOR.SETbuletColors()
+          SWIPER.SETparallax()
+          COLOR.COLORswiper()
           document.querySelector('.sliderControls').style.opacity = "100%"
         }, 201)
       }

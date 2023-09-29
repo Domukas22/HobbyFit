@@ -92,7 +92,8 @@
         "red_qnt_post": "",
         "red_qntCart_pre": "Sandeliuke liko titkai",
         "red_qntCart_mid": ", ir Jūs krepšelyje jau turite",
-        "red_qntCart_post": ". Pasirinkti galite daugiausiai"
+        "red_qntCart_post": ". Pasirinkti galite daugiausiai",
+        "item_unavaiable": "Deja nebeturime šios prekės"
     },
 
     "cart": {

@@ -92,7 +92,8 @@
         "red_qnt_post": "übrig",
         "red_qntCart_pre": "Es sind nur noch",
         "red_qntCart_mid": "übrig, und Sie haben bereits",
-        "red_qntCart_post": "in Ihrem Einkaufswagen. Wählen Sie gerne bis zu"
+        "red_qntCart_post": "in Ihrem Einkaufswagen. Wählen Sie gerne bis zu",
+        "item_unavaiable": "Leider haben wir dieses Produkt nicht mehr."
     },
 
     "cart": {

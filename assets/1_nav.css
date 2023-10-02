@@ -31,7 +31,7 @@ nav {
   background-color: white;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
-nav.no_shadow {
+nav[data-shadowVisible="false"] {
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0);
 }
 .cWrap_Nav {

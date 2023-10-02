@@ -13,16 +13,39 @@
 
     {{ '0_general.css' | asset_url | stylesheet_tag }}
     {{ '1_nav.css' | asset_url | stylesheet_tag }}
-    {{ '2_home.css' | asset_url | stylesheet_tag }}
     {{ '3_filterPage.css' | asset_url | stylesheet_tag }}
-    {{ '4_product.css' | asset_url | stylesheet_tag }}
-    {{ '5_cart.css' | asset_url | stylesheet_tag }}
-    {{ '6_inline_slider.css' | asset_url | stylesheet_tag }}
     {{ '7_footer.css' | asset_url | stylesheet_tag }}
-    {{ '8_legal.css' | asset_url | stylesheet_tag }}
-    {{ '9_contact.css' | asset_url | stylesheet_tag }}
     {{ '10_cookies.css' | asset_url | stylesheet_tag }}
-    {{ '11_404.css' | asset_url | stylesheet_tag }}
+    
+    {% assign pageNAME = request.page_type | handle %}
+
+    {% if pageNAME == "index" %}
+      {{ '2_home.css' | asset_url | stylesheet_tag }}
+    {% endif %}
+    {% if pageNAME == "collection" %}
+      
+    {% endif %}
+    {% if pageNAME == "product" %}
+      {{ '4_product.css' | asset_url | stylesheet_tag }}
+    {% endif %}
+    {% if pageNAME == "cart" %}
+      {{ '5_cart.css' | asset_url | stylesheet_tag }}
+    {% endif %}
+    {% if pageNAME != "collection" %}
+      {{ '6_inline_slider.css' | asset_url | stylesheet_tag }}
+    {% endif %}
+    {% if pageNAME == "page" %}
+      {{ '8_legal.css' | asset_url | stylesheet_tag }}
+      {{ '9_contact.css' | asset_url | stylesheet_tag }}
+    {% endif %}
+    {% if pageNAME == "404" %}
+      {{ '11_404.css' | asset_url | stylesheet_tag }}
+    {% endif %}
+
+    
+    
+    
+    
 
 
 

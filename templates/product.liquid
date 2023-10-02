@@ -18,8 +18,8 @@
           <div class="container_productPage mini">
             <h4 class="title_Product">{{ product.metafields.custom.name_short }} {{ product.metafields.custom.extra_text }}</h4>
             <div class="priceWrap_productPage">
-              <p class="price_product_filterPage" data-isSale="{{ product.metafields.custom.sale}}" style="margin-right: 6px; font-size: 18px; font-weight: 600;">{{ product.selected_or_first_available_variant.price | money }}</p>
-              <p class="price_product_filterPage compare" style="font-size: 18px; font-weight: 600;">{{ product.selected_or_first_available_variant.compare_at_price | money }}</p>
+              <p class="price_product_filterPage" data-variantPrice data-isSale="{{ product.metafields.custom.sale}}" style="margin-right: 6px; font-size: 18px; font-weight: 600;">{{ product.selected_or_first_available_variant.price | money }}</p>
+              <p class="price_product_filterPage compare" data-variantComparePrice style="font-size: 18px; font-weight: 600;">{{ product.selected_or_first_available_variant.compare_at_price | money }}</p>
             </div>
             <p class="p_stockLeft {% if product.selected_or_first_available_variant.inventory_quantity <= 2 %}red{% endif %}" data-text_green>{{ "product.word_left" | t }}
               <span data-variant_qnt data-text_green>{{ product.selected_or_first_available_variant.inventory_quantity }}</span>
@@ -640,57 +640,10 @@ const IMG = (() => {
 const SWIPER = (() => {
   let swiper
   function SETimgSwiper() {
-    INSERTswiper(IMG.GETproductImages())
-    //_ACTIVATEswiper(); // CAUSES ERRORs
+    _APPENDswiper(IMG.GETproductImages())
+    _ACTIVATEswiper(); // CAUSES ERRORs
     _RESETtransitions();
     SETparallax()
-  }
-  function INSERTswiper(unfilteredIMAGES) {
-    const colorHex_bg = new URLSearchParams(window.location.search).get('color_bg');
-    if (!colorHex_bg) { console.log('Load default color'); return;}
-
-    const stickyDIV = document.querySelector('.stickyDIV');
-    const oldSWIPER = stickyDIV.querySelector('.swiper');
-    const filteredIMAGES = _FILTERimagesByColor(unfilteredIMAGES, colorHex_bg);
-    const newSWIPER = _CREATEswiper();
-    const swiperWRAPPER = _CREATEswiperWrapper();
-    const sliderCONTROLS = document.querySelector('.sliderControls');;
-    const wave = _CREATEwave("{{ 'img_WAVE_filterPage.svg' | asset_url }}", colorHex_bg);
-
-    _APPENDswiperSlides(swiperWRAPPER, filteredIMAGES);
-    stickyDIV.removeChild(sliderCONTROLS);
-    stickyDIV.append(sliderCONTROLS);
-
-    newSWIPER.append(wave);
-    newSWIPER.append(swiperWRAPPER);
-    stickyDIV.removeChild(oldSWIPER);
-    stickyDIV.append(newSWIPER);
-
-    setTimeout(() => {
-      newSWIPER.removeAttribute('style')
-    }, 30)
-  }
-  function REPLACEswiper() {
-    swiper.destroy();
-    swiper = new Swiper(".swiper", {
-        parallax: true,
-        grabCursor: true,
-        noSwipingClass: 'slider-no-swiping',
-        pagination: {
-        el: ".swiper-pagination",
-        clickable: true
-        },
-        navigation: {
-        nextEl: ".swiper-btn-next",
-        prevEl: ".swiper-btn-prev"
-        }
-    });
-    swiper.on('transitionEnd', function() {
-        _RESETtransitions();
-    });
-    swiper.on('slideChange', function() {
-      COLOR.COLORswiper();
-    });
   }
   function SETparallax() {
     if (GENERAL.ISdesktop()) {
@@ -703,39 +656,14 @@ const SWIPER = (() => {
     document.querySelector('.swiper').style.opacity = "0%"
     document.querySelector('.sliderControls').style.opacity = "0%"
     setTimeout(() => {
-      INSERTswiper(IMG.GETproductImages())
-      //REPLACEswiper()
+      _APPENDswiper(IMG.GETproductImages())
+      swiper.destroy();
+      _ACTIVATEswiper()
       SETparallax()
       document.querySelector('.sliderControls').style.opacity = "100%"
     }, 201)
   }
-  function _ACTIVATEswiper() {
-    swiper = new Swiper(".swiper", { // ERROR HERE
-      parallax: true,
-      grabCursor: true,
-      noSwipingClass: 'slider-no-swiping',
-      pagination: {
-        el: ".swiper-pagination",
-        clickable: true
-      },
-      navigation: {
-        nextEl: ".swiper-btn-next",
-        prevEl: ".swiper-btn-prev"
-      }
-    });
-    swiper.on('transitionEnd', function() {
-      _RESETtransitions();
-    });
-    swiper.on('slideChange', function() {
-      COLOR.COLORswiper();
-    });
-  }
-  function _RESETtransitions() {
-    document.querySelectorAll('[data-reset]').forEach(x => {
-      x.style.transitionDuration = "400ms";
-    });
-    document.querySelector('.img_WAVE_long').style.transition = "400ms";
-  }
+  
   function _CREATEwave(src, bgCOLOR){
     const wave = document.createElement('img');
     wave.classList.add('img_WAVE_long');
@@ -768,11 +696,64 @@ const SWIPER = (() => {
     swiperSLIDE.append(img);
     return swiperSLIDE;
   }
+  
+  function _APPENDswiper(unfilteredIMAGES) {
+    const colorHex_bg = new URLSearchParams(window.location.search).get('color_bg');
+    if (!colorHex_bg) { console.log('Load default color'); return;}
+
+    const stickyDIV = document.querySelector('.stickyDIV');
+    const oldSWIPER = stickyDIV.querySelector('.swiper');
+    const filteredIMAGES = _FILTERimagesByColor(unfilteredIMAGES, colorHex_bg);
+    const newSWIPER = _CREATEswiper();
+    const swiperWRAPPER = _CREATEswiperWrapper();
+    const sliderCONTROLS = document.querySelector('.sliderControls');;
+    const wave = _CREATEwave("{{ 'img_WAVE_filterPage.svg' | asset_url }}", colorHex_bg);
+
+    _APPENDswiperSlides(swiperWRAPPER, filteredIMAGES);
+    stickyDIV.removeChild(sliderCONTROLS);
+    stickyDIV.append(sliderCONTROLS);
+
+    newSWIPER.append(wave);
+    newSWIPER.append(swiperWRAPPER);
+    stickyDIV.removeChild(oldSWIPER);
+    stickyDIV.append(newSWIPER);
+
+    setTimeout(() => {
+      newSWIPER.removeAttribute('style')
+    }, 30)
+  }
   function _APPENDswiperSlides(targetWRAPPER, imgLIST){
     imgLIST.forEach(img => {
       const slide = _CREATEswiperSlide(img);
       targetWRAPPER.append(slide);
     });
+  }
+  function _ACTIVATEswiper() {
+    swiper = new Swiper(".swiper", {
+      parallax: true,
+      grabCursor: true,
+      noSwipingClass: 'slider-no-swiping',
+      pagination: {
+        el: ".swiper-pagination",
+        clickable: true
+      },
+      navigation: {
+        nextEl: ".swiper-btn-next",
+        prevEl: ".swiper-btn-prev"
+      }
+    });
+    swiper.on('transitionEnd', function() {
+      _RESETtransitions();
+    });
+    swiper.on('slideChange', function() {
+      COLOR.COLORswiper();
+    });
+  }
+  function _RESETtransitions() {
+    document.querySelectorAll('[data-reset]').forEach(x => {
+      x.style.transitionDuration = "400ms";
+    });
+    document.querySelector('.img_WAVE_long').style.transition = "400ms";
   }
   function _FILTERimagesByColor(unfilteredIMAGES, color){
     const filteredIMAGES = unfilteredIMAGES.filter(img => {
@@ -781,7 +762,7 @@ const SWIPER = (() => {
     return filteredIMAGES;
   }
   
-  return { SETimgSwiper, REPLACEswiper, INSERTswiper, SETparallax, HANDLEswiperReincertion}
+  return { SETimgSwiper, SETparallax, HANDLEswiperReincertion}
 })();
 const CART = (() => {
   function IScartEmpty() {
@@ -969,14 +950,19 @@ const QNT = (() => {
   
   function _EDITqntTexts(selQNT, variantStockQNT, variantBagQNT, toChooseQNT) { 
 
+    const selectedVARIANT = GENERAL.GETselectedVariant()
+    const variantPRICE = selectedVARIANT.price;
+    const variantComparePRICE = selectedVARIANT.compare_at_price;
+
     document.querySelectorAll('[data-cart_qnt]').forEach(x => x.textContent = variantBagQNT)
     document.querySelectorAll('[data-chosen_qnt]').forEach(x => x.textContent = selQNT)
     document.querySelectorAll('[data-variant_qnt]').forEach(x => x.textContent = variantStockQNT);
     document.querySelectorAll('[data-toChooseQNT]').forEach(x => x.textContent = toChooseQNT);
-    
-    const sum = document.querySelector('[data-price_sum_calc]')
-    sum.textContent = formatMoney(GENERAL.GETselectedVariant().price * selQNT, format)
-    bubble_jump(sum)
+    document.querySelectorAll('[data-variantPrice]').forEach(x => x.textContent = formatMoney(variantPRICE, format));
+    document.querySelectorAll('[data-variantComparePrice]').forEach(x => x.textContent = variantComparePRICE ? formatMoney(variantComparePRICE, format) : '');
+
+    const totalSUM = document.querySelector('[data-price_sum_calc]')
+    totalSUM.textContent = formatMoney(variantPRICE * selQNT, format)
 
     const p_stockLeft = document.querySelector('.p_stockLeft')
     variantStockQNT <= 2 ?  p_stockLeft.classList.add('red') : p_stockLeft.classList.remove('red')
@@ -1141,13 +1127,22 @@ const EVENTS = (() => {
     const { ISitemInBag, variantBagQNT, variantStockQNT, toChooseQNT } = QNT.GETselVariantQntInfo()
     const { bgCOLOR, rawCOLOR } = COLOR.GETcolorToUse()
 
-    // setTimeout(() => { ZOOM.SETdesktopImgDrag() }, 300)
     GENERAL.CHANGEurl(loadedVARIANT, bgCOLOR, rawCOLOR)
     QNT.HANDLEnewVariantQntReselection(variantStockQNT, variantBagQNT, ISitemInBag, toChooseQNT)
     SWIPER.SETimgSwiper()
     COLOR.color()
     COLOR.COLORswiper()
+    setTimeout(() => { ZOOM.SETdesktopImgDrag() }, 300)
   }
+  function INITIALIZEunavailableProduct() {
+    COLOR.color();
+    SWIPER.SETimgSwiper()
+    setTimeout(() => {
+      COLOR.COLORswiper()
+    }, 20);
+
+  }
+  
   function SETqntListeners() {
     const qntBTNS = document.querySelectorAll('.qntBTN')
     const expandQntBTN = document.querySelectorAll('.expandQntBTN')
@@ -1216,38 +1211,7 @@ const EVENTS = (() => {
       form.submit();
     })
   }
-  function INITIALIZEunavailableProduct() {
-    COLOR.color();
-    SWIPER.SETimgSwiper()
-    setTimeout(() => {
-      COLOR.COLORswiper()
-    }, 20);
-
-  }
-  
-  return { SETqntListeners, SETradioListeners, SETsubmitBtns, INITIALIZE, INITIALIZEunavailableProduct}
-})();
-
-window.addEventListener('DOMContentLoaded', () => {
-  if (!ISproductAvailable) {
-    EVENTS.INITIALIZEunavailableProduct();
-    return;
-  };
-
-  EVENTS.INITIALIZE()
-  RADIOS.ADJUSTsizeRadios()
-  COLOR.COLORradioColorDots()
-  EVENTS.SETqntListeners()
-  EVENTS.SETradioListeners()
-  EVENTS.SETsubmitBtns()
-})
-
-
-
-
-/*
-
-function set() {
+  function SETswiper(){
     window.addEventListener('resize', () => { SWIPER.SETparallax()})
     const main_slider_btns = document.querySelectorAll('.swiperBtn')
     const btns_colorOptions = document.querySelectorAll('input[name="Color"]')
@@ -1284,9 +1248,25 @@ function set() {
       ZOOM.TOGGLEzoom(Number(magnify))
     }))
   }
+  
 
+  return { SETswiper, SETqntListeners, SETradioListeners, SETsubmitBtns, INITIALIZE, INITIALIZEunavailableProduct}
+})();
 
-*/
+window.addEventListener('DOMContentLoaded', () => {
+  if (!ISproductAvailable) {
+    EVENTS.INITIALIZEunavailableProduct();
+    return;
+  };
+
+  EVENTS.INITIALIZE()
+  RADIOS.ADJUSTsizeRadios()
+  COLOR.COLORradioColorDots()
+  EVENTS.SETqntListeners()
+  EVENTS.SETradioListeners()
+  EVENTS.SETsubmitBtns()
+  EVENTS.SETswiper()
+})
 
 </script>
 

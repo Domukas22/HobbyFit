@@ -126,20 +126,27 @@
   </section> --></div>
 
 <script>
-  const nav = document.querySelector('nav');
-  window.addEventListener('DOMContentLoaded', () => {nav.classList.add('no_shadow');})
-  window.addEventListener('scroll', () => {
-    window.scrollY > 60
-      ? nav.classList.remove('no_shadow')
-      : nav.classList.add('no_shadow');
-  })
-  document.querySelector('.btn.inverted.hero').addEventListener('click', () => {
-      const slider_top = document.querySelector('.section_inline_slider').getBoundingClientRect().top;
-      window.scrollTo({
-        top: slider_top - 100,
-        behavior: 'smooth'
-      });
-    })
+  const NAV = (() => {
+    function HANLDEnavShadow() {
+      const nav = document.querySelector('nav');
+      const SHOWshadow = (window.scrollY > 60);
+      nav.setAttribute('data-shadowVisible', `${SHOWshadow}`)
+    }
+  return { HANLDEnavShadow }
+  })();
+  const EFFECTS = (() => {
+    function SCROLLtoSlider(){
+      const sliderPosition = document.querySelector('.section_inline_slider').getBoundingClientRect().top;
+      window.scrollTo({ top: sliderPosition - 100, behavior: 'smooth'});
+    }
+    return { SCROLLtoSlider }
+  })();
+
+  window.addEventListener('DOMContentLoaded', () => { NAV.HANLDEnavShadow() })
+  window.addEventListener('scroll', () => { NAV.HANLDEnavShadow() })
+
+  const heroSliderBTN = document.querySelector('.btn.inverted.hero');
+  heroSliderBTN.addEventListener('click', () => { EFFECTS.SCROLLtoSlider() })
 </script>
 
 

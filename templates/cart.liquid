@@ -8,7 +8,7 @@
 </p>
 
 <div class="fixed_buyBox">
-  <div class="btn cart buy fixed" data-scale>
+  <div class="btn cart buy fixed" >
     <p style="display: flex; width: 100%;">{{ "cart.btnWord_main" | t }} (<span data-final_item_count>{{ cart.item_count }}</span>
       &nbsp;{{ "product.word_item" | t }})<span data-final_price style="margin-left: auto;">{{ cart.total_price | money }}</span>
     </p>
@@ -20,151 +20,125 @@
   </div>
 </section>
 
-<section class="section_cartPage">
+<section class="cartPageSECTION">
   {% form 'cart', cart, class: 'container container_cartItems' %}
 
-    <div class="grid_cartItems">
+    <div class="cartItemGRID">
       {% if cart.item_count > 0 %}
         {% for item in cart.items reverse %}
           {% assign bg = item.image.alt | split: " " | slice: -2, 1 | first %}
           {% assign raw = item.image.alt | split: " " | last %}
           {% assign size_option = item.options_with_values | where: "name", "Size" | first %}
 
-          <div
-            class="cart_item"
-            data-variant_id="{{ item.variant.id }}"
-            data-qnt_selected="{{ item.quantity }}"
-            data-qnt_left="{{ item.variant.inventory_quantity }}">
-            <div class="cart_item_TOP">
-              <div class="titleWrap_cartItem">
-                <h4 class="title_cartItem">{{ item.product.metafields.custom.name_short }} (<span data-variant_id="{{ item.variant.id }}" data-qnt_current>{{ item.quantity }}</span>)
-                </h4>
+          <div class="cartITEM" data-variant_id="{{ item.variant.id }}" data-qnt_selected="{{ item.quantity }}" data-qnt_left="{{ item.variant.inventory_quantity }}">
+            <div class="cartItemTOP">
+              <div class="cartItemTitleWRAP">
+                <h4 class="cartItemTITLE">{{ item.product.metafields.custom.name_short }} (<span data-variant_id="{{ item.variant.id }}" data-qnt_current>{{ item.quantity }}</span>)</h4>
                 <p style="color: rgba(0,0,0, 0.65);">{{ item.product.metafields.custom.what_item_short }} {{ item.product.metafields.custom.extra_text }}
                   {% if size_option %}/ {{ size_option.value }}{% endif %}
                 </p>
-                <script></script>
               </div>
-              <img
-                src="{{ (item.variant.featured_image | default: item.product.featured_image) | img_url: '500x500' }}"
-                alt="{{ item.product.featured_image.alt }}"
-                class="img_cartItem">
-              <img
-                class="img_wave_cartItem"
-                src="{{ 'img_WAVE_cartItem.svg' | asset_url }}"
-                alt="Colorful wave"
-                style="background-color: {{ bg }}">
-              <div
-                class="link_overlay"
-                data-variant_id="{{ item.variant.id }}"
-                data-bg="{{ bg }}"
-                data-raw="{{ raw}}"
-                data-link="{{ shop.url }}{{ item.product.url }}"></div>
+              <img class="cartItemIMAGE" src="{{ (item.variant.featured_image | default: item.product.featured_image) | img_url: '500x500' }}" alt="{{ item.product.featured_image.alt }}">
+              <img class="cartItemWaveIMG" src="{{ 'img_WAVE_cartItem.svg' | asset_url }}" alt="Colorful wave" style="background-color: {{ bg }}">
+              <div class="linkOVERLAY" data-variant_id="{{ item.variant.id }}" data-bg="{{ bg }}" data-raw="{{ raw}}" data-link="{{ shop.url }}{{ item.product.url }}"></div>
             </div>
-            <div class="cart_item_BOTTOM" style="background-color: {{ bg }}">
-              <div class="actionBox_cartItem" data-variant_id="{{ item.variant.id }}">
-                <div class="actionBox_FRONT" data-variant_id="{{ item.variant.id }}">
-                  <input
-                    type="number"
-                    name="updates[]"
-                    value="{{ item.quantity }}"
-                    data-scale
-                    style="display: none"
-                    data-variant_id="{{ item.variant.id }}">
-                  <div
-                    class="btn_showAction"
-                    data-hover_grey
-                    data-variant_id="{{ item.variant.id }}">
+            <div class="cartItemBOTTOM" style="background-color: {{ bg }}">
+              <div class="cartItemACTIONBOX" data-variant_id="{{ item.variant.id }}">
+                <div class="actionBoxFRONT" data-variant_id="{{ item.variant.id }}">
+                  <input type="number" name="updates[]" value="{{ item.quantity }}"  style="display: none" data-variant_id="{{ item.variant.id }}">
+                  <div class="showActionBTN" data-hover_grey data-variant_id="{{ item.variant.id }}">
                     <p style="color: {{ raw }}; margin-right: 8px; font-size: 17px; display: flex">
                       <span class="word_qnt d">{{ "cart.qnt" | t }}</span>
                       <span class="word_qnt m">{{ "cart.qnt_short" | t }}</span>
-                      &nbsp;<span
-                        class="qnt_current"
-                        data-qnt_current="{{ item.quantity }}"
-                        data-variant_id="{{ item.variant.id }}">{{ item.quantity }}</span>
+                      &nbsp;<span class="qnt_current" data-qnt_current="{{ item.quantity }}" data-variant_id="{{ item.variant.id }}">{{ item.quantity }}</span>
                     </p>
-                    <p
-                      style="color: {{ raw }}; font-size: 17px"
-                      class="text_sumPrice"
-                      data-variant_id="{{ item.variant.id }}"
-                      data-price_for_one="{{ item.price }}">{{ item.final_line_price | money }}</p>
+                    <p class="sumPriceTEXT" style="color: {{ raw }}; font-size: 17px" data-variant_id="{{ item.variant.id }}" data-price_for_one="{{ item.price }}">{{ item.final_line_price | money }}</p>
                   </div>
-                  <a class="btn_deleteItem" href="{{ item.url_to_remove }}">
+                  <a class="deleteItemBTN" href="{{ item.url_to_remove }}">
                     <img src="{{ 'icon_delete_red.svg' | asset_url }}" alt="">
-                    <div class="click_overlay"></div>
+                    <div class="clickOVERLAY"></div>
                   </a>
                 </div>
-                <div
-                  class="actionBox_BACK"
-                  data-variant_id="{{ item.variant.id }}"
-                  style="display: none">
-                  <div class="qnt_decoy_TOP">
-                    <input
-                      type="number"
-                      name="cart_decoy"
-                      placeholder="{{ "product.word_qntInput" | t }}"
-                      data-variant_id="{{ item.variant.id }}"
-                      onkeydown="checkKeyPress_cart(event, this);">
-                    <div
-                      class="btn_qntDecoy cancel"
-                      style="color: {{ raw}}"
-                      data-variant_id="{{ item.variant.id }}">
+                <div class="actionBoxBACK" data-variant_id="{{ item.variant.id }}" style="display: none">
+                  <div class="qntDecoyTOP">
+                    <input type="number" name="cartDECOY" onkeydown="QNT.CHECKvariantQntKeyPress(event, this);" placeholder="{{ "product.word_qntInput" | t }}" data-variant_id="{{ item.variant.id }}">
+                    <div class="qntDecoyBTN cancel" style="color: {{ raw}}" data-variant_id="{{ item.variant.id }}">
                       {{ "product.word_cancel" | t }}
                     </div>
-                    <div
-                      class="btn_qntDecoy submit hide"
-                      style="background-color: {{ raw}}; color: white"
-                      data-variant_id="{{ item.variant.id }}">
+                    <div class="qntDecoyBTN submit hide" style="background-color: {{ raw}}; color: white" data-variant_id="{{ item.variant.id }}">
                       Vykdyti
                     </div>
                   </div>
-                  <div class="qnt_decoy_BACK">
-                    <div class="wrap_qntOptions_expanded d">
+                  <div class="qntDecoyBACK">
+                    <div class="qntOptionsExpandedWRAP d">
                       {% for i in (1..item.variant.inventory_quantity) %}
                         {% if i > 12 %}
                           {% break %}{% endif %}
                         <div
-                          class="qntOption d exp
-                          {% if i == 12 %}last{% endif %}
+                          class="qntOption d exp {% if i == 12 %}last{% endif %}
                           {% if i == item.quantity %}active{% endif %}
                           {% if i == 12 and item.quantity > 12 %}active{% endif %}"
-                          data-value="{{ i }}"
-                          data-scale
-                          data-bg="{{ bg }}"
-                          data-raw="{{ raw }}"
-                          data-variant_id="{{ item.variant.id }}">
-                          {% if i == 12 and item.quantity > 12 %}
-                            {{ item.quantity }}
-                          {% else %}
-                            {{ i }}
-                          {% endif %}
+                          data-value="{{ i }}"  data-bg="{{ bg }}" data-raw="{{ raw }}" data-variant_id="{{ item.variant.id }}">
+                            {% if i == 12 and item.quantity > 12 %}
+                              {{ item.quantity }}
+                            {% else %}
+                              {{ i }}
+                            {% endif %}
                         </div>
                       {% endfor %}
                     </div>
-                    <div class="wrap_qntOptions_expanded m">
+                    <div class="qntOptionsExpandedWRAP m">
                       {% for i in (1..item.variant.inventory_quantity) %}
                         {% if i > 10 %}
                           {% break %}{% endif %}
                         <div
-                          class="qntOption m exp
-                          {% if i == 10 %}last{% endif %}
-                          {% if i == item.quantity %}active{% endif %}
-                          {% if i == 10 and item.quantity > 10 %}active{% endif %}"
-                          data-value="{{ i }}"
-                          data-scale
-                          data-bg="{{ bg }}"
-                          data-raw="{{ raw }}"
-                          data-variant_id="{{ item.variant.id }}">
-                          {% if i == 10 and item.quantity > 10 %}
-                            {{ item.quantity }}
-                          {% else %}
-                            {{ i }}
-                          {% endif %}
+                          class="qntOption m exp {% if i == 10 %}last{% endif %}
+                          {% if i == item.quantity %}active{% endif %} {% if i == 10 and item.quantity > 10 %}active{% endif %}"
+                          data-value="{{ i }}"  data-bg="{{ bg }}" data-raw="{{ raw }}" data-variant_id="{{ item.variant.id }}">
+                            {% if i == 10 and item.quantity > 10 %}
+                              {{ item.quantity }}
+                            {% else %}
+                              {{ i }}
+                            {% endif %}
                         </div>
                       {% endfor %}
                     </div>
                   </div>
 
 
+                </div>
+              </div>
+              <div class="qntBACK">
+                <div class="qntBackTopWRAP">
+                  <input class="fakeQntInput" onkeydown="QNT.HANDLEfakeQntSubmit(event, this);" type="number" name="fake" placeholder="{{ "product.word_qntInput" | t }}" style="font-size: 17px">
+                  <div class="qntActionBTN cancel" data-rawTextCOLOR>{{ "product.word_cancel" | t }}</div>
+                  <div class="qntActionBTN submit" data-rawBgCOLOR data-visible="false">{{ "product.word_submit" | t }}</div>
+                </div>
+                <div class="qntBtnWRAP desk back">
+                  <div class="qntBTN qntDeskBACK" data-selected="false" data-value="1" data-visible="true">1</div>
+                  <div class="qntBTN qntDeskBACK" data-selected="false" data-value="2" data-visible="true">2</div>
+                  <div class="qntBTN qntDeskBACK" data-selected="false" data-value="3" data-visible="true">3</div>
+                  <div class="qntBTN qntDeskBACK" data-selected="false" data-value="4" data-visible="true">4</div>
+                  <div class="qntBTN qntDeskBACK" data-selected="false" data-value="5" data-visible="true">5</div>
+                  <div class="qntBTN qntDeskBACK" data-selected="false" data-value="6" data-visible="true">6</div>
+                  <div class="qntBTN qntDeskBACK" data-selected="false" data-value="7" data-visible="true">7</div>
+                  <div class="qntBTN qntDeskBACK" data-selected="false" data-value="8" data-visible="true">8</div>
+                  <div class="qntBTN qntDeskBACK" data-selected="false" data-value="9" data-visible="true">9</div>
+                  <div class="qntBTN qntDeskBACK" data-selected="false" data-value="10" data-visible="true">10</div>
+                  <div class="qntBTN qntDeskBACK" data-selected="false" data-value="11" data-visible="true">11</div>
+                  <div class="qntBTN qntDeskBACK last" data-selected="false" data-value="12" data-visible="true">12</div>
+                </div>
+                <div class="qntBtnWRAP mob back">
+                  <div class="qntBTN qntMobBACK" data-selected="false" data-value="1" data-visible="true">1</div>
+                  <div class="qntBTN qntMobBACK" data-selected="false" data-value="2" data-visible="true">2</div>
+                  <div class="qntBTN qntMobBACK" data-selected="false" data-value="3" data-visible="true">3</div>
+                  <div class="qntBTN qntMobBACK" data-selected="false" data-value="4" data-visible="true">4</div>
+                  <div class="qntBTN qntMobBACK" data-selected="false" data-value="5" data-visible="true">5</div>
+                  <div class="qntBTN qntMobBACK" data-selected="false" data-value="6" data-visible="true">6</div>
+                  <div class="qntBTN qntMobBACK" data-selected="false" data-value="7" data-visible="true">7</div>
+                  <div class="qntBTN qntMobBACK" data-selected="false" data-value="8" data-visible="true">8</div>
+                  <div class="qntBTN qntMobBACK" data-selected="false" data-value="9" data-visible="true">9</div>
+                  <div class="qntBTN qntMobBACK last" data-selected="false" data-value="10" data-visible="true">10</div>
                 </div>
               </div>
               <p class="text_inputError hide" data-variant_id="{{ item.variant.id }}">Inventoriuje liko tiktai {{ item.variant.inventory_quantity }} vnt</p>
@@ -177,10 +151,7 @@
 
 
       {% if cart.item_count == 0 %}
-        <a
-          class="empty_cart_slot empty"
-          href="{{ collections['badmintono-prekes'].url }}"
-          data-scale>
+        <a class="empty_cart_slot empty" href="{{ collections['badmintono-prekes'].url }}">
           <div class="wrap_plus">
             <div class="line_plus"></div>
             <div class="line_plus second"></div>
@@ -188,10 +159,7 @@
           {{ "cart.new_item" | t }}
         </a>
       {% else %}
-        <a
-          class="empty_cart_slot"
-          href="{{ collections['badmintono-prekes'].url }}"
-          data-scale>
+        <a class="empty_cart_slot" href="{{ collections['badmintono-prekes'].url }}">
           <div class="wrap_plus">
             <div class="line_plus"></div>
             <div class="line_plus second"></div>
@@ -203,14 +171,8 @@
 
     </div>
 
-    <div
-      class="stickyWrap_checkout"
-      {% if cart.item_count == 0 %}
-      style="margin-bottom: 16px;"
-      {% endif %}>
-
+    <div class="stickyWrap_checkout" {% if cart.item_count == 0 %} style="margin-bottom: 16px;" {% endif %}>
       <div class="subWrap_stickyBox">
-
         {% if cart.item_count > 0 %}
           <div class="box_proceedCheckout">
             <div class="checkoutBox_TOP">
@@ -235,7 +197,7 @@
                   <div class="shippingLine grow"></div>
                 </div>
               </div>
-              <div class="btn cart buy" data-scale>{{ "cart.btnWord_main" | t }}</div>
+              <div class="btn cart buy" >{{ "cart.btnWord_main" | t }}</div>
             </div>
           </div>
           <p class="text_separator">{{ "cart.your_items" | t }} (<span data-final_item_count>{{ cart.item_count }}</span>)</p>
@@ -246,30 +208,17 @@
                 {% assign raw = item.image.alt | split: " " | last %}
                 {% assign size_option = item.options_with_values | where: "name", "Size" | first %}
 
-                <div
-                  class="itemPreview"
-                  data-variant_id="{{ item.variant.id }}"
-                  data-scale>
+                <div class="itemPreview" data-variant_id="{{ item.variant.id }}" >
                   <div class="imgWarp_itemPreview">
-                    <img
-                      src="{{ (item.variant.featured_image | default: item.product.featured_image) | img_url: '500x500' }}"
-                      alt="{{ item.product.featured_image.alt }}"
-                      class="img_cartPreview">
+                    <img src="{{ (item.variant.featured_image | default: item.product.featured_image) | img_url: '500x500' }}" alt="{{ item.product.featured_image.alt }}" class="img_cartPreview">
                   </div>
 
                   <div class="wrap_previewFeatures">
-                    <div
-                      class="miniFeature"
-                      style="background-color: {{ bg }}; color: {{ raw }}"
-                      data-hover_grey
-                      data-variant_id="{{ item.variant.id }}">
+                    <div class="miniFeature" style="background-color: {{ bg }}; color: {{ raw }}" data-hover_grey data-variant_id="{{ item.variant.id }}">
                       {{ item.quantity }}
                     </div>
                     {% if size_option %}
-                      <div
-                        class="miniFeature"
-                        style="background-color: {{ bg }}; color: {{ raw }}"
-                        data-hover_grey>
+                      <div class="miniFeature" style="background-color: {{ bg }}; color: {{ raw }}" data-hover_grey>
                         "{{ size_option.value }}"
                       </div>
                     {% endif %}
@@ -277,115 +226,71 @@
                 </div>
               {% endfor %}
               {% if uniqueIDs.size == 1 %}
-                <a
-                  class="itemPreview empty"
-                  data-scale
-                  data-hover_grey
-                  href="{{ collections['badmintono-prekes'].url }}">
+                <a class="itemPreview empty"  data-hover_grey href="{{ collections['badmintono-prekes'].url }}">
                   <div class="wrap_plus">
                     <div class="qnt_line"></div>
                     <div class="qnt_line vertical"></div>
                   </div>
                 </a>
-                <a
-                  class="itemPreview empty"
-                  data-scale
-                  data-hover_grey
-                  href="{{ collections['badmintono-prekes'].url }}">
+                <a class="itemPreview empty"  data-hover_grey href="{{ collections['badmintono-prekes'].url }}">
                   <div class="wrap_plus">
                     <div class="qnt_line"></div>
                     <div class="qnt_line vertical"></div>
                   </div>
                 </a>
-                <a
-                  class="itemPreview empty no_mob"
-                  data-scale
-                  data-hover_grey
-                  href="{{ collections['badmintono-prekes'].url }}">
+                <a class="itemPreview empty no_mob"  data-hover_grey href="{{ collections['badmintono-prekes'].url }}">
                   <div class="wrap_plus">
                     <div class="qnt_line"></div>
                     <div class="qnt_line vertical"></div>
                   </div>
                 </a>
               {% elsif uniqueIDs.size == 2 %}
-                <a
-                  class="itemPreview empty"
-                  data-scale
-                  data-hover_grey
-                  href="{{ collections['badmintono-prekes'].url }}">
+                <a class="itemPreview empty"  data-hover_grey href="{{ collections['badmintono-prekes'].url }}">
                   <div class="wrap_plus">
                     <div class="qnt_line"></div>
                     <div class="qnt_line vertical"></div>
                   </div>
                 </a>
-                <a
-                  class="itemPreview empty no_mob"
-                  data-scale
-                  data-hover_grey
-                  href="{{ collections['badmintono-prekes'].url }}">
+                <a class="itemPreview empty no_mob"  data-hover_grey href="{{ collections['badmintono-prekes'].url }}">
                   <div class="wrap_plus">
                     <div class="qnt_line"></div>
                     <div class="qnt_line vertical"></div>
                   </div>
                 </a>
               {% elsif uniqueIDs.size == 3 %}
-                <a
-                  class="itemPreview empty no_mob"
-                  data-scale
-                  data-hover_grey
-                  href="{{ collections['badmintono-prekes'].url }}">
+                <a class="itemPreview empty no_mob"  data-hover_grey href="{{ collections['badmintono-prekes'].url }}">
                   <div class="wrap_plus">
                     <div class="qnt_line"></div>
                     <div class="qnt_line vertical"></div>
                   </div>
                 </a>
               {% elsif uniqueIDs.size == 4 %}
-                <a
-                  class="itemPreview empty no_desc"
-                  data-scale
-                  data-hover_grey
-                  href="{{ collections['badmintono-prekes'].url }}">
+                <a class="itemPreview empty no_desc"  data-hover_grey href="{{ collections['badmintono-prekes'].url }}">
                   <div class="wrap_plus">
                     <div class="qnt_line"></div>
                     <div class="qnt_line vertical"></div>
                   </div>
                 </a>
-                <a
-                  class="itemPreview empty no_desc"
-                  data-scale
-                  data-hover_grey
-                  href="{{ collections['badmintono-prekes'].url }}">
+                <a class="itemPreview empty no_desc"  data-hover_grey href="{{ collections['badmintono-prekes'].url }}">
                   <div class="wrap_plus">
                     <div class="qnt_line"></div>
                     <div class="qnt_line vertical"></div>
                   </div>
                 </a>
               {% elsif uniqueIDs.size == 5 %}
-                <a
-                  class="itemPreview empty"
-                  data-scale
-                  data-hover_grey
-                  href="{{ collections['badmintono-prekes'].url }}">
+                <a class="itemPreview empty"  data-hover_grey href="{{ collections['badmintono-prekes'].url }}">
                   <div class="wrap_plus">
                     <div class="qnt_line"></div>
                     <div class="qnt_line vertical"></div>
                   </div>
                 </a>
-                <a
-                  class="itemPreview empty no_mob"
-                  data-scale
-                  data-hover_grey
-                  href="{{ collections['badmintono-prekes'].url }}">
+                <a class="itemPreview empty no_mob"  data-hover_grey href="{{ collections['badmintono-prekes'].url }}">
                   <div class="wrap_plus">
                     <div class="qnt_line"></div>
                     <div class="qnt_line vertical"></div>
                   </div>
                 </a>
-                <a
-                  class="itemPreview empty no_mob"
-                  data-scale
-                  data-hover_grey
-                  href="{{ collections['badmintono-prekes'].url }}">
+                <a class="itemPreview empty no_mob"  data-hover_grey href="{{ collections['badmintono-prekes'].url }}">
                   <div class="wrap_plus">
                     <div class="qnt_line"></div>
                     <div class="qnt_line vertical"></div>
@@ -396,28 +301,15 @@
           </div>
         {% else %}
           <div class="empty_cart_sign">
-            <img
-              class="icon_empty_cart"
-              src="{{ "icon_bag.svg" | asset_url }}"
-              alt="Empty shopping cart">
+            <img class="icon_empty_cart" src="{{ "icon_bag.svg" | asset_url }}" alt="Empty shopping cart">
             <p>{{ "cart.empty" | t }}</p>
           </div>
         {% endif %}
 
       </div>
     </div>
-
-
-    <button
-      class="btn_cartForm"
-      type="submit"
-      name="update"
-      style="display: none;"></button>
-    <button
-      class="btn_cartForm"
-      type="submit"
-      name="checkout"
-      style="display: none;"></button>
+    <button class="btn_cartForm" type="submit" name="update" style="display: none;"></button>
+    <button class="btn_cartForm" type="submit" name="checkout" style="display: none;"></button>
 
   {% endform %}
 </section>
@@ -426,70 +318,77 @@
 
 
 <script>
-  const format = "{{ shop.money_format }}";
-  const btn_update_form = document.querySelector('.btn_cartForm[name="update"]');
+const moneyFORMAT = "{{ shop.money_format }}";
+const updateFormBTN = document.querySelector('.btn_cartForm[name="update"]');
+Shopify.queue = Shopify.queue || [];
 
-  Shopify.queue = Shopify.queue || [];
 
-  window.addEventListener('DOMContentLoaded', () => {
-    edit_freeShipping({{ cart.total_price }});
-    edit_shippingLine({{ cart.total_price }});
-  });
+const GENERAL = (() => {
+  function ISdesktop() {
+    return window.innerWidth > 991 ? true : false
+  };
+  function SCROLLtoY(scrollTargetY, speed) {
+  const scrollY = window.scrollY || window.pageYOffset;
+  let currentTime = 0;
 
-  btn_update_form.addEventListener('click', (e) => {
-    event.preventDefault();
-    const id = parseInt(btn_update_form.dataset.update_element_id);
-    const qnt = parseInt(btn_update_form.dataset.update_element_qnt);
-    updateCart(id, qnt);
-  });
+  const easingEquation = (t) => {
+      // Custom easing equation (ease-in-out in this case)
+      return 0.5 - 0.5 * Math.cos(Math.PI * t);
+  };
 
-  function is_cart_empty_2() {
-    {% if cart.item_count == 0 %}
-      return true;
-    {% else %}
-      return false;{% endif %}
+  const time = Math.max(0.1, Math.min(Math.abs(scrollY - scrollTargetY) / speed, 0.8));
+
+  function tick() {
+      currentTime += 1 / 60;
+
+      const position = currentTime / time;
+      const easing = easingEquation(position);
+
+      if (position < 1) {
+          window.requestAnimationFrame(tick);
+          window.scrollTo(0, scrollY + (scrollTargetY - scrollY) * easing);
+      } else {
+          window.scrollTo(0, scrollTargetY);
+      }
   }
 
-  function updateCart(variantId, itemQty) {
-    const updates = {};{% for item in cart.items reverse %}updates[{{ item.variant_id }}] = {{ item.quantity }};{% endfor %}updates[variantId] = itemQty; // Add the updated quantity for the current variantId
-
-    Shopify.queue.push({
-      variantId: variantId,
-      quantity: itemQty,
-      _method: 'post',
-      _url: '/cart/add.js',
-      _queue: 'actions'
-    });
-
-    fetch('/cart/update.js', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Requested-With': 'XMLHttpRequest'
-      },
-      body: JSON.stringify(
-        {updates: updates}
-      )
-    }).then(response => response.json()).then(cart_data => {
-      console.log(cart_data);
-
-      const texts_finalPrice_All = document.querySelectorAll('[data-final_price]');
-      const texts_finalItemCount_All = document.querySelectorAll('[data-final_item_count]');
-
-      texts_finalPrice_All.forEach(x => x.textContent = formatMoney(cart_data.items_subtotal_price, format));
-      texts_finalItemCount_All.forEach(x => x.textContent = cart_data.item_count);
-      edit_freeShipping(cart_data.items_subtotal_price);
-      edit_shippingLine(cart_data.items_subtotal_price);
-    });
+  tick();
+}
+  function NAVIGATEtoProductPage(id, color_bg, color_raw, shopLink) {
+    const url = new URLParse(shopLink, true)
+    url.query.variant = id
+    url.query.color_bg = color_bg
+    url.query.color_raw = color_raw
+    window.history.replaceState(null, null, url.toString())
+    window.location.href = url.toString();
   }
-
-
-
-  function edit_freeShipping(current_price) {
-    document.querySelector('.price_leftForShipping').textContent = formatMoney(7000 - current_price, format)
+  function DISPLAYelements(list){
+    list.forEach(x => {
+      if (x.value) {
+          x.target.classList.remove('hide') 
+      } else {
+          x.target.classList.add('hide') 
+      }
+    })
+  }
+  function HANLDEnavShadow() {
+    const nav = document.querySelector('nav');
+    const ISdesktop = ISdesktop();
+    if ( ISdesktop && window.scrollY < 60) {
+        nav.classList.add('no_shadow')
+    } else if (ISdesktop && window.scrollY > 60) {
+        nav.classList.remove('no_shadow')
+    } else if (!ISdesktop) {
+        nav.classList.remove('no_shadow')
+    }
+  }
+  return { ISdesktop, SCROLLtoY, NAVIGATEtoProductPage, DISPLAYelements, HANLDEnavShadow }
+})();
+const SHIPPINGLINE = (() => {
+  function EDITfreeShippingLine(current_price) {
+    document.querySelector('.price_leftForShipping').textContent = formatMoney(7000 - current_price, moneyFORMAT)
     const yes = document.querySelector('.alert_shipping.yes')
     const no = document.querySelector('.alert_shipping.no')
-
     if (current_price >= 7000) {
       yes.style.display = "flex"
       no.style.display = "none"
@@ -498,11 +397,8 @@
       no.style.display = "flex"
     }
 
-
-
   }
-
-  function edit_shippingLine(current_price) {
+  function EDITshippingLine(current_price) {
     const line_grow = document.querySelector('.shippingLine.grow')
     const money_threshold = 7000
     const money_diffrence = money_threshold - current_price
@@ -512,8 +408,379 @@
     const newWidth = length_default * (1 - (percentageLeft / 100));
     line_grow.style.width = `${newWidth}px`;
   }
+  return { EDITfreeShippingLine, EDITshippingLine }
+})();
+const CART = (() => {
+  function UPDATEcart(variantId, itemQty) {
+  const updates = {};{% for item in cart.items reverse %}updates[{{ item.variant_id }}] = {{ item.quantity }};{% endfor %}updates[variantId] = itemQty; // Add the updated quantity for the current variantId
+
+  Shopify.queue.push({
+    variantId: variantId,
+    quantity: itemQty,
+    _method: 'post',
+    _url: '/cart/add.js',
+    _queue: 'actions'
+  });
+  fetch('/cart/update.js', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Requested-With': 'XMLHttpRequest'
+    },
+    body: JSON.stringify(
+      {updates: updates}
+    )
+  }).then(response => response.json()).then(cart_data => {
+    console.log(cart_data);
+    const texts_finalPrice_All = document.querySelectorAll('[data-final_price]');
+    const texts_finalItemCount_All = document.querySelectorAll('[data-final_item_count]');
+
+    texts_finalPrice_All.forEach(x => x.textContent = formatMoney(cart_data.items_subtotal_price, moneyFORMAT));
+    texts_finalItemCount_All.forEach(x => x.textContent = cart_data.item_count);
+    SHIPPINGLINE.EDITfreeShippingLine(cart_data.items_subtotal_price);
+    SHIPPINGLINE.EDITshippingLine(cart_data.items_subtotal_price);
+  });
+}
+  return { UPDATEcart }
+})();
+const QNT = (() => {
+  function SUBMITqnt(targetVariantID, qnt) {
+    const real_input = document.querySelector(`input[name="updates[]"][data-variant_id="${targetVariantID}"]`)
+    const qnt_texts = document.querySelectorAll(`[data-variant_id="${targetVariantID}"][data-qnt_current]`)
+
+    const qnt_text_miniFeature = document.querySelector(`.miniFeature[data-variant_id="${targetVariantID}"]`)
+    const sumPriceTEXT = document.querySelector(`.sumPriceTEXT[data-variant_id="${targetVariantID}"]`)
+    
+    real_input.value = qnt
+    qnt_texts.forEach(x => x.textContent = qnt)
+    qnt_text_miniFeature.textContent = qnt
+    sumPriceTEXT.textContent = formatMoney(sumPriceTEXT.dataset.price_for_one * qnt, moneyFORMAT)
+
+    bubble_jump(qnt_text_miniFeature)
+
+    updateBTN.dataset.update_element_id = targetVariantID
+    updateBTN.dataset.update_element_qnt = qnt
+    updateBTN.click()
+
+
+}
+  function RECOLORqntInputs() {
+    const active_qntButtons = document.querySelectorAll('.qntOption.active')
+    active_qntButtons.forEach(x => {
+        const bg = x.dataset.bg
+        const raw = x.dataset.raw
+        x.style.backgroundColor = bg
+        x.style.color = raw
+    })
+
+
+}
+  function REPLACEactiveOptions(id, qnt_request, qnt_left) {
+
+      const last_m = document.querySelector(`.qntOption.m.last[data-variant_id="${id}"]`)
+      const last_d = document.querySelector(`.qntOption.d.last[data-variant_id="${id}"]`)
+      const options_old = document.querySelectorAll(`.qntOption.active[data-variant_id="${id}"]`)
+      options_old.forEach(x => x.removeAttribute('style'))
+      options_old.forEach(x => x.classList.remove('active'))
+
+      if (qnt_request > 10 && qnt_request <= 12) {
+          const new_d = document.querySelector(`.qntOption.d[data-value="${qnt_request}"][data-variant_id="${id}"]`)
+          _ACTIVATEactiveOptions([last_m, new_d], qnt_request)
+          
+          if (qnt_left > 12) {_RESETlastOptions([{target: last_d, qnt: 12}])}
+          
+
+      } else if (qnt_request > 12) {
+          _ACTIVATEactiveOptions([last_d, last_m], qnt_request)
+      } else {
+          const options_new = document.querySelectorAll(`.qntOption[data-value="${qnt_request}"][data-variant_id="${id}"]`)
+          options_new.forEach(option => {
+              option.classList.add('active')
+              option.style.backgroundColor = option.dataset.bg
+              option.style.color = option.dataset.raw
+          })
+          if (qnt_left > 12) {_RESETlastOptions([{target: last_d, qnt: 12}])}
+          if (qnt_left > 10) {_RESETlastOptions([{target: last_m, qnt: 10}])}
+      } 
+  }
+  function _ACTIVATEactiveOptions(option_list, value){
+      
+      option_list.forEach(option => {
+          option.classList.add('active')
+          option.style.backgroundColor = option.dataset.bg
+          option.style.color = option.dataset.raw
+          option.textContent = value
+          option.dataset.value = value
+      })
+  }
+  function _RESETlastOptions(option_list){
+
+  option_list.forEach(option => {
+      const target = option.target
+      const qnt = option.qnt
+      target.dataset.value = qnt
+      target.textContent = qnt
+  })
+}
+  function CHECKvariantQntKeyPress(event, input_decoy) {
+
+    if (event.key === "Enter" || event.keyCode === 13) {
+        event.preventDefault()
+
+        const info = GETitemQntInfo(parseInt(input_decoy.dataset.variant_id))
+        const id = input_decoy.dataset.variant_id
+    
+        const request = parseInt(input_decoy.value)
+        const qnt_left = info.qnt_left
+        
+        if (!request || request < 1) {
+            input_decoy.focus()
+            input_decoy.select()
+
+        } else if (request > qnt_left) {
+          GENERAL.DISPLAYelements([{target: info.target_error, value: true}])
+    
+        } else {
+            input_decoy.blur()
+            GENERAL.DISPLAYelements([{target: info.target_error, value: false}])
+            REPLACEactiveOptions(id, request, qnt_left)
+            TOGGLEqntBox(id, false)
+            SUBMITqnt(id, request)
+        }
+
+    }
+  }
+  function TOGGLEqntBox(id, condition){ //true => showBack
+    const parent = document.querySelector(`.cartItemACTIONBOX[data-variant_id="${id}"]`)
+    const box_front = document.querySelector(`.actionBoxFRONT[data-variant_id="${id}"]`)
+    const box_back = document.querySelector(`.actionBoxBACK[data-variant_id="${id}"]`)
+    const input_decoy = document.querySelector(`input[name="cartDECOY"][data-variant_id="${id}"]`)
+
+    const get_childrenHeight = parentElement =>[...parentElement.children].reduce((sum, child) => sum + child.getBoundingClientRect().height,0);
+    let locked = false
+
+    if (condition && ! locked) { // show back
+      locked = true
+      box_front.style.opacity = "0%"
+      box_back.style.display = 'block'
+
+      setTimeout(() => {box_back.style.opacity = "100%"}, 70)
+      setTimeout(() => {
+          box_front.style.display = 'none';
+          locked = false
+      }, 151)
+
+      parent.style.height = get_childrenHeight(box_back) + 'px'
+      setTimeout(() => {
+          input_decoy.focus()
+          input_decoy.select()
+      }, 30)
+
+    } else if (! locked) {
+      locked = true
+      box_back.style.opacity = "0%"
+      box_front.style.display = 'flex'
+
+      setTimeout(() => {box_front.style.opacity = "100%"}, 70)
+      setTimeout(() => {locked = false; box_back.style.display = 'none'; input_decoy.value = ''}, 151)
+
+      parent.style.height = '60px'
+    }
+  }
+  function GETitemQntInfo(id){ 
+    const qnt_left = parseInt(document.querySelector(`.cartITEM[data-variant_id="${id}"]`).dataset.qnt_left)
+    const target_btn = document.querySelector(`.qntDecoyBTN.submit[data-variant_id="${id}"]`)
+    const target_error = document.querySelector(`.text_inputError[data-variant_id="${id}"]`)
+    return { qnt_left, target_btn, target_error, GETitemQntInfo }
+  }
+
+  return { SUBMITqnt, RECOLORqntInputs, REPLACEactiveOptions, CHECKvariantQntKeyPress, TOGGLEqntBox, GETitemQntInfo }
+})();
+
+
+  window.addEventListener('DOMContentLoaded', () => {
+    SHIPPINGLINE.EDITfreeShippingLine({{ cart.total_price }});
+    SHIPPINGLINE.EDITshippingLine({{ cart.total_price }});
+  });
+  updateFormBTN.addEventListener('click', (e) => {
+    event.preventDefault();
+    const id = parseInt(updateFormBTN.dataset.update_element_id);
+    const qnt = parseInt(updateFormBTN.dataset.update_element_qnt);
+    CART.UPDATEcart(id, qnt);
+  });
+
+
+
+const fixedBuyBOX = document.querySelector('.fixed_buyBox')
+const nav = document.querySelector('nav') 
+const container = document.querySelector('.container.container_cartItems') 
+
+window.addEventListener('DOMContentLoaded', () => {
+  // GENERAL.HANLDEnavShadow();
+    QNT.RECOLORqntInputs()
+    if (!GENERAL.ISdesktop()) {
+        nav.style.position = 'absolute'
+        container.style.paddingTop = "4vw"
+    } else {
+        nav.style.position = 'fixed'
+        container.style.paddingTop = "0"
+    }
+})
+window.addEventListener('scroll', () => {
+  //GENERAL.HANLDEnavShadow()
+    const y = window.scrollY
+    y > 220 ? fixedBuyBOX.classList.add('show') : fixedBuyBOX.classList.remove('show')
+})
+window.addEventListener('resize', () => {
+  //GENERAL.HANLDEnavShadow();
+    !GENERAL.ISdesktop() ? nav.style.position = 'absolute' : nav.style.position = 'fixed'
+
+})
+
+
+const bothCheckoutBTNS = document.querySelectorAll('.btn.cart.buy')
+const invisibleCheckoutBTN = document.querySelector('button[name="checkout"]')
+const itemLinkOVERLAYS = document.querySelectorAll('.linkOVERLAY')
+const emptyCartSLOTS = document.querySelectorAll('.empty_cart_slot')
+const emptyPreviewSLOTS = document.querySelectorAll('.itemPreview.empty')
+
+const showActionBTNS = document.querySelectorAll('.showActionBTN')
+
+const submitDecoyBTN = document.querySelectorAll('.qntDecoyBTN.submit')
+const hideActionBTN = document.querySelectorAll('.qntDecoyBTN.cancel')
+const allDecoyINPUTS = document.querySelectorAll('input[name="cartDECOY"]')
+
+const qntOPTIONS = document.querySelectorAll('.qntOption')
+const itemPREVIEWS = document.querySelectorAll('.itemPreview')
+const updateBTN = document.querySelector('button[name="update"]')
+
+
+showActionBTNS.forEach(x => x.addEventListener('click', (e) => {
+    const id = e.currentTarget.dataset.variant_id
+    QNT.TOGGLEqntBox(id, true)
+}))
+hideActionBTN.forEach(x => x.addEventListener('click', (e) => {
+    const id = parseInt(e.currentTarget.dataset.variant_id)
+    const info = QNT.GETitemQntInfo(id)
+    QNT.TOGGLEqntBox(id, false)
+    GENERAL.DISPLAYelements([{target: info.target_error, value: false}])
+
+}))
+submitDecoyBTN.forEach(x => x.addEventListener('click', (e) => {
+    const info = QNT.GETitemQntInfo(parseInt(e.currentTarget.dataset.variant_id))
+    const btn_id = e.currentTarget.dataset.variant_id
+
+    const request = parseInt(document.querySelector(`input[name="cartDECOY"][data-variant_id="${e.currentTarget.dataset.variant_id}"]`).value)
+    const qnt_left = info.qnt_left
+
+    if (request > qnt_left) {
+      GENERAL.DISPLAYelements([{target: info.target_error, value: true}])
+
+    } else {
+      GENERAL.DISPLAYelements([{target: info.target_error, value: false}])
+      QNT.REPLACEactiveOptions(btn_id, request, qnt_left)
+      QNT.TOGGLEqntBox(btn_id, false)
+        QNT.SUBMITqnt(btn_id, request)
+    }
+}))
+qntOPTIONS.forEach(x => x.addEventListener('click', (e) => {
+
+    const info = QNT.GETitemQntInfo(parseInt(e.currentTarget.dataset.variant_id))
+    const btn_id = e.currentTarget.dataset.variant_id
+
+    const request = parseInt(e.currentTarget.dataset.value)
+    const qnt_left = info.qnt_left
+
+    if (request > qnt_left) {
+      GENERAL.DISPLAYelements([{target: info.target_error, value: true}])
+
+    } else {
+      QNT.TOGGLEqntBox(btn_id, false)
+        GENERAL.DISPLAYelements([{target: info.target_error, value: false}])
+        QNT.SUBMITqnt(btn_id, request)
+        QNT.REPLACEactiveOptions(btn_id, request, qnt_left)
+        
+        
+    }
+}))
+itemPREVIEWS.forEach(x => x.addEventListener('click', (e) => {
+    const scroll_target = document.querySelector(`.cartITEM[data-variant_id="${e.currentTarget.dataset.variant_id}"]`);
+    if (scroll_target) {
+        const targetOffsetTop = scroll_target.getBoundingClientRect().top;
+        const scrollDistance = targetOffsetTop + window.scrollY - 180;
+        const scrollSpeed = 1000; // Adjust the scroll speed as desired (in pixels per second)
+        GENERAL.SCROLLtoY(scrollDistance, scrollSpeed);
+    }
+}));
+allDecoyINPUTS.forEach(x => x.addEventListener('input', (e) => {
+    const input_id = parseInt(e.currentTarget.dataset.variant_id)
+    const info = QNT.GETitemQntInfo(input_id)
+    
+    const request = parseInt(e.currentTarget.value)
+    const qnt_left = info.qnt_left
+    const input_decoy = document.querySelector(`input[name="cartDECOY"][data-variant_id="${input_id}"]`)
+
+    if (!request || request < 1) {
+      GENERAL.DISPLAYelements([{target: info.target_btn, value: false}])
+        input_decoy.focus()
+        input_decoy.select()
+
+    } else if (request > qnt_left) {
+      GENERAL.DISPLAYelements([
+            {target: info.target_btn, value: false},
+            {target: info.target_error, value: true}
+        ])
+        input_decoy.focus()
+        input_decoy.select()
+
+    } else {
+      GENERAL.DISPLAYelements([
+            {target: info.target_btn, value: true},
+            {target: info.target_error, value: false}
+        ])
+    }
+
+}))
+
+// simple
+itemLinkOVERLAYS.forEach(x => x.addEventListener('click', (e) => {
+    y = e.currentTarget
+    GENERAL.NAVIGATEtoProductPage(y.dataset.variant_id, y.dataset.bg, y.dataset.raw, y.dataset.link)
+}))
+bothCheckoutBTNS.forEach(x => x.addEventListener('click', () => {invisibleCheckoutBTN.click()}))
+emptyCartSLOTS.forEach(x => {
+    x.addEventListener('mouseover', (e) => {
+        e.currentTarget.classList.add('change')
+    })
+    x.addEventListener('mouseleave', (e) => {
+        e.currentTarget.classList.remove('change')
+    })
+    x.addEventListener('touchstart', (e) => {
+        if(GENERAL.ISdesktop()) {return}
+        e.currentTarget.classList.add('change')
+    })
+    x.addEventListener('touchend', (e) => {
+        if(GENERAL.ISdesktop()) {return}
+        e.currentTarget.classList.remove('change')
+    })
+})
+emptyPreviewSLOTS.forEach(x => {
+    x.addEventListener('mouseover', (e) => {
+        e.currentTarget.classList.add('change')
+    })
+    x.addEventListener('mouseleave', (e) => {
+        e.currentTarget.classList.remove('change')
+    })
+    x.addEventListener('touchstart', (e) => {
+        if(GENERAL.ISdesktop()) {return}
+        e.currentTarget.classList.add('change')
+    })
+    x.addEventListener('touchend', (e) => {
+        if(GENERAL.ISdesktop()) {return}
+        e.currentTarget.classList.remove('change')
+    })
+})
+
 </script>
 
-
-{{ '5_cart.js' | asset_url | script_tag }}
 {{ '6_inline_slider.js' | asset_url | script_tag }}

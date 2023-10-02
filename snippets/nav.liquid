@@ -3,140 +3,71 @@
   {% assign lang = '' %}
 {% endif %}
 
-<nav>
+<nav data-shadowVisible="false">
   <div class="cWrap_Nav">
     <div class="wrap_navLeft">
-      <a
-        href="{{ shop.url | append: "/" | append: lang  }}"
-        class="wrap_Logo"
-        data-scale>
+      <a href="{{ shop.url | append: "/" | append: lang  }}" class="wrap_Logo" data-scale>
         <h3 class="text_Logo">{{ shop.name }}</h3>
       </a>
       <div class="wrap_navLinks_D">
-        <a
-          class="navLink"
-          href="{{ shop.url | append: "/" | append: lang  }}"
-          data-hover_grey
-          data-scale>
-          <img
-            class="icon_Nav"
-            src="{{ 'icon_house.png' | asset_url }}"
-            alt="">
+        <a class="navLink" href="{{ shop.url | append: "/" | append: lang  }}" data-hover_grey data-scale>
+          <img class="icon_Nav" src="{{ 'icon_house.png' | asset_url }}" alt="">
           <p>{{ "nav.btn_home" | t }}</p>
-
         </a>
         <div class="navLink_dropdown badminton">
-          <a
-            class="navLink"
-            href="{{ collections['badmintono-prekes'].url }}"
-            data-hover_grey>
-            <img
-              class="icon_Nav"
-              src="{{ 'icon_ball.png' | asset_url }}"
-              alt="">
+          <a class="navLink" href="{{ collections['badmintono-prekes'].url }}" data-hover_grey>
+            <img class="icon_Nav" src="{{ 'icon_ball.png' | asset_url }}" alt="">
             <p>{{ "nav.btn_badminton" | t }}</p>
-            <img
-              class="icon_arrowDropdown"
-              src="{{ 'icon_arrow.svg' | asset_url }}"
-              alt="">
+            <img class="icon_arrowDropdown" src="{{ 'icon_arrow.svg' | asset_url }}" alt="">
           </a>
           <div class="nav_Dropdown badminton">
-            <!-- needed for the distance -->
             <div class="content_navDropdown">
-              <div
-                href=""
-                class="link_dropdown badminton"
-                data-hover_grey
-                data-link_filterpage="all">
+              <div href="" class="link_dropdown badminton" data-hover_grey data-link_filterpage="all">
                 <p>{{ "filters_badminton.all" | t }}</p>
               </div>
-              <!--  <div
-              class="link_dropdown badminton"
-              data-hover_grey
-              data-link_filterpage="sale">
-              <img
-              class="icon_Nav"
-              src="{{ 'icon_filter_sale.png' | asset_url }}"
-              alt="">
-              <p>{{ "filters_badminton.sale" | t }}</p>
+              <!--
+              <div class="link_dropdown badminton" data-hover_grey data-link_filterpage="sale">
+                <p>{{ "filters_badminton.sale" | t }}</p>
+                <img class="icon_Nav" src="{{ 'icon_filter_sale.png' | asset_url }}" alt="">
               </div>
-              <div
-              href=""
-              class="link_dropdown badminton"
-              data-hover_grey
-              data-link_filterpage="racket">
-              <img
-              class="icon_Nav"
-              src="{{ 'icon_filter_racket.png' | asset_url }}"
-              alt="">
-              <p>{{ "filters_badminton.rackets" | t }}</p>
-              </div> -->
-              <div
-                href=""
-                class="link_dropdown badminton"
-                data-hover_grey
-                data-link_filterpage="ball">
-                <img
-                  class="icon_Nav"
-                  src="{{ 'icon_filter_ball.png' | asset_url }}"
-                  alt="">
+              <div href="" class="link_dropdown badminton" data-hover_grey data-link_filterpage="racket">
+                <img class="icon_Nav" src="{{ 'icon_filter_racket.png' | asset_url }}" alt="">
+                <p>{{ "filters_badminton.rackets" | t }}</p>
+              </div>
+              -->
+              <div href="" class="link_dropdown badminton" data-hover_grey data-link_filterpage="ball">
+                <img class="icon_Nav" src="{{ 'icon_filter_ball.png' | asset_url }}" alt="">
                 <p>{{ "filters_badminton.balls" | t }}</p>
               </div>
-              <!--  <div
-              href=""
-              class="link_dropdown badminton"
-              data-hover_grey
-              data-link_filterpage="clothing">
-              <img
-              class="icon_Nav"
-              src="{{ 'icon_filter_clothing.png' | asset_url }}"
-              alt="">
-              <p>{{ "filters_badminton.clothing" | t }}</p>
+              <!--
+              <div href="" class="link_dropdown badminton" data-hover_grey data-link_filterpage="clothing">
+                <img class="icon_Nav" src="{{ 'icon_filter_clothing.png' | asset_url }}" alt="">
+                <p>{{ "filters_badminton.clothing" | t }}</p>
               </div>
-              <div
-              href=""
-              class="link_dropdown badminton"
-              data-hover_grey
-              data-link_filterpage="equipment">
-              <img
-              class="icon_Nav"
-              src="{{ 'icon_filter_equipment.png' | asset_url }}"
-              alt="">
-              <p>{{ "filters_badminton.equipment" | t }}</p>
-              </div> -->
+              <div href="" class="link_dropdown badminton" data-hover_grey data-link_filterpage="equipment">
+                <img class="icon_Nav" src="{{ 'icon_filter_equipment.png' | asset_url }}" alt="">
+                <p>{{ "filters_badminton.equipment" | t }}</p>
+              </div>
+              -->
             </div>
           </div>
         </div>
       </div>
     </div>
     <div class="wrap_navRight">
-
       <div class="navLink menu" data-scale>
         <div class="tWrap_btnMenu show">
           <p>{{ "nav.btn_menu" | t }}</p>
-          <img
-            class="icon_arrowDropdown"
-            src="{{ 'icon_arrow.svg' | asset_url }}"
-            alt="">
+          <img class="icon_arrowDropdown" src="{{ 'icon_arrow.svg' | asset_url }}" alt="">
         </div>
         <div class="X_wrap menu">
           <div class="line_X" data-bgcolor="grey"></div>
           <div class="line_X reverse" data-bgcolor="grey"></div>
         </div>
-
       </div>
       <div class="navLink cart" data-hover_grey>
-        <a
-          class="btn_bag"
-          data-hover_grey
-          data-cart_count="{{ cart.item_count }}"
-          href='{{ shop.url }}/{{ lang }}/cart'
-          data-scale>
-          <img
-            class="icon_Nav bag"
-            src="{{ 'icon_bag.png' | asset_url }}"
-            alt=""
-            draggable="false">
+        <a class="btn_bag" data-hover_grey data-cart_count="{{ cart.item_count }}" href='{{ shop.url }}/{{ lang }}/cart' data-scale>
+          <img class="icon_Nav bag" src="{{ 'icon_bag.png' | asset_url }}" alt="" draggable="false">
           <p class="quantity_cart_nav" data-textcolor="grey">{{ cart.item_count }}</p>
           <div class="click_overlay"></div>
         </a>
@@ -144,78 +75,35 @@
           <div class="content_navDropdown"></div>
         </div>
       </div>
-
       <div class="navLink btn_more" data-hover_grey>
         <div class="btnWrap_more">
           <p>{{ "nav.btn_more" | t }}</p>
-          <img
-            class="icon_arrowDropdown"
-            src="{{ 'icon_arrow.svg' | asset_url }}"
-            alt="">
-
+          <img class="icon_arrowDropdown" src="{{ 'icon_arrow.svg' | asset_url }}" alt="">
         </div>
         <div class="nav_Dropdown more">
-          <!-- needed for the distance -->
           <div class="content_navDropdown">
-            <a
-              href='{{ shop.url }}/{{ lang }}/pages/contact'
-              class="link_dropdown"
-              data-hover_grey>
-              <img
-                class="icon_Nav"
-                src="{{ 'icon_person.png' | asset_url }}"
-                alt="">
+            <a href='{{ shop.url }}/{{ lang }}/pages/contact' class="link_dropdown" data-hover_grey>
+              <img class="icon_Nav" src="{{ 'icon_person.png' | asset_url }}" alt="">
               <p>{{ "nav.btn_adress_contact" | t }}</p>
             </a>
-            <a
-              href="tel:{{ shop.phone }}"
-              class="link_dropdown"
-              data-hover_grey>
-              <img
-                class="icon_Nav"
-                src="{{ 'icon_phone.png' | asset_url }}"
-                alt="">
+            <a href="tel:{{ shop.phone }}" class="link_dropdown" data-hover_grey>
+              <img class="icon_Nav" src="{{ 'icon_phone.png' | asset_url }}" alt="">
               <p>{{ shop.phone }}</p>
             </a>
-            <a
-              href='{{ shop.url }}/{{ lang }}/pages/shipping'
-              class="link_dropdown"
-              data-hover_grey>
-              <img
-                class="icon_Nav"
-                src="{{ 'icon_shipping.png' | asset_url }}"
-                alt="">
+            <a href='{{ shop.url }}/{{ lang }}/pages/shipping' class="link_dropdown" data-hover_grey>
+              <img class="icon_Nav" src="{{ 'icon_shipping.png' | asset_url }}" alt="">
               <p>{{ "links.shipping" | t }}</p>
             </a>
-            <a
-              href='{{ shop.url }}/{{ lang }}/pages/refund'
-              class="link_dropdown"
-              data-hover_grey>
-              <img
-                class="icon_Nav"
-                src="{{ 'icon_return.png' | asset_url }}"
-                alt="">
+            <a href='{{ shop.url }}/{{ lang }}/pages/refund' class="link_dropdown" data-hover_grey>
+              <img class="icon_Nav" src="{{ 'icon_return.png' | asset_url }}" alt="">
               <p>{{ "links.refund" | t }}</p>
             </a>
-
-
-
           </div>
         </div>
       </div>
       <div class="navLink langBox" data-hover_grey>
-
         <div class="wrap_langPreview">
-          <img
-            {% if lang == '' %}
-            src="{{ 'img_flag_en.svg' | asset_url }}"
-            {% elsif lang == 'de' %}
-            src="{{ 'img_flag_de.png' | asset_url }}"
-            {% elsif lang == 'lt' %}
-            src="{{ 'img_flag_lt.png' | asset_url }}"
-            {% endif %}
-            alt=""
-            class="langFlag">
+          <img {% if lang == '' %} src="{{ 'img_flag_en.svg' | asset_url }}" {% elsif lang == 'de' %} src="{{ 'img_flag_de.png' | asset_url }}" {% elsif lang == 'lt' %} src="{{ 'img_flag_lt.png' | asset_url }}" {% endif %} alt="" class="langFlag">
           <div class="separator_langPreview"></div>
           <p>{{ localization.country.currency.iso_code }}</p>
         </div>
@@ -224,34 +112,16 @@
             <div class="optionWrap_langDropdown">
               <p>{{ "nav.choose_lang" | t }}</p>
               <div class="options_langDropdown lang">
-                <div
-                  class="langLink lang"
-                  data-lang="lt"
-                  data-hover_grey>
-                  <img
-                    src="{{ 'img_flag_lt.png' | asset_url }}"
-                    alt=""
-                    class="langFlag">
+                <div class="langLink lang" data-lang="lt" data-hover_grey>
+                  <img src="{{ 'img_flag_lt.png' | asset_url }}" alt="" class="langFlag">
                   <p class="langTag">LT</p>
                 </div>
-                <div
-                  class="langLink lang"
-                  data-lang="en"
-                  data-hover_grey>
-                  <img
-                    src="{{ 'img_flag_en.svg' | asset_url }}"
-                    alt=""
-                    class="langFlag">
+                <div class="langLink lang" data-lang="en" data-hover_grey>
+                  <img src="{{ 'img_flag_en.svg' | asset_url }}" alt="" class="langFlag">
                   <p class="langTag">EN</p>
                 </div>
-                <div
-                  class="langLink lang"
-                  data-lang="de"
-                  data-hover_grey>
-                  <img
-                    src="{{ 'img_flag_de.png' | asset_url }}"
-                    alt=""
-                    class="langFlag">
+                <div class="langLink lang" data-lang="de" data-hover_grey>
+                  <img src="{{ 'img_flag_de.png' | asset_url }}" alt="" class="langFlag">
                   <p class="langTag">DE</p>
                 </div>
               </div>
@@ -270,178 +140,85 @@
                       <p>{{ country.currency.iso_code }}</p>
                     </div>
                   {% endfor %}
-
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-
-
     </div>
   </div>
   <div class="cWrap_menuDropdown">
     <div class="menuDropwdown_TOP">
-      <a
-        class="navLink dropdown"
-        href="{{ shop.url | append: "/" | append: lang  }}"
-        data-scale>
-        <img
-          class="icon_Nav"
-          src="{{ 'icon_house.png' | asset_url }}"
-          alt="">
+      <a class="navLink dropdown" href="{{ shop.url | append: "/" | append: lang  }}" data-scale>
+        <img class="icon_Nav" src="{{ 'icon_house.png' | asset_url }}" alt="">
         <p>{{ "nav.btn_home" | t }}</p>
-
       </a>
       <div class="navLink dropdown lang">
         <div class="langToggle_m_TOP" data-open="false">
-          <img
-            {% if lang == '' %}
-            src="{{ 'img_flag_en.svg' | asset_url }}"
-            {% elsif lang == 'de' %}
-            src="{{ 'img_flag_de.png' | asset_url }}"
-            {% elsif lang == 'lt' %}
-            src="{{ 'img_flag_lt.png' | asset_url }}"
-            {% endif %}
-            alt=""
-            class="langFlag mobile_dropdown">
+          <img {% if lang == '' %} src="{{ 'img_flag_en.svg' | asset_url }}" {% elsif lang == 'de' %} src="{{ 'img_flag_de.png' | asset_url }}" {% elsif lang == 'lt' %} src="{{ 'img_flag_lt.png' | asset_url }}" {% endif %} alt="" class="langFlag mobile_dropdown">
           <div class="separator_langPreview"></div>
           <p>{{ localization.country.currency.iso_code }}</p>
         </div>
         <div class="langToggle_m_BOTTOM">
-          <div
-            class="langLink"
-            data-lang="lt"
-            data-hover_grey>
-            <img
-              src="{{ 'img_flag_lt.png' | asset_url }}"
-              alt=""
-              class="langFlag">
+          <div class="langLink" data-lang="lt" data-hover_grey>
+            <img src="{{ 'img_flag_lt.png' | asset_url }}" alt="" class="langFlag">
             <p class="langTag">LT</p>
           </div>
-          <div
-            class="langLink"
-            data-lang="en"
-            data-hover_grey>
-            <img
-              src="{{ 'img_flag_en.svg' | asset_url }}"
-              alt=""
-              class="langFlag">
+          <div class="langLink" data-lang="en" data-hover_grey>
+            <img src="{{ 'img_flag_en.svg' | asset_url }}" alt="" class="langFlag">
             <p class="langTag">EN</p>
           </div>
-          <div
-            class="langLink"
-            data-lang="de"
-            data-hover_grey>
-            <img
-              src="{{ 'img_flag_de.png' | asset_url }}"
-              alt=""
-              class="langFlag">
+          <div class="langLink" data-lang="de" data-hover_grey>
+            <img src="{{ 'img_flag_de.png' | asset_url }}" alt="" class="langFlag">
             <p class="langTag">DE</p>
           </div>
         </div>
-
       </div>
-      <a
-        class="navLink dropdown badminton"
-        href="{{ collections['badmintono-prekes'].url }}"
-        data-scale>
-        <img
-          class="icon_Nav"
-          src="{{ 'icon_ball.png' | asset_url }}"
-          alt="">
+      <a class="navLink dropdown badminton" href="{{ collections['badmintono-prekes'].url }}" data-scale>
+        <img class="icon_Nav" src="{{ 'icon_ball.png' | asset_url }}" alt="">
         <p>{{ "nav.btn_badminton" | t }}</p>
-
       </a>
     </div>
     <div class="menuDropwdown_CONTENT">
-      <!-- <div
-      href=""
-      class="categoryLink"
-      data-link_filterpage="racket"
-      data-scale>
-      <img
-      class="img_categoryLink"
-      src="{{ 'img_filterRackets.png' | asset_url }}"
-      alt="">
-      <p class="text_categoryLink">
-      {{ "filters_badminton.rackets" | t }}
-      </p>
-
-      </div> -->
-      <div
-        href=""
-        class="categoryLink"
-        data-link_filterpage="ball"
-        data-scale>
-        <img
-          class="img_categoryLink"
-          src="{{ 'img_filterBalls.png' | asset_url }}"
-          alt="">
+      <!-- 
+      <div href="" class="categoryLink" data-link_filterpage="racket" data-scale>
+        <img class="img_categoryLink" src="{{ 'img_filterRackets.png' | asset_url }}" alt="">
+        <p class="text_categoryLink"> {{ "filters_badminton.rackets" | t }} </p>
+      </div>
+      -->
+      <div href="" class="categoryLink" data-link_filterpage="ball" data-scale>
+        <img class="img_categoryLink" src="{{ 'img_filterBalls.png' | asset_url }}" alt="">
         <p class="text_categoryLink">{{ "filters_badminton.balls" | t }}</p>
-
       </div>
-      <!-- <div
-      href=""
-      class="categoryLink"
-      data-link_filterpage="clothing"
-      data-scale>
-      <img
-      class="img_categoryLink"
-      src="{{ 'img_filterClothing.png' | asset_url }}"
-      alt="">
-      <p class="text_categoryLink">{{ "filters_badminton.clothing" | t }}</p>
-
+      <!--
+      <div href="" class="categoryLink" data-link_filterpage="clothing" data-scale>
+        <img class="img_categoryLink" src="{{ 'img_filterClothing.png' | asset_url }}" alt="">
+        <p class="text_categoryLink">{{ "filters_badminton.clothing" | t }}</p>
       </div>
-      <div
-      href=""
-      class="categoryLink"
-      data-link_filterpage="equipment"
-      data-scale>
-      <img
-      class="img_categoryLink"
-      src="{{ 'img_filterEquipment.png' | asset_url }}"
-      alt="">
-      <p class="text_categoryLink">{{ "filters_badminton.equipment" | t }}</p>
-
-      </div> -->
+      <div href="" class="categoryLink" data-link_filterpage="equipment" data-scale>
+        <img class="img_categoryLink" src="{{ 'img_filterEquipment.png' | asset_url }}" alt="">
+        <p class="text_categoryLink">{{ "filters_badminton.equipment" | t }}</p>
+      </div>
+      -->
     </div>
     <div class="menuDropwdown_LINKS">
       <a href='{{ shop.url }}/{{ lang }}/pages/contact' class="link_dropdown menu">
-        <img
-          class="icon_Nav"
-          src="{{ 'icon_person.png' | asset_url }}"
-          alt="">
+        <img class="icon_Nav" src="{{ 'icon_person.png' | asset_url }}" alt="">
         <p>{{ "nav.btn_adress_contact" | t }}</p>
       </a>
-      <a
-        href="tel:{{ shop.phone }}"
-        class="link_dropdown menu"
-        data-scale>
-        <img
-          class="icon_Nav"
-          src="{{ 'icon_phone.png' | asset_url }}"
-          alt="">
+      <a href="tel:{{ shop.phone }}" class="link_dropdown menu" data-scale>
+        <img class="icon_Nav" src="{{ 'icon_phone.png' | asset_url }}" alt="">
         <p>{{ shop.phone }}</p>
       </a>
       <a href='{{ shop.url }}/{{ lang }}/pages/shipping' class="link_dropdown menu">
-        <img
-          class="icon_Nav"
-          src="{{ 'icon_shipping.png' | asset_url }}"
-          alt="">
+        <img class="icon_Nav" src="{{ 'icon_shipping.png' | asset_url }}" alt="">
         <p>{{ "links.shipping" | t }}</p>
       </a>
       <a href='{{ shop.url }}/{{ lang }}/pages/refund' class="link_dropdown menu">
-        <img
-          class="icon_Nav"
-          src="{{ 'icon_return.png' | asset_url }}"
-          alt="">
+        <img class="icon_Nav" src="{{ 'icon_return.png' | asset_url }}" alt="">
         <p>{{ "links.refund" | t }}</p>
       </a>
-
-
-
     </div>
   </div>
 </nav>
@@ -458,34 +235,16 @@
     <div class="optionWrap_langDropdown">
       <p>{{ "nav.choose_lang" | t }}</p>
       <div class="options_langDropdown lang">
-        <div
-          class="langLink lang"
-          data-lang="lt"
-          data-hover_grey>
-          <img
-            src="{{ 'img_flag_lt.png' | asset_url }}"
-            alt=""
-            class="langFlag">
+        <div class="langLink lang" data-lang="lt" data-hover_grey>
+          <img src="{{ 'img_flag_lt.png' | asset_url }}" alt="" class="langFlag">
           <p class="langTag">LT</p>
         </div>
-        <div
-          class="langLink lang"
-          data-lang="en"
-          data-hover_grey>
-          <img
-            src="{{ 'img_flag_en.svg' | asset_url }}"
-            alt=""
-            class="langFlag">
+        <div class="langLink lang" data-lang="en" data-hover_grey>
+          <img src="{{ 'img_flag_en.svg' | asset_url }}" alt="" class="langFlag">
           <p class="langTag">EN</p>
         </div>
-        <div
-          class="langLink lang"
-          data-lang="de"
-          data-hover_grey>
-          <img
-            src="{{ 'img_flag_de.png' | asset_url }}"
-            alt=""
-            class="langFlag">
+        <div class="langLink lang" data-lang="de" data-hover_grey>
+          <img src="{{ 'img_flag_de.png' | asset_url }}" alt="" class="langFlag">
           <p class="langTag">DE</p>
         </div>
       </div>
@@ -505,10 +264,8 @@
             </div>
           {% endfor %}
         </div>
-
         <div class="currencyFade"></div>
       </div>
-
     </div>
   </div>
 </div>

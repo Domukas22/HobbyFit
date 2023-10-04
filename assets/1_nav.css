@@ -424,7 +424,7 @@ nav[data-shadowVisible="false"] {
 .countryOption {
   display: flex;
   align-items: center;
-  height: 42px;
+  height: 60px;
   cursor: pointer;
   justify-content: space-between;
   padding: 0 14px;

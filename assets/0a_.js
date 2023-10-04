@@ -1,3 +1,7 @@
-// shopping cart btn in the nav only works if the bag icon is clicked
-// clean cart page
-// clean filter page
+// redesign home hero
+// connect to github and learn to make changes
+
+// add payments
+// edit payment icons
+// edit shippign duration for all
+// edit shipping policies

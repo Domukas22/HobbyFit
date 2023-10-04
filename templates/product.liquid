@@ -379,6 +379,9 @@ const GENERAL = (() => {
   function ISdesktop() {
     return window.innerWidth > 991 ? true : false;
   }
+  function ISmobile() {
+    return window.innerWidth < 501 ? true : false;
+  }
   function GETselectedVariant() {
     // Find variant based on checked radios
     const checkedRADIOS = document.querySelectorAll('input[type="radio"].optionRadio:checked');
@@ -403,7 +406,7 @@ const GENERAL = (() => {
     );
   }
   
-  return { CHANGEurl, DISPLAYflex, DISPLAYblock, TOGGLEdataVisibility, ISdesktop, GETselectedVariant, SELECTvariant, GETradioChangeInfos }
+  return { CHANGEurl, DISPLAYflex, DISPLAYblock, TOGGLEdataVisibility, ISdesktop, GETselectedVariant, SELECTvariant, GETradioChangeInfos, ISmobile }
 })();
 const COLOR = (() => {
   function color() {
@@ -868,8 +871,9 @@ const QNT = (() => {
     _DISPLAYsubmitBtns(selQNT, variantStockQNT, variantBagQNT, ISitemInBag);
     _DISPLAYqntAlerts(selQNT, variantStockQNT, variantBagQNT, ISitemInBag, NEWtoChooseQNT);
     _HANLDEallVariantItemsInCart(variantStockQNT, variantBagQNT)
+    TOGGLEexpandQntBtn(NEWtoChooseQNT)
   }
-  function HANDLEfakeQntSubmit(event, fakeINPUT, optionalQntVALUE) {
+  function HANDLEfakeQntSubmit(event, fakeINPUT) {
     // this fucntion is called in the html
     // it's to detect an enter, or a "Go" on mobile submit
     if (event.key === "Enter" || event.keyCode === 13 || event === "Enter") {
@@ -926,6 +930,16 @@ const QNT = (() => {
       return;
     } 
     _CLOSEqntBtnBox(qntWRAP, qntFRONT, qntBACK)
+  }
+  function TOGGLEexpandQntBtn(availQNT) {
+    const expandQntBTN = document.querySelector('.expandQntBTN')
+    const _ISmobile = GENERAL.ISmobile();
+
+    let SHOULDshow = false;
+    if ((!_ISmobile && (availQNT > 5)) || (_ISmobile && (availQNT > 3))) {
+      SHOULDshow = true;
+    }
+    expandQntBTN.setAttribute('data-visible', `${SHOULDshow}`)
   }
   function FIXqntChoice(toChooseQNT, isCart, error, reqQNT) {
     if (!toChooseQNT){
@@ -1118,7 +1132,7 @@ const QNT = (() => {
     element.style.height = height + 'px'
   }
 
-  return { HANDLEqntBtnSelection, HANDLEfakeQntSubmit, HANDLEfakeQntInputTyping, TOGGLEqntInput, TOGGLEqntSubmitBtn, _DISPLAYqntBtns, FIXqntChoice, GETselVariantQntInfo, _EDITqntTexts, SELECTqnt, GETselQNT, HANDLEnewVariantQntReselection}
+  return { TOGGLEexpandQntBtn, HANDLEqntBtnSelection, HANDLEfakeQntSubmit, HANDLEfakeQntInputTyping, TOGGLEqntInput, TOGGLEqntSubmitBtn, _DISPLAYqntBtns, FIXqntChoice, GETselVariantQntInfo, _EDITqntTexts, SELECTqnt, GETselQNT, HANDLEnewVariantQntReselection}
 })();
 const EVENTS = (() => {
   function INITIALIZE(){
@@ -1133,6 +1147,7 @@ const EVENTS = (() => {
     COLOR.color()
     COLOR.COLORswiper()
     setTimeout(() => { ZOOM.SETdesktopImgDrag() }, 300)
+    document.querySelector('nav').setAttribute('data-shadow_threshold', '-1')
   }
   function INITIALIZEunavailableProduct() {
     COLOR.color();

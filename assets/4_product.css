@@ -250,19 +250,7 @@
   rotate: 180deg;
 }
 
-.line_arrow {
-  width: 2px;
-  height: 16px;
-  background-color: var(--color_grey);
-  border-radius: 100px;
-  margin-bottom: 6px;
-  position: absolute;
-  transform: rotate(60deg);
-}
-.line_arrow.reverse {
-  margin-bottom: -9px;
-  transform: rotate(-60deg);
-}
+
 
 .swiper-button-disabled:hover {
   background-color: rgba(164, 164, 164, 0);
@@ -562,7 +550,10 @@ input[type="radio"] {
 .expandQntBTN:hover {
   background-color: inherit;
 }
-
+.expandQntBTN[data-visible="false"] {
+  width: 0px;
+  border: 0px;
+}
 
 .qntBtnWRAP.back > .qntBTN {
   border-radius: 6px;
@@ -603,7 +594,7 @@ input[type="radio"] {
   width: 100%;
 
   align-items: center;
-    padding-right: 4px;
+  padding-right: 4px;
 }
 .fakeQntInput {
   height: 100%;

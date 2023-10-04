@@ -3,14 +3,14 @@
   {% assign lang = '' %}
 {% endif %}
 
-<nav data-shadowVisible="false">
+<nav data-shadowVisible="false" data-shadow_threshold="60">
   <div class="cWrap_Nav">
     <div class="wrap_navLeft">
-      <a href="{{ shop.url | append: "/" | append: lang  }}" class="wrap_Logo" data-scale>
+      <a href="{{ shop.url | append: "/" | append: lang  }}" class="wrap_Logo" >
         <h3 class="text_Logo">{{ shop.name }}</h3>
       </a>
       <div class="wrap_navLinks_D">
-        <a class="navLink" href="{{ shop.url | append: "/" | append: lang  }}" data-hover_grey data-scale>
+        <a class="navLink" href="{{ shop.url | append: "/" | append: lang  }}" data-hover_grey >
           <img class="icon_Nav" src="{{ 'icon_house.png' | asset_url }}" alt="">
           <p>{{ "nav.btn_home" | t }}</p>
         </a>
@@ -55,26 +55,23 @@
       </div>
     </div>
     <div class="wrap_navRight">
-      <div class="navLink menu" data-scale>
+      <div class="navLink menu" >
         <div class="tWrap_btnMenu show">
           <p>{{ "nav.btn_menu" | t }}</p>
           <img class="icon_arrowDropdown" src="{{ 'icon_arrow.svg' | asset_url }}" alt="">
         </div>
         <div class="X_wrap menu">
-          <div class="line_X" data-bgcolor="grey"></div>
-          <div class="line_X reverse" data-bgcolor="grey"></div>
+          <div class="line_X" ></div>
+          <div class="line_X reverse"></div>
         </div>
       </div>
-      <div class="navLink cart" data-hover_grey>
-        <a class="btn_bag" data-hover_grey data-cart_count="{{ cart.item_count }}" href='{{ shop.url }}/{{ lang }}/cart' data-scale>
+      <a class="navLink cart" data-hover_grey href='{{ shop.url }}/{{ lang }}/cart'> 
+        <div class="btn_bag" data-hover_grey data-cart_count="{{ cart.item_count }}" >
           <img class="icon_Nav bag" src="{{ 'icon_bag.png' | asset_url }}" alt="" draggable="false">
           <p class="quantity_cart_nav" data-textcolor="grey">{{ cart.item_count }}</p>
           <div class="click_overlay"></div>
-        </a>
-        <div class="nav_Dropdown cart">
-          <div class="content_navDropdown"></div>
         </div>
-      </div>
+      </a>
       <div class="navLink btn_more" data-hover_grey>
         <div class="btnWrap_more">
           <p>{{ "nav.btn_more" | t }}</p>
@@ -150,7 +147,7 @@
   </div>
   <div class="cWrap_menuDropdown">
     <div class="menuDropwdown_TOP">
-      <a class="navLink dropdown" href="{{ shop.url | append: "/" | append: lang  }}" data-scale>
+      <a class="navLink dropdown" href="{{ shop.url | append: "/" | append: lang  }}" >
         <img class="icon_Nav" src="{{ 'icon_house.png' | asset_url }}" alt="">
         <p>{{ "nav.btn_home" | t }}</p>
       </a>
@@ -175,28 +172,28 @@
           </div>
         </div>
       </div>
-      <a class="navLink dropdown badminton" href="{{ collections['badmintono-prekes'].url }}" data-scale>
+      <a class="navLink dropdown badminton" href="{{ collections['badmintono-prekes'].url }}" >
         <img class="icon_Nav" src="{{ 'icon_ball.png' | asset_url }}" alt="">
         <p>{{ "nav.btn_badminton" | t }}</p>
       </a>
     </div>
     <div class="menuDropwdown_CONTENT">
       <!-- 
-      <div href="" class="categoryLink" data-link_filterpage="racket" data-scale>
+      <div href="" class="categoryLink" data-link_filterpage="racket" >
         <img class="img_categoryLink" src="{{ 'img_filterRackets.png' | asset_url }}" alt="">
         <p class="text_categoryLink"> {{ "filters_badminton.rackets" | t }} </p>
       </div>
       -->
-      <div href="" class="categoryLink" data-link_filterpage="ball" data-scale>
+      <div href="" class="categoryLink" data-link_filterpage="ball" >
         <img class="img_categoryLink" src="{{ 'img_filterBalls.png' | asset_url }}" alt="">
         <p class="text_categoryLink">{{ "filters_badminton.balls" | t }}</p>
       </div>
       <!--
-      <div href="" class="categoryLink" data-link_filterpage="clothing" data-scale>
+      <div href="" class="categoryLink" data-link_filterpage="clothing" >
         <img class="img_categoryLink" src="{{ 'img_filterClothing.png' | asset_url }}" alt="">
         <p class="text_categoryLink">{{ "filters_badminton.clothing" | t }}</p>
       </div>
-      <div href="" class="categoryLink" data-link_filterpage="equipment" data-scale>
+      <div href="" class="categoryLink" data-link_filterpage="equipment" >
         <img class="img_categoryLink" src="{{ 'img_filterEquipment.png' | asset_url }}" alt="">
         <p class="text_categoryLink">{{ "filters_badminton.equipment" | t }}</p>
       </div>
@@ -207,7 +204,7 @@
         <img class="icon_Nav" src="{{ 'icon_person.png' | asset_url }}" alt="">
         <p>{{ "nav.btn_adress_contact" | t }}</p>
       </a>
-      <a href="tel:{{ shop.phone }}" class="link_dropdown menu" data-scale>
+      <a href="tel:{{ shop.phone }}" class="link_dropdown menu" >
         <img class="icon_Nav" src="{{ 'icon_phone.png' | asset_url }}" alt="">
         <p>{{ shop.phone }}</p>
       </a>

@@ -38,7 +38,9 @@
 
 <script>
 
-
+  window.addEventListener('DOMContentLoaded', () => {
+    document.querySelector('nav').setAttribute('data-shadow_threshold', '-1')
+  })
   document.querySelectorAll('.legal_link').forEach(x => {
     if (x.href === window.location.href) {
       x.classList.add('active')

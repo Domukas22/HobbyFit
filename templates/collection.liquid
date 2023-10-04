@@ -13,41 +13,41 @@
 </section>
 <section class="filterSection_FILTERS">
   <div class="filterBox_D" data-no_scrollbar>
-    <div class="filter all active" data-filter="all" data-scale>
+    <div class="filter all active" data-filter="all" >
       <div class="click_overlay"></div>
       <p>{{ "filters_badminton.all" | t }}</p>
     </div>
     <!--
-    <div class="filter" data-filter="sale" data-hover_grey data-scale>
+    <div class="filter" data-filter="sale" data-hover_grey >
       <div class="click_overlay"></div>
       <img class="icon_filter" src="{{ 'icon_filter_sale.png' | asset_url }}" alt="">
       <p>{{ "filters_badminton.sale" | t }}</p>
     </div>
-    <div class="filter" data-filter="racket" data-hover_grey data-scale>
+    <div class="filter" data-filter="racket" data-hover_grey >
       <div class="click_overlay"></div>
       <img class="icon_filter" src="{{ 'icon_filter_racket.png' | asset_url }}" alt="">
       <p>{{ "filters_badminton.rackets" | t }}</p>
     </div>
     -->
-    <div class="filter" data-filter="ball" data-hover_grey data-scale>
+    <div class="filter" data-filter="ball" data-hover_grey >
       <div class="click_overlay"></div>
       <img class="icon_filter" src="{{ 'icon_filter_ball.png' | asset_url }}" alt="">
       <p>{{ "filters_badminton.balls" | t }}</p>
     </div>
     <!-- 
-    <div class="filter" data-filter="clothing" data-hover_grey data-scale>
+    <div class="filter" data-filter="clothing" data-hover_grey >
       <div class="click_overlay"></div>
       <img class="icon_filter" src="{{ 'icon_filter_clothing.png' | asset_url }}" alt="">
       <p>{{ "filters_badminton.clothing" | t }}</p>
     </div>
-    <div class="filter" data-filter="equipment" data-hover_grey data-scale>
+    <div class="filter" data-filter="equipment" data-hover_grey >
       <div class="click_overlay"></div>
       <img class="icon_filter" src="{{ 'icon_filter_equipment.png' | asset_url }}" alt="">
       <p>{{ "filters_badminton.equipment" | t }}</p>
     </div> 
     --> 
   </div>
-  <div class="btn_openFilters" data-toggle="filters" data-scale>
+  <div class="btn_openFilters" data-toggle="filters" >
     <img class="icon_filter hide" id="icon_currentFilter" src="{{ 'icon_filter_racket.png' | asset_url }}" alt="">
     <p class="text_currentFilter">{{ "filters_badminton.all" | t }}</p>
     <img class="icon_arrowDropdown" src="{{ 'icon_arrow.svg' | asset_url }}" alt="">
@@ -111,7 +111,7 @@
     {% endfor %}
   </div>
 </section>
-<div class="filterBox_M">
+<div class="filterBox_M" data-visible="false">
   <div class="textWrap_filters_M">
     <h4>{{ "filters_badminton.word_filters" | t }}</h4>
     <div class="btn_X" data-toggle="filters">
@@ -119,39 +119,39 @@
       <div class="line_X second"></div>
     </div>
   </div>
-  <div class="filter all active" data-filter="all" data-scale>
+  <div class="filter all active" data-filter="all" >
     <div class="click_overlay"></div>
     <p>{{ "filters_badminton.all" | t }}</p>
     <p class="category_item_count" data-category_count="all">2</p>
   </div>
   <!--
-  <div class="filter" data-filter="sale" data-scale>
+  <div class="filter" data-filter="sale" >
     <div class="click_overlay"></div>
     <img class="icon_filter" src="{{ 'icon_filter_sale.png' | asset_url }}" alt="">
     <p>{{ "filters_badminton.sale" | t }}</p>
     <p class="category_item_count" data-category_count="sale">2</p>
   </div>
-  <div class="filter" data-filter="racket" data-scale>
+  <div class="filter" data-filter="racket" >
     <div class="click_overlay"></div>
     <img class="icon_filter" src="{{ 'icon_filter_racket.png' | asset_url }}" alt="">
     <p>{{ "filters_badminton.rackets" | t }}</p>
     <p class="category_item_count" data-category_count="racket">2</p>
   </div> 
   -->
-  <div class="filter" data-filter="ball" data-scale>
+  <div class="filter" data-filter="ball" >
     <div class="click_overlay"></div>
     <img class="icon_filter" src="{{ 'icon_filter_ball.png' | asset_url }}" alt="">
     <p>{{ "filters_badminton.balls" | t }}</p>
     <p class="category_item_count" data-category_count="ball">2</p>
   </div>
   <!--
-  <div class="filter" data-filter="clothing" data-scale>
+  <div class="filter" data-filter="clothing" >
     <div class="click_overlay"></div>
     <img class="icon_filter" src="{{ 'icon_filter_clothing.png' | asset_url }}" alt="">
     <p>{{ "filters_badminton.clothing" | t }}</p>
     <p class="category_item_count" data-category_count="clothing">2</p>
   </div>
-  <div class="filter" data-filter="equipment" data-scale>
+  <div class="filter" data-filter="equipment" >
     <div class="click_overlay"></div>
     <img class="icon_filter" src="{{ 'icon_filter_equipment.png' | asset_url }}" alt="">
     <p>{{ "filters_badminton.equipment" | t }}</p>
@@ -162,48 +162,131 @@
 
 
 <script>
-  window.addEventListener('resize', () => {
-    handle_shadow_2()
-    if (/Mobi/i.test(navigator.userAgent)) {return}
-    document.querySelector('.filterBox_M').classList.remove('open')
-})
-window.addEventListener('DOMContentLoaded', () => {
-    check_for_reload()
-    filter_on_load()
-    randomize_products()
-    count_category_items()
-    handle_shadow_2()
-    document.querySelector('.product_grid').style.opacity = "100%"
-})
-window.addEventListener('scroll', () => {
-    moveWaves()
-    handle_shadow_2()
-})
-function handle_shadow_2() {
-    const nav = document.querySelector('nav')
-    window.scrollY < 60 ? nav.classList.add('no_shadow') : nav.classList.remove('no_shadow')
+
+const GENERAL = (() => {
+  function ISdesktop() {
+    return window.innerWidth > 991 ? true : false
+  }
+  function GETviewportSize() {
+    return window.innerWidth > 1439 ? 'desktop_big' :
+            window.innerWidth > 991 ? 'desktop' :
+            window.innerWidth > 767 ? 'tablet' :
+            'mobile';
 }
-function check_for_reload() {
+  function SCROLLtoTop() {
+    if (ISdesktop() || GETviewportSize() == "tablet") {window.scrollTo({top: 120, behavior: "smooth", duration: 2000})}
+    else {setTimeout(() => {window.scrollTo({top: 0, behavior: "smooth", duration: 2000})}, 150)}
+  }
+  function MOVEwaves() {
+    const waves = document.querySelectorAll('.img_wave')
+      waves.forEach(wave => {
+          let scrollY = window.scrollY;
+          if (scrollY < 5) {scrollY = 5}
+          const scrollFactor = 30 / 100;
+          const moveWave = -scrollY * scrollFactor;
+          wave.style.transform = `translateX(${moveWave}px)`;
+      })
+  } 
+
+  return { ISdesktop, GETviewportSize, SCROLLtoTop, MOVEwaves }
+})();
+const URL = (() => {
+  function DETECTpreviousPageVisit() {
+    if (performance && performance.navigation) {
+      if (performance.navigation.type === 2) {
+        // The user is navigating back to a previous page
+        console.log("User clicked back button.");
+      }
+    }
+  }
+  function CHECKforReload() {
     if (performance.navigation.type === performance.navigation.TYPE_RELOAD) {
-        empty_the_url()
+        _EMPTYurl()
         window.scrollTo({top: 0, behavior: "smooth", duration: 2000})
       }
+  }
+  function _EMPTYurl() {
+    const DOESurlContainFilterWord = window.location.search.includes('filter=')
+    if (!DOESurlContainFilterWord) return;
+    var urlWithoutParams = window.location.origin + window.location.pathname;
+    history.replaceState({}, document.title, urlWithoutParams);
 }
-function filter_on_load() {
-    const urlTag = new URLSearchParams(window.location.search);
-    const filter = urlTag.get('filter');
-    if (filter) {
-        filter_items(filter)
-        toggle_activeFilter(filter)
-        handle_filterText(filter)
+  function UPDATEurl(filterWord) {
+      const url = new URLParse(window.location.href, true)
+      url.query.filter = filterWord
+      window.history.replaceState(null, null, url.toString())
     }
+
+
+  return { DETECTpreviousPageVisit, CHECKforReload, UPDATEurl }
+})();
+const FILTER = (() => {
+  function FILTERitems(filterWORD) {
+    let count = 0
+    const allPoductDIVS = document.querySelectorAll('.product')
+    allPoductDIVS.forEach(productDIV => {
+        if (filterWORD == 'all' || productDIV.dataset.filter_word == filterWORD){productDIV.style.display = 'flex'; count++}
+        else if (filterWORD == 'sale' && productDIV.dataset.sale == "true") {productDIV.style.display = 'flex'; count++}
+        else {productDIV.style.display = 'none'}
+    })
+    const filteredResultsTEXT = document.querySelector('.filter_count')
+    filteredResultsTEXT.textContent = count    
+  } 
+  function FILTERitemsOnLoad() {
+      const urlTag = new URLSearchParams(window.location.search);
+      const urlFilterWORD = urlTag.get('filter');
+
+      if (!urlFilterWORD) return;
+      FILTERitems(urlFilterWORD)
+      TOGGLEactiveFilter(urlFilterWORD)
+      HANDLEfilterText(urlFilterWORD) 
+  }
+  
+  function TOGGLEactiveFilter(filterTAG) {    //separate funtion because of filtering on load with URL
+      let word_activeBtn
+      const filters_ALL = document.querySelectorAll('.filter')
+      filters_ALL.forEach(y => { 
+      if (y.dataset.filter == filterTAG){y.classList.add('active'); word_activeBtn = y.lastElementChild.textContent} else {y.classList.remove('active')}   
+      })      
+  }
+  function HANDLEfilterText(filterTAG) {
+      const icon_current = document.getElementById('icon_currentFilter')
+      const btnText = document.querySelector('.text_currentFilter')
+      const pageTitle_all = document.querySelector('.pageTitle_all')
+      const pageTitle_filter = document.querySelector('.pageTitle_filter')
+
+      const targetFilter = document.querySelector(`.filter[data-filter="${filterTAG}"`)
+
+      if (filterTAG == "all") {
+          icon_current.classList.add('hide')
+          pageTitle_all.style.display = "inline"
+          pageTitle_filter.style.display = "none"
+
+      } else {
+          icon_current.classList.remove('hide') 
+          icon_current.src = targetFilter.querySelector('img').src
+          pageTitle_all.style.display = "none"
+          pageTitle_filter.style.display = "inline"
+          pageTitle_filter.textContent = targetFilter.querySelector('p').textContent
+      }
+      btnText.textContent = targetFilter.querySelector('p').textContent
+  }
+  function TOGGLEfilterBox() {
+    const fiterBOX = document.querySelector('.filterBox_M')
+    const ISfilterBoxOpen = (fiterBOX.dataset.visible === "true");
+
+    if (!ISfilterBoxOpen) {
+      _OPENfilterBox(fiterBOX)
+      return;
+    }
+    _CLOSEfilterBox(fiterBOX)
 }
-function randomize_products() {
+  function SHUFFLEproducts() {
     const products = Array.from(document.getElementsByClassName('product'));
     products.sort(() => Math.random() - 0.5);
     products.forEach(item => document.querySelector('.product_grid').appendChild(item));
-}
-function count_category_items() {
+  }
+  function COUNTcategoryItems() {
     const texts = document.querySelectorAll('[data-category_count]')
     texts.forEach(x => {
         const word = x.dataset.category_count
@@ -212,122 +295,70 @@ function count_category_items() {
         : x.textContent = document.querySelectorAll(`.product[data-filter_word="${x.dataset.category_count}"`).length
     })
 }
-function empty_the_url() {
-    if (window.location.search.includes('filter=')) {
-        var urlWithoutParams = window.location.origin + window.location.pathname;
-        history.replaceState({}, document.title, urlWithoutParams);
-      }
-}
-function changeUrl_2(filterWord) {
-    const url = new URLParse(window.location.href, true)
-    url.query.filter = filterWord
-    window.history.replaceState(null, null, url.toString())
-  }
 
-const waves = document.querySelectorAll('.img_wave')
-function moveWaves() {
-    waves.forEach(wave => {
-        let scrollY = window.scrollY;
-        if (scrollY < 5) {scrollY = 5}
-        const scrollFactor = 30 / 100;
-        const moveWave = -scrollY * scrollFactor;
-        wave.style.transform = `translateX(${moveWave}px)`;
-    })
-} 
+  function _OPENfilterBox(targetFilterBOX) {
+    targetFilterBOX.style.display = 'flex'
+    setTimeout(() => {targetFilterBOX.setAttribute('data-visible', 'true')}, 10);
+  }
+  function _CLOSEfilterBox(targetFilterBOX) {
+    targetFilterBOX.setAttribute('data-visible', 'false')
+    setTimeout(() => {targetFilterBOX.style.display = 'none'}, 151);  
+  }
+  return { FILTERitems, TOGGLEactiveFilter, HANDLEfilterText, TOGGLEfilterBox, FILTERitemsOnLoad, SHUFFLEproducts, COUNTcategoryItems }
+})();
+const EVENTS = (() => {
+
+  function SETfilterToggles() {
+    const filters_ALL = document.querySelectorAll('.filter')
+    const filterToggles = document.querySelectorAll('div[data-toggle="filters"]') // open btn + X
+    filterToggles.forEach(x => x.addEventListener('click', FILTER.TOGGLEfilterBox))
+    filters_ALL.forEach(x => x.addEventListener('click', (e) => {
+        const filterWord = e.currentTarget.dataset.filter
+        FILTER.TOGGLEactiveFilter(filterWord)
+        FILTER.FILTERitems(filterWord)
+        FILTER.HANDLEfilterText(filterWord)
+        URL.UPDATEurl(filterWord)
+        GENERAL.SCROLLtoTop()
+        if(GENERAL.GETviewportSize() == "mobile"){setTimeout(() => {FILTER.TOGGLEfilterBox()}, 150)}
+    })	
+    )
+    
+  }
+  return { SETfilterToggles }
+})();
+
+window.addEventListener('resize', () => {
+    ADJUSTnavShadow();
+    if (/Mobi/i.test(navigator.userAgent)) return;
+    document.querySelector('.filterBox_M').setAttribute('data-visible', 'false')
+})
+window.addEventListener('DOMContentLoaded', () => {
+    URL.CHECKforReload()
+    FILTER.FILTERitemsOnLoad()
+    FILTER.SHUFFLEproducts()
+    FILTER.COUNTcategoryItems()
+    ADJUSTnavShadow()
+    document.querySelector('.product_grid').style.opacity = "100%";
+    EVENTS.SETfilterToggles()
+})
+window.addEventListener('scroll', () => {
+    GENERAL.MOVEwaves()
+    ADJUSTnavShadow()
+})
+window.addEventListener("popstate", URL.DETECTpreviousPageVisit);
+
+
+
+function ADJUSTnavShadow() {
+    const nav = document.querySelector('nav')
+    window.scrollY < 60 ? nav.classList.add('no_shadow') : nav.classList.remove('no_shadow')
+}
+
+
+
+
 
 //-------------------------------
-
-const filters_ALL = document.querySelectorAll('.filter')
-const filterToggles = document.querySelectorAll('div[data-toggle="filters"]') // open btn + X
-
-filterToggles.forEach(x => x.addEventListener('click', toggle_filterBox))
-filters_ALL.forEach(x => x.addEventListener('click', (e) => {
-    const filterWord = e.currentTarget.dataset.filter
-    toggle_activeFilter(filterWord)
-    filter_items(filterWord)
-    handle_filterText(filterWord)
-    changeUrl_2(filterWord)
-    scroll_top()
-    if(current_Display() == "mobile"){setTimeout(() => {toggle_filterBox()}, 150)}
-})	
-)
-
-function filter_items(word) {
-    let count = 0
-    const products_All = document.querySelectorAll('.product')
-    products_All.forEach(product => {
-        if (word == 'all' || product.dataset.filter_word == word){product.style.display = 'flex'; count++}
-        else if (word == 'sale' && product.dataset.sale == "true") {product.style.display = 'flex'; count++}
-        else {product.style.display = 'none'}
-    })
-    document.querySelector('.filter_count').textContent = count  
-    //empty_the_url()    
-}
-function toggle_activeFilter(filterTag) {    //separate funtion because of filtering on load with URL
-    let word_activeBtn
-    filters_ALL.forEach(y => { 
-    if (y.dataset.filter == filterTag){y.classList.add('active'); word_activeBtn = y.lastElementChild.textContent} else {y.classList.remove('active')}   
-    })      
-}
-function handle_filterText(filterTag) {
-    const icon_current = document.getElementById('icon_currentFilter')
-    const btnText = document.querySelector('.text_currentFilter')
-    const pageTitle_all = document.querySelector('.pageTitle_all')
-    const pageTitle_filter = document.querySelector('.pageTitle_filter')
-
-    const targetFilter = document.querySelector(`.filter[data-filter="${filterTag}"`)
-
-    if (filterTag == "all") {
-        icon_current.classList.add('hide')
-        pageTitle_all.style.display = "inline"
-        pageTitle_filter.style.display = "none"
-
-    } else {
-        icon_current.classList.remove('hide') 
-        icon_current.src = targetFilter.querySelector('img').src
-        pageTitle_all.style.display = "none"
-        pageTitle_filter.style.display = "inline"
-        pageTitle_filter.textContent = targetFilter.querySelector('p').textContent
-    }
-    btnText.textContent = targetFilter.querySelector('p').textContent
-}
-function toggle_filterBox() {
-    const fiterBox = document.querySelector('.filterBox_M')
-    if (!fiterBox.classList.contains('open')) {
-        fiterBox.style.display = 'flex'
-        setTimeout(() => {fiterBox.classList.add('open')}, 10)}
-    else {
-        fiterBox.classList.remove('open')
-        setTimeout(() => {fiterBox.style.display = 'none'}, 151);
-    }
-}
-function scroll_top() {
-    if (isDesktop() || current_Display() == "tablet") {window.scrollTo({top: 120, behavior: "smooth", duration: 2000})}
-    else {setTimeout(() => {window.scrollTo({top: 0, behavior: "smooth", duration: 2000})}, 150)}
-}
-
-function isDesktop() {return window.innerWidth > 991 ? true : false}
-function current_Display() {
-    return window.innerWidth > 1439 ? 'desktop_big' :
-            window.innerWidth > 991 ? 'desktop' :
-            window.innerWidth > 767 ? 'tablet' :
-            'mobile';
-}
-
-// Check if the user is navigating back
-function checkBackNavigation() {
-    if (performance && performance.navigation) {
-      if (performance.navigation.type === 2) {
-        // The user is navigating back to a previous page
-        console.log("User clicked back button.");
-      }
-    }
-  }
-  
-// Add an event listener to the window object
-window.addEventListener("popstate", checkBackNavigation);
-
-
 
 
 

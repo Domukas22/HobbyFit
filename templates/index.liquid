@@ -13,8 +13,8 @@
       <h5 class="heading_homeHero">{{ "home.topTitle_hero" | t }}</h5>
       <h1 class="title_homeHero">{{ "home.title_hero_upper" | t }}<br>{{ "home.title_hero_lower" | t }}</h1>
       <div class="btnWrap_hero">
-        <a class="btn hero" href="{{ collections['badmintono-prekes'].url }}" data-scale>{{ "home.btnText_heroMain" | t }}</a>
-        <div class="btn inverted hero" data-hover_grey data-scale>{{ "home.btnText_heroSecond" | t }}</div>
+        <a class="btn hero" href="{{ collections['badmintono-prekes'].url }}" >{{ "home.btnText_heroMain" | t }}</a>
+        <div class="btn inverted hero" data-hover_grey >{{ "home.btnText_heroSecond" | t }}</div>
       </div>
     </div>
     <img class="img_Hero" src="{{ 'img_hero.png' | asset_url }}" alt="">
@@ -34,19 +34,19 @@
   <div
   class="btn red"
   data-link_filterpage="racket"
-  data-scale>{{ "home.btn_rackets" | t }}</div>
+  >{{ "home.btn_rackets" | t }}</div>
   </div>
   <div class="imgWrap_homeCategory rackets">
   <img
   class="img_homeCategory"
   src="{{ 'img_home_racketPink.png' | asset_url }}"
   alt=""
-  data-scale>
+  >
   <img
   class="img_homeCategory racket_two"
   src="{{ 'img_home_racketRed.png' | asset_url }}"
   alt=""
-  data-scale>
+  >
   <div class="racket_fade"></div>
   </div>
   </div>
@@ -58,11 +58,11 @@
     <div class="container homeCategory">
       <div class="textWrap_homeCategory balls">
         <h1 class="title_homeCategory">{{ "home.title_balls_upper" | t }}<br>{{ "home.title_balls_lower" | t }}</h1>
-        <div class="btn" data-link_filterpage="ball" data-scale>{{ "home.btn_balls" | t }}</div>
+        <div class="btn" data-link_filterpage="ball" >{{ "home.btn_balls" | t }}</div>
       </div>
       <div class="imgWrap_homeCategory balls">
-        <img class="img_homeCategory ball_one" src="{{ 'img_home_ballBlue.png' | asset_url }}" alt="" data-scale>
-        <img class="img_homeCategory" src="{{ 'img_home_ballGreen.png' | asset_url }}" alt="" data-scale>
+        <img class="img_homeCategory ball_one" src="{{ 'img_home_ballBlue.png' | asset_url }}" alt="" >
+        <img class="img_homeCategory" src="{{ 'img_home_ballGreen.png' | asset_url }}" alt="" >
         <div class="fade_homeCategory"></div>
       </div>
     </div>
@@ -75,19 +75,19 @@
   <div
   class="btn orange"
   data-link_filterpage="clothing"
-  data-scale>{{ "home.btn_clothing" | t }}</div>
+  >{{ "home.btn_clothing" | t }}</div>
   </div>
   <div class="imgWrap_homeCategory clothing">
   <img
   class="img_homeCategory shirt"
   src="{{ 'img_home_shirt.png' | asset_url }}"
   alt=""
-  data-scale>
+  >
   <img
   class="img_homeCategory shoe"
   src="{{ 'img_home_shoe.png' | asset_url }}"
   alt=""
-  data-scale>
+  >
   <div class="fade_homeCategory"></div>
   </div>
   </div>
@@ -103,19 +103,19 @@
   <div
   class="btn red"
   data-link_filterpage="equipment"
-  data-scale>{{ "home.btn_equipment" | t }}</div>
+  >{{ "home.btn_equipment" | t }}</div>
   </div>
   <div class="imgWrap_homeCategory equipment">
   <img
   class="img_homeCategory bag"
   src="{{ 'img_home_bag.png' | asset_url }}"
   alt=""
-  data-scale>
+  >
   <img
   class="img_homeCategory wristband"
   src="{{ 'img_home_wristband.png' | asset_url }}"
   alt=""
-  data-scale>
+  >
   <div class="fade_homeCategory"></div>
   </div>
   </div>
@@ -126,14 +126,6 @@
   </section> --></div>
 
 <script>
-  const NAV = (() => {
-    function HANLDEnavShadow() {
-      const nav = document.querySelector('nav');
-      const SHOWshadow = (window.scrollY > 60);
-      nav.setAttribute('data-shadowVisible', `${SHOWshadow}`)
-    }
-  return { HANLDEnavShadow }
-  })();
   const EFFECTS = (() => {
     function SCROLLtoSlider(){
       const sliderPosition = document.querySelector('.section_inline_slider').getBoundingClientRect().top;
@@ -142,8 +134,7 @@
     return { SCROLLtoSlider }
   })();
 
-  window.addEventListener('DOMContentLoaded', () => { NAV.HANLDEnavShadow() })
-  window.addEventListener('scroll', () => { NAV.HANLDEnavShadow() })
+  
 
   const heroSliderBTN = document.querySelector('.btn.inverted.hero');
   heroSliderBTN.addEventListener('click', () => { EFFECTS.SCROLLtoSlider() })

@@ -118,5 +118,10 @@
 </section>
 
 
+<script>
+  window.addEventListener('DOMContentLoaded', () => {
+    document.querySelector('nav').setAttribute('data-shadow_threshold', '-1')
+  })
+</script>
 
 {{ '9_contact.js' | asset_url | script_tag }}

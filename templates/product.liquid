@@ -233,10 +233,10 @@
                   </g>
                 </svg>
               </div>
-              <a class="formBtn viewCart not_full" style="border: 1px solid {{ defaultBgColor }}; font-weight: 400;" href="{{ shop.url }}/{{ lang }}/cart" data-recolor_border_raw>
+          <a class="formBtn viewCart not_full" style="border: 1px solid {{ defaultBgColor }}; font-weight: 400;" href="{{ shop.url }}/{% unless lang == 'en' %}{{ lang }}/{% endunless %}cart" data-recolor_border_raw>
                 <p style="color:{{ defaultRawColor }}" data-rawTextCOLOR>{{ "product.btnWord_viewBasket" | t }}</p>
               </a>
-              <a class="formBtn viewCart full" style="background-color: {{ defaultRawColor }}; color: white;" href="{{ shop.url }}/{{ lang }}/cart" data-rawBgCOLOR>
+              <a class="formBtn viewCart full" style="background-color: {{ defaultRawColor }}; color: white;"href="{{ shop.url }}/{% unless lang == 'en' %}{{ lang }}/{% endunless %}cart" data-rawBgCOLOR>
                 <p style="color: white; text-align: center">{{ "product.btnWord_viewBasket" | t }}</p>
               </a>
 
